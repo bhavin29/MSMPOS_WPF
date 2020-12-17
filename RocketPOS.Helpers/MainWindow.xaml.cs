@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RocketPOS.Model;
+using System.Reflection;
 
 namespace RocketPOS.Helpers
 {
@@ -28,9 +29,10 @@ namespace RocketPOS.Helpers
         {
             InitializeComponent();
             JObject foodJson = new JObject();
+            string rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
             if (Application.Current.Resources["FoodList"] == null)
             {
-                foodJson = JObject.Parse(File.ReadAllText(@"E:\Project\My Docs\FoodJson.json"));
+                foodJson = JObject.Parse(File.ReadAllText(rootPath+ @"\RocketPOS.StartUp\Content\Food.json"));
                 Application.Current.Resources["FoodList"] = foodJson;
             }
             else
@@ -64,9 +66,10 @@ namespace RocketPOS.Helpers
                     txtSalePrice.Text = itemSubCat.SalesPrice.ToString();
                     txtSalePrice.Name = "txtSalePrice" + itemSubCat.FoodCategoryId;
                     menuListPanel.Children.Add(txtSalePrice);
-
+                    
                     Image imgFood = new Image();
-                    imgFood.Source = new BitmapImage(new System.Uri(@"E:\Visual Studio Exercise\WPF Practices\Images\" + itemSubCat.SmallThumb));
+                    
+                    imgFood.Source = new BitmapImage(new System.Uri(rootPath+@"\RocketPOS.StartUp\Images\" + itemSubCat.SmallThumb));
                     imgFood.MaxWidth = 150;
                     imgFood.MaxHeight = 100;
                     imgFood.Margin = new Thickness(5, 0, 5, 10);
@@ -91,6 +94,9 @@ namespace RocketPOS.Helpers
             var smallName = menuListPanel.Children[2] as TextBlock;
             //MessageBox.Show(salePrice.Text + " - " + smallName.Text);
 
+            txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + Convert.ToInt64(salePrice.Text)).ToString();
+            txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) + Convert.ToInt64(salePrice.Text)).ToString();
+            txtbTotalItemCount.Text = (Convert.ToInt64(txtbTotalItemCount.Text) + 1).ToString();
             List<SaleItem> saleItems = new List<SaleItem>();
             saleItems.Add(new SaleItem()
             {
@@ -113,6 +119,7 @@ namespace RocketPOS.Helpers
 
         private void GetFoodItems(string type)
         {
+            string rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
             if (type == "All")
             {
                 spSubCategory.Children.Clear();
@@ -131,7 +138,7 @@ namespace RocketPOS.Helpers
                         menuListPanel.Children.Add(txtSalePrice);
 
                         Image imgFood = new Image();
-                        imgFood.Source = new BitmapImage(new System.Uri(@"E:\Visual Studio Exercise\WPF Practices\Images\" + itemSubCat.SmallThumb));
+                        imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\RocketPOS.StartUp\Images\" + itemSubCat.SmallThumb));
                         imgFood.MaxWidth = 150;
                         imgFood.MaxHeight = 100;
                         imgFood.Margin = new Thickness(5, 0, 5, 10);
@@ -169,7 +176,7 @@ namespace RocketPOS.Helpers
                             menuListPanel.Children.Add(txtSalePrice);
 
                             Image imgFood = new Image();
-                            imgFood.Source = new BitmapImage(new System.Uri(@"E:\Visual Studio Exercise\WPF Practices\Images\" + itemSubCat.SmallThumb));
+                            imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\RocketPOS.StartUp\Images\" + itemSubCat.SmallThumb));
                             imgFood.MaxWidth = 150;
                             imgFood.MaxHeight = 100;
                             imgFood.Margin = new Thickness(5, 0, 5, 10);
@@ -197,7 +204,7 @@ namespace RocketPOS.Helpers
 
         private void GetSearchFoodItems(string searchKey)
         {
-
+            string rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
             spSubCategory.Children.Clear();
             FoodMenu FoodMenu = JsonConvert.DeserializeObject<FoodMenu>(Application.Current.Resources["FoodList"].ToString());
 
@@ -216,7 +223,7 @@ namespace RocketPOS.Helpers
                         menuListPanel.Children.Add(txtSalePrice);
 
                         Image imgFood = new Image();
-                        imgFood.Source = new BitmapImage(new System.Uri(@"E:\Visual Studio Exercise\WPF Practices\Images\" + itemSubCat.SmallThumb));
+                        imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\RocketPOS.StartUp\Images\" + itemSubCat.SmallThumb));
                         imgFood.MaxWidth = 150;
                         imgFood.MaxHeight = 100;
                         imgFood.Margin = new Thickness(5, 0, 5, 10);
@@ -235,5 +242,53 @@ namespace RocketPOS.Helpers
                 }
             }
         }
+
+        //private void btnPlusQty_Click(object sender, RoutedEventArgs e)
+        //{
+        //    object foodItem = dgSaleItem.SelectedItem;
+        //    List<SaleItem> saleItem = new List<SaleItem>();
+        //    saleItem = (List<SaleItem>)foodItem;
+        //    saleItem[0].Qty += 1;
+        //    saleItem[0].Total += saleItem[0].Price * 1;
+        //    txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + Convert.ToInt64(saleItem[0].Price)).ToString();
+        //    txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) + Convert.ToInt64(saleItem[0].Price)).ToString();
+        //    txtbTotalItemCount.Text = (Convert.ToInt64(txtbTotalItemCount.Text) + 1).ToString();
+        //    dgSaleItem.Items.Refresh();
+        //}
+
+        //private void btnMinusQty_Click(object sender, RoutedEventArgs e)
+        //{
+        //    object foodItem = dgSaleItem.SelectedItem;
+        //    List<SaleItem> saleItem = new List<SaleItem>();
+        //    saleItem = (List<SaleItem>)foodItem;
+        //    saleItem[0].Qty -= 1;
+        //    saleItem[0].Total -= saleItem[0].Price * 1;
+        //    txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) - Convert.ToInt64(saleItem[0].Price)).ToString();
+        //    txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) - Convert.ToInt64(saleItem[0].Price)).ToString();
+        //    txtbTotalItemCount.Text = (Convert.ToInt64(txtbTotalItemCount.Text) - 1).ToString();
+        //    if (saleItem[0].Qty==0)
+        //    {
+        //        dgSaleItem.Items.RemoveAt(dgSaleItem.SelectedIndex);
+        //    }
+        //    dgSaleItem.Items.Refresh();
+        //}
+
+        //private void btnEditSaleItem_Click(object sender, RoutedEventArgs e)
+        //{
+        //    object foodItem = dgSaleItem.SelectedItem;
+        //    List<SaleItem> saleItem = new List<SaleItem>();
+        //    saleItem = (List<SaleItem>)foodItem;
+        //    txtbPopUpItemName.Text = saleItem[0].Product;
+        //    txtbPopUpQtyCount.Text = saleItem[0].Qty.ToString();
+        //    txtbPopUpItemTotal.Text = saleItem[0].Price.ToString();
+        //    EditSaleItemPopUp.IsOpen = true;
+            
+        //}
+
+        //private void btnPopUpCancel_Click(object sender, RoutedEventArgs e)
+        //{
+        //    EditSaleItemPopUp.IsOpen = false;
+        //    dgSaleItem.Items.Refresh();
+        //}
     }
 }

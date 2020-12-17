@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1500" Width="1500">
+        Title="RocketPOS" Height="1000" Width="1500">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -17,6 +17,21 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
+
+        <!--Main Row 0 Column 0-->
+        <TextBlock x:Name="txtbRocketPOS" Text="RocketPOS" Margin="10,10,10,10" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+        <!--Main Row 1 Column 0-->
+        <StackPanel x:Name="leftPanel" Orientation="Vertical" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
+            <TextBox x:Name="txtSearchModifyOrder" Margin="10,2,10,2" Width="250" Height="30"/>
+            <DataGrid x:Name="gdModifyOrder" Margin="10,2,10,2" Width="250" Height="250" />
+            <Button x:Name="btnModifyOrder" Content="Mofify Order/Add Item/Change Table" Margin="10,2,10,2" Width="250" Height="30" />
+            <Button x:Name="btnOrderDetails" Content="Order Details" Margin="10,2,10,2" Width="250" Height="30" />
+            <Button x:Name="btnPrintKot" Content="Print KOT" Margin="10,2,10,2" Width="250" Height="30" />
+            <Button x:Name="btnCreateInvoiceAndClose" Content="Create Invoice And Close" Margin="10,2,10,2" Width="250" Height="30" />
+            <Button x:Name="btnCancelOrder" Content="Cancel Order" Margin="10,2,10,2" Width="250" Height="30" />
+            <Button x:Name="btnKitchenStatus" Content="Kitchen Status" Margin="10,2,10,2" Width="250" Height="30" />
+        </StackPanel>
+        <!--Main Row 2 Column 0-->
 
         <!--Main Row 0 Column 1-->
         <StackPanel x:Name="headerCenterPanel" Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
@@ -33,20 +48,25 @@
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
             
-            <!--Row 0 Column 1-->
+            <!--Row 0 Column 0-->
             <Button x:Name="btnDineIn" Content="Dine In" Grid.Row="0" Grid.Column="0" Margin="10,10,10,10"  Width="100" Height="40"/>
             <Button x:Name="btnTakeAway" Content="Take Away"  Grid.Row="0" Grid.Column="1" Margin="10,10,10,10"  Width="100" Height="40"/>
             <Button x:Name="btnDelivery" Content="Delivery"  Grid.Row="0" Grid.Column="2" Margin="10,10,10,10"  Width="100" Height="40"/>
 
-            <!--Row 1 Column 1-->
+            <!--Row 1 Column 0-->
             <ComboBox x:Name="cmbWaiter" Grid.Row="1" Grid.Column="0" Margin="10,10,10,10"  Width="100" Height="40"/>
             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" >
                 <ComboBox x:Name="cmbCustomer" Margin="5,10,5,10"  Width="50" Height="40"/>
@@ -54,17 +74,120 @@
                 <Button x:Name="btnAddCustomer" Content="Add" Margin="5,10,5,10"  Width="25" Height="40"/>
             </StackPanel>
             <Button x:Name="btnTable" Content="Table" Grid.Row="1" Grid.Column="2" Width="100" Height="40"/>
-
+           
+            <!--Row 2 Column 0-->
             <StackPanel x:Name="saleOrderPanel" Orientation="Vertical" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
-                <DataGrid x:Name="dgSaleItem" VerticalScrollBarVisibility="Auto">
+                <DataGrid x:Name="dgSaleItem" Width="350" Height="200">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Product" IsReadOnly="True" Binding="{Binding Path=Product}" Width="50"></DataGridTextColumn>
+                        <!--<DataGridTemplateColumn Header="Edit">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Edit" x:Name="btnEditSaleItem" Click="btnEditSaleItem_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>-->
+                        
+                        <DataGridTextColumn Header="Product" IsReadOnly="True" Binding="{Binding Path=Product}" Width="80"></DataGridTextColumn>
                         <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Path=Price}" Width="50"></DataGridTextColumn>
+                        
+                        <!--<DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="-" x:Name="btnMinusQty" Click="btnMinusQty_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>-->
+                        
                         <DataGridTextColumn Header="Qty" IsReadOnly="True" Binding="{Binding Path=Qty}" Width="50"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Discount" IsReadOnly="True"  Binding="{Binding Path=Discount}" Width="50"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Total" IsReadOnly="True"  Binding="{Binding Path=Total}" Width="50"></DataGridTextColumn>
+                        
+                        <!--<DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="+" x:Name="btnPlusQty" Click="btnPlusQty_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>-->
+                        
+                        <DataGridTextColumn Header="Discount" IsReadOnly="True"  Binding="{Binding Path=Discount}" Width="80"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Total" IsReadOnly="True"  Binding="{Binding Path=Total}" Width="80"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
+            </StackPanel>
+
+            <!--<Popup Name="EditSaleItemPopUp"
+               Placement="Center"
+               AllowsTransparency="False">
+                <Grid Width="250" Height="250" Background="Gray">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="txtbPopUpItemName" Text="Dummy" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    <TextBlock x:Name="txtbPopUpQty" Text="Quantity" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock x:Name="txtbPopUpQtyCount" Grid.Row="1" Grid.Column="1"/>
+                    <TextBlock x:Name="txtbPopUpItemTotal" Grid.Row="1" Grid.Column="2"/>
+                    <Button x:Name="btnPopUpCancel" Content="Cancel" Grid.Row="7" Grid.Column="0" Click="btnPopUpCancel_Click"/>
+                    <Button x:Name="btnPopUpAddToCart" Content="Add To Cart" Grid.Row="7" Grid.Column="1" />
+                </Grid>
+            </Popup>-->
+            
+            <!--Row 3 Column 0-->
+            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Left">
+                <TextBlock  Grid.Row="3" Grid.Column="0" x:Name="txtbTotalItem" Text="Total Item :"  Margin="5,5,5,5"/>
+                <TextBlock Text="$" Margin="5,5,5,5"/>
+                <TextBlock x:Name="txtbTotalItemCount" Text="0"  Margin="5,5,5,5"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right">
+                <TextBlock x:Name="txtbSubTotal" Text="Sub Total"  Margin="5,5,5,5" />
+                <TextBlock Text="$" Margin="5,5,5,5"/>
+                <TextBlock x:Name="txtbSubTotalAmount" Text="0"  Margin="5,5,5,5"/>
+            </StackPanel>
+
+            <!--Row 4 Column 0-->
+            <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right">
+                <TextBlock x:Name="txtbDiscount" Text="Total Discount"  Margin="5,5,5,5"/>
+                <TextBlock Text="$" Margin="5,5,5,5"/>
+                <TextBox x:Name="txtDiscount" Margin="5,5,5,5" Width="50" Height="20"/>
+            </StackPanel>
+            
+            <!--Row 5 Column 0-->
+            <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right">
+                <TextBlock x:Name="txtbTotalDiscount" Text="Total Discount"  Margin="5,5,5,5"/>
+                <TextBlock Text="$" Margin="5,5,5,5"/>
+                <TextBlock x:Name="txtbTotalDiscountAmount" Text="0"  Margin="5,5,5,5"/>
+            </StackPanel>
+            
+            <!--Row 6 Column 0-->
+            <StackPanel Grid.Row="6" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right">
+                <TextBlock x:Name="txtbServiceDeliveryCharge" Text="Service/Delivery Charge"  Margin="5,5,5,5"/>
+                <TextBlock Text="$" Margin="5,5,5,5"/>
+                <TextBox x:Name="txtServiceDeliveryCharge" Margin="5,5,5,5" Width="50" Height="20"/>
+            </StackPanel>
+            
+            <!--Row 7 Column 0-->
+            <StackPanel Grid.Row="7" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right">
+                <TextBlock x:Name="txtbTotalPayable" Text="Total Payable"  Margin="5,5,5,5"/>
+                <TextBlock Text="$" Margin="5,5,5,5"/>
+                <TextBlock x:Name="txtbTotalPayableAmount" Text="0"  Margin="5,5,5,5"/>
+            </StackPanel>
+
+            <!--Row 8 Column 0-->
+            <StackPanel Grid.Row="8" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" >
+                <Button x:Name="btnCancel" Content="Cancel" Margin="5,5,5,5"  Width="80" Height="40"/>
+                <Button x:Name="btnHold" Content="Hold" Margin="5,5,5,5"  Width="80" Height="40"/>
+                <Button x:Name="btnDirectInvoice" Content="Direct Invoice" Margin="5,5,5,5"  Width="80" Height="40"/>
+                <Button x:Name="btnPlaceOrder" Content="Place Order" Margin="5,5,5,5"  Width="80" Height="40"/>
             </StackPanel>
         </Grid>
 
@@ -121,3 +244,5 @@
         </StackPanel>
     </Grid>
 </Window>
+
+    

@@ -1,0 +1,76 @@
+{
+  "FoodList": [
+    {
+      "Id": 1,
+      "Category": "Dessert",
+      "SubCategory": [
+        {
+          "SalesPrice": 20.00,
+          "SmallThumb": "SmallMalaiKulfi.jpg",
+          "SmallName": "Malai Kulfi",
+          "FoodCategoryId": 1
+        },
+        {
+          "SalesPrice": 30.00,
+          "SmallThumb": "SmallLemonTart.jpg",
+          "SmallName": "Lemon Tart",
+          "FoodCategoryId": 1
+        },
+        {
+          "SalesPrice": 50.00,
+          "SmallThumb": "SmallCoconutKheer.jpg",
+          "SmallName": "Coconut Kheer",
+          "FoodCategoryId": 1
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Category": "Beverages",
+      "SubCategory": [
+        {
+          "SalesPrice": 15.00,
+          "SmallThumb": "SmallCoffee.jpg",
+          "SmallName": "Coffee",
+          "FoodCategoryId": 2
+        },
+        {
+          "SalesPrice": 25.00,
+          "SmallThumb": "SmallMilkshake.jpg",
+          "SmallName": "Milkshake",
+          "FoodCategoryId": 2
+        },
+        {
+          "SalesPrice": 20.00,
+          "SmallThumb": "SmallTea.jpg",
+          "SmallName": "Tea",
+          "FoodCategoryId": 2
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "Category": "Main Course",
+      "SubCategory": [
+        {
+          "SalesPrice": 75.00,
+          "SmallThumb": "SmallAloomatar.jpg",
+          "SmallName": "Aloo matar",
+          "FoodCategoryId": 3
+        },
+        {
+          "SalesPrice": 100.00,
+          "SmallThumb": "SmallChanamasala.jpg",
+          "SmallName": "Chana masala",
+          "FoodCategoryId": 3
+        },
+        {
+          "SalesPrice": 150.00,
+          "SmallThumb": "SmallDumalooa.jpg",
+          "SmallName": "Dum aloo",
+          "FoodCategoryId": 3
+        }
+      ]
+    }
+  ]
+}
