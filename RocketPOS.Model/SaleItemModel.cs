@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RocketPOS.Model
 {
-    public class SaleItem
+    public class SaleItemModel
     {
         public string Product { get; set; }
         public double Price { get; set; }

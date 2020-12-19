@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RocketPOS.Model\RocketPOS.Model.csproj" />
+    <ProjectReference Include="..\RocketPOS.ViewModels\RocketPOS.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

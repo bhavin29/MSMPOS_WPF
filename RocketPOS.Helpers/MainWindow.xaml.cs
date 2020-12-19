@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RocketPOS.Model;
 using System.Reflection;
+using RocketPOS.ViewModels;
 
 namespace RocketPOS.Helpers
 {
@@ -28,25 +29,26 @@ namespace RocketPOS.Helpers
         public MainWindow()
         {
             InitializeComponent();
-            JObject foodJson = new JObject();
+            FoodMenuViewModel foodMenuViewModel = new FoodMenuViewModel();
+            FoodMenuModel foodMenu = foodMenuViewModel.GetFoodMenu();
             string rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
             if (Application.Current.Resources["FoodList"] == null)
             {
-                foodJson = JObject.Parse(File.ReadAllText(rootPath+ @"\RocketPOS.StartUp\Content\Food.json"));
-                Application.Current.Resources["FoodList"] = foodJson;
+                foodMenu = foodMenuViewModel.GetFoodMenu();
+                Application.Current.Resources["FoodList"] = foodMenu;
             }
             else
             {
-                foodJson = (JObject)Application.Current.Resources["FoodList"];
+                foodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
             }
 
             //read JSON directly from a file
-            FoodMenu foodMenu = JsonConvert.DeserializeObject<FoodMenu>(foodJson.ToString());
+            //FoodMenuModel foodMenu = JsonConvert.DeserializeObject<FoodMenuModel>(foodJson.ToString());
             
             foreach (var foodCategory in foodMenu.FoodList)
             {
                 Button btnCategory = new Button();
-                btnCategory.Content = foodCategory.Category;
+                btnCategory.Content = foodCategory.FoodCategory;
                 btnCategory.Name = "btn" + foodCategory.Id;
                 btnCategory.Width = 100;
                 btnCategory.Height = 50;
@@ -97,8 +99,8 @@ namespace RocketPOS.Helpers
             txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + Convert.ToInt64(salePrice.Text)).ToString();
             txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) + Convert.ToInt64(salePrice.Text)).ToString();
             txtbTotalItemCount.Text = (Convert.ToInt64(txtbTotalItemCount.Text) + 1).ToString();
-            List<SaleItem> saleItems = new List<SaleItem>();
-            saleItems.Add(new SaleItem()
+            List<SaleItemModel> saleItems = new List<SaleItemModel>();
+            saleItems.Add(new SaleItemModel()
             {
                 Product = itemName.Text,
                 Price = Convert.ToUInt64(salePrice.Text),
@@ -123,7 +125,7 @@ namespace RocketPOS.Helpers
             if (type == "All")
             {
                 spSubCategory.Children.Clear();
-                FoodMenu FoodMenu = JsonConvert.DeserializeObject<FoodMenu>(Application.Current.Resources["FoodList"].ToString());
+                FoodMenuModel FoodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
 
                 foreach (var foodCategory in FoodMenu.FoodList)
                 {
@@ -159,7 +161,7 @@ namespace RocketPOS.Helpers
             else
             {
                 spSubCategory.Children.Clear();
-                FoodMenu FoodMenu = JsonConvert.DeserializeObject<FoodMenu>(Application.Current.Resources["FoodList"].ToString());
+                FoodMenuModel FoodMenu =(FoodMenuModel)Application.Current.Resources["FoodList"];
 
                 foreach (var foodCategory in FoodMenu.FoodList)
                 {
@@ -206,7 +208,7 @@ namespace RocketPOS.Helpers
         {
             string rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
             spSubCategory.Children.Clear();
-            FoodMenu FoodMenu = JsonConvert.DeserializeObject<FoodMenu>(Application.Current.Resources["FoodList"].ToString());
+            FoodMenuModel FoodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
 
             foreach (var foodCategory in FoodMenu.FoodList)
             {
@@ -245,9 +247,9 @@ namespace RocketPOS.Helpers
 
         private void btnPlusQty_Click(object sender, RoutedEventArgs e)
         {
-            List<SaleItem> saleItem = new List<SaleItem>();
+            List<SaleItemModel> saleItem = new List<SaleItemModel>();
             object foodItem = dgSaleItem.SelectedItem;
-            saleItem = (List<SaleItem>)foodItem;
+            saleItem = (List<SaleItemModel>)foodItem;
             saleItem[0].Qty += 1;
             saleItem[0].Total += saleItem[0].Price * 1;
             txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + Convert.ToInt64(saleItem[0].Price)).ToString();
@@ -258,9 +260,9 @@ namespace RocketPOS.Helpers
 
         private void btnMinusQty_Click(object sender, RoutedEventArgs e)
         {
-            List<SaleItem> saleItem = new List<SaleItem>();
+            List<SaleItemModel> saleItem = new List<SaleItemModel>();
             object foodItem = dgSaleItem.SelectedItem;
-            saleItem = (List<SaleItem>)foodItem;
+            saleItem = (List<SaleItemModel>)foodItem;
             saleItem[0].Qty -= 1;
             saleItem[0].Total -= saleItem[0].Price * 1;
             txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) - Convert.ToInt64(saleItem[0].Price)).ToString();
@@ -275,9 +277,9 @@ namespace RocketPOS.Helpers
 
         private void btnEditSaleItem_Click(object sender, RoutedEventArgs e)
         {
-            List<SaleItem> saleItem = new List<SaleItem>();
+            List<SaleItemModel> saleItem = new List<SaleItemModel>();
             object foodItem = dgSaleItem.SelectedItem;
-            saleItem = (List<SaleItem>)foodItem;
+            saleItem = (List<SaleItemModel>)foodItem;
             txtbPopUpItemOriginalTotal.Text = saleItem[0].Price.ToString();
             txtbPopUpOriginalQtyCount.Text = saleItem[0].Qty.ToString();
             txtbPopUpItemOriginalSubTotalAmount.Text= saleItem[0].Price.ToString();
@@ -314,9 +316,9 @@ namespace RocketPOS.Helpers
 
         private void btnPopUpAddToCart_Click(object sender, RoutedEventArgs e)
         {
-            List<SaleItem> saleItem = new List<SaleItem>();
+            List<SaleItemModel> saleItem = new List<SaleItemModel>();
             object foodItem = dgSaleItem.SelectedItem;
-            saleItem = (List<SaleItem>)foodItem;
+            saleItem = (List<SaleItemModel>)foodItem;
             saleItem[0].Qty = Convert.ToInt32(txtbPopUpQtyCount.Text);
             saleItem[0].Total= Convert.ToInt64(txtbPopUpItemTotal.Text);
             if (txtbPopUpQtyCount.Text!="1")
