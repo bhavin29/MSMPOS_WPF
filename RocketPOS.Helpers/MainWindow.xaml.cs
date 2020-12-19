@@ -91,7 +91,7 @@ namespace RocketPOS.Helpers
         {
             var menuListPanel = sender as StackPanel;
             var salePrice = menuListPanel.Children[0] as TextBlock;
-            var smallName = menuListPanel.Children[2] as TextBlock;
+            var itemName = menuListPanel.Children[2] as TextBlock;
             //MessageBox.Show(salePrice.Text + " - " + smallName.Text);
 
             txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + Convert.ToInt64(salePrice.Text)).ToString();
@@ -100,7 +100,7 @@ namespace RocketPOS.Helpers
             List<SaleItem> saleItems = new List<SaleItem>();
             saleItems.Add(new SaleItem()
             {
-                Product = smallName.Text,
+                Product = itemName.Text,
                 Price = Convert.ToUInt64(salePrice.Text),
                 Qty = 1,
                 Discount = 0,
@@ -112,8 +112,8 @@ namespace RocketPOS.Helpers
 
         private void GetSubCategory(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-            var categoryId = btn.Name.Substring(3);//Get the button id
+            var btnCategory = sender as Button;
+            var categoryId = btnCategory.Name.Substring(3);//Get the button id
             GetFoodItems(categoryId);
         }
 
@@ -243,52 +243,96 @@ namespace RocketPOS.Helpers
             }
         }
 
-        //private void btnPlusQty_Click(object sender, RoutedEventArgs e)
-        //{
-        //    object foodItem = dgSaleItem.SelectedItem;
-        //    List<SaleItem> saleItem = new List<SaleItem>();
-        //    saleItem = (List<SaleItem>)foodItem;
-        //    saleItem[0].Qty += 1;
-        //    saleItem[0].Total += saleItem[0].Price * 1;
-        //    txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + Convert.ToInt64(saleItem[0].Price)).ToString();
-        //    txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) + Convert.ToInt64(saleItem[0].Price)).ToString();
-        //    txtbTotalItemCount.Text = (Convert.ToInt64(txtbTotalItemCount.Text) + 1).ToString();
-        //    dgSaleItem.Items.Refresh();
-        //}
+        private void btnPlusQty_Click(object sender, RoutedEventArgs e)
+        {
+            List<SaleItem> saleItem = new List<SaleItem>();
+            object foodItem = dgSaleItem.SelectedItem;
+            saleItem = (List<SaleItem>)foodItem;
+            saleItem[0].Qty += 1;
+            saleItem[0].Total += saleItem[0].Price * 1;
+            txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + Convert.ToInt64(saleItem[0].Price)).ToString();
+            txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) + Convert.ToInt64(saleItem[0].Price)).ToString();
+            txtbTotalItemCount.Text = (Convert.ToInt64(txtbTotalItemCount.Text) + 1).ToString();
+            dgSaleItem.Items.Refresh();
+        }
 
-        //private void btnMinusQty_Click(object sender, RoutedEventArgs e)
-        //{
-        //    object foodItem = dgSaleItem.SelectedItem;
-        //    List<SaleItem> saleItem = new List<SaleItem>();
-        //    saleItem = (List<SaleItem>)foodItem;
-        //    saleItem[0].Qty -= 1;
-        //    saleItem[0].Total -= saleItem[0].Price * 1;
-        //    txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) - Convert.ToInt64(saleItem[0].Price)).ToString();
-        //    txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) - Convert.ToInt64(saleItem[0].Price)).ToString();
-        //    txtbTotalItemCount.Text = (Convert.ToInt64(txtbTotalItemCount.Text) - 1).ToString();
-        //    if (saleItem[0].Qty==0)
-        //    {
-        //        dgSaleItem.Items.RemoveAt(dgSaleItem.SelectedIndex);
-        //    }
-        //    dgSaleItem.Items.Refresh();
-        //}
+        private void btnMinusQty_Click(object sender, RoutedEventArgs e)
+        {
+            List<SaleItem> saleItem = new List<SaleItem>();
+            object foodItem = dgSaleItem.SelectedItem;
+            saleItem = (List<SaleItem>)foodItem;
+            saleItem[0].Qty -= 1;
+            saleItem[0].Total -= saleItem[0].Price * 1;
+            txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) - Convert.ToInt64(saleItem[0].Price)).ToString();
+            txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) - Convert.ToInt64(saleItem[0].Price)).ToString();
+            txtbTotalItemCount.Text = (Convert.ToInt64(txtbTotalItemCount.Text) - 1).ToString();
+            if (saleItem[0].Qty == 0)
+            {
+                dgSaleItem.Items.RemoveAt(dgSaleItem.SelectedIndex);
+            }
+            dgSaleItem.Items.Refresh();
+        }
 
-        //private void btnEditSaleItem_Click(object sender, RoutedEventArgs e)
-        //{
-        //    object foodItem = dgSaleItem.SelectedItem;
-        //    List<SaleItem> saleItem = new List<SaleItem>();
-        //    saleItem = (List<SaleItem>)foodItem;
-        //    txtbPopUpItemName.Text = saleItem[0].Product;
-        //    txtbPopUpQtyCount.Text = saleItem[0].Qty.ToString();
-        //    txtbPopUpItemTotal.Text = saleItem[0].Price.ToString();
-        //    EditSaleItemPopUp.IsOpen = true;
-            
-        //}
+        private void btnEditSaleItem_Click(object sender, RoutedEventArgs e)
+        {
+            List<SaleItem> saleItem = new List<SaleItem>();
+            object foodItem = dgSaleItem.SelectedItem;
+            saleItem = (List<SaleItem>)foodItem;
+            txtbPopUpItemOriginalTotal.Text = saleItem[0].Price.ToString();
+            txtbPopUpOriginalQtyCount.Text = saleItem[0].Qty.ToString();
+            txtbPopUpItemOriginalSubTotalAmount.Text= saleItem[0].Price.ToString();
+            txtbPopUpItemName.Text = saleItem[0].Product;
+            txtbPopUpQtyCount.Text = saleItem[0].Qty.ToString();
+            txtbPopUpItemTotal.Text = saleItem[0].Total.ToString();
+            txtPopUpDiscount.Text = saleItem[0].Discount.ToString();
+            txtbPopUpItemSubTotalAmount.Text = Convert.ToInt64(saleItem[0].Total).ToString();
+            EditSaleItemPopUp.IsOpen = true;
+        }
 
-        //private void btnPopUpCancel_Click(object sender, RoutedEventArgs e)
-        //{
-        //    EditSaleItemPopUp.IsOpen = false;
-        //    dgSaleItem.Items.Refresh();
-        //}
+        private void btnPopUpCancel_Click(object sender, RoutedEventArgs e)
+        {
+            EditSaleItemPopUp.IsOpen = false;
+            dgSaleItem.Items.Refresh();
+        }
+
+        private void btnPopUpPlusQty_Click(object sender, RoutedEventArgs e)
+        {
+            txtbPopUpQtyCount.Text =  (Convert.ToInt32(txtbPopUpQtyCount.Text) + 1).ToString();
+            txtbPopUpItemTotal.Text = (Convert.ToInt32(txtbPopUpItemTotal.Text) + (Convert.ToInt64(txtbPopUpItemOriginalTotal.Text) * 1)).ToString();
+            txtbPopUpItemSubTotalAmount.Text = (Convert.ToInt32(txtbPopUpItemSubTotalAmount.Text)+(Convert.ToInt64(txtbPopUpItemOriginalTotal.Text) * 1)).ToString();
+        }
+
+        private void btnPopUpMinusQty_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtbPopUpQtyCount.Text!="1")
+            {
+                txtbPopUpQtyCount.Text = (Convert.ToInt32(txtbPopUpQtyCount.Text) - 1).ToString();
+                txtbPopUpItemTotal.Text = (Convert.ToInt32(txtbPopUpItemTotal.Text) - (Convert.ToInt64(txtbPopUpItemOriginalTotal.Text) * 1)).ToString();
+                txtbPopUpItemSubTotalAmount.Text = (Convert.ToInt32(txtbPopUpItemSubTotalAmount.Text) - (Convert.ToInt64(txtbPopUpItemOriginalTotal.Text) * 1)).ToString();
+            }
+        }
+
+        private void btnPopUpAddToCart_Click(object sender, RoutedEventArgs e)
+        {
+            List<SaleItem> saleItem = new List<SaleItem>();
+            object foodItem = dgSaleItem.SelectedItem;
+            saleItem = (List<SaleItem>)foodItem;
+            saleItem[0].Qty = Convert.ToInt32(txtbPopUpQtyCount.Text);
+            saleItem[0].Total= Convert.ToInt64(txtbPopUpItemTotal.Text);
+            if (txtbPopUpQtyCount.Text!="1")
+            {
+                txtbTotalItemCount.Text = ((Convert.ToInt32(txtbPopUpQtyCount.Text)- Convert.ToInt32(txtbPopUpOriginalQtyCount.Text)) + Convert.ToInt32(txtbTotalItemCount.Text)).ToString();
+                txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) +( Convert.ToInt64(saleItem[0].Price) *(Convert.ToInt32(txtbPopUpQtyCount.Text) - Convert.ToInt32(txtbPopUpOriginalQtyCount.Text)))).ToString();
+                txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) + (Convert.ToInt64(saleItem[0].Price) * (Convert.ToInt32(txtbPopUpQtyCount.Text) - Convert.ToInt32(txtbPopUpOriginalQtyCount.Text)))).ToString();
+            }
+            else if (txtbPopUpQtyCount.Text == "1" && txtbPopUpQtyCount.Text!= txtbPopUpOriginalQtyCount.Text)
+            {
+                txtbTotalItemCount.Text = ((Convert.ToInt32(txtbPopUpQtyCount.Text) - Convert.ToInt32(txtbPopUpOriginalQtyCount.Text)) + Convert.ToInt32(txtbTotalItemCount.Text)).ToString();
+                txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + (Convert.ToInt64(saleItem[0].Price) * (Convert.ToInt32(txtbPopUpQtyCount.Text) - Convert.ToInt32(txtbPopUpOriginalQtyCount.Text)))).ToString();
+                txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) + (Convert.ToInt64(saleItem[0].Price) * (Convert.ToInt32(txtbPopUpQtyCount.Text) - Convert.ToInt32(txtbPopUpOriginalQtyCount.Text)))).ToString();
+            }
+            EditSaleItemPopUp.IsOpen = false;
+            dgSaleItem.Items.Refresh();
+        }
     }
 }

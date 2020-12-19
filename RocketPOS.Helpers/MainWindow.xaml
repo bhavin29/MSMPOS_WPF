@@ -79,34 +79,34 @@
             <StackPanel x:Name="saleOrderPanel" Orientation="Vertical" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
                 <DataGrid x:Name="dgSaleItem" Width="350" Height="200">
                     <DataGrid.Columns>
-                        <!--<DataGridTemplateColumn Header="Edit">
+                        <DataGridTemplateColumn Header="Edit">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="Edit" x:Name="btnEditSaleItem" Click="btnEditSaleItem_Click"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>-->
+                        </DataGridTemplateColumn>
                         
                         <DataGridTextColumn Header="Product" IsReadOnly="True" Binding="{Binding Path=Product}" Width="80"></DataGridTextColumn>
                         <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Path=Price}" Width="50"></DataGridTextColumn>
                         
-                        <!--<DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="-" x:Name="btnMinusQty" Click="btnMinusQty_Click"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>-->
+                        </DataGridTemplateColumn>
                         
                         <DataGridTextColumn Header="Qty" IsReadOnly="True" Binding="{Binding Path=Qty}" Width="50"></DataGridTextColumn>
                         
-                        <!--<DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="+" x:Name="btnPlusQty" Click="btnPlusQty_Click"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>-->
+                        </DataGridTemplateColumn>
                         
                         <DataGridTextColumn Header="Discount" IsReadOnly="True"  Binding="{Binding Path=Discount}" Width="80"></DataGridTextColumn>
                         <DataGridTextColumn Header="Total" IsReadOnly="True"  Binding="{Binding Path=Total}" Width="80"></DataGridTextColumn>
@@ -114,17 +114,17 @@
                 </DataGrid>
             </StackPanel>
 
-            <!--<Popup Name="EditSaleItemPopUp"
+            <Popup Name="EditSaleItemPopUp"
                Placement="Center"
                AllowsTransparency="False">
-                <Grid Width="250" Height="250" Background="Gray">
+                <Grid Width="250" Height="250" Background="LightBlue">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
                         <ColumnDefinition Width="100"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
@@ -132,19 +132,33 @@
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="txtbPopUpItemName" Text="Dummy" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                    <TextBlock x:Name="txtbPopUpQty" Text="Quantity" Grid.Row="1" Grid.Column="0"/>
-                    <TextBlock x:Name="txtbPopUpQtyCount" Grid.Row="1" Grid.Column="1"/>
-                    <TextBlock x:Name="txtbPopUpItemTotal" Grid.Row="1" Grid.Column="2"/>
-                    <Button x:Name="btnPopUpCancel" Content="Cancel" Grid.Row="7" Grid.Column="0" Click="btnPopUpCancel_Click"/>
-                    <Button x:Name="btnPopUpAddToCart" Content="Add To Cart" Grid.Row="7" Grid.Column="1" />
+                    <TextBlock x:Name="txtbPopUpItemName" Text="Dummy"  Margin="5,5,5,5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+
+                    <TextBlock x:Name="txtbPopUpQty" Margin="5,5,5,5" Text="Quantity" Grid.Row="1" Grid.Column="0"/>
+                    <StackPanel Orientation="Horizontal"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                        <Button x:Name="btnPopUpMinusQty"  Margin="0,5,0,5" Content="-" Width="15" Click="btnPopUpMinusQty_Click"/>
+                        <TextBlock x:Name="txtbPopUpOriginalQtyCount" Visibility="Hidden" />
+                        <TextBlock x:Name="txtbPopUpQtyCount"  Margin="0,5,0,5" />
+                        <Button x:Name="btnPopUpPlusQty" Content="+"  Margin="5,5,5,5" Width="15" Click="btnPopUpPlusQty_Click" />
+                    </StackPanel>
+                    <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="1" Grid.Column="2"/>
+                    <TextBlock x:Name="txtbPopUpItemOriginalTotal" Grid.Row="1" Grid.Column="2" Visibility="Hidden"/>
+                    <TextBlock x:Name="txtbPopUpItemTotal"  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="5,5,5,5"/>
+                    <TextBlock x:Name="txtbPopUpDiscount" Text="Discount" Margin="5,5,5,5" Grid.Row="2" Grid.Column="0"/>
+                    <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"/>
+                    <TextBox x:Name="txtPopUpDiscount" Margin="5,5,5,5" Grid.Row="2" Width="350" Grid.Column="2" />
+                    <TextBlock x:Name="txtbPopUpItemSubTotal" Text="Total" Margin="5,5,5,5" Grid.Row="3" Grid.Column="1"/>
+                    <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2"/>
+                    <TextBlock x:Name="txtbPopUpItemOriginalSubTotalAmount" Text="0" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2" Visibility="Hidden"/>
+                    <TextBlock x:Name="txtbPopUpItemSubTotalAmount" Text="0" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center"/>
+                    <Button x:Name="btnPopUpCancel" Content="Cancel" Margin="5,5,5,5" Grid.Row="7" Grid.Column="0" Click="btnPopUpCancel_Click"/>
+                    <Button x:Name="btnPopUpAddToCart" Content="Add To Cart" Margin="5,5,5,5" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Click="btnPopUpAddToCart_Click"/>
                 </Grid>
-            </Popup>-->
+            </Popup>
             
             <!--Row 3 Column 0-->
             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Left">
                 <TextBlock  Grid.Row="3" Grid.Column="0" x:Name="txtbTotalItem" Text="Total Item :"  Margin="5,5,5,5"/>
-                <TextBlock Text="$" Margin="5,5,5,5"/>
                 <TextBlock x:Name="txtbTotalItemCount" Text="0"  Margin="5,5,5,5"/>
             </StackPanel>
             
