@@ -19,7 +19,7 @@ namespace RocketPOS.ViewModels
             foodMenuModel.FoodList = new List<FoodList>();
             using (var db = new SqlConnection(ConfigurationSettings.AppSettings["ConnectionString"]))
             {
-                foodMenus = db.Query<FoodMenu>("SELECT FMC.Id,FMC.FoodMenuCategoryName As FoodCategory,FM.FoodCategoryId,FM.FoodMenuName As SmallName,FM.FoodMenuCode,FM.SmallThumb,FM.SalesPrice FROM [dbo].[FoodMenuCategory] FMC " +
+                foodMenus = db.Query<FoodMenu>("SELECT FMC.Id,FM.Id AS FoodMenuId, FMC.FoodMenuCategoryName As FoodCategory,FM.FoodCategoryId,FM.FoodMenuName As SmallName,FM.FoodMenuCode,FM.SmallThumb,FM.SalesPrice FROM [dbo].[FoodMenuCategory] FMC " +
                                                                 "Inner Join[dbo].[FoodMenu] FM "+
                                                                 "ON FMC.Id = FM.FoodCategoryId").ToList();
                 if (foodMenus!=null && foodMenus.Count>0)
@@ -33,6 +33,7 @@ namespace RocketPOS.ViewModels
                         foreach (var foodSubCategory in foodItems.Where(foodMenuId => foodMenuId.Id == foodItems.FirstOrDefault().Id).ToList())
                         {
                             var subCategoryDetail = new SubCategory();
+                            subCategoryDetail.FoodMenuId = foodSubCategory.FoodMenuId;
                             subCategoryDetail.FoodCategoryId = foodSubCategory.FoodCategoryId;
                             subCategoryDetail.SmallName = foodSubCategory.SmallName;
                             subCategoryDetail.SalesPrice = foodSubCategory.SalesPrice;

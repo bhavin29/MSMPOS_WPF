@@ -77,7 +77,7 @@
            
             <!--Row 2 Column 0-->
             <StackPanel x:Name="saleOrderPanel" Orientation="Vertical" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
-                <DataGrid x:Name="dgSaleItem" Width="350" Height="200">
+                <DataGrid x:Name="dgSaleItem" Width="350" Height="200" ItemsSource="{Binding Path=SaleItemModel}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Edit">
                             <DataGridTemplateColumn.CellTemplate>
@@ -88,6 +88,7 @@
                         </DataGridTemplateColumn>
                         
                         <DataGridTextColumn Header="Product" IsReadOnly="True" Binding="{Binding Path=Product}" Width="80"></DataGridTextColumn>
+                        <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding Path=FoodMenuId}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Path=Price}" Width="50"></DataGridTextColumn>
                         
                         <DataGridTemplateColumn>
@@ -159,7 +160,7 @@
             <!--Row 3 Column 0-->
             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Left">
                 <TextBlock  Grid.Row="3" Grid.Column="0" x:Name="txtbTotalItem" Text="Total Item :"  Margin="5,5,5,5"/>
-                <TextBlock x:Name="txtbTotalItemCount" Text="0"  Margin="5,5,5,5"/>
+                <TextBlock x:Name="txtbTotalItemCount" Text="0"  Margin="5,5,5,5" />
             </StackPanel>
             
             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right">
@@ -198,10 +199,10 @@
 
             <!--Row 8 Column 0-->
             <StackPanel Grid.Row="8" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" >
-                <Button x:Name="btnCancel" Content="Cancel" Margin="5,5,5,5"  Width="80" Height="40"/>
+                <Button x:Name="btnCancel" Content="Cancel" Margin="5,5,5,5"  Width="80" Height="40" Click="btnCancel_Click"/>
                 <Button x:Name="btnHold" Content="Hold" Margin="5,5,5,5"  Width="80" Height="40"/>
                 <Button x:Name="btnDirectInvoice" Content="Direct Invoice" Margin="5,5,5,5"  Width="80" Height="40"/>
-                <Button x:Name="btnPlaceOrder" Content="Place Order" Margin="5,5,5,5"  Width="80" Height="40"/>
+                <Button x:Name="btnPlaceOrder" Content="Place Order" Margin="5,5,5,5"  Width="80" Height="40" Click="btnPlaceOrder_Click"/>
             </StackPanel>
         </Grid>
 

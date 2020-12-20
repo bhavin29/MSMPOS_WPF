@@ -6,9 +6,10 @@ namespace RocketPOS.Model
 {
     public class SaleItemModel
     {
+        public string FoodMenuId { get; set; }
         public string Product { get; set; }
         public double Price { get; set; }
-        public int Qty { get; set; }
+        public decimal Qty { get; set; }
         public int Discount { get; set; }
         public double Total { get; set; }
     }

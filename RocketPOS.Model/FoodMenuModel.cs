@@ -16,6 +16,7 @@ namespace RocketPOS.Model
     }
     public class SubCategory
     {
+        public int FoodMenuId { get; set; }
         public double SalesPrice { get; set; }
         public string SmallThumb { get; set; }
         public string SmallName { get; set; }
@@ -25,6 +26,7 @@ namespace RocketPOS.Model
     public class FoodMenu
     {
         public int Id { get; set; }
+        public int FoodMenuId { get; set; }
         public string FoodCategory { get; set; }
         public int FoodCategoryId { get; set; }
         public string SmallName { get; set; }
