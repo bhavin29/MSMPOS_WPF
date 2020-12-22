@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d"
         Title="RocketPOS" Height="1000" Width="1500">
+    
+    
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -36,7 +39,7 @@
         <!--Main Row 0 Column 1-->
         <StackPanel x:Name="headerCenterPanel" Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
             <Button x:Name="btnOpenHoldSales" Content="Open Hold Sales" Margin="10,10,10,10"  Width="100" Height="40"/>
-            <Button x:Name="btnCalculator" Content="Calculator" Margin="10,10,10,10" Width="80" Height="40" />
+            <Button x:Name="btnCalculator" Content="Calculator" Margin="10,10,10,10" Width="80" Height="40"  Click="btnCalculator_Click"/>
             <Button x:Name="btnReadBeforeBegin" Content="Read Before Begin" Margin="10,10,10,10" Width="120" Height="40" />
         </StackPanel>
 

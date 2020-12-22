@@ -28,6 +28,8 @@ namespace RocketPOS.Helpers
     {
         public MainWindow()
         {
+            // StyleManager.ApplicationTheme = new Expression_DarkTheme();
+
             InitializeComponent();
             FoodMenuViewModel foodMenuViewModel = new FoodMenuViewModel();
 
@@ -399,9 +401,9 @@ namespace RocketPOS.Helpers
             customerOrderModel.AnyReason = null;
             customerOrderModel.UserIdInserted = 1;
             customerOrderModel.DateInserted = System.DateTime.Now;
-            
+
             insertedId = customerOrderViewModel.AddCustomerOrder(customerOrderModel, customerOrderItemModels);
-            
+
             if (insertedId > 0)
             {
                 MessageBox.Show("Order Placed Successfully.");
@@ -425,6 +427,18 @@ namespace RocketPOS.Helpers
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             ClearCustomerOrderItemControll();
+        }
+
+        private void btnCalculator_Click(object sender, RoutedEventArgs e)
+        {
+            Calculator winCalCulator = new Calculator();
+
+            winCalCulator.Width = 237;
+            winCalCulator.Height = 310;
+            winCalCulator.Top = 100;
+            winCalCulator.Left = 500;
+
+            winCalCulator.ShowDialog();
         }
     }
 }
