@@ -1,0 +1,12 @@
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.ViewModels\bin\Debug\netcoreapp3.1\RocketPOS.ViewModels.deps.json
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.ViewModels\bin\Debug\netcoreapp3.1\RocketPOS.ViewModels.dll
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.ViewModels\bin\Debug\netcoreapp3.1\RocketPOS.ViewModels.pdb
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.ViewModels\bin\Debug\netcoreapp3.1\RocketPOS.Model.dll
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.ViewModels\bin\Debug\netcoreapp3.1\RocketPOS.Model.pdb
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.ViewModels\obj\Debug\netcoreapp3.1\RocketPOS.ViewModels.csprojAssemblyReference.cache
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.ViewModels\obj\Debug\netcoreapp3.1\RocketPOS.ViewModels.AssemblyInfoInputs.cache
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.ViewModels\obj\Debug\netcoreapp3.1\RocketPOS.ViewModels.AssemblyInfo.cs
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.ViewModels\obj\Debug\netcoreapp3.1\RocketPOS.ViewModels.csproj.CoreCompileInputs.cache
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.ViewModels\obj\Debug\netcoreapp3.1\RocketPOS.ViewModels.csproj.CopyComplete
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.ViewModels\obj\Debug\netcoreapp3.1\RocketPOS.ViewModels.dll
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.ViewModels\obj\Debug\netcoreapp3.1\RocketPOS.ViewModels.pdb
