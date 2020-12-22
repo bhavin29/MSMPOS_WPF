@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d"
         Title="RocketPOS" Height="1000" Width="1500">
@@ -36,7 +37,7 @@
         <!--Main Row 0 Column 1-->
         <StackPanel x:Name="headerCenterPanel" Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
             <Button x:Name="btnOpenHoldSales" Content="Open Hold Sales" Margin="10,10,10,10"  Width="100" Height="40"/>
-            <Button x:Name="btnCalculator" Content="Calculator" Margin="10,10,10,10" Width="80" Height="40" />
+            <Button x:Name="btnCalculator" Content="Calculator" Margin="10,10,10,10" Width="80" Height="40" Click="btnCalculator_Click"/>
             <Button x:Name="btnReadBeforeBegin" Content="Read Before Begin" Margin="10,10,10,10" Width="120" Height="40" />
         </StackPanel>
 
@@ -253,7 +254,7 @@
         <!--Main Row 2 Column 3-->
         <StackPanel x:Name="footerPanel" Orientation="Horizontal" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right">
             <TextBlock x:Name="txtbUserName" Text="UserName" Margin="10,10,10,10" Width="80" Height="40" />
-            <TextBlock x:Name="txtbDateTime" Text="DateTime" Margin="10,10,10,10" Width="80" Height="40" />
+            <TextBlock x:Name="txtbDateTime" Text="{Binding Source={x:Static sys:DateTime.Now},StringFormat='{}{0:dd-MMM-yyyy hh:mm:ss}'}" Margin="10,10,10,10" Width="120" Height="40" />
             <TextBlock x:Name="txtbOutletName" Text="Outlet Name" Margin="10,10,10,10" Width="80" Height="40" />
             <TextBlock x:Name="txtbClientName" Text="Client Name" Margin="10,10,10,10" Width="80" Height="40" />
         </StackPanel>
