@@ -11,7 +11,7 @@ using RocketPOS.ViewModels;
 using System.Data;
 using RocketPOS.Core.Constants;
 using RocketPOS.Views;
-using System.Windows.Media;
+
 
 namespace RocketPOS.Helpers
 {
@@ -420,6 +420,11 @@ namespace RocketPOS.Helpers
                 dgSaleItem.Items.Add(saleItems);
             }
             
+        }
+
+        private void btnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
