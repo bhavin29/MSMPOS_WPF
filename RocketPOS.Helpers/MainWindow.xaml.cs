@@ -184,7 +184,8 @@ namespace RocketPOS.Helpers
                 Price = Convert.ToUInt64(salePrice.Text),
                 Qty = 1,
                 Discount = 0,
-                Total = Convert.ToUInt64(salePrice.Text) * 1
+                Total = Convert.ToUInt64(salePrice.Text) * 1,
+                CustomerOrderItemId = 0
             });
             dgSaleItem.Items.Add(saleItems);
         }
@@ -257,59 +258,115 @@ namespace RocketPOS.Helpers
         }
         private void btnPlaceOrder_Click(object sender, RoutedEventArgs e)
         {
-            int insertedId = 0;
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
             CustomerOrderModel customerOrderModel = new CustomerOrderModel();
             CustomerOrderItemModel customerOrderItemModel = new CustomerOrderItemModel();
             List<CustomerOrderItemModel> customerOrderItemModels = new List<CustomerOrderItemModel>();
 
-            DataTable customerOrderItem = new DataTable();
-            customerOrderItem.Columns.Add("CustomerOrderId", typeof(Int64));
-            customerOrderItem.Columns.Add("FoodMenuId", typeof(Int32));
-            customerOrderItem.Columns.Add("FoodMenuRate", typeof(decimal));
-            customerOrderItem.Columns.Add("FoodMenuQty", typeof(decimal));
-            customerOrderItem.Columns.Add("AddonsId", typeof(Int32));
-            customerOrderItem.Columns.Add("AddonsQty", typeof(decimal));
-            customerOrderItem.Columns.Add("VarientId", typeof(Int32));
-            customerOrderItem.Columns.Add("Discount", typeof(decimal));
-            customerOrderItem.Columns.Add("Price", typeof(decimal));
-
-            var saleItems = dgSaleItem.Items.OfType<List<SaleItemModel>>().ToList();
-            foreach (var saleItem in saleItems)
+            int insertedId = 0;
+            if (Convert.ToInt32(txtbOrderId.Text)==0)
             {
-                customerOrderItem.Rows.Add(0,
-                                    Convert.ToInt32(saleItem[0].FoodMenuId),
-                                    Convert.ToDecimal(saleItem[0].Price),
-                                    saleItem[0].Qty,
-                                    0,
-                                    0,
-                                    0,
-                                    Convert.ToDecimal(saleItem[0].Discount),
-                                    Convert.ToDecimal(saleItem[0].Total));
+                DataTable customerOrderItem = new DataTable();
+                customerOrderItem.Columns.Add("CustomerOrderItemId", typeof(Int64));
+                customerOrderItem.Columns.Add("FoodMenuId", typeof(Int32));
+                customerOrderItem.Columns.Add("FoodMenuRate", typeof(decimal));
+                customerOrderItem.Columns.Add("FoodMenuQty", typeof(decimal));
+                customerOrderItem.Columns.Add("AddonsId", typeof(Int32));
+                customerOrderItem.Columns.Add("AddonsQty", typeof(decimal));
+                customerOrderItem.Columns.Add("VarientId", typeof(Int32));
+                customerOrderItem.Columns.Add("Discount", typeof(decimal));
+                customerOrderItem.Columns.Add("Price", typeof(decimal));
+
+                var saleItems = dgSaleItem.Items.OfType<List<SaleItemModel>>().ToList();
+                foreach (var saleItem in saleItems)
+                {
+                    customerOrderItem.Rows.Add(0,
+                                        Convert.ToInt32(saleItem[0].FoodMenuId),
+                                        Convert.ToDecimal(saleItem[0].Price),
+                                        saleItem[0].Qty,
+                                        0,
+                                        0,
+                                        0,
+                                        Convert.ToDecimal(saleItem[0].Discount),
+                                        Convert.ToDecimal(saleItem[0].Total));
+                }
+                customerOrderModel.Id = 0;
+                customerOrderModel.OutletId = 1;
+                customerOrderModel.SalesInvoiceNumber = "0";
+                customerOrderModel.CustomerId = 1;
+                customerOrderModel.WaiterEmployeeId = 1;
+                customerOrderModel.OrderType = 1;
+                customerOrderModel.OrderDate = System.DateTime.Now;
+                customerOrderModel.TableId = 1;
+                customerOrderModel.TockenNumber = "0";
+                customerOrderModel.GrossAmount = Convert.ToDecimal(txtbSubTotalAmount.Text);
+                customerOrderModel.DiscountPercentage = 0;
+                customerOrderModel.DiscountAmount = 0;
+                customerOrderModel.DeliveryCharges = 0;
+                customerOrderModel.TaxAmount = 0;
+                customerOrderModel.TotalPayable = Convert.ToDecimal(txtbTotalPayableAmount.Text);
+                customerOrderModel.CustomerPaid = 0;
+                customerOrderModel.CustomerNote = null;
+                customerOrderModel.OrderStatus = 0;
+                customerOrderModel.AnyReason = null;
+                customerOrderModel.UserIdInserted = 1;
+                customerOrderModel.DateInserted = System.DateTime.Now;
+
+                insertedId = customerOrderViewModel.InsertCustomerOrder(customerOrderModel, customerOrderItem); 
+            }
+            else
+            {
+               
+
+                DataTable customerOrderItem = new DataTable();
+                customerOrderItem.Columns.Add("CustomerOrderItemId", typeof(Int64));
+                customerOrderItem.Columns.Add("FoodMenuId", typeof(Int32));
+                customerOrderItem.Columns.Add("FoodMenuRate", typeof(decimal));
+                customerOrderItem.Columns.Add("FoodMenuQty", typeof(decimal));
+                customerOrderItem.Columns.Add("AddonsId", typeof(Int32));
+                customerOrderItem.Columns.Add("AddonsQty", typeof(decimal));
+                customerOrderItem.Columns.Add("VarientId", typeof(Int32));
+                customerOrderItem.Columns.Add("Discount", typeof(decimal));
+                customerOrderItem.Columns.Add("Price", typeof(decimal));
+
+                var saleItems = dgSaleItem.Items.OfType<List<SaleItemModel>>().ToList();
+                foreach (var saleItem in saleItems)
+                {
+                    customerOrderItem.Rows.Add(Convert.ToInt32(saleItem[0].CustomerOrderItemId),
+                                        Convert.ToInt32(saleItem[0].FoodMenuId),
+                                        Convert.ToDecimal(saleItem[0].Price),
+                                        saleItem[0].Qty,
+                                        0,
+                                        0,
+                                        0,
+                                        Convert.ToDecimal(saleItem[0].Discount),
+                                        Convert.ToDecimal(saleItem[0].Total));
+                }
+                customerOrderModel.Id = Convert.ToInt32(txtbOrderId.Text);
+                customerOrderModel.OutletId = 1;
+                customerOrderModel.SalesInvoiceNumber = "0";
+                customerOrderModel.CustomerId = 1;
+                customerOrderModel.WaiterEmployeeId = 1;
+                customerOrderModel.OrderType = 1;
+                customerOrderModel.OrderDate = System.DateTime.Now;
+                customerOrderModel.TableId = 1;
+                customerOrderModel.TockenNumber = "0";
+                customerOrderModel.GrossAmount = Convert.ToDecimal(txtbSubTotalAmount.Text);
+                customerOrderModel.DiscountPercentage = 0;
+                customerOrderModel.DiscountAmount = 0;
+                customerOrderModel.DeliveryCharges = 0;
+                customerOrderModel.TaxAmount = 0;
+                customerOrderModel.TotalPayable = Convert.ToDecimal(txtbTotalPayableAmount.Text);
+                customerOrderModel.CustomerPaid = 0;
+                customerOrderModel.CustomerNote = null;
+                customerOrderModel.OrderStatus = 0;
+                customerOrderModel.AnyReason = null;
+                customerOrderModel.UserIdInserted = 1;
+                customerOrderModel.DateInserted = System.DateTime.Now;
+
+                insertedId = customerOrderViewModel.InsertCustomerOrder(customerOrderModel, customerOrderItem);
             }
 
-            customerOrderModel.OutletId = 1;
-            customerOrderModel.SalesInvoiceNumber = "0";
-            customerOrderModel.CustomerId = 1;
-            customerOrderModel.WaiterEmployeeId = 1;
-            customerOrderModel.OrderType = 1;
-            customerOrderModel.OrderDate = System.DateTime.Now;
-            customerOrderModel.TableId = 1;
-            customerOrderModel.TockenNumber = "0";
-            customerOrderModel.GrossAmount = Convert.ToDecimal(txtbSubTotalAmount.Text);
-            customerOrderModel.DiscountPercentage = 0;
-            customerOrderModel.DiscountAmount = 0;
-            customerOrderModel.DeliveryCharges = 0;
-            customerOrderModel.TaxAmount = 0;
-            customerOrderModel.TotalPayable = Convert.ToDecimal(txtbTotalPayableAmount.Text);
-            customerOrderModel.CustomerPaid = 0;
-            customerOrderModel.CustomerNote = null;
-            customerOrderModel.OrderStatus = 0;
-            customerOrderModel.AnyReason = null;
-            customerOrderModel.UserIdInserted = 1;
-            customerOrderModel.DateInserted = System.DateTime.Now;
-
-            insertedId = customerOrderViewModel.InsertCustomerOrder(customerOrderModel, customerOrderItem);
             if (insertedId > 0)
             {
                 MessageBox.Show(StatusMessages.PlaceOrderSuccess);
@@ -401,7 +458,7 @@ namespace RocketPOS.Helpers
             txtbTotalPayableAmount.Text = customerOrderModel.TotalPayable.ToString();
             txtbOrderId.Text = customerOrderModel.Id.ToString();
 
-            List<SaleItemModel> saleItems = new List<SaleItemModel>();
+            List <SaleItemModel> saleItems = new List<SaleItemModel>();
             foreach (var orderItem in customerOrderModel.CustomerOrderItemModels)
             {
                 saleItems = new List<SaleItemModel>();
@@ -412,7 +469,8 @@ namespace RocketPOS.Helpers
                     Price = Convert.ToDouble(orderItem.FoodMenuRate),
                     Qty = orderItem.FoodMenuQty,
                     Discount = orderItem.Discount,
-                    Total = Convert.ToUInt64(orderItem.Price)
+                    Total = Convert.ToUInt64(orderItem.Price),
+                    CustomerOrderItemId= orderItem.CustomerOrderItemId,
                 });
                 dgSaleItem.Items.Add(saleItems);
             }

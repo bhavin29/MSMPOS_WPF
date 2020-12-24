@@ -37,16 +37,16 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <!--<Expander Name="epOrder" Background="LightGray"   
+                                <Expander Name="epOrder" Background="LightGray"   
                                         HorizontalAlignment="Center" Header="{Binding Id}" FlowDirection="RightToLeft"   
                                         ExpandDirection="Down" IsExpanded="False" Margin="10,2,10,2" Width="200"    
-                                        FontSize="20" FontWeight="Bold" Foreground="Black" >-->
+                                        FontSize="20" FontWeight="Bold" Foreground="Black" Expanded="epOrder_Expanded" LostFocus="epOrder_LostFocus">
                                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" >
                                         <TextBlock Text="{Binding CustomerId}"/>
                                         <TextBlock Text="{Binding CustomerName}"/>
                                         <TextBlock Text="{Binding WaiterName}"/>
                                     </StackPanel>
-                                <!--</Expander>-->
+                                </Expander>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -119,6 +119,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
+                        <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding Path=CustomerOrderItemId}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Product" IsReadOnly="True" Binding="{Binding Path=Product}" Width="80"></DataGridTextColumn>
                         <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding Path=FoodMenuId}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Path=Price}" Width="50"></DataGridTextColumn>
@@ -193,6 +194,7 @@
             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Left">
                 <TextBlock  Grid.Row="3" Grid.Column="0" x:Name="txtbTotalItem" Text="Total Item :"  Margin="5,5,5,5"/>
                 <TextBlock x:Name="txtbTotalItemCount" Text="0"  Margin="5,5,5,5" />
+                <TextBlock x:Name="txtbOrderId" Text="0"  Visibility="Hidden"/>
             </StackPanel>
 
             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right">
