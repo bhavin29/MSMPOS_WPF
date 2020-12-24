@@ -419,8 +419,8 @@ namespace RocketPOS.Helpers
                 });
                 dgSaleItem.Items.Add(saleItems);
             }
-          
-       }
+
+        }
      
     }
 }
