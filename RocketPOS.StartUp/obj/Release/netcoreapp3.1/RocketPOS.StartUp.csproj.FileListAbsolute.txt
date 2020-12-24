@@ -1,0 +1,9 @@
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.StartUp\bin\Release\netcoreapp3.1\RocketPOS.StartUp.deps.json
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.StartUp\bin\Release\netcoreapp3.1\RocketPOS.StartUp.dll
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.StartUp\bin\Release\netcoreapp3.1\RocketPOS.StartUp.pdb
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.StartUp\obj\Release\netcoreapp3.1\RocketPOS.StartUp.csprojAssemblyReference.cache
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.StartUp\obj\Release\netcoreapp3.1\RocketPOS.StartUp.AssemblyInfoInputs.cache
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.StartUp\obj\Release\netcoreapp3.1\RocketPOS.StartUp.AssemblyInfo.cs
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.StartUp\obj\Release\netcoreapp3.1\RocketPOS.StartUp.csproj.CoreCompileInputs.cache
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.StartUp\obj\Release\netcoreapp3.1\RocketPOS.StartUp.dll
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.StartUp\obj\Release\netcoreapp3.1\RocketPOS.StartUp.pdb

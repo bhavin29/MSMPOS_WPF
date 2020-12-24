@@ -6,3 +6,12 @@ D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.Model\obj\De
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.Model\obj\Debug\netcoreapp3.1\RocketPOS.Model.csproj.CoreCompileInputs.cache
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.Model\obj\Debug\netcoreapp3.1\RocketPOS.Model.dll
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.Model\obj\Debug\netcoreapp3.1\RocketPOS.Model.pdb
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Model\bin\Debug\netcoreapp3.1\RocketPOS.Model.deps.json
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Model\bin\Debug\netcoreapp3.1\RocketPOS.Model.dll
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Model\bin\Debug\netcoreapp3.1\RocketPOS.Model.pdb
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Model\obj\Debug\netcoreapp3.1\RocketPOS.Model.csprojAssemblyReference.cache
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Model\obj\Debug\netcoreapp3.1\RocketPOS.Model.AssemblyInfoInputs.cache
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Model\obj\Debug\netcoreapp3.1\RocketPOS.Model.AssemblyInfo.cs
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Model\obj\Debug\netcoreapp3.1\RocketPOS.Model.csproj.CoreCompileInputs.cache
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Model\obj\Debug\netcoreapp3.1\RocketPOS.Model.dll
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Model\obj\Debug\netcoreapp3.1\RocketPOS.Model.pdb

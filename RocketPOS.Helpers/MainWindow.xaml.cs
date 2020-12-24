@@ -1,23 +1,19 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Management;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using LoginModule;
+using Microsoft.Win32;
 using RocketPOS.Model;
-using System.Reflection;
 using RocketPOS.ViewModels;
+using RocketPOS.Views;
+using WPFTabTip;
 
 namespace RocketPOS.Helpers
 {
@@ -28,10 +24,9 @@ namespace RocketPOS.Helpers
     {
         public MainWindow()
         {
-            // StyleManager.ApplicationTheme = new Expression_DarkTheme();
-
             InitializeComponent();
-            FoodMenuViewModel foodMenuViewModel = new FoodMenuViewModel();
+
+           FoodMenuViewModel foodMenuViewModel = new FoodMenuViewModel();
 
             FoodMenuModel foodMenu = foodMenuViewModel.GetFoodMenu();
             string rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
@@ -439,6 +434,37 @@ namespace RocketPOS.Helpers
             winCalCulator.Left = 500;
 
             winCalCulator.ShowDialog();
+        }
+
+        private void btnRegister_Click(object sender, RoutedEventArgs e)
+        {
+            
+            OutletRegisterViewModel outletRegisterViewModel = new OutletRegisterViewModel();
+            OutletRegisterModel outletRegisterModel = new OutletRegisterModel();
+
+            //Open regiter
+            outletRegisterModel.USerID = 1;
+            outletRegisterModel.OutletId = 1;
+            outletRegisterModel.OpeningBalance = 500;
+
+            outletRegisterViewModel.InsertOutletRegister(outletRegisterModel);
+
+            //Close register
+            outletRegisterViewModel.UpdateOutletRegister(outletRegisterModel);
+
+
+        }
+
+        private void btnPrintKot_Click(object sender, RoutedEventArgs e)
+        {
+            ReceiptPrintView pj = new ReceiptPrintView();
+
+            pj.Print("Microsoft Print to PDF");
+
+        }
+
+        private void btnLastSale_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

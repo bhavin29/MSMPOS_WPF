@@ -2,17 +2,40 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Theme\**" />
+    <EmbeddedResource Remove="Theme\**" />
+    <None Remove="Theme\**" />
+    <Page Remove="Theme\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="images\Logout.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Management" Version="5.0.0" />
+    <PackageReference Include="WPFTabTip" Version="1.2.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RocketPOS.Model\RocketPOS.Model.csproj" />
     <ProjectReference Include="..\RocketPOS.ViewModels\RocketPOS.ViewModels.csproj" />
+    <ProjectReference Include="..\RocketPOS.Views\RocketPOS.Views.csproj" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\Logout.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Keyboard\" />
   </ItemGroup>
 
 </Project>

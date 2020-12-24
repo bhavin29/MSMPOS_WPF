@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.Helpers\obj\Release\netcoreapp3.1\
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Release\netcoreapp3.1\
 RocketPOS.Helpers
 none
 false
 TRACE;RELEASE;NETCOREAPP;NETCOREAPP3_1;
-D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS\RocketPOS.Helpers\App.xaml
-11151548125
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\App.xaml
+61044426831
 
-3-917710711
-1931665711276
-MainWindow.xaml;
+8-565389070
+204-645557234
+Calculator.xaml;Login.xaml;Login\LoginView.xaml;MainWindow.xaml;Test.xaml;Theme\Generic.xaml;
 
-True
+False
 
