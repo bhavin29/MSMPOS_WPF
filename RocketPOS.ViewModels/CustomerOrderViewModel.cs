@@ -26,6 +26,7 @@ namespace RocketPOS.ViewModels
                 {
                     var dynamicParameters = new DynamicParameters();
                     dynamicParameters.Add("@CustomerOrderItemData", customerOrderItem.AsTableValuedParameter(StoredProcedure.TABLE_TYPE_CUST_ORDER_ITEMDATA));
+                    dynamicParameters.Add("@Id", customerOrderModel.Id);
                     dynamicParameters.Add("@OutletId", customerOrderModel.OutletId);
                     dynamicParameters.Add("@SalesInvoiceNumber", customerOrderModel.SalesInvoiceNumber);
                     dynamicParameters.Add("@CustomerId", customerOrderModel.CustomerId);
