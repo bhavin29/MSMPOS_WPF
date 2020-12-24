@@ -147,7 +147,7 @@ namespace RocketPOS.Helpers
             }
             else
             {
-                GenerateDynamicFoodItems(foodMenu, rootPath,string.Empty,type);
+                GenerateDynamicFoodItems(foodMenu, rootPath, string.Empty, type);
             }
         }
         private void GetSearchFoodItems(string searchKey)
@@ -355,7 +355,7 @@ namespace RocketPOS.Helpers
             winCalCulator.Height = 310;
             winCalCulator.Top = 100;
             winCalCulator.Left = 500;
-            
+
             winCalCulator.ShowDialog();
         }
         private void btnRegister_Click(object sender, RoutedEventArgs e)
@@ -391,18 +391,17 @@ namespace RocketPOS.Helpers
         //    expander.Background = Brushes.DarkGray;
         //}
 
-        #endregion
 
         private void btnModifyOrder_Click(object sender, RoutedEventArgs e)
         {
             ClearCustomerOrderItemControll();
-            var st =(CustomerOrderModel)lbCustomerOrderList.SelectedItem;
+            var st = (CustomerOrderModel)lbCustomerOrderList.SelectedItem;
             CustomerOrderModel customerOrderModel = new CustomerOrderModel();
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
             customerOrderModel = customerOrderViewModel.GetCustomerOrderByOrderId(st.Id);
 
             txtbSubTotalAmount.Text = customerOrderModel.GrossAmount.ToString();
-            txtbTotalPayableAmount.Text= customerOrderModel.TotalPayable.ToString();
+            txtbTotalPayableAmount.Text = customerOrderModel.TotalPayable.ToString();
 
             List<SaleItemModel> saleItems = new List<SaleItemModel>();
             foreach (var orderItem in customerOrderModel.CustomerOrderItemModels)
@@ -419,8 +418,8 @@ namespace RocketPOS.Helpers
                 });
                 dgSaleItem.Items.Add(saleItems);
             }
-
+            #endregion
         }
-     
+
     }
 }
