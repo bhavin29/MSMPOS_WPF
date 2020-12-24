@@ -5,11 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d"
-        Title="RocketPOS" Height="768" Width="1024">
-
-
-
-    <Grid>
+        Title="RocketPOS" Height="768" Width="1200">
+    <Grid Background="RoyalBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
@@ -23,31 +20,28 @@
         </Grid.RowDefinitions>
 
         <!--Main Row 0 Column 0-->
-        <TextBlock x:Name="txtbRocketPOS" Text="RocketPOS" Margin="0,10,0,10" Grid.Row="0" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold"/>
         <!--Main Row 1 Column 0-->
-        <StackPanel x:Name="leftPanel" Orientation="Vertical" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3">
-            <TextBox x:Name="txtSearchModifyOrder" Margin="10,2,10,2" Width="250" Height="30"/>
-            <DataGrid x:Name="gdModifyOrder" Margin="10,2,10,2" Width="250" Height="250" />
-            <Button x:Name="btnModifyOrder" Content="Mofify Order/Add Item/Change Table" Margin="10,2,10,2" Width="250" Height="30" />
-            <Button x:Name="btnOrderDetails" Content="Order Details" Margin="10,2,10,2" Width="250" Height="30" />
-            <Button x:Name="btnPrintKot" Content="Print KOT" Margin="10,2,10,2" Width="250" Height="30" Click="btnPrintKot_Click" />
-            <Button x:Name="btnCreateInvoiceAndClose" Content="Create Invoice And Close" Margin="10,2,10,2" Width="250" Height="30" />
-            <Button x:Name="btnCancelOrder" Content="Cancel Order" Margin="10,2,10,2" Width="250" Height="30" />
-            <Button x:Name="btnKitchenStatus" Content="Kitchen Status" Margin="10,2,10,2" Width="250" Height="30" />
+        <StackPanel x:Name="leftPanel" Orientation="Vertical" Grid.Column="0" Grid.RowSpan="4" Margin="-18,8,22,0">
+            <TextBox x:Name="txtSearchModifyOrder" Style="{StaticResource TextBoxBaseStyle}"   Width="250" />
+            <DataGrid x:Name="gdModifyOrder" Margin="10,2,10,2" Width="250" Height="400" />
+            <Button x:Name="btnModifyOrder"  Style="{StaticResource btnOrangeLng}"  Content="Alter Order/Add Item/Change Table"  />
+            <Button x:Name="btnOrderDetails" Style="{StaticResource btnOrangeLng}" Content="Order Details" />
+            <Button x:Name="btnPrintKot" Style="{StaticResource btnOrangeLng}" Content="Print KOT" Click="btnPrintKot_Click" />
+            <Button x:Name="btnCreateInvoiceAndClose" Style="{StaticResource btnOrangeLng}" Content="Create Invoice And Close" />
+            <Button x:Name="btnCancelOrder" Style="{StaticResource btnOrangeLng}" Content="Cancel Order"  />
+            <Button x:Name="btnKitchenStatus"  Style="{StaticResource btnOrangeLng}" Content="Kitchen Status"  />
         </StackPanel>
         <!--Main Row 2 Column 0-->
 
         <!--Main Row 0 Column 1-->
         <StackPanel x:Name="headerCenterPanel" Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
-            <Button x:Name="btnOpenHoldSales" Content="Open Hold Sales" Margin="10,10,10,10"  Width="100" Height="40"/>
-            <Button x:Name="btnCalculator" Content="Calculator" Margin="10,10,10,10" Width="80" Height="40"  Click="btnCalculator_Click"/>
-            <Button x:Name="btnReadBeforeBegin" Content="Read Before Begin" Margin="10,10,10,10" Width="120" Height="40" />
         </StackPanel>
 
         <!--Main Row 2 Column 2-->
-        <Grid x:Name="SaleItemGrid"  Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
+        <Grid x:Name="SaleItemGrid"  Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="266,-40,520,-150">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
@@ -65,23 +59,26 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
-            <!--Row 0 Column 0-->
-            <Button x:Name="btnDineIn" Content="Dine In" Grid.Row="0" Grid.Column="0" Margin="10,10,10,10"  Width="100" Height="40"/>
-            <Button x:Name="btnTakeAway" Content="Take Away"  Grid.Row="0" Grid.Column="1" Margin="10,10,10,10"  Width="100" Height="40"/>
-            <Button x:Name="btnDelivery" Content="Delivery"  Grid.Row="0" Grid.Column="2" Margin="10,10,10,10"  Width="100" Height="40"/>
+            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" >
+
+                <!--Row 0 Column 0-->
+                <Button x:Name="btnDineIn" Style="{StaticResource btnOrange}"  Content="Dine In" Grid.Row="0" Grid.Column="0"   />
+                <Button x:Name="btnTakeAway" Style="{StaticResource btnOrange}" Content="Take Away"  Grid.Row="0" Grid.Column="1"   />
+                <Button x:Name="btnDelivery" Style="{StaticResource btnOrange}" Content="Delivery"  Grid.Row="0" Grid.Column="2"  />
+                <Button x:Name="btnTableList" Style="{StaticResource btnOrange}" Content="Table"  Grid.Row="0" Grid.Column="3" />
+            </StackPanel>
 
             <!--Row 1 Column 0-->
-            <ComboBox x:Name="cmbWaiter" Grid.Row="1" Grid.Column="0" Margin="10,10,10,10"  Width="100" Height="40"/>
-            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" >
-                <ComboBox x:Name="cmbCustomer" Margin="5,10,5,10"  Width="50" Height="40"/>
-                <Button x:Name="btnEditCustomer" Content="Edit" Margin="5,10,5,10"  Width="25" Height="40"/>
-                <Button x:Name="btnAddCustomer" Content="Add" Margin="5,10,5,10"  Width="25" Height="40"/>
+            <StackPanel Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="4" Orientation="Horizontal" >
+                <ComboBox x:Name="cmbWaiter"   Width="100" Height="40"  Grid.Column="0"/>
+                <ComboBox x:Name="cmbCustomer"   Width="50" Height="40"  Grid.Column="1"/>
+                <Button x:Name="btnEditCustomer" Content="Edit"  Width="25" Height="40"  Grid.Column="2"/>
+                <Button x:Name="btnAddCustomer" Content="Add"  Width="25" Height="40"  Grid.Column="3"/>
             </StackPanel>
-            <Button x:Name="btnTable" Content="Table" Grid.Row="1" Grid.Column="2" Width="100" Height="40"/>
 
             <!--Row 2 Column 0-->
-            <StackPanel x:Name="saleOrderPanel" Orientation="Vertical" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
-                <DataGrid x:Name="dgSaleItem" Width="350" Height="200" ItemsSource="{Binding Path=SaleItemModel}">
+            <StackPanel x:Name="saleOrderPanel" Orientation="Vertical" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
+                <DataGrid x:Name="dgSaleItem" Width="400" Height="360" ItemsSource="{Binding Path=SaleItemModel}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Edit">
                             <DataGridTemplateColumn.CellTemplate>
@@ -202,56 +199,61 @@
             </StackPanel>
 
             <!--Row 8 Column 0-->
-            <StackPanel Grid.Row="8" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" >
-                <Button x:Name="btnCancel" Content="Cancel" Margin="5,5,5,5"  Width="80" Height="40" Click="btnCancel_Click"/>
-                <Button x:Name="btnHold" Content="Hold" Margin="5,5,5,5"  Width="80" Height="40"/>
-                <Button x:Name="btnDirectInvoice" Content="Direct Invoice" Margin="5,5,5,5"  Width="80" Height="40"/>
-                <Button x:Name="btnPlaceOrder" Content="Place Order" Margin="5,5,5,5"  Width="80" Height="40" Click="btnPlaceOrder_Click"/>
+            <StackPanel Grid.Row="8" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4" >
+                <Button x:Name="btnCancel" Style="{StaticResource btnOrange}" Content="Cancel"  Click="btnCancel_Click"/>
+                <Button x:Name="btnHold" Style="{StaticResource btnOrange}" Content="Hold" />
+                <Button x:Name="btnDirectInvoice" Style="{StaticResource btnOrange}" Content="Direct Invoice" />
+                <Button x:Name="btnPlaceOrder" Style="{StaticResource btnOrange}" Content="Place Order" Click="btnPlaceOrder_Click"/>
             </StackPanel>
         </Grid>
 
         <!--Main Row 0 Column 3-->
-        <StackPanel x:Name="headerTopRightPanel" Orientation="Horizontal" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Margin="160,0,0,0">
-            <Button x:Name="btnLastSale" Click="btnLastSale_Click" Content="Last 10 Sale" Margin="10,10,10,10" Width="80" Height="40" />
-            <Button x:Name="btnKitchenNotification" Content="Kitchen Notification" Margin="10,10,10,10" Width="120" Height="40" />
-            <Button x:Name="btnRegister" Content="Register" Margin="10,10,10,10" Width="80" Height="40" Click="btnRegister_Click" />
-            <Button x:Name="btnBack" Content="Back" Margin="10,10,10,10" Width="80" Height="40" />
-            <Button x:Name="btnLogOut" Content="LogOut" Margin="10,10,10,10"  Width="80" Height="40"/>
+        <StackPanel x:Name="headerTopRightPanel" Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="-35,-16,0,16" Grid.ColumnSpan="2">
+            <Button x:Name="btnUnknow" Style="{StaticResource btnOrange}" Content=" UnKnow" />
+            <Button x:Name="btnOpenHoldSales" Style="{StaticResource btnOrange}" Content=" Hold Sales" />
+            <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator"  Click="btnCalculator_Click"/>
+            <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Read IT"  />
+            <Button x:Name="btnLastSale" Style="{StaticResource btnOrange}" Click="btnLastSale_Click" Content="Last 10 Sale"  />
+            <Button x:Name="btnKitchenNotification" Style="{StaticResource btnOrange}" Content="Kitchen Alter"  />
+            <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Register"   Click="btnRegister_Click" />
+            <Button x:Name="btnBack" Style="{StaticResource btnOrange}" Content="Settings"  />
+            <Button x:Name="btnLogOut" Style="{StaticResource btnLightRed}" Content="LogOut"   />
         </StackPanel>
 
         <!--Main Row 1 Column 3-->
-        <Grid x:Name="FoodMenuItem" Grid.Row="1" Grid.Column="2" Grid.RowSpan="2">
+        <Grid x:Name="FoodMenuItem" Grid.Column="2" Grid.RowSpan="3" Margin="120,64,22,16">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="103*"/>
+                <ColumnDefinition Width="357*"/>
+                <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="0"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
 
+            <!-- <StackPanel x:Name="FoodMenuRightPanel" Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="66,-16,0,16" Grid.ColumnSpan="2">-->
             <!--Menu Image Row 1-->
-            <TextBlock x:Name="txtbSearch" Text="Search : " Grid.Column="1" Grid.Row="1"/>
-            <TextBox x:Name="txtSearch" Grid.Row="1" Grid.Column="2"  Margin="0,0,0,10" TextChanged="txtSearch_TextChanged"/>
+            <TextBox x:Name="txtSearch" Grid.Row="1" Grid.Column="2" Style="{StaticResource TextBoxBaseStyle}" Width="500"  TextChanged="txtSearch_TextChanged" Grid.ColumnSpan="3"/>
 
             <!--Menu Image Row 2-->
             <ScrollViewer Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" HorizontalScrollBarVisibility="Auto">
                 <StackPanel x:Name="spCategory" Orientation="Horizontal" >
-                    <Button x:Name="btnAll" Click="GetSubCategory" Content="All" Width="50" Height="50" Margin="5,0,5,10"></Button>
+                    <Button x:Name="btnAll" Click="GetSubCategory" Content="All" Width="50" Height="50" ></Button>
                 </StackPanel>
             </ScrollViewer>
 
             <!--Menu Image Row 3-->
-            <ScrollViewer Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4" >
+            <ScrollViewer Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4" Margin="2,0,-2,0" >
                 <WrapPanel x:Name="spSubCategory" Orientation="Horizontal">
-
                 </WrapPanel>
             </ScrollViewer>
+            <!--   </StackPanel> 1-->
         </Grid>
 
         <!--Main Row 2 Column 3-->

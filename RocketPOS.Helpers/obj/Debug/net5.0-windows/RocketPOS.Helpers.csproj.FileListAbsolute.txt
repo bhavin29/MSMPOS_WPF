@@ -31,14 +31,12 @@ D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helper
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\RocketPOS.Helpers.csprojAssemblyReference.cache
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\Calculator.g.cs
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\MainWindow.g.cs
-D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\Test.g.cs
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\App.g.cs
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\GeneratedInternalTypeHelper.g.cs
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\RocketPOS.Helpers_MarkupCompile.cache
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\RocketPOS.Helpers_MarkupCompile.lref
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\Calculator.baml
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\MainWindow.baml
-D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\Test.baml
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\RocketPOS.Helpers.g.resources
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\RocketPOS.Helpers.GeneratedMSBuildEditorConfig.editorconfig
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\RocketPOS.Helpers.AssemblyInfoInputs.cache

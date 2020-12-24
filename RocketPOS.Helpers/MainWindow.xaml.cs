@@ -7,6 +7,7 @@ using System.Management;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using LoginModule;
 using Microsoft.Win32;
@@ -240,7 +241,8 @@ namespace RocketPOS.Helpers
 
                         Image imgFood = new Image();
                         imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\RocketPOS.StartUp\Images\" + itemSubCat.SmallThumb));
-                        imgFood.MaxWidth = 150;
+                        imgFood.Stretch = Stretch.Fill;
+                        imgFood.MaxWidth = 100;
                         imgFood.MaxHeight = 100;
                         imgFood.Margin = new Thickness(5, 0, 5, 10);
                         imgFood.Name = "imgFood" + itemSubCat.FoodCategoryId;
