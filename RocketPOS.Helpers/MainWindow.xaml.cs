@@ -12,7 +12,6 @@ using System.Data;
 using RocketPOS.Core.Constants;
 using RocketPOS.Views;
 
-
 namespace RocketPOS.Helpers
 {
     /// <summary>
@@ -379,18 +378,18 @@ namespace RocketPOS.Helpers
 
             pj.Print("Microsoft Print to PDF");
         }
-        //private void epOrder_LostFocus(object sender, RoutedEventArgs e)
-        //{
-        //    var expander = sender as Expander;
-        //    expander.IsExpanded = false;
-        //    expander.Background = Brushes.LightGray;
-        //}
-        //private void epOrder_Expanded(object sender, RoutedEventArgs e)
-        //{
-        //    var expander = sender as Expander;
-        //    expander.Background = Brushes.DarkGray;
-        //}
 
+        private void epOrder_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var expander = sender as Expander;
+            expander.IsExpanded = false;
+            expander.Background = Brushes.LightGray;
+        }
+        private void epOrder_Expanded(object sender, RoutedEventArgs e)
+        {
+            var expander = sender as Expander;
+            expander.Background = Brushes.DarkGray;
+        }
 
         private void btnModifyOrder_Click(object sender, RoutedEventArgs e)
         {
@@ -402,6 +401,7 @@ namespace RocketPOS.Helpers
 
             txtbSubTotalAmount.Text = customerOrderModel.GrossAmount.ToString();
             txtbTotalPayableAmount.Text = customerOrderModel.TotalPayable.ToString();
+            txtbOrderId.Text = customerOrderModel.Id.ToString();
 
             List<SaleItemModel> saleItems = new List<SaleItemModel>();
             foreach (var orderItem in customerOrderModel.CustomerOrderItemModels)
