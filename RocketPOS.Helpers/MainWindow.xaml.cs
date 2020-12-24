@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Management;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +11,8 @@ using LoginModule;
 using Microsoft.Win32;
 using RocketPOS.Model;
 using RocketPOS.ViewModels;
+using System.Data;
+using RocketPOS.Core.Constants;
 using RocketPOS.Views;
 using WPFTabTip;
 
@@ -26,11 +26,21 @@ namespace RocketPOS.Helpers
         public MainWindow()
         {
             InitializeComponent();
+            GenerateDynamicFoodMenu();
 
-           FoodMenuViewModel foodMenuViewModel = new FoodMenuViewModel();
+            CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
+            List<CustomerOrderModel> customerOrderList = new List<CustomerOrderModel>();
+            customerOrderList = customerOrderViewModel.GetCustomerOrderList();
+            lbCustomerOrderList.ItemsSource = customerOrderList;
+        }
 
-            FoodMenuModel foodMenu = foodMenuViewModel.GetFoodMenu();
-            string rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
+        #region Methods
+        private void GenerateDynamicFoodMenu()
+        {
+            string rootPath = string.Empty;
+            FoodMenuViewModel foodMenuViewModel = new FoodMenuViewModel();
+            FoodMenuModel foodMenu = new FoodMenuModel();
+            rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
 
             if (Application.Current.Resources["FoodList"] == null)
             {
@@ -53,26 +63,59 @@ namespace RocketPOS.Helpers
                 btnCategory.Click += GetSubCategory;
                 spCategory.Children.Add(btnCategory);
             }
-
+            GenerateDynamicFoodItems(foodMenu, rootPath, string.Empty, "All");
+        }
+        private void GenerateDynamicFoodItems(FoodMenuModel foodMenu, string rootPath, string searchKey, string type)
+        {
             foreach (var foodCategory in foodMenu.FoodList)
             {
                 foreach (var itemSubCat in foodCategory.SubCategory)
                 {
-                    StackPanel menuListPanel = new StackPanel();
-                    menuListPanel.Orientation = Orientation.Vertical;
+                    if (!string.IsNullOrEmpty(searchKey) && (itemSubCat.SmallName.ToLower().Contains(searchKey) || itemSubCat.SalesPrice.ToString().ToLower().Contains(searchKey)))
+                    {
+                        GenerateDyanmicFoodItemsList(itemSubCat, rootPath);
+                    }
+                    else if (!string.IsNullOrEmpty(type))
+                    {
+                        if (type == "All")
+                        {
+                            GenerateDyanmicFoodItemsList(itemSubCat, rootPath);
+                        }
+                        else
+                        {
+                            if (itemSubCat.FoodCategoryId.ToString() == type)
+                            {
+                                GenerateDyanmicFoodItemsList(itemSubCat, rootPath);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private void GenerateDyanmicFoodItemsList(SubCategory itemSubCat, string rootPath)
+        {
+            StackPanel menuListPanel = new StackPanel();
+            menuListPanel.Orientation = Orientation.Vertical;
 
                     TextBlock txtSalePrice = new TextBlock();
                     txtSalePrice.Text = itemSubCat.SalesPrice.ToString();
                     txtSalePrice.Name = "txtSalePrice" + itemSubCat.FoodCategoryId;
                     menuListPanel.Children.Add(txtSalePrice);
 
-                    Image imgFood = new Image();
-                    imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\RocketPOS.StartUp\Images\" + itemSubCat.SmallThumb));
-                    imgFood.MaxWidth = 150;
-                    imgFood.MaxHeight = 100;
-                    imgFood.Margin = new Thickness(5, 0, 5, 10);
-                    imgFood.Name = "imgFood" + itemSubCat.FoodCategoryId;
-                    menuListPanel.Children.Add(imgFood);
+            Image imgFood = new Image();
+            try
+            {
+                imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\RocketPOS.StartUp\Images\" + itemSubCat.SmallThumb));
+            }
+            catch (Exception)
+            {
+                imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\RocketPOS.StartUp\Images\defaultimage.png"));
+            }
+            imgFood.MaxWidth = 150;
+            imgFood.MaxHeight = 100;
+            imgFood.Margin = new Thickness(5, 0, 5, 10);
+            imgFood.Name = "imgFood" + itemSubCat.FoodCategoryId;
+            menuListPanel.Children.Add(imgFood);
 
                     TextBlock txtSmallName = new TextBlock();
                     txtSmallName.Text = itemSubCat.SmallName;
@@ -85,11 +128,46 @@ namespace RocketPOS.Helpers
                     txtFoodMenuId.Visibility = Visibility.Hidden;
                     menuListPanel.Children.Add(txtFoodMenuId);
 
-                    menuListPanel.Name = "childPanel" + itemSubCat.FoodCategoryId;
-                    menuListPanel.MouseDown += GetPrice_MouseDown;
-                    spSubCategory.Children.Add(menuListPanel);
-                }
+            menuListPanel.Name = "childPanel" + itemSubCat.FoodCategoryId;
+            menuListPanel.MouseDown += GetPrice_MouseDown;
+            spSubCategory.Children.Add(menuListPanel);
+        }
+        private void ClearCustomerOrderItemControll()
+        {
+            dgSaleItem.Items.Clear();
+            txtbTotalPayableAmount.Text = "0";
+            txtbSubTotalAmount.Text = "0";
+            txtbTotalItemCount.Text = "0";
+        }
+        private void GetFoodItems(string type)
+        {
+            string rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
+            spSubCategory.Children.Clear();
+            FoodMenuModel foodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
+            if (type == "All")
+            {
+                GenerateDynamicFoodItems(foodMenu, rootPath, string.Empty, type);
             }
+            else
+            {
+                GenerateDynamicFoodItems(foodMenu, rootPath,string.Empty,type);
+            }
+        }
+        private void GetSearchFoodItems(string searchKey)
+        {
+            string rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
+            spSubCategory.Children.Clear();
+            FoodMenuModel foodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
+            GenerateDynamicFoodItems(foodMenu, rootPath, searchKey, string.Empty);
+        }
+        #endregion
+
+        #region Events
+        private void GetSubCategory(object sender, RoutedEventArgs e)
+        {
+            var btnCategory = sender as Button;
+            var categoryId = btnCategory.Name.Substring(3);//Get the button id
+            GetFoodItems(categoryId);
         }
         private void GetPrice_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -98,9 +176,9 @@ namespace RocketPOS.Helpers
             var itemName = menuListPanel.Children[2] as TextBlock;
             var foodMenuId = menuListPanel.Children[3] as TextBlock;
 
-            txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + Convert.ToInt64(salePrice.Text)).ToString();
-            txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) + Convert.ToInt64(salePrice.Text)).ToString();
-            txtbTotalItemCount.Text = (Convert.ToInt64(txtbTotalItemCount.Text) + 1).ToString();
+            txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
+            txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
+            txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
 
             List<SaleItemModel> saleItems = new List<SaleItemModel>();
             saleItems.Add(new SaleItemModel()
