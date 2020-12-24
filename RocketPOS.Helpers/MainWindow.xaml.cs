@@ -10,6 +10,8 @@ using RocketPOS.Model;
 using RocketPOS.ViewModels;
 using System.Data;
 using RocketPOS.Core.Constants;
+using RocketPOS.Views;
+using System.Windows.Media;
 
 namespace RocketPOS.Helpers
 {
@@ -22,6 +24,11 @@ namespace RocketPOS.Helpers
         {
             InitializeComponent();
             GenerateDynamicFoodMenu();
+
+            CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
+            List<CustomerOrderModel> customerOrderList = new List<CustomerOrderModel>();
+            customerOrderList = customerOrderViewModel.GetCustomerOrderList();
+            lbCustomerOrderList.ItemsSource = customerOrderList;
         }
 
         #region Methods
@@ -166,9 +173,9 @@ namespace RocketPOS.Helpers
             var itemName = menuListPanel.Children[2] as TextBlock;
             var foodMenuId = menuListPanel.Children[3] as TextBlock;
 
-            txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + Convert.ToInt64(salePrice.Text)).ToString();
-            txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) + Convert.ToInt64(salePrice.Text)).ToString();
-            txtbTotalItemCount.Text = (Convert.ToInt64(txtbTotalItemCount.Text) + 1).ToString();
+            txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
+            txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
+            txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
 
             List<SaleItemModel> saleItems = new List<SaleItemModel>();
             saleItems.Add(new SaleItemModel()
@@ -193,9 +200,9 @@ namespace RocketPOS.Helpers
             saleItem = (List<SaleItemModel>)foodItem;
             saleItem[0].Qty += 1;
             saleItem[0].Total += saleItem[0].Price * 1;
-            txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + Convert.ToInt64(saleItem[0].Price)).ToString();
-            txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) + Convert.ToInt64(saleItem[0].Price)).ToString();
-            txtbTotalItemCount.Text = (Convert.ToInt64(txtbTotalItemCount.Text) + 1).ToString();
+            txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(saleItem[0].Price)).ToString();
+            txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(saleItem[0].Price)).ToString();
+            txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
             dgSaleItem.Items.Refresh();
         }
         private void btnMinusQty_Click(object sender, RoutedEventArgs e)
@@ -205,9 +212,9 @@ namespace RocketPOS.Helpers
             saleItem = (List<SaleItemModel>)foodItem;
             saleItem[0].Qty -= 1;
             saleItem[0].Total -= saleItem[0].Price * 1;
-            txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) - Convert.ToInt64(saleItem[0].Price)).ToString();
-            txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) - Convert.ToInt64(saleItem[0].Price)).ToString();
-            txtbTotalItemCount.Text = (Convert.ToInt64(txtbTotalItemCount.Text) - 1).ToString();
+            txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(saleItem[0].Price)).ToString();
+            txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) - Convert.ToDecimal(saleItem[0].Price)).ToString();
+            txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) - 1).ToString();
             if (saleItem[0].Qty == 0)
             {
                 dgSaleItem.Items.RemoveAt(dgSaleItem.SelectedIndex);
@@ -226,22 +233,22 @@ namespace RocketPOS.Helpers
             txtbPopUpQtyCount.Text = saleItem[0].Qty.ToString();
             txtbPopUpItemTotal.Text = saleItem[0].Total.ToString();
             txtPopUpDiscount.Text = saleItem[0].Discount.ToString();
-            txtbPopUpItemSubTotalAmount.Text = Convert.ToInt64(saleItem[0].Total).ToString();
+            txtbPopUpItemSubTotalAmount.Text = Convert.ToDecimal(saleItem[0].Total).ToString();
             EditSaleItemPopUp.IsOpen = true;
         }
         private void btnPopUpPlusQty_Click(object sender, RoutedEventArgs e)
         {
-            txtbPopUpQtyCount.Text = (Convert.ToInt32(txtbPopUpQtyCount.Text) + 1).ToString();
-            txtbPopUpItemTotal.Text = (Convert.ToInt32(txtbPopUpItemTotal.Text) + (Convert.ToInt64(txtbPopUpItemOriginalTotal.Text) * 1)).ToString();
-            txtbPopUpItemSubTotalAmount.Text = (Convert.ToInt32(txtbPopUpItemSubTotalAmount.Text) + (Convert.ToInt64(txtbPopUpItemOriginalTotal.Text) * 1)).ToString();
+            txtbPopUpQtyCount.Text = (Convert.ToDecimal(txtbPopUpQtyCount.Text) + 1).ToString();
+            txtbPopUpItemTotal.Text = (Convert.ToInt32(txtbPopUpItemTotal.Text) + (Convert.ToDecimal(txtbPopUpItemOriginalTotal.Text) * 1)).ToString();
+            txtbPopUpItemSubTotalAmount.Text = (Convert.ToInt32(txtbPopUpItemSubTotalAmount.Text) + (Convert.ToDecimal(txtbPopUpItemOriginalTotal.Text) * 1)).ToString();
         }
         private void btnPopUpMinusQty_Click(object sender, RoutedEventArgs e)
         {
             if (txtbPopUpQtyCount.Text != "1")
             {
-                txtbPopUpQtyCount.Text = (Convert.ToInt32(txtbPopUpQtyCount.Text) - 1).ToString();
-                txtbPopUpItemTotal.Text = (Convert.ToInt32(txtbPopUpItemTotal.Text) - (Convert.ToInt64(txtbPopUpItemOriginalTotal.Text) * 1)).ToString();
-                txtbPopUpItemSubTotalAmount.Text = (Convert.ToInt32(txtbPopUpItemSubTotalAmount.Text) - (Convert.ToInt64(txtbPopUpItemOriginalTotal.Text) * 1)).ToString();
+                txtbPopUpQtyCount.Text = (Convert.ToDecimal(txtbPopUpQtyCount.Text) - 1).ToString();
+                txtbPopUpItemTotal.Text = (Convert.ToInt32(txtbPopUpItemTotal.Text) - (Convert.ToDecimal(txtbPopUpItemOriginalTotal.Text) * 1)).ToString();
+                txtbPopUpItemSubTotalAmount.Text = (Convert.ToInt32(txtbPopUpItemSubTotalAmount.Text) - (Convert.ToDecimal(txtbPopUpItemOriginalTotal.Text) * 1)).ToString();
             }
         }
         private void btnPopUpCancel_Click(object sender, RoutedEventArgs e)
@@ -303,7 +310,7 @@ namespace RocketPOS.Helpers
             customerOrderModel.UserIdInserted = 1;
             customerOrderModel.DateInserted = System.DateTime.Now;
 
-            insertedId = customerOrderViewModel.AddCustomerOrder(customerOrderModel, customerOrderItem);
+            insertedId = customerOrderViewModel.InsertCustomerOrder(customerOrderModel, customerOrderItem);
             if (insertedId > 0)
             {
                 MessageBox.Show(StatusMessages.PlaceOrderSuccess);
@@ -319,19 +326,19 @@ namespace RocketPOS.Helpers
             List<SaleItemModel> saleItem = new List<SaleItemModel>();
             object foodItem = dgSaleItem.SelectedItem;
             saleItem = (List<SaleItemModel>)foodItem;
-            saleItem[0].Qty = Convert.ToInt32(txtbPopUpQtyCount.Text);
-            saleItem[0].Total = Convert.ToInt64(txtbPopUpItemTotal.Text);
+            saleItem[0].Qty = Convert.ToDecimal(txtbPopUpQtyCount.Text);
+            saleItem[0].Total = Convert.ToDouble(txtbPopUpItemTotal.Text);
             if (txtbPopUpQtyCount.Text != "1")
             {
-                txtbTotalItemCount.Text = ((Convert.ToInt32(txtbPopUpQtyCount.Text) - Convert.ToInt32(txtbPopUpOriginalQtyCount.Text)) + Convert.ToInt32(txtbTotalItemCount.Text)).ToString();
-                txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + (Convert.ToInt64(saleItem[0].Price) * (Convert.ToInt32(txtbPopUpQtyCount.Text) - Convert.ToInt32(txtbPopUpOriginalQtyCount.Text)))).ToString();
-                txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) + (Convert.ToInt64(saleItem[0].Price) * (Convert.ToInt32(txtbPopUpQtyCount.Text) - Convert.ToInt32(txtbPopUpOriginalQtyCount.Text)))).ToString();
+                txtbTotalItemCount.Text = ((Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)) + Convert.ToInt32(txtbTotalItemCount.Text)).ToString();
+                txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) * (Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)))).ToString();
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) * (Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)))).ToString();
             }
             else if (txtbPopUpQtyCount.Text == "1" && txtbPopUpQtyCount.Text != txtbPopUpOriginalQtyCount.Text)
             {
-                txtbTotalItemCount.Text = ((Convert.ToInt32(txtbPopUpQtyCount.Text) - Convert.ToInt32(txtbPopUpOriginalQtyCount.Text)) + Convert.ToInt32(txtbTotalItemCount.Text)).ToString();
-                txtbSubTotalAmount.Text = (Convert.ToInt64(txtbSubTotalAmount.Text) + (Convert.ToInt64(saleItem[0].Price) * (Convert.ToInt32(txtbPopUpQtyCount.Text) - Convert.ToInt32(txtbPopUpOriginalQtyCount.Text)))).ToString();
-                txtbTotalPayableAmount.Text = (Convert.ToInt64(txtbTotalPayableAmount.Text) + (Convert.ToInt64(saleItem[0].Price) * (Convert.ToInt32(txtbPopUpQtyCount.Text) - Convert.ToInt32(txtbPopUpOriginalQtyCount.Text)))).ToString();
+                txtbTotalItemCount.Text = ((Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)) + Convert.ToInt32(txtbTotalItemCount.Text)).ToString();
+                txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) * (Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)))).ToString();
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) * (Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)))).ToString();
             }
             EditSaleItemPopUp.IsOpen = false;
             dgSaleItem.Items.Refresh();
@@ -351,6 +358,68 @@ namespace RocketPOS.Helpers
             
             winCalCulator.ShowDialog();
         }
+        private void btnRegister_Click(object sender, RoutedEventArgs e)
+        {
+            OutletRegisterViewModel outletRegisterViewModel = new OutletRegisterViewModel();
+            OutletRegisterModel outletRegisterModel = new OutletRegisterModel();
+
+            //Open regiter
+            outletRegisterModel.USerID = 1;
+            outletRegisterModel.OutletId = 1;
+            outletRegisterModel.OpeningBalance = 500;
+
+            outletRegisterViewModel.InsertOutletRegister(outletRegisterModel);
+
+            //Close register
+            outletRegisterViewModel.UpdateOutletRegister(outletRegisterModel);
+        }
+        private void btnCreateInvoiceAndClose_Click(object sender, RoutedEventArgs e)
+        {
+            ReceiptPrintView pj = new ReceiptPrintView();
+
+            pj.Print("Microsoft Print to PDF");
+        }
+        //private void epOrder_LostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    var expander = sender as Expander;
+        //    expander.IsExpanded = false;
+        //    expander.Background = Brushes.LightGray;
+        //}
+        //private void epOrder_Expanded(object sender, RoutedEventArgs e)
+        //{
+        //    var expander = sender as Expander;
+        //    expander.Background = Brushes.DarkGray;
+        //}
+
         #endregion
+
+        private void btnModifyOrder_Click(object sender, RoutedEventArgs e)
+        {
+            ClearCustomerOrderItemControll();
+            var st =(CustomerOrderModel)lbCustomerOrderList.SelectedItem;
+            CustomerOrderModel customerOrderModel = new CustomerOrderModel();
+            CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
+            customerOrderModel = customerOrderViewModel.GetCustomerOrderByOrderId(st.Id);
+
+            txtbSubTotalAmount.Text = customerOrderModel.GrossAmount.ToString();
+            txtbTotalPayableAmount.Text= customerOrderModel.TotalPayable.ToString();
+
+            List<SaleItemModel> saleItems = new List<SaleItemModel>();
+            foreach (var orderItem in customerOrderModel.CustomerOrderItemModels)
+            {
+                saleItems = new List<SaleItemModel>();
+                saleItems.Add(new SaleItemModel()
+                {
+                    FoodMenuId = orderItem.FoodMenuId.ToString(),
+                    Product = orderItem.FoodMenuName,
+                    Price = Convert.ToDouble(orderItem.FoodMenuRate),
+                    Qty = orderItem.FoodMenuQty,
+                    Discount = orderItem.Discount,
+                    Total = Convert.ToUInt64(orderItem.Price)
+                });
+                dgSaleItem.Items.Add(saleItems);
+            }
+            
+        }
     }
 }

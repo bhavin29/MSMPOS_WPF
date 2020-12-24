@@ -10,7 +10,7 @@ namespace RocketPOS.Model
         public string Product { get; set; }
         public double Price { get; set; }
         public decimal Qty { get; set; }
-        public int Discount { get; set; }
+        public decimal Discount { get; set; }
         public double Total { get; set; }
     }
 }

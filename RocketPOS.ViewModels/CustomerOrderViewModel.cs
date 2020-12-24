@@ -15,11 +15,11 @@ namespace RocketPOS.ViewModels
 {
     public class CustomerOrderViewModel
     {
-        AppSettings AppSettings = new AppSettings();
-        public int AddCustomerOrder(CustomerOrderModel customerOrderModel, DataTable customerOrderItem)
+        AppSettings appSettings = new AppSettings();
+        public int InsertCustomerOrder(CustomerOrderModel customerOrderModel, DataTable customerOrderItem)
         {
             int insertedId = 0;
-            using (var connection = new SqlConnection(AppSettings.GetConnectionString()))
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
                 connection.Open();
                 using (var transaction = connection.BeginTransaction())
@@ -53,6 +53,36 @@ namespace RocketPOS.ViewModels
                     transaction.Commit();
                     return insertedId;
                 }
+            }
+        }
+
+        public List<CustomerOrderModel> GetCustomerOrderList()
+        {
+            List<CustomerOrderModel> customerOrderList = new List<CustomerOrderModel>();
+            using (var db = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                customerOrderList = db.Query<CustomerOrderModel>("SELECT [Id],[CustomerId],'TestCustomer' AS CustomerName, [WaiterEmployeeId],'TestWaiter' AS WaiterName,[OrderType],[TableId] FROM [CustomerOrder]").ToList();
+
+                return customerOrderList;
+            }
+        }
+
+        public CustomerOrderModel GetCustomerOrderByOrderId(int id)
+        {
+            CustomerOrderModel customerOrderModel;
+            List<OrderDetailModel> orderDetailModel = new List<OrderDetailModel>();
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "SELECT CO.Id,CO.OutletId,CO.SalesInvoiceNumber,CO.CustomerId,CO.WaiterEmployeeId,CO.OrderType,CO.TableId,CO.GrossAmount,CO.DiscountPercentage,CO.DiscountAmount,CO.DeliveryCharges,CO.TaxAmount,CO.TotalPayable,CO.CustomerNote,CO.OrderStatus, " +
+                            " COI.Id AS CustomerOrderItemId,COI.FoodMenuId,COI.FoodMenuRate,COI.FoodMenuQty,COI.AddonsId,COI.AddonsQty,COI.VarientId,COI.Discount,COI.Price,FM.FoodCategoryId,FM.FoodMenuName,FM.FoodMenuCode,FM.ColourCode,FM.SmallThumb,FM.SalesPrice,FM.Notes " +
+                            " FROM dbo.CustomerOrder CO  INNER JOIN dbo.CustomerOrderItem COI  ON CO.Id = COI.CustomerOrderId " +
+                            " INNER JOIN dbo.FoodMenu FM  ON FM.Id = COI.FoodMenuId  WHERE CO.Id = " + id;
+                orderDetailModel = connection.Query<OrderDetailModel>(query).ToList();
+
+                customerOrderModel = (from order in orderDetailModel select order).FirstOrDefault();
+                customerOrderModel.CustomerOrderItemModels = (from order in orderDetailModel select order).ToList<CustomerOrderItemModel>();
+                
+                return customerOrderModel;
             }
         }
     }

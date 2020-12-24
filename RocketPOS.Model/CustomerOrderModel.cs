@@ -4,12 +4,15 @@ using System.Text;
 
 namespace RocketPOS.Model
 {
-    public class CustomerOrderModel
+    public class CustomerOrderModel : CustomerOrderItemModel
     {
+        public int Id { get; set; }
         public int OutletId { get; set; }
         public string SalesInvoiceNumber { get; set; }
         public int CustomerId { get; set; }
+        public string CustomerName { get; set; }
         public int WaiterEmployeeId { get; set; }
+        public string WaiterName { get; set; }
         public int OrderType { get; set; }
         public DateTime OrderDate { get; set; }
         public int TableId { get; set; }
@@ -26,5 +29,12 @@ namespace RocketPOS.Model
         public string AnyReason { get; set; }
         public int UserIdInserted { get; set; }
         public DateTime DateInserted { get; set; }
+
+        public List<CustomerOrderItemModel> CustomerOrderItemModels = new List<CustomerOrderItemModel>();
+    }
+
+    public class OrderDetailModel  : CustomerOrderModel 
+    {
+
     }
 }

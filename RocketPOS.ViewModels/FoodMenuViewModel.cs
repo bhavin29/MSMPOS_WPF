@@ -9,14 +9,14 @@ namespace RocketPOS.ViewModels
 {
     public class FoodMenuViewModel
     {
-        AppSettings AppSettings = new AppSettings();
+        AppSettings appSettings = new AppSettings();
         public FoodMenuModel GetFoodMenu()
         {
             FoodMenuModel foodMenuModel = new FoodMenuModel();
             List<FoodMenu> foodMenus = new List<FoodMenu>();
             foodMenuModel.FoodList = new List<FoodList>();
 
-            using (var db = new SqlConnection(AppSettings.GetConnectionString()))
+            using (var db = new SqlConnection(appSettings.GetConnectionString()))
             {
                 foodMenus = db.Query<FoodMenu>("SELECT FMC.Id,FM.Id AS FoodMenuId, FMC.FoodMenuCategoryName As FoodCategory,FM.FoodCategoryId,FM.FoodMenuName As SmallName,FM.FoodMenuCode,FM.SmallThumb,FM.SalesPrice FROM [dbo].[FoodMenuCategory] FMC " +
                                                                 "Inner Join[dbo].[FoodMenu] FM " +
