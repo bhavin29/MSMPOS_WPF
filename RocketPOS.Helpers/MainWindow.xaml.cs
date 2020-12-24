@@ -378,7 +378,6 @@ namespace RocketPOS.Helpers
 
             pj.Print("Microsoft Print to PDF");
         }
-
         private void epOrder_LostFocus(object sender, RoutedEventArgs e)
         {
             var expander = sender as Expander;
@@ -390,7 +389,6 @@ namespace RocketPOS.Helpers
             var expander = sender as Expander;
             expander.Background = Brushes.DarkGray;
         }
-
         private void btnModifyOrder_Click(object sender, RoutedEventArgs e)
         {
             ClearCustomerOrderItemControll();
@@ -420,6 +418,5 @@ namespace RocketPOS.Helpers
             }
             #endregion
         }
-
     }
 }
