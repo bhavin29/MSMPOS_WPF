@@ -475,8 +475,12 @@ namespace RocketPOS.Helpers
                 dgSaleItem.Items.Add(saleItems);
             }
         }
+
         #endregion
 
-
+        private void btnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
