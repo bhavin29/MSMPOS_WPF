@@ -1,27 +1,26 @@
 ﻿using Dapper;
+using RocketPOS.Core.Configuration;
+using RocketPOS.Model;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using RocketPOS.Model;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Configuration;
+using System.Text;
 
 namespace RocketPOS.ViewModels
 {
     public class PrintReceiptViewModel
     {
-
+        AppSettings appSettings = new AppSettings();
         List<PrintReceiptModel> printReceiptModel = new List<PrintReceiptModel>();
         List<PrintReceiptItemModel> printReceiptItemModel = new List<PrintReceiptItemModel>();
 
         public List<PrintReceiptModel> GetPrintReceiptByBillId(int billId)
         {
-            using (var connection = new SqlConnection(ConfigurationSettings.AppSettings["ConnectionString"]))
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
                 connection.Open();
-                var query = "SELECT b.CustomerOrderId,b.Id As BillId,B.BillDateTime,O.OutletName,U.Username,C.CustomerName,B.GrossAmount,B.VatableAmount,B.Discount,B.ServiceCharge,B.TotalAmount,PM.PaymentMethodName,BD.BillAmount FROM Bill B " +
+                var query = "SELECT b.CustomerOrderId,b.Id As BillId,B.BillDateTime,O.OutletName,U.Username,C.CustomerName,B.TotalAmount As GrossAmount,B.VatableAmount,B.Discount,B.ServiceCharge,B.TotalAmount,PM.PaymentMethodName,BD.BillAmount FROM Bill B " +
                              "  INNER JOIN BillDetail BD ON B.Id = BD.BillId " +
                              "  INNER JOIN Outlet O ON O.Id = B.OutletId " +
                              "  INNER JOIN[User] U ON U.ID = B.UserIdInserted " +
@@ -38,7 +37,7 @@ namespace RocketPOS.ViewModels
 
         public List<PrintReceiptItemModel> GetPrintReceiptItemByBillId(int billId)
         {
-            using (var connection = new SqlConnection(ConfigurationSettings.AppSettings["ConnectionString"]))
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
                 connection.Open();
 
@@ -54,4 +53,3 @@ namespace RocketPOS.ViewModels
 
     }
 }
-

@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
-  </ItemGroup>
-  
- <ItemGroup>
     <ProjectReference Include="..\RocketPOS.Model\RocketPOS.Model.csproj" />
     <ProjectReference Include="..\RocketPOS.ViewModels\RocketPOS.ViewModels.csproj" />
    

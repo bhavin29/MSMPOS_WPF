@@ -6,7 +6,7 @@ namespace RocketPOS.Model
 {
     public class OutletRegisterModel
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public int OutletId { get; set; }
         public int USerID { get; set; }
         public DateTime OpenDate { get; set; }

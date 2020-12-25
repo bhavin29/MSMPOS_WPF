@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "XlKgg2hqmltJA6gftV38ENN7G8dBZmEDDjvsojuU0JkeAls4NEqk/5oGHbcXUsAQzsGlBgmWGDMSjmkApTjBjA==",
+  "dgSpecHash": "0Dw2WS/lohsvY+iItYhCNOwYu8GdOxZOll65V8k4u1xKuVxKnqS1QF3TiOWTXZda6GqQ6FsZSNIkvd6NzMO4Ug==",
   "success": true,
   "projectFilePath": "D:\\Bhavin\\MyProject\\RocketPOS\\SourceCode\\Bhavin\\RocketPOS_LOCAL\\RocketPOS.Helpers\\RocketPOS.Helpers.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\dapper\\2.0.78\\dapper.2.0.78.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.netcore.targets\\1.0.1\\microsoft.netcore.targets.1.0.1.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",

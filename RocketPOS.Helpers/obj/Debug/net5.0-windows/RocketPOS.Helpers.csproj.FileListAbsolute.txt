@@ -51,3 +51,7 @@ D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helper
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\Login.g.cs
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\Login.baml
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\App.baml
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\bin\Debug\net5.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\bin\Debug\net5.0-windows\Microsoft.Extensions.Primitives.dll
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\bin\Debug\net5.0-windows\RocketPOS.Core.dll
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\bin\Debug\net5.0-windows\RocketPOS.Core.pdb

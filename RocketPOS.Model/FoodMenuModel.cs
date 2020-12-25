@@ -33,5 +33,4 @@ namespace RocketPOS.Model
         public double SalesPrice { get; set; }
         public string SmallThumb { get; set; }
     }
-
 }

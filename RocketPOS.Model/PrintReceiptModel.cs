@@ -13,7 +13,7 @@ namespace RocketPOS.Model
         public string Username { get; set; }
         public string CustomerName { get; set; }
         public float GrossAmount { get; set; }
-        public float    VatableAmount { get; set; }
+        public float VatableAmount { get; set; }
         public float Discount { get; set; }
         public float ServiceCharge { get; set; }
         public float TotalAmount { get; set; }

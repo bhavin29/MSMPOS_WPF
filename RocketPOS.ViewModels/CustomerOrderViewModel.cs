@@ -1,5 +1,7 @@
 ﻿using Dapper;
 using Microsoft.SqlServer.Server;
+using RocketPOS.Core.Configuration;
+using RocketPOS.Core.Constants;
 using RocketPOS.Model;
 using System;
 using System.Collections.Generic;
@@ -13,43 +15,18 @@ namespace RocketPOS.ViewModels
 {
     public class CustomerOrderViewModel
     {
-        public int AddCustomerOrder(CustomerOrderModel customerOrderModel, List<CustomerOrderItemModel> customerOrderItemModels)
+        AppSettings appSettings = new AppSettings();
+        public int InsertCustomerOrder(CustomerOrderModel customerOrderModel, DataTable customerOrderItem)
         {
             int insertedId = 0;
-            using (var connection = new SqlConnection(ConfigurationSettings.AppSettings["ConnectionString"]))
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
                 connection.Open();
-                DataTable customerOrderItem = new DataTable();
-                customerOrderItem.Columns.Add("CustomerOrderId", typeof(Int64));
-                customerOrderItem.Columns.Add("FoodMenuId", typeof(Int32));
-                customerOrderItem.Columns.Add("FoodMenuRate", typeof(decimal));
-                customerOrderItem.Columns.Add("FoodMenuQty", typeof(decimal));
-                customerOrderItem.Columns.Add("AddonsId", typeof(Int32));
-                customerOrderItem.Columns.Add("AddonsQty", typeof(decimal));
-                customerOrderItem.Columns.Add("VarientId", typeof(Int32));
-                customerOrderItem.Columns.Add("Discount", typeof(decimal));
-                customerOrderItem.Columns.Add("Price", typeof(decimal));
-
-                //Begin the transaction
                 using (var transaction = connection.BeginTransaction())
                 {
-                    for (int lineNo = 0; lineNo < customerOrderItemModels.Count; lineNo++)
-                    {
-                        customerOrderItem.Rows.Add(
-                                 customerOrderItemModels[lineNo].CustomerOrderId,
-                                 customerOrderItemModels[lineNo].FoodMenuId,
-                                 customerOrderItemModels[lineNo].FoodMenuRate,
-                                 customerOrderItemModels[lineNo].FoodMenuQty,
-                                 customerOrderItemModels[lineNo].AddonsId,
-                                 customerOrderItemModels[lineNo].AddonsQty,
-                                 customerOrderItemModels[lineNo].VarientId,
-                                 customerOrderItemModels[lineNo].Discount,
-                                 customerOrderItemModels[lineNo].Price
-                            );
-                    }
-
                     var dynamicParameters = new DynamicParameters();
-                    dynamicParameters.Add("@CustomerOrderItemData", customerOrderItem.AsTableValuedParameter("CustomerOrderItemData"));
+                    dynamicParameters.Add("@CustomerOrderItemData", customerOrderItem.AsTableValuedParameter(StoredProcedure.TABLE_TYPE_CUST_ORDER_ITEMDATA));
+                    dynamicParameters.Add("@Id", customerOrderModel.Id);
                     dynamicParameters.Add("@OutletId", customerOrderModel.OutletId);
                     dynamicParameters.Add("@SalesInvoiceNumber", customerOrderModel.SalesInvoiceNumber);
                     dynamicParameters.Add("@CustomerId", customerOrderModel.CustomerId);
@@ -72,11 +49,41 @@ namespace RocketPOS.ViewModels
                     dynamicParameters.Add("@DateInserted", customerOrderModel.DateInserted);
 
                     insertedId = connection.Query<int>
-                        ("AddCustomerOrder", dynamicParameters, commandType: CommandType.StoredProcedure, commandTimeout: 0, transaction: transaction).FirstOrDefault();
+                        (StoredProcedure.PX_INSERT_CUSTOMER_ORDER, dynamicParameters, commandType: CommandType.StoredProcedure, commandTimeout: 0, transaction: transaction).FirstOrDefault();
 
                     transaction.Commit();
                     return insertedId;
                 }
+            }
+        }
+
+        public List<CustomerOrderModel> GetCustomerOrderList()
+        {
+            List<CustomerOrderModel> customerOrderList = new List<CustomerOrderModel>();
+            using (var db = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                customerOrderList = db.Query<CustomerOrderModel>("SELECT [Id],[CustomerId],'TestCustomer' AS CustomerName, [WaiterEmployeeId],'TestWaiter' AS WaiterName,[OrderType],[TableId] FROM [CustomerOrder]").ToList();
+
+                return customerOrderList;
+            }
+        }
+
+        public CustomerOrderModel GetCustomerOrderByOrderId(int id)
+        {
+            CustomerOrderModel customerOrderModel;
+            List<OrderDetailModel> orderDetailModel = new List<OrderDetailModel>();
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "SELECT CO.Id,CO.OutletId,CO.SalesInvoiceNumber,CO.CustomerId,CO.WaiterEmployeeId,CO.OrderType,CO.TableId,CO.GrossAmount,CO.DiscountPercentage,CO.DiscountAmount,CO.DeliveryCharges,CO.TaxAmount,CO.TotalPayable,CO.CustomerNote,CO.OrderStatus, " +
+                            " COI.Id AS CustomerOrderItemId,COI.FoodMenuId,COI.FoodMenuRate,COI.FoodMenuQty,COI.AddonsId,COI.AddonsQty,COI.VarientId,COI.Discount,COI.Price,FM.FoodCategoryId,FM.FoodMenuName,FM.FoodMenuCode,FM.ColourCode,FM.SmallThumb,FM.SalesPrice,FM.Notes " +
+                            " FROM dbo.CustomerOrder CO  INNER JOIN dbo.CustomerOrderItem COI  ON CO.Id = COI.CustomerOrderId " +
+                            " INNER JOIN dbo.FoodMenu FM  ON FM.Id = COI.FoodMenuId  WHERE CO.Id = " + id;
+                orderDetailModel = connection.Query<OrderDetailModel>(query).ToList();
+
+                customerOrderModel = (from order in orderDetailModel select order).FirstOrDefault();
+                customerOrderModel.CustomerOrderItemModels = (from order in orderDetailModel select order).ToList<CustomerOrderItemModel>();
+                
+                return customerOrderModel;
             }
         }
     }

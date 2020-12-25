@@ -6,7 +6,6 @@ using System.Drawing.Printing;
 using System.Drawing;
 using RocketPOS.Model;
 using RocketPOS.ViewModels;
-
 namespace RocketPOS.Views
 {
     //https://stackoverflow.com/questions/28096578/writing-nice-receipt-in-c-sharp-wpf-for-printing-on-thermal-printer-pos
@@ -185,7 +184,7 @@ namespace RocketPOS.Views
 
             foreach (var item in printReceiptItemModel)
             {
-                InsertItem(item.FoodMenuName + " x " + item.FoodMenuRate ,"25", Offset);
+                InsertItem(item.FoodMenuName + " x " + item.FoodMenuRate, "25", Offset);
 
                 Offset = Offset + smallinc;
             }
@@ -210,19 +209,19 @@ namespace RocketPOS.Views
             DrawLine(underLine, largefont, Offset, 30);
 
             Offset = Offset + largeinc;
-            InsertItem(" GROSS TOTLA: ", printReceiptModel[0].GrossAmount.ToString() , Offset);
+            InsertItem("GROSS TOTAL: ", printReceiptModel[0].GrossAmount.ToString(), Offset);
 
             Offset = Offset + largeinc;
             InsertItem("DISCOUNT : ", printReceiptModel[0].Discount.ToString(), Offset);
 
             Offset = Offset + largeinc;
-            InsertItem(" VATABLE: ", printReceiptModel[0].VatableAmount.ToString(), Offset);
+            InsertItem("VATABLE: ", printReceiptModel[0].VatableAmount.ToString(), Offset);
 
             Offset = Offset + largeinc;
-            InsertItem(" SER CRH: ", printReceiptModel[0].ServiceCharge.ToString(), Offset);
+            InsertItem("SER CRH: ", printReceiptModel[0].ServiceCharge.ToString(), Offset);
 
             Offset = Offset + largeinc;
-            InsertItem(" TOTAL: ", printReceiptModel[0].TotalAmount.ToString() , Offset);
+            InsertItem("TOTAL: ", printReceiptModel[0].TotalAmount.ToString(), Offset);
 
             //   if (!order.Cash.Discount.IsZero())
             //   {
@@ -234,7 +233,7 @@ namespace RocketPOS.Views
             DrawLine(underLine, largefont, Offset, 30);
 
             Offset = Offset + largeinc;
-            InsertItem(" TOTAL: ", printReceiptModel[0].PaymentMethodName.ToString(), Offset);
+            InsertItem("TOTAL: ", printReceiptModel[0].PaymentMethodName.ToString(), Offset);
 
             graphics.DrawString(clientModel.Footer, smallfont, new SolidBrush(Color.Black), 50 + 22, 10 + Offset);
 
@@ -273,5 +272,4 @@ namespace RocketPOS.Views
             DrawSimpleString(DrawnBy, minifont, Offset, 15);
         }
     }
-
 }

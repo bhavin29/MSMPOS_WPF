@@ -14,6 +14,27 @@
           "lib/netstandard2.0/Dapper.dll": {}
         }
       },
+      "Microsoft.Extensions.Configuration.Abstractions/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "5.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Primitives/5.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.0/Microsoft.Extensions.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/Microsoft.Extensions.Primitives.dll": {}
+        }
+      },
       "Microsoft.NETCore.Platforms/5.0.0": {
         "type": "package",
         "compile": {
@@ -251,6 +272,20 @@
           }
         }
       },
+      "RocketPOS.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "5.0.0",
+          "System.Configuration.ConfigurationManager": "5.0.0"
+        },
+        "compile": {
+          "bin/placeholder/RocketPOS.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RocketPOS.Core.dll": {}
+        }
+      },
       "RocketPOS.Model/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -279,6 +314,48 @@
         "lib/net5.0/Dapper.xml",
         "lib/netstandard2.0/Dapper.dll",
         "lib/netstandard2.0/Dapper.xml"
+      ]
+    },
+    "Microsoft.Extensions.Configuration.Abstractions/5.0.0": {
+      "sha512": "ETjSBHMp3OAZ4HxGQYpwyGsD8Sw5FegQXphi0rpoGMT74S4+I2mm7XJEswwn59XAaKOzC15oDSOWEE8SzDCd6Q==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration.abstractions/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Extensions.Configuration.Abstractions.dll",
+        "lib/net461/Microsoft.Extensions.Configuration.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.xml",
+        "microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
+        "microsoft.extensions.configuration.abstractions.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "Microsoft.Extensions.Primitives/5.0.0": {
+      "sha512": "cI/VWn9G1fghXrNDagX9nYaaB/nokkZn0HYAawGaELQrl8InSezfe9OnfPZLcJq3esXxygh3hkq2c3qoV3SDyQ==",
+      "type": "package",
+      "path": "microsoft.extensions.primitives/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Extensions.Primitives.dll",
+        "lib/net461/Microsoft.Extensions.Primitives.xml",
+        "lib/netcoreapp3.0/Microsoft.Extensions.Primitives.dll",
+        "lib/netcoreapp3.0/Microsoft.Extensions.Primitives.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Primitives.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Primitives.xml",
+        "microsoft.extensions.primitives.5.0.0.nupkg.sha512",
+        "microsoft.extensions.primitives.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "Microsoft.NETCore.Platforms/5.0.0": {
@@ -849,6 +926,11 @@
         "version.txt"
       ]
     },
+    "RocketPOS.Core/1.0.0": {
+      "type": "project",
+      "path": "../RocketPOS.Core/RocketPOS.Core.csproj",
+      "msbuildProject": "../RocketPOS.Core/RocketPOS.Core.csproj"
+    },
     "RocketPOS.Model/1.0.0": {
       "type": "project",
       "path": "../RocketPOS.Model/RocketPOS.Model.csproj",
@@ -858,6 +940,7 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Dapper >= 2.0.78",
+      "RocketPOS.Core >= 1.0.0",
       "RocketPOS.Model >= 1.0.0",
       "System.Configuration.ConfigurationManager >= 5.0.0",
       "System.Data.SqlClient >= 4.8.2"
@@ -890,6 +973,9 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
+            "D:\\Bhavin\\MyProject\\RocketPOS\\SourceCode\\Bhavin\\RocketPOS_LOCAL\\RocketPOS.Core\\RocketPOS.Core.csproj": {
+              "projectPath": "D:\\Bhavin\\MyProject\\RocketPOS\\SourceCode\\Bhavin\\RocketPOS_LOCAL\\RocketPOS.Core\\RocketPOS.Core.csproj"
+            },
             "D:\\Bhavin\\MyProject\\RocketPOS\\SourceCode\\Bhavin\\RocketPOS_LOCAL\\RocketPOS.Model\\RocketPOS.Model.csproj": {
               "projectPath": "D:\\Bhavin\\MyProject\\RocketPOS\\SourceCode\\Bhavin\\RocketPOS_LOCAL\\RocketPOS.Model\\RocketPOS.Model.csproj"
             }

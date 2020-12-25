@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "PUU5ayO7H1+MrvY7V7Li812sZ2sW1Rn4vy+JGY/GszhXOZwc1DTSRgoupPv1sV4pnoDC1J+OKexuH1vtLs0pew==",
+  "dgSpecHash": "UEKoh/Km6tXaLqgs1OwYW30HCVEhhKNa79a9naqTKa+dRnmmHYU0OG2NMCzoMsFOclPu3Svksg37FQPwW381rw==",
   "success": true,
   "projectFilePath": "D:\\Bhavin\\MyProject\\RocketPOS\\SourceCode\\Bhavin\\RocketPOS_LOCAL\\RocketPOS.Views\\RocketPOS.Views.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\dapper\\2.0.78\\dapper.2.0.78.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",

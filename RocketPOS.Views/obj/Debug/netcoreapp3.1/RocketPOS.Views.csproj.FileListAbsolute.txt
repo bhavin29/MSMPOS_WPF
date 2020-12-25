@@ -20,3 +20,5 @@ D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Views\
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Views\obj\Debug\netcoreapp3.1\RocketPOS.Views.csproj.CopyComplete
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Views\obj\Debug\netcoreapp3.1\RocketPOS.Views.dll
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Views\obj\Debug\netcoreapp3.1\RocketPOS.Views.pdb
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Views\bin\Debug\netcoreapp3.1\RocketPOS.Core.dll
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Views\bin\Debug\netcoreapp3.1\RocketPOS.Core.pdb

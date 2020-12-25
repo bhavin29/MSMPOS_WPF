@@ -4,10 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketPOS.Helpers", "RocketPOS.Helpers\RocketPOS.Helpers.csproj", "{731F0653-0CC8-4338-9692-A67B3DE03D4E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{9EEE2C53-F55F-4D59-A953-A7A8247AA794} = {9EEE2C53-F55F-4D59-A953-A7A8247AA794}
-		{48D4977B-C5D7-4226-B799-A11E0D9399AD} = {48D4977B-C5D7-4226-B799-A11E0D9399AD}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketPOS.Model", "RocketPOS.Model\RocketPOS.Model.csproj", "{C10C1A0A-412B-454A-90E0-93B4376EC9C3}"
 EndProject
@@ -16,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketPOS.ViewModels", "RocketPOS.ViewModels\RocketPOS.ViewModels.csproj", "{1F8CF63B-131C-4E0C-A833-6EFEE1114A29}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketPOS.Views", "RocketPOS.Views\RocketPOS.Views.csproj", "{48D4977B-C5D7-4226-B799-A11E0D9399AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketPOS.Core", "RocketPOS.Core\RocketPOS.Core.csproj", "{B90C5D8E-D477-45C8-B9BC-6CE381039D49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +41,10 @@ Global
 		{48D4977B-C5D7-4226-B799-A11E0D9399AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48D4977B-C5D7-4226-B799-A11E0D9399AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48D4977B-C5D7-4226-B799-A11E0D9399AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B90C5D8E-D477-45C8-B9BC-6CE381039D49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B90C5D8E-D477-45C8-B9BC-6CE381039D49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B90C5D8E-D477-45C8-B9BC-6CE381039D49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B90C5D8E-D477-45C8-B9BC-6CE381039D49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
