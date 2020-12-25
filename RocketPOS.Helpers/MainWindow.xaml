@@ -6,296 +6,369 @@
 		       xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d"
-        Title="RocketPOS" Height="768" Width="1200" WindowStartupLocation="CenterScreen">
-    <Grid Background="RoyalBlue">
+        Title="RocketPOS" Height="768" Width="1200" WindowStartupLocation="CenterScreen" Background="RoyalBlue">
+
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="700"/>
+            <ColumnDefinition Width="1200"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="387*"/>
-            <RowDefinition Height="397*"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="610"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
+        <!--Top header-->
+        <Grid Grid.Row="0" >
+            <StackPanel x:Name="HeaderPanel" Orientation="Vertical" Margin="5" >
+                <TextBlock x:Name="txtbClientNam22e1"  Style="{StaticResource txtBlock}" Text="WELCOME TO ROCKET POS WELCOME TO ROCKET POSWELCOME TO ROCKET POSWELCOME TO ROCKET POSWELCOME TO ROCKET POSWELCOME TO ROCKET POSWELCOME TO ROCKET POS"  Height="25" />
+            </StackPanel>
+        </Grid>
+        <!--Log out row-->
+        <Grid Grid.Row="1" >
+            <StackPanel x:Name="headerTopRightPanel" Orientation="Horizontal"   >
+                <TextBox x:Name="txtSearchModifyOrder" Style="{StaticResource TextBoxBaseStyle}"   Width="250" />
+                <Button x:Name="btnUnknow" Style="{StaticResource btnOrange}" Content=" UnKnow" />
+                <Button x:Name="btnOpenHoldSales" Style="{StaticResource btnOrange}" Content=" Hold Sales" />
+                <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator"  Click="btnCalculator_Click"/>
+                <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Read IT"  />
+                <Button x:Name="btnLastSale" Style="{StaticResource btnOrange}"  Content="Last 10 Sale"  />
+                <Button x:Name="btnKitchenNotification" Style="{StaticResource btnOrange}" Content="Kitchen Alter"  />
+                <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Register"   Click="btnRegister_Click" />
+                <Button x:Name="btnBack" Style="{StaticResource btnOrange}" Content="Settings"  />
+                <Button x:Name="btnLogOut" Style="{StaticResource btnLightRed}" Content="LogOut" Width="125" Click="btnLogOut_Click"  />
+            </StackPanel>
 
-        <!--Main Row 0 Column 0-->
-        <!--Main Row 1 Column 0-->
-        <StackPanel x:Name="leftPanel" Orientation="Vertical" Grid.Column="0" Grid.RowSpan="4" Margin="-18,8,22,0">
-            <TextBox x:Name="txtSearchModifyOrder" Style="{StaticResource TextBoxBaseStyle}"   Width="250" />
-            <!--<DataGrid x:Name="gdModifyOrder" Margin="10,2,10,2" Width="250" Height="400" />-->
-			
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="10,2,10,2" Width="250" Height="300" Background="White" >
-                <ListBox x:Name="lbCustomerOrderList" HorizontalAlignment="Center">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="0,5,0,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Expander Name="epOrder" Background="LightGray"   
-                                        HorizontalAlignment="Center" Header="{Binding Id}" FlowDirection="RightToLeft"   
-                                        ExpandDirection="Down" IsExpanded="False" Margin="10,2,10,2" Width="200"    
-                                        FontSize="20" FontWeight="Bold" Foreground="Black" Expanded="epOrder_Expanded" LostFocus="epOrder_LostFocus">
-                                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" >
-                                        <TextBlock Text="{Binding CustomerId}"/>
-                                        <TextBlock Text="{Binding CustomerName}"/>
-                                        <TextBlock Text="{Binding WaiterName}"/>
-                                    </StackPanel>
-                                </Expander>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </ScrollViewer>
-
-
-
-            <Button x:Name="btnModifyOrder"  Style="{StaticResource btnOrangeLng}"  Content="Alter Order/Add Item/Change Table" Click="btnModifyOrder_Click" />
-            <Button x:Name="btnOrderDetails" Style="{StaticResource btnOrangeLng}" Content="Order Details" />
-            <Button x:Name="btnPrintKot" Style="{StaticResource btnOrangeLng}" Content="Print KOT"  />
-            <Button x:Name="btnCreateInvoiceAndClose" Style="{StaticResource btnOrangeLng}" Content="Create Invoice And Close" Click="btnCreateInvoiceAndClose_Click" />
-            <Button x:Name="btnCancelOrder" Style="{StaticResource btnOrangeLng}" Content="Cancel Order"  />
-            <Button x:Name="btnKitchenStatus"  Style="{StaticResource btnOrangeLng}" Content="Kitchen Status"  />
-        </StackPanel>
-        <!--Main Row 2 Column 0-->
-
-        <!--Main Row 0 Column 1-->
-        <StackPanel x:Name="headerCenterPanel" Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
-        </StackPanel>
-
-        <!--Main Row 2 Column 2-->
-        <Grid x:Name="SaleItemGrid"  Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="266,-40,520,-150">
+        </Grid>
+        <!--Main Functional area-->
+        <Grid Grid.Row="2" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="405"/>
+                <ColumnDefinition Width="545"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="*">
+                </RowDefinition>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" >
+            <!--Left section-->
+            <Grid Grid.Column="0" Background="RoyalBlue">
+                <StackPanel x:Name="leftPanel" Orientation="Vertical" >
 
-                <!--Row 0 Column 0-->
-                <Button x:Name="btnDineIn" Style="{StaticResource btnOrange}"  Content="Dine In" Grid.Row="0" Grid.Column="0"   />
-                <Button x:Name="btnTakeAway" Style="{StaticResource btnOrange}" Content="Take Away"  Grid.Row="0" Grid.Column="1"   />
-                <Button x:Name="btnDelivery" Style="{StaticResource btnOrange}" Content="Delivery"  Grid.Row="0" Grid.Column="2"  />
-                <Button x:Name="btnTableList" Style="{StaticResource btnOrange}" Content="Table"  Grid.Row="0" Grid.Column="3" />
-            </StackPanel>
-
-            <!--Row 1 Column 0-->
-            <StackPanel Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="4" Orientation="Horizontal" >
-                <ComboBox x:Name="cmbWaiter"   Width="100" Height="40"  Grid.Column="0"/>
-                <ComboBox x:Name="cmbCustomer"   Width="50" Height="40"  Grid.Column="1"/>
-                <Button x:Name="btnEditCustomer" Content="Edit"  Width="25" Height="40"  Grid.Column="2"/>
-                <Button x:Name="btnAddCustomer" Content="Add"  Width="25" Height="40"  Grid.Column="3"/>
-            </StackPanel>
-
-            <!--Row 2 Column 0-->
-            <StackPanel x:Name="saleOrderPanel" Orientation="Vertical" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
-                <DataGrid x:Name="dgSaleItem" Width="400" Height="360" ItemsSource="{Binding Path=SaleItemModel}">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Edit">
-                            <DataGridTemplateColumn.CellTemplate>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Width="250" Height="357" Background="White" >
+                        <ListBox x:Name="lbCustomerOrderList" HorizontalAlignment="Center">
+                            <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Content="Edit" x:Name="btnEditSaleItem" Click="btnEditSaleItem_Click"/>
+                                    <Grid Margin="0,5,0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Expander Name="epOrder" Background="LightGray"   
+                                        HorizontalAlignment="Center" Header="{Binding Id}" FlowDirection="RightToLeft"   
+                                        ExpandDirection="Down" IsExpanded="False" Margin="10,2,10,2" Width="250"    
+                                        FontSize="20" FontWeight="Bold" Foreground="Black" Expanded="epOrder_Expanded" LostFocus="epOrder_LostFocus">
+                                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" >
+                                                <TextBlock Text="{Binding CustomerId}"/>
+                                                <TextBlock Text="{Binding CustomerName}"/>
+                                                <TextBlock Text="{Binding WaiterName}"/>
+                                            </StackPanel>
+                                        </Expander>
+                                    </Grid>
                                 </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </ScrollViewer>
+                    <Button x:Name="btnModifyOrder"  Style="{StaticResource btnOrangeLng}"  Content="Alter Order/Add Item/Change Table"  />
+                    <Button x:Name="btnOrderDetails" Style="{StaticResource btnOrangeLng}" Content="Order Details" />
+                    <Button x:Name="btnPrintKot" Style="{StaticResource btnOrangeLng}" Content="Print KOT"  />
+                    <Button x:Name="btnCreateInvoiceAndClose" Style="{StaticResource btnOrangeLng}" Content="Create Invoice And Close" Click="btnCreateInvoiceAndClose_Click" />
+                    <Button x:Name="btnCancelOrder" Style="{StaticResource btnOrangeLng}" Content="Cancel Order"  />
+                    <Button x:Name="btnKitchenStatus"  Style="{StaticResource btnOrangeLng}" Content="Kitchen Status"  />
+                </StackPanel>
+            </Grid>
 
-                        <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding Path=CustomerOrderItemId}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Product" IsReadOnly="True" Binding="{Binding Path=Product}" Width="80"></DataGridTextColumn>
-                        <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding Path=FoodMenuId}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Path=Price}" Width="50"></DataGridTextColumn>
-
-                        <DataGridTemplateColumn>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="-" x:Name="btnMinusQty" Click="btnMinusQty_Click"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-
-                        <DataGridTextColumn Header="Qty" IsReadOnly="True" Binding="{Binding Path=Qty}" Width="50"></DataGridTextColumn>
-
-                        <DataGridTemplateColumn>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="+" x:Name="btnPlusQty" Click="btnPlusQty_Click"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-
-                        <DataGridTextColumn Header="Discount" IsReadOnly="True"  Binding="{Binding Path=Discount}" Width="80"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Total" IsReadOnly="True"  Binding="{Binding Path=Total}" Width="80"></DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
-
-            <Popup Name="EditSaleItemPopUp"
-               Placement="Center"
-               AllowsTransparency="False">
-                <Grid Width="250" Height="250" Background="LightBlue">
+            <!--center section-->
+            <Grid Grid.Column="1" >
+                <Grid >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="70"/>
-                        <ColumnDefinition Width="70"/>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="405"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="340"/>
+                        <RowDefinition Height="125"/>
+                        <RowDefinition Height="50"/>
+
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="txtbPopUpItemName" Text="Dummy"  Margin="5,5,5,5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
 
-                    <TextBlock x:Name="txtbPopUpQty" Margin="5,5,5,5" Text="Quantity" Grid.Row="1" Grid.Column="0"/>
-                    <StackPanel Orientation="Horizontal"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
-                        <Button x:Name="btnPopUpMinusQty"  Margin="0,5,0,5" Content="-" Width="15" Click="btnPopUpMinusQty_Click"/>
-                        <TextBlock x:Name="txtbPopUpOriginalQtyCount" Visibility="Hidden" />
-                        <TextBlock x:Name="txtbPopUpQtyCount"  Margin="0,5,0,5" />
-                        <Button x:Name="btnPopUpPlusQty" Content="+"  Margin="5,5,5,5" Width="15" Click="btnPopUpPlusQty_Click" />
-                    </StackPanel>
-                    <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="1" Grid.Column="2"/>
-                    <TextBlock x:Name="txtbPopUpItemOriginalTotal" Grid.Row="1" Grid.Column="2" Visibility="Hidden"/>
-                    <TextBlock x:Name="txtbPopUpItemTotal"  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="5,5,5,5"/>
-                    <TextBlock x:Name="txtbPopUpDiscount" Text="Discount" Margin="5,5,5,5" Grid.Row="2" Grid.Column="0"/>
-                    <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"/>
-                    <TextBox x:Name="txtPopUpDiscount" Margin="5,5,5,5" Grid.Row="2" Width="350" Grid.Column="2" />
-                    <TextBlock x:Name="txtbPopUpItemSubTotal" Text="Total" Margin="5,5,5,5" Grid.Row="3" Grid.Column="1"/>
-                    <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2"/>
-                    <TextBlock x:Name="txtbPopUpItemOriginalSubTotalAmount" Text="0" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2" Visibility="Hidden"/>
-                    <TextBlock x:Name="txtbPopUpItemSubTotalAmount" Text="0" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center"/>
-                    <Button x:Name="btnPopUpCancel" Content="Cancel" Margin="5,5,5,5" Grid.Row="7" Grid.Column="0" Click="btnPopUpCancel_Click"/>
-                    <Button x:Name="btnPopUpAddToCart" Content="Add To Cart" Margin="5,5,5,5" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Click="btnPopUpAddToCart_Click"/>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="405"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel  Orientation="Horizontal" >
+                            <!--Row 0 Column 0-->
+                            <Button x:Name="btnDineIn" Style="{StaticResource btnOrange}"  Content="Dine In" />
+                            <Button x:Name="btnTakeAway" Style="{StaticResource btnOrange}" Content="Take Away"     />
+                            <Button x:Name="btnDelivery" Style="{StaticResource btnOrange}" Content="Delivery"   />
+                            <Button x:Name="btnTableList" Style="{StaticResource btnOrange}" Content="Table"  />
+                        </StackPanel>
+
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="400"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel  Orientation="Horizontal" >
+                            <ComboBox x:Name="cmbWaiter" Style="{StaticResource cmbBox}"   Width="100" Height="50"  />
+                            <ComboBox x:Name="cmbCustomer" Style="{StaticResource cmbBox}"    Width="100" Height="50" />
+                            <Button x:Name="btnEditCustomer" Style="{StaticResource btnOrange}" Content="Edit"    />
+                            <Button x:Name="btnAddCustomer" Style="{StaticResource btnOrange}"  Content="Add"   />
+                        </StackPanel>
+
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" >
+
+                            <DataGrid x:Name="dgSaleItem" ItemsSource="{Binding SaleItemModel}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="Edit">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Edit" x:Name="btnEditSaleItem" Click="btnEditSaleItem_Click"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding CustomerOrderItemId}"/>
+                                    <DataGridTextColumn Header="Product" IsReadOnly="True" Binding="{Binding Product}" Width="115"/>
+                                    <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding FoodMenuId}"/>
+                                    <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Price}" Width="40"/>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="-" x:Name="btnMinusQty" Click="btnMinusQty_Click"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Qty" IsReadOnly="True" Binding="{Binding Qty}" Width="30"/>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="+" x:Name="btnPlusQty" Click="btnPlusQty_Click"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Discount" IsReadOnly="True"  Binding="{Binding Discount}" Width="50"/>
+                                    <DataGridTextColumn Header="Total" IsReadOnly="True"  Binding="{Binding Total}" Width="80"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </StackPanel>
+
+                        <Popup Name="EditSaleItemPopUp"
+               Placement="Center"
+               AllowsTransparency="False">
+                            <Grid Width="250" Height="250" Background="LightBlue">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70"/>
+                                    <ColumnDefinition Width="70"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock x:Name="txtbPopUpItemName" Text="Dummy"  Margin="5,5,5,5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+
+                                <TextBlock x:Name="txtbPopUpQty" Margin="5,5,5,5" Text="Quantity" Grid.Row="1" Grid.Column="0"/>
+                                <StackPanel Orientation="Horizontal"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                                    <Button x:Name="btnPopUpMinusQty"  Margin="0,5,0,5" Content="-" Width="15" Click="btnPopUpMinusQty_Click"/>
+                                    <TextBlock x:Name="txtbPopUpOriginalQtyCount" Visibility="Hidden" />
+                                    <TextBlock x:Name="txtbPopUpQtyCount"  Margin="0,5,0,5" />
+                                    <Button x:Name="btnPopUpPlusQty" Content="+"  Margin="5,5,5,5" Width="15" Click="btnPopUpPlusQty_Click" />
+                                </StackPanel>
+                                <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="1" Grid.Column="2"/>
+                                <TextBlock x:Name="txtbPopUpItemOriginalTotal" Grid.Row="1" Grid.Column="2" Visibility="Hidden"/>
+                                <TextBlock x:Name="txtbPopUpItemTotal"  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="5,5,5,5"/>
+                                <TextBlock x:Name="txtbPopUpDiscount" Text="Discount" Margin="5,5,5,5" Grid.Row="2" Grid.Column="0"/>
+                                <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"/>
+                                <TextBox x:Name="txtPopUpDiscount" Margin="5,5,5,5" Grid.Row="2" Width="350" Grid.Column="2" />
+                                <TextBlock x:Name="txtbPopUpItemSubTotal" Text="Total" Margin="5,5,5,5" Grid.Row="3" Grid.Column="1"/>
+                                <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2"/>
+                                <TextBlock x:Name="txtbPopUpItemOriginalSubTotalAmount" Text="0" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2" Visibility="Hidden"/>
+                                <TextBlock x:Name="txtbPopUpItemSubTotalAmount" Text="0" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center"/>
+                                <Button x:Name="btnPopUpCancel" Content="Cancel" Margin="5,5,5,5" Grid.Row="7" Grid.Column="0" Click="btnPopUpCancel_Click"/>
+                                <Button x:Name="btnPopUpAddToCart" Content="Add To Cart" Margin="5,5,5,5" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Click="btnPopUpAddToCart_Click"/>
+                            </Grid>
+                        </Popup>
+
+                    </Grid>
+
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="255"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0">
+                            <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="txtbTotalItem" Style="{StaticResource txtBlock}"  Text=" Total Item :  "  />
+                            <TextBlock x:Name="txtbTotalItemCount" Style="{StaticResource txtBlock}" Text="0"   />
+                            <TextBlock x:Name="txtbOrderId" Text="0"  Visibility="Hidden"/>
+                            </StackPanel>
+                        </Grid>
+                            <Grid Grid.Row="0"  Grid.Column="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
+                                <TextBlock x:Name="txtbSubTotal" Style="{StaticResource txtBlock}" Text="Gross Total: "   />
+                                <TextBlock x:Name="txtbSubTotalAmount" Style="{StaticResource txtBlock}" Text="0.00"  />
+                            </StackPanel>
+                        </Grid>
+                        
+                        <Grid Grid.Row="1"  Grid.Column="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
+                                <TextBlock x:Name="txtbDiscount" Style="{StaticResource txtBlock}" Text="Discount %: "  />
+                                <TextBox x:Name="txtDiscount"  Width="50" Height="20"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="2"  Grid.Column="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
+                                <TextBlock x:Name="txtbTotalDiscount" Style="{StaticResource txtBlock}" Text="Total Discount: "  />
+                                <TextBlock x:Name="txtbTotalDiscountAmount" Style="{StaticResource txtBlock}" Text="0.00"  />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="3"  Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 30 0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="txtbServiceDeliveryCharge" Style="{StaticResource txtBlock}" Text="Service/Delivery Charge: " />
+                                <TextBox x:Name="txtServiceDeliveryCharge"  Width="50" Height="20"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="4"  Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 30 0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="txtbTotalPayable" Style="{StaticResource txtBlock}"  Text="Total Payable: "  />
+                                <TextBlock x:Name="txtbTotalPayableAmount" Style="{StaticResource txtBlock}"  Text="0.00"  />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Grid.Row="4">
+                        <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" >
+                            <Button x:Name="btnCancel" Style="{StaticResource btnGray}" Content="Cancel"  Click="btnCancel_Click"/>
+                            <Button x:Name="btnHold" Style="{StaticResource btnGray}" Content="Hold" />
+                            <Button x:Name="btnDirectInvoice" Style="{StaticResource btnGray}" Content="Direct Invoice" />
+                            <Button x:Name="btnPlaceOrder" Style="{StaticResource btnGray}" Content="Place Order" Click="btnPlaceOrder_Click"/>
+                        </StackPanel>
+
+                    </Grid>
                 </Grid>
-            </Popup>
+            </Grid>
+            <!--right section-->
+            <Grid Grid.Column="2" >
+                <Border BorderThickness="2"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="530"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="465"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
 
-            <!--Row 3 Column 0-->
-            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Left">
-                <TextBlock  Grid.Row="3" Grid.Column="0" x:Name="txtbTotalItem" Text="Total Item :"  Margin="5,5,5,5"/>
-                <TextBlock x:Name="txtbTotalItemCount" Text="0"  Margin="5,5,5,5" />
-                <TextBlock x:Name="txtbOrderId" Text="0"  Visibility="Hidden"/>
-            </StackPanel>
 
-            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right">
-                <TextBlock x:Name="txtbSubTotal" Text="Sub Total"  Margin="5,5,5,5" />
-                <TextBlock Text="$" Margin="5,5,5,5"/>
-                <TextBlock x:Name="txtbSubTotalAmount" Text="0"  Margin="5,5,5,5"/>
-            </StackPanel>
+                    <Grid Grid.Row="0">
+                        <TextBox x:Name="txtSearch" Style="{StaticResource TextBoxBaseStyle}"  TextChanged="txtSearch_TextChanged" />
 
-            <!--Row 4 Column 0-->
-            <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right">
-                <TextBlock x:Name="txtbDiscount" Text="Total Discount"  Margin="5,5,5,5"/>
-                <TextBlock Text="$" Margin="5,5,5,5"/>
-                <TextBox x:Name="txtDiscount" Margin="5,5,5,5" Width="50" Height="20"/>
-            </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="spCategory" Orientation="Horizontal" >
+                                <Button x:Name="btnAll" Click="GetSubCategory" Style="{StaticResource btnGreen}" Content="All"  ></Button>
+                            </StackPanel>
+                        </ScrollViewer>
 
-            <!--Row 5 Column 0-->
-            <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right">
-                <TextBlock x:Name="txtbTotalDiscount" Text="Total Discount"  Margin="5,5,5,5"/>
-                <TextBlock Text="$" Margin="5,5,5,5"/>
-                <TextBlock x:Name="txtbTotalDiscountAmount" Text="0"  Margin="5,5,5,5"/>
-            </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <ScrollViewer >
+                            <WrapPanel x:Name="spSubCategory" Orientation="Horizontal">
 
-            <!--Row 6 Column 0-->
-            <StackPanel Grid.Row="6" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right">
-                <TextBlock x:Name="txtbServiceDeliveryCharge" Text="Service/Delivery Charge"  Margin="5,5,5,5"/>
-                <TextBlock Text="$" Margin="5,5,5,5"/>
-                <TextBox x:Name="txtServiceDeliveryCharge" Margin="5,5,5,5" Width="50" Height="20"/>
-            </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
 
-            <!--Row 7 Column 0-->
-            <StackPanel Grid.Row="7" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right">
-                <TextBlock x:Name="txtbTotalPayable" Text="Total Payable"  Margin="5,5,5,5"/>
-                <TextBlock Text="$" Margin="5,5,5,5"/>
-                <TextBlock x:Name="txtbTotalPayableAmount" Text="0"  Margin="5,5,5,5"/>
-            </StackPanel>
+                    </Grid>
 
-            <!--Row 8 Column 0-->
-            <StackPanel Grid.Row="8" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4" >
-                <Button x:Name="btnCancel" Style="{StaticResource btnOrange}" Content="Cancel"  Click="btnCancel_Click"/>
-                <Button x:Name="btnHold" Style="{StaticResource btnOrange}" Content="Hold" />
-                <Button x:Name="btnDirectInvoice" Style="{StaticResource btnOrange}" Content="Direct Invoice" />
-                <Button x:Name="btnPlaceOrder" Style="{StaticResource btnOrange}" Content="Place Order" Click="btnPlaceOrder_Click"/>
-            </StackPanel>
+                    <Grid Grid.Row="3">
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btnAppetizer" Style="{StaticResource btnGreen}"  Content="APPETIZER" />
+                            <Button x:Name="btnWater" Style="{StaticResource btnGreen}"  Content="WATER" />
+                            <Button x:Name="btnDesert" Style="{StaticResource btnGreen}"  Content="DESERT" />
+                            <Button x:Name="btnMainCourse" Style="{StaticResource btnGreen}"  Content="MAIN COURSE" />
+                            <Button x:Name="btnFAQ" Style="{StaticResource btnGreen}"  Content=" ? " />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
         </Grid>
+        <!--Footer-->
+        <Grid Grid.Row="4" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="400"/>
+                    <ColumnDefinition Width="400"/>
+                    <ColumnDefinition Width="400"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Column="0">
+                    <StackPanel x:Name="footerPanel" Orientation="Horizontal"   >
+                        <TextBlock x:Name="txtbClientName1"  Style="{StaticResource txtBlock}" Text="SHAYONA FOODS LTD"  />
+                        <TextBlock x:Name="txtbOutletName"  Style="{StaticResource txtBlock}" Text="PREMVATI 001"   />
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <TextBlock x:Name="txtbUserName"  Style="{StaticResource txtBlock}" Text="Jag001"  />
+                </Grid>
+                <Grid Grid.Column="2">
 
-        <!--Main Row 0 Column 3-->
-        <StackPanel x:Name="headerTopRightPanel" Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="-35,-16,0,16" Grid.ColumnSpan="2">
-            <Button x:Name="btnUnknow" Style="{StaticResource btnOrange}" Content=" UnKnow" />
-            <Button x:Name="btnOpenHoldSales" Style="{StaticResource btnOrange}" Content=" Hold Sales" />
-            <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator"  Click="btnCalculator_Click"/>
-            <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Read IT"  />
-            <Button x:Name="btnLastSale" Style="{StaticResource btnOrange}"  Content="Last 10 Sale"  />
-            <Button x:Name="btnKitchenNotification" Style="{StaticResource btnOrange}" Content="Kitchen Alter"  />
-            <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Register"   Click="btnRegister_Click" />
-            <Button x:Name="btnBack" Style="{StaticResource btnOrange}" Content="Settings"  />
-            <Button x:Name="btnLogOut" Style="{StaticResource btnLightRed}" Content="LogOut" Click="btnLogOut_Click"  />
-        </StackPanel>
-
-        <!--Main Row 1 Column 3-->
-        <Grid x:Name="FoodMenuItem" Grid.Column="2" Grid.RowSpan="3" Margin="120,64,22,16">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="103*"/>
-                <ColumnDefinition Width="357*"/>
-                <ColumnDefinition Width="40"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="10"/>
-            </Grid.RowDefinitions>
-
-            <!--Menu Image Row 1-->
-            <TextBox x:Name="txtSearch" Grid.Row="1" Grid.Column="2" Style="{StaticResource TextBoxBaseStyle}" Width="500"  TextChanged="txtSearch_TextChanged" Grid.ColumnSpan="3"/>
-
-            <!--Menu Image Row 2-->
-            <ScrollViewer Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" HorizontalScrollBarVisibility="Auto">
-                <StackPanel x:Name="spCategory" Orientation="Horizontal" >
-                    <Button x:Name="btnAll" Click="GetSubCategory" Content="All" Width="50" Height="50" ></Button>
-                </StackPanel>
-            </ScrollViewer>
-
-            <!--Menu Image Row 3-->
-            <ScrollViewer Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4" Margin="2,0,-2,0" >
-                <WrapPanel x:Name="spSubCategory" Orientation="Horizontal">
-
-                </WrapPanel>
-            </ScrollViewer>
+                    <StackPanel x:Name="footer1Panel" Orientation="Horizontal"   >
+                        <TextBlock x:Name="txtDatetime"  Style="{StaticResource txtBlock}" Text="25-15-2020 12:30 PM"  />
+                        <TextBlock x:Name="txtRocket"  Style="{StaticResource txtBlock}" Text="www.ROCKETPOS.com"   />
+                    </StackPanel>
+                </Grid>
+            </Grid>
         </Grid>
-
-        <!--Main Row 2 Column 3-->
-        <StackPanel x:Name="footerPanel" Orientation="Horizontal" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Margin="300,397,0,0" Grid.RowSpan="2">
-            <TextBlock x:Name="txtbUserName" Text="UserName" Margin="10,10,10,10" Width="80" Height="40" />
-            <TextBlock x:Name="txtbDateTime" Text="DateTime" Margin="10,10,10,10" Width="80" Height="40" />
-            <TextBlock x:Name="txtbOutletName" Text="Outlet Name" Margin="10,10,10,10" Width="80" Height="40" />
-            <TextBlock x:Name="txtbClientName" Text="Client Name" Margin="10,10,10,10" Width="80" Height="40" />
-        </StackPanel>
     </Grid>
 </Window>
-
-    

@@ -440,12 +440,12 @@ namespace RocketPOS.Helpers
         {
             var expander = sender as Expander;
             expander.IsExpanded = false;
-            expander.Background = Brushes.LightGray;
+           // expander.Background = Brushes.LightGray;
         }
         private void epOrder_Expanded(object sender, RoutedEventArgs e)
         {
             var expander = sender as Expander;
-            expander.Background = Brushes.DarkGray;
+           // expander.Background = Brushes.DarkGray;
         }
         private void btnModifyOrder_Click(object sender, RoutedEventArgs e)
         {
