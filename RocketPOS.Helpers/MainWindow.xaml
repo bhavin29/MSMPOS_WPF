@@ -55,7 +55,7 @@
 
 
 
-            <Button x:Name="btnModifyOrder"  Style="{StaticResource btnOrangeLng}"  Content="Alter Order/Add Item/Change Table"  />
+            <Button x:Name="btnModifyOrder"  Style="{StaticResource btnOrangeLng}"  Content="Alter Order/Add Item/Change Table" Click="btnModifyOrder_Click" />
             <Button x:Name="btnOrderDetails" Style="{StaticResource btnOrangeLng}" Content="Order Details" />
             <Button x:Name="btnPrintKot" Style="{StaticResource btnOrangeLng}" Content="Print KOT"  />
             <Button x:Name="btnCreateInvoiceAndClose" Style="{StaticResource btnOrangeLng}" Content="Create Invoice And Close" Click="btnCreateInvoiceAndClose_Click" />
