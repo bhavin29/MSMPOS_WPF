@@ -55,3 +55,4 @@ D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helper
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\bin\Debug\net5.0-windows\Microsoft.Extensions.Primitives.dll
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\bin\Debug\net5.0-windows\RocketPOS.Core.dll
 D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\bin\Debug\net5.0-windows\RocketPOS.Core.pdb
+D:\Bhavin\MyProject\RocketPOS\SourceCode\Bhavin\RocketPOS_LOCAL\RocketPOS.Helpers\obj\Debug\net5.0-windows\ResourceDictionary.baml

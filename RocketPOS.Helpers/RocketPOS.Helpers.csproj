@@ -14,7 +14,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Main.xaml.cs" />
+    <Compile Remove="MainWindow - Copy.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="images\Logout.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Main.xaml" />
+    <Page Remove="MainWindow - Copy.xaml" />
   </ItemGroup>
 
   <ItemGroup>
