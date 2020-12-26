@@ -82,8 +82,19 @@ namespace RocketPOS.ViewModels
 
                 customerOrderModel = (from order in orderDetailModel select order).FirstOrDefault();
                 customerOrderModel.CustomerOrderItemModels = (from order in orderDetailModel select order).ToList<CustomerOrderItemModel>();
-                
+
                 return customerOrderModel;
+            }
+        }
+
+        public List<PaymentMethodModel> GetPaymentMethod()
+        {
+            List<PaymentMethodModel> paymentMethodModels = new List<PaymentMethodModel>();
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "SELECT Id,PaymentMethodName FROM PaymentMethod Where IsActive=1";
+                paymentMethodModels = connection.Query<PaymentMethodModel>(query).ToList();
+                return paymentMethodModels;
             }
         }
     }

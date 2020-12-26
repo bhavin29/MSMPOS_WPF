@@ -16,6 +16,7 @@ namespace RocketPOS.Views
         private PrintDocument PrintDocument;
         private Graphics graphics;
         private int InitialHeight = 360;
+        private int billId = 0;
         public ReceiptPrintView()
         {
             //  this.order = order;
@@ -30,8 +31,9 @@ namespace RocketPOS.Views
             capacity = 5 * 1;// order.DealTransactions.Capacity;
             InitialHeight += capacity;
         }
-        public void Print(string printername)
+        public void Print(string printername,int id)
         {
+            billId = id;
             PrintDocument = new PrintDocument();
             PrintDocument.PrinterSettings.PrinterName = printername;
 
@@ -119,15 +121,16 @@ namespace RocketPOS.Views
             clientModel.Footer4 = "WE12331WEREREW23213WE";
 
             //Getting Receipt data 
+
             List<PrintReceiptModel> printReceiptModel = new List<PrintReceiptModel>();
             List<PrintReceiptItemModel> printReceiptItemModel = new List<PrintReceiptItemModel>();
 
             //Parameter pass global Customer Order Id
             PrintReceiptViewModel printReceiptViewModel = new PrintReceiptViewModel();
-            printReceiptModel = printReceiptViewModel.GetPrintReceiptByBillId(1);
-            printReceiptItemModel = printReceiptViewModel.GetPrintReceiptItemByBillId(3);
+            printReceiptModel = printReceiptViewModel.GetPrintReceiptByBillId(billId);
+            printReceiptItemModel = printReceiptViewModel.GetPrintReceiptItemByBillId(billId);
 
-            Image image = Image.FromFile("d:\\2.jpg");
+            //Image image = Image.FromFile("d:\\2.jpg");
 
             //e.Graphics.DrawImage(image, startX + 50, startY + Offset, 100, 30);
             // e.Graphics.DrawImage(image, 50, 10 + Offset, 100, 30);
