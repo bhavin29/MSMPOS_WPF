@@ -6,7 +6,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d"
-        Background="red"
         Title="Login"
          ShowInTaskbar="True" Topmost="False" WindowStyle="SingleBorderWindow"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" 
