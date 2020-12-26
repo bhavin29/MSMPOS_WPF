@@ -243,18 +243,18 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" Grid.Column="0">
                             <StackPanel Orientation="Horizontal">
-                            <TextBlock x:Name="txtbTotalItem" Style="{StaticResource txtBlock}"  Text=" Total Item :  "  />
-                            <TextBlock x:Name="txtbTotalItemCount" Style="{StaticResource txtBlock}" Text="0"   />
-                            <TextBlock x:Name="txtbOrderId" Text="0"  Visibility="Hidden"/>
+                                <TextBlock x:Name="txtbTotalItem" Style="{StaticResource txtBlock}"  Text=" Total Item :  "  />
+                                <TextBlock x:Name="txtbTotalItemCount" Style="{StaticResource txtBlock}" Text="0"   />
+                                <TextBlock x:Name="txtbOrderId" Text="0"  Visibility="Hidden"/>
                             </StackPanel>
                         </Grid>
-                            <Grid Grid.Row="0"  Grid.Column="1">
+                        <Grid Grid.Row="0"  Grid.Column="1">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtbSubTotal" Style="{StaticResource txtBlock}" Text="Gross Total: "   />
                                 <TextBlock x:Name="txtbSubTotalAmount" Style="{StaticResource txtBlock}" Text="0.00"  />
                             </StackPanel>
                         </Grid>
-                        
+
                         <Grid Grid.Row="1"  Grid.Column="1">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtbDiscount" Style="{StaticResource txtBlock}" Text="Discount %: "  />
@@ -286,10 +286,80 @@
                         <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" >
                             <Button x:Name="btnCancel" Style="{StaticResource btnGray}" Content="Cancel"  Click="btnCancel_Click"/>
                             <Button x:Name="btnHold" Style="{StaticResource btnGray}" Content="Hold" />
-                            <Button x:Name="btnDirectInvoice" Style="{StaticResource btnGray}" Content="Direct Invoice" />
+                            <Button x:Name="btnDirectInvoice" Style="{StaticResource btnGray}" Content="Direct Invoice" Click="btnDirectInvoice_Click"/>
                             <Button x:Name="btnPlaceOrder" Style="{StaticResource btnGray}" Content="Place Order" Click="btnPlaceOrder_Click"/>
                         </StackPanel>
+                        <Popup Name="ppDirectInvoice" Placement="Center" AllowsTransparency="False">
+                            <Grid Width="300" Height="350" Background="LightBlue">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
 
+                                <!--Invoice PopUp Row 0-->
+                                <TextBlock Text="Finalize Order" Margin="5,5,5,5" Height="20" Width="100" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+                                <!--Invoice PopUp Row 1-->
+                                <Separator  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+                                <!--Invoice PopUp Row 2-->
+                                <Label x:Name="lblPPTotalPayable" Content="Total Payable" Height="30" Width="100" Grid.Row="2" Grid.Column="0"/>
+                                <Label x:Name="lblPPTotalPayableAmount" Content="0" Height="30" Width="100" Grid.Row="2" Grid.Column="1"/>
+
+                                <!--Invoice PopUp Row 3-->
+                                <Separator  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+                                <!--Invoice PopUp Row 4-->
+                                <Label x:Name="lblPPTotalPayment" Content="Total Payment" Height="30" Width="100" Grid.Row="4" Grid.Column="0"/>
+                                <ComboBox x:Name="cmbPPPaymentMethod" Height="30" Width="130" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding}" SelectedValuePath="Id" DisplayMemberPath="PaymentMethodName">
+                                </ComboBox>
+
+                                <!--Invoice PopUp Row 5-->
+                                <Separator  Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+                                <!--Invoice PopUp Row 6-->
+                                <Label x:Name="lblPPPayAmount" Content="Pay Amount" Height="30" Width="100" Grid.Row="6" Grid.Column="0"/>
+                                <Label x:Name="lblPPDueAmount" Content="Due Payment" Height="30" Width="100" Grid.Row="6" Grid.Column="1"/>
+
+                                <!--Invoice PopUp Row 7-->
+                                <TextBox x:Name="txtPPPayAmount" Text="0"  Height="30" Width="100" Grid.Row="7" Grid.Column="0"/>
+                                <TextBox x:Name="txtPPDueAmount" Text="0"  Height="30" Width="100" Grid.Row="7" Grid.Column="1"/>
+
+                                <!--Invoice PopUp Row 8-->
+                                <Separator  Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+                                <!--Invoice PopUp Row 9-->
+                                <Label x:Name="lblPPGivenAmount" Content="Given Amount" Height="30" Width="100" Grid.Row="9" Grid.Column="0" />
+                                <Label x:Name="lblPPChangeAmount" Content="Change Payment" Height="30" Width="100" Grid.Row="9" Grid.Column="1"/>
+
+                                <!--Invoice PopUp Row 10-->
+                                <Label x:Name="lblPPChangeAmountTotal" Content="0" Height="30" Width="100" Grid.Row="10" Grid.Column="1"/>
+                                <TextBox x:Name="txtPPGivenAmount" Text="0"  Height="30" Width="100" Grid.Row="10" Grid.Column="0" TextChanged="txtPPGivenAmount_TextChanged"/>
+                                
+
+                                <!--Invoice PopUp Row 11-->
+                                <Separator  Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+                                <!--Invoice PopUp Row 12-->
+                                <Button x:Name="btnDirectInvoicePopupCancel" Content="Cancel" Margin="5,5,5,5" Grid.Row="12" Grid.Column="0" Click="btnDirectInvoicePopupCancel_Click" />
+                                <Button x:Name="btnDirectInvoiceSubmit" Content="Submit" Margin="5,5,5,5" Grid.Row="12" Grid.Column="1"  Click="btnDirectInvoiceSubmit_Click" />
+                            </Grid>
+                        </Popup>
                     </Grid>
                 </Grid>
             </Grid>

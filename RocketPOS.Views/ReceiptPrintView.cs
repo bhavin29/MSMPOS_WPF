@@ -6,6 +6,8 @@ using System.Drawing.Printing;
 using System.Drawing;
 using RocketPOS.Model;
 using RocketPOS.ViewModels;
+using RocketPOS.Core.Constants;
+
 namespace RocketPOS.Views
 {
     //https://stackoverflow.com/questions/28096578/writing-nice-receipt-in-c-sharp-wpf-for-printing-on-thermal-printer-pos
@@ -16,6 +18,9 @@ namespace RocketPOS.Views
         private PrintDocument PrintDocument;
         private Graphics graphics;
         private int InitialHeight = 360;
+        private int billId = 0;
+        int pageWidthHeader = 50;
+
         public ReceiptPrintView()
         {
             //  this.order = order;
@@ -30,8 +35,9 @@ namespace RocketPOS.Views
             capacity = 5 * 1;// order.DealTransactions.Capacity;
             InitialHeight += capacity;
         }
-        public void Print(string printername)
+        public void Print(string printername,int id)
         {
+            billId = id;
             PrintDocument = new PrintDocument();
             PrintDocument.PrinterSettings.PrinterName = printername;
 
@@ -41,6 +47,17 @@ namespace RocketPOS.Views
         void DrawAtStart(string text, int Offset)
         {
             int startX = 10;
+            int startY = 5;
+            Font minifont = new Font("Arial", 5);
+
+            graphics.DrawString(text, minifont,
+                     new SolidBrush(Color.Black), startX + 5, startY + Offset);
+        }
+        //NEW
+        void DrawAtStartCenter(string text, int Offset)
+        {
+          //  int intPadding = 
+            int startX = 25 + ((pageWidthHeader - text.Length) / 2)*3; 
             int startY = 5;
             Font minifont = new Font("Arial", 5);
 
@@ -95,66 +112,48 @@ namespace RocketPOS.Views
             Font largefont = new Font("Arial", 12);
             int Offset = 10;
             int smallinc = 10, mediuminc = 12, largeinc = 15;
-
-
-            //This all vluae take from the static after login
-
-            ClientModel clientModel = new ClientModel();
-
-            clientModel.ClientName = "SHAYONA LTD";
-            clientModel.Address1 = "P.O.BOX 1234-345";
-            clientModel.Address2 = "SHAHIBAUG, AHMEDABAD";
-            clientModel.Email = "ADMDABAD123@GMAIL.COM";
-            clientModel.Phone = "91-1234456789  || PIN:POB55689562";
-            clientModel.Logo = "";
-            clientModel.OpenTime = "";
-            clientModel.CloseTime = "";
-            clientModel.CurrencyId = 1;
-            clientModel.TimeZone = "";
-            clientModel.Header = "SATVIK VEGITABLE FOOD";
-            clientModel.Footer = "JAI SWAMINARAYAN";
-            clientModel.Footer1 = "For Catering/Party Arrangment";
-            clientModel.Footer2 = "CAll on +658923 569 8956";
-            clientModel.Footer3 = "WE12331WEREREW23213WE";
-            clientModel.Footer4 = "WE12331WEREREW23213WE";
-
+   
             //Getting Receipt data 
             List<PrintReceiptModel> printReceiptModel = new List<PrintReceiptModel>();
             List<PrintReceiptItemModel> printReceiptItemModel = new List<PrintReceiptItemModel>();
 
             //Parameter pass global Customer Order Id
             PrintReceiptViewModel printReceiptViewModel = new PrintReceiptViewModel();
-            printReceiptModel = printReceiptViewModel.GetPrintReceiptByBillId(1);
-            printReceiptItemModel = printReceiptViewModel.GetPrintReceiptItemByBillId(3);
+            printReceiptModel = printReceiptViewModel.GetPrintReceiptByBillId(billId);
+            printReceiptItemModel = printReceiptViewModel.GetPrintReceiptItemByBillId(billId);
 
             Image image = Image.FromFile("d:\\2.jpg");
 
             //e.Graphics.DrawImage(image, startX + 50, startY + Offset, 100, 30);
             // e.Graphics.DrawImage(image, 50, 10 + Offset, 100, 30);
 
+            Offset = Offset + Offset;
+
             //Name
-            graphics.DrawString(clientModel.ClientName, smallfont, new SolidBrush(Color.Black), 50 + 22, 10 + Offset);
-            Offset = Offset + largeinc + 10;
-
-            DrawAtStart(clientModel.Header, Offset);
+            int intPadding = 20+ ((pageWidthHeader - LoginDetail.ClientName.Length) / 2)*3;
+            graphics.DrawString(LoginDetail.ClientName, smallfont, new SolidBrush(Color.Black), intPadding,  Offset);//50 + 22
+ 
+            Offset = Offset + mediuminc;
+            DrawAtStartCenter(LoginDetail.Header, Offset);
 
             Offset = Offset + mediuminc;
-            DrawAtStart(clientModel.Address1, Offset);
+            DrawAtStartCenter(LoginDetail.Address1, Offset);
 
             Offset = Offset + mediuminc;
-            DrawAtStart(clientModel.Address2, Offset);
+            DrawAtStartCenter(LoginDetail.Address2, Offset);
 
             Offset = Offset + mediuminc;
-            DrawAtStart("Email: " + clientModel.Email, Offset);
+            DrawAtStartCenter("Email: " + LoginDetail.Email, Offset);
 
             Offset = Offset + mediuminc;
-            DrawAtStart("Phone: " + clientModel.Address1, Offset);
+            DrawAtStartCenter("Phone: " + LoginDetail.Address1, Offset);
 
             String underLine = "-------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + mediuminc;
-            DrawAtStart("Receipt Number: " + printReceiptModel[0].BillId, Offset);
+            DrawAtStart("Receipt Number: " + printReceiptModel[0].BillId.ToString().PadRight((20 - printReceiptModel[0].BillId.ToString().Length) + 10) + "Date: " + DateTime.Now.ToString("MM/dd/yyyy HH:mm"), Offset); ;
+            Offset = Offset + mediuminc;
 
             // if (!String.Equals(order.Customer.Address, "N/A"))
             // {
@@ -168,23 +167,24 @@ namespace RocketPOS.Views
             //       DrawAtStart("Phone # : " + order.Customer.Phone, Offset);
             //   }
 
-            Offset = Offset + mediuminc;
-            DrawAtStart("Date: " + DateTime.Now.ToString(), Offset);
+            // Offset = Offset + mediuminc;
+            //DrawAtStart("Date: " + DateTime.Now.ToString(), Offset);
 
             Offset = Offset + mediuminc;
             DrawAtStart("Customer: " + printReceiptModel[0].CustomerName, Offset);
 
-            Offset = Offset + smallinc;
-            underLine = "-------------------------";
-            DrawLine(underLine, largefont, Offset, 30);
+            underLine = "-------------------------------------";
+            DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + largeinc;
 
             InsertHeaderStyleItem("ITEM ", "RATE        AMOUNT ", Offset);
 
+            Offset = Offset + largeinc;
+
             foreach (var item in printReceiptItemModel)
             {
-                InsertItem(item.FoodMenuName + " x " + item.FoodMenuRate, "25", Offset);
+                InsertItem(item.FoodMenuName.ToString().PadRight((40- item.FoodMenuName.ToString().Length)+26)  + "x " +   item.FoodMenuRate.ToString("F").PadLeft((10 - item.FoodMenuName.ToString().Length) + 40) + item.Price, "25", Offset);
 
                 Offset = Offset + smallinc;
             }
@@ -205,23 +205,23 @@ namespace RocketPOS.Views
             //       }
             //   }
 
-            underLine = "-------------------------";
-            DrawLine(underLine, largefont, Offset, 30);
+            underLine = "-------------------------------------";
+            DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + largeinc;
-            InsertItem("GROSS TOTAL: ", printReceiptModel[0].GrossAmount.ToString(), Offset);
+            InsertItem("GROSS TOTAL: ", printReceiptModel[0].GrossAmount.ToString().PadLeft(30), Offset);
 
-            Offset = Offset + largeinc;
-            InsertItem("DISCOUNT : ", printReceiptModel[0].Discount.ToString(), Offset);
+            Offset = Offset + smallinc;
+            InsertItem("DISCOUNT : ", printReceiptModel[0].Discount.ToString().PadLeft(30), Offset);
 
-            Offset = Offset + largeinc;
-            InsertItem("VATABLE: ", printReceiptModel[0].VatableAmount.ToString(), Offset);
+            Offset = Offset + smallinc;
+            InsertItem("VATABLE: ", printReceiptModel[0].VatableAmount.ToString().PadLeft(30), Offset);
 
-            Offset = Offset + largeinc;
-            InsertItem("SER CRH: ", printReceiptModel[0].ServiceCharge.ToString(), Offset);
+            Offset = Offset + smallinc;
+            InsertItem("SER CRH: ", printReceiptModel[0].ServiceCharge.ToString().PadLeft(30), Offset);
 
-            Offset = Offset + largeinc;
-            InsertItem("TOTAL: ", printReceiptModel[0].TotalAmount.ToString(), Offset);
+            Offset = Offset + smallinc;
+            InsertItem("TOTAL: ", printReceiptModel[0].TotalAmount.ToString().PadLeft(30), Offset);
 
             //   if (!order.Cash.Discount.IsZero())
             //   {
@@ -229,47 +229,61 @@ namespace RocketPOS.Views
             //       InsertItem(" Discount: ", order.Cash.Discount.CValue, Offset);
             //   }
 
-            underLine = "-------------------------";
-            DrawLine(underLine, largefont, Offset, 30);
-
-            Offset = Offset + largeinc;
-            InsertItem("TOTAL: ", printReceiptModel[0].PaymentMethodName.ToString(), Offset);
-
-            graphics.DrawString(clientModel.Footer, smallfont, new SolidBrush(Color.Black), 50 + 22, 10 + Offset);
-
-            Offset = Offset + largeinc + 10;
-
-            DrawAtStart(clientModel.Footer1, Offset);
-
-            Offset = Offset + mediuminc;
-            DrawAtStart(clientModel.Footer2, Offset);
-
-            Offset = Offset + mediuminc;
-            DrawAtStart(clientModel.Footer3, Offset);
-
-            Offset = Offset + mediuminc;
-            DrawAtStart(clientModel.Footer4, Offset);
-
-
-            Offset = Offset + 7;
             underLine = "-------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
-            Offset = Offset + mediuminc;
-            String greetings = "Thanks for visiting us.";
-            DrawSimpleString(greetings, mediumfont, Offset, 28);
-
-            Offset = Offset + mediuminc;
-            underLine = "-------------------------------------";
-            DrawLine(underLine, largefont, Offset, 0);
-
-            Offset += (2 * mediuminc);
-            string tip = "TIP: -----------------------------";
-            InsertItem(tip, "", Offset);
-
             Offset = Offset + largeinc;
-            string DrawnBy = "Meganos Softwares: 0312-0459491 - OR - 0321-6228321";
-            DrawSimpleString(DrawnBy, minifont, Offset, 15);
+            InsertItem("TOTAL: ", printReceiptModel[0].PaymentMethodName.ToString().PadRight(10) + " " + printReceiptModel[0].BillAmount.ToString().PadLeft(13), Offset);
+
+
+           intPadding = 20 + ((pageWidthHeader - LoginDetail.ClientName.Length) / 2) * 3;
+            graphics.DrawString(LoginDetail.Footer, smallfont, new SolidBrush(Color.Black), intPadding, Offset);//50 + 22
+            
+             Offset = Offset + largeinc + 10;
+
+            DrawAtStartCenter(LoginDetail.Footer1, Offset);
+            Offset = Offset + mediuminc;
+
+            DrawAtStartCenter(LoginDetail.Footer2, Offset);
+            Offset = Offset + mediuminc;
+
+            DrawAtStartCenter(LoginDetail.Footer3, Offset);
+            Offset = Offset + mediuminc;
+
+            DrawAtStartCenter(LoginDetail.Footer4, Offset);
+            Offset = Offset + mediuminc;
+
+  
+            //DrawAtStart(LoginDetail.Footer1, Offset);
+
+            //Offset = Offset + mediuminc;
+            //DrawAtStart(LoginDetail.Footer2, Offset);
+
+            //Offset = Offset + mediuminc;
+            //DrawAtStart(LoginDetail.Footer3, Offset);
+
+            //Offset = Offset + mediuminc;
+            //DrawAtStart(LoginDetail.Footer4, Offset);
+
+            //Offset = Offset + 7;
+            //underLine = "-------------------------------------";
+            //DrawLine(underLine, largefont, Offset, 0);
+
+            //Offset = Offset + mediuminc;
+            //String greetings = "Thanks for visiting us.";
+            //DrawSimpleString(greetings, mediumfont, Offset, 28);
+
+            //Offset = Offset + mediuminc;
+            //underLine = "-------------------------------------";
+            //DrawLine(underLine, largefont, Offset, 0);
+
+            //Offset += (2 * mediuminc);
+            //string tip = "TIP: -----------------------------";
+            //InsertItem(tip, "", Offset);
+
+            //Offset = Offset + largeinc;
+            //string DrawnBy = "Meganos Softwares: 0312-0459491 - OR - 0321-6228321";
+            //DrawSimpleString(DrawnBy, minifont, Offset, 15);
         }
     }
 }
