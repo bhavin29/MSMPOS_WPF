@@ -24,6 +24,8 @@ namespace RocketPOS.Helpers
         {
             InitializeComponent();
             GenerateDynamicFoodMenu();
+            GetWaiterList();
+            GetCustomerList();
 
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
             List<CustomerOrderModel> customerOrderList = new List<CustomerOrderModel>();
@@ -32,6 +34,13 @@ namespace RocketPOS.Helpers
         }
 
         #region Methods
+        private void GetCustomerList()
+        {
+            CustomerViewModel customerViewModel = new CustomerViewModel();
+            List<CustomerModel> customers = new List<CustomerModel>();
+            customers = customerViewModel.GetCustomers();
+            cmbCustomer.ItemsSource = customers;
+        }
         private void GenerateDynamicFoodMenu()
         {
             string rootPath = string.Empty;
@@ -157,6 +166,14 @@ namespace RocketPOS.Helpers
             FoodMenuModel foodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
             GenerateDynamicFoodItems(foodMenu, rootPath, searchKey, string.Empty);
         }
+
+        private void GetWaiterList()
+        {
+            CommonViewModel commonViewModel = new CommonViewModel();
+            List<WaiterModel> waiters = new List<WaiterModel>();
+            waiters = commonViewModel.GetWaiters();
+            cmbWaiter.ItemsSource = waiters;
+        }
         private void PlaceOrder(string type)
         {
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
@@ -270,7 +287,7 @@ namespace RocketPOS.Helpers
                 txtbOrderId.Text = insertedId.ToString();
             }
 
-            if (type== "DirectInvoice")
+            if (type == "DirectInvoice")
             {
                 if (insertedId > 0)
                 {
@@ -396,6 +413,15 @@ namespace RocketPOS.Helpers
         }
         private void btnPlaceOrder_Click(object sender, RoutedEventArgs e)
         {
+            if (cmbWaiter.SelectedItem == null)
+            {
+                // do something
+            }
+
+            if (cmbCustomer.SelectedItem == null)
+            {
+                // do something
+            }
             PlaceOrder("NewOrder");
         }
         private void btnPopUpAddToCart_Click(object sender, RoutedEventArgs e)
@@ -563,8 +589,81 @@ namespace RocketPOS.Helpers
         {
             this.Close();
         }
+
         #endregion
 
+        #region Customer Add/Edit
+        private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            ppCustomerAdd.IsOpen = true;
 
+        }
+        private void btnEditCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmbCustomer.SelectedItem == null)
+            {
+                MessageBox.Show(StatusMessages.CustomerSelectRequired, "Add Customer", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                Keyboard.Focus(cmbCustomer);
+                return;
+            }
+            CustomerViewModel customerViewModel = new CustomerViewModel();
+            CustomerModel customerModel = new CustomerModel();
+            customerModel = customerViewModel.GetCustomerById(Convert.ToInt32(cmbCustomer.SelectedValue));
+            txtPPCName.Text = customerModel.CustomerName;
+            txtPPCPhone.Text = customerModel.CustomerPhone;
+            txtPPCEmail.Text = customerModel.CustomerEmail;
+            txtPPCAddress.Text = customerModel.CustomerAddress1;
+            ppCustomerAdd.IsOpen = true;
+        }
+        private void btnPPCCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ppCustomerAdd.IsOpen = false;
+        }
+
+        #endregion
+
+        private void btnPPCAddCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            int insertedId = 0;
+            CustomerViewModel customerViewModel = new CustomerViewModel();
+            Keyboard.Focus(ppCustomerAdd);
+            CustomerModel customerModel = new CustomerModel();
+            if (string.IsNullOrEmpty(txtPPCName.Text))
+            {
+                MessageBox.Show(StatusMessages.CustomerNameRequired, "Add Customer", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                Keyboard.Focus(txtPPCName);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(txtPPCPhone.Text))
+            {
+                MessageBox.Show(StatusMessages.CustomerPhoneRequired, "Add Customer", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                Keyboard.Focus(txtPPCPhone);
+                return;
+            }
+
+            customerModel.Id = Convert.ToInt32(cmbCustomer.SelectedValue);
+            customerModel.CustomerName = txtPPCName.Text;
+            customerModel.CustomerPhone = txtPPCPhone.Text;
+            customerModel.CustomerEmail = txtPPCEmail.Text;
+            customerModel.CustomerAddress1 = txtPPCAddress.Text;
+            customerModel.UserId = 1;
+            insertedId = customerViewModel.InsertUpdateCustomer(customerModel);
+
+            if (insertedId > 0)
+            {
+                GetCustomerList();
+                txtPPCName.Text = string.Empty;
+                txtPPCPhone.Text = string.Empty;
+                txtPPCEmail.Text = string.Empty;
+                txtPPCAddress.Text = string.Empty;
+                ppCustomerAdd.IsOpen = false;
+            }
+            else
+            {
+                ppCustomerAdd.IsOpen = false;
+                MessageBox.Show(StatusMessages.CustomerSaveFailed, "Add Customer", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+            }
+        }
     }
 }
