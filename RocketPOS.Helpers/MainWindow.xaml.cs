@@ -141,6 +141,8 @@ namespace RocketPOS.Helpers
         private void ClearCustomerOrderItemControll()
         {
             dgSaleItem.Items.Clear();
+            cmbWaiter.SelectedIndex = 0;
+            cmbCustomer.SelectedIndex = 0;
             txtbTotalPayableAmount.Text = "0";
             txtbSubTotalAmount.Text = "0";
             txtbTotalItemCount.Text = "0";
@@ -211,8 +213,8 @@ namespace RocketPOS.Helpers
                 customerOrderModel.Id = 0;
                 customerOrderModel.OutletId = 1;
                 customerOrderModel.SalesInvoiceNumber = "0";
-                customerOrderModel.CustomerId = 1;
-                customerOrderModel.WaiterEmployeeId = 1;
+                customerOrderModel.CustomerId = Convert.ToInt32(cmbCustomer.SelectedValue);
+                customerOrderModel.WaiterEmployeeId = Convert.ToInt32(cmbWaiter.SelectedValue);
                 customerOrderModel.OrderType = 1;
                 customerOrderModel.OrderDate = System.DateTime.Now;
                 customerOrderModel.TableId = 1;
@@ -264,8 +266,8 @@ namespace RocketPOS.Helpers
                 customerOrderModel.Id = Convert.ToInt32(txtbOrderId.Text);
                 customerOrderModel.OutletId = 1;
                 customerOrderModel.SalesInvoiceNumber = "0";
-                customerOrderModel.CustomerId = 1;
-                customerOrderModel.WaiterEmployeeId = 1;
+                customerOrderModel.CustomerId = Convert.ToInt32(cmbCustomer.SelectedValue);
+                customerOrderModel.WaiterEmployeeId = Convert.ToInt32(cmbWaiter.SelectedValue);
                 customerOrderModel.OrderType = 1;
                 customerOrderModel.OrderDate = System.DateTime.Now;
                 customerOrderModel.TableId = 1;
@@ -415,13 +417,18 @@ namespace RocketPOS.Helpers
         {
             if (cmbWaiter.SelectedItem == null)
             {
-                // do something
+                MessageBox.Show("Please Select Waiter.", "Place Order", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                cmbWaiter.Focus();
+                return;
             }
 
             if (cmbCustomer.SelectedItem == null)
             {
-                // do something
+                MessageBox.Show("Please Select Customer.", "Place Order", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                cmbCustomer.Focus();
+                return;
             }
+            btnKitchenStatus.Visibility = Visibility.Hidden;
             PlaceOrder("NewOrder");
         }
         private void btnPopUpAddToCart_Click(object sender, RoutedEventArgs e)
@@ -430,21 +437,36 @@ namespace RocketPOS.Helpers
             object foodItem = dgSaleItem.SelectedItem;
             saleItem = (List<SaleItemModel>)foodItem;
             saleItem[0].Qty = Convert.ToDecimal(txtbPopUpQtyCount.Text);
-            saleItem[0].Total = Convert.ToDouble(txtbPopUpItemTotal.Text);
+            saleItem[0].Total = Convert.ToDouble(txtbPopUpItemSubTotalAmount.Text);
+            saleItem[0].Discount = Convert.ToDecimal(txtPopUpDiscount.Text);
             if (txtbPopUpQtyCount.Text != "1")
             {
-                txtbTotalItemCount.Text = ((Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)) + Convert.ToInt32(txtbTotalItemCount.Text)).ToString();
+                txtbTotalItemCount.Text = ((Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)) + Convert.ToDecimal(txtbTotalItemCount.Text)).ToString();
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) * (Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)))).ToString();
                 txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) * (Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)))).ToString();
             }
             else if (txtbPopUpQtyCount.Text == "1" && txtbPopUpQtyCount.Text != txtbPopUpOriginalQtyCount.Text)
             {
-                txtbTotalItemCount.Text = ((Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)) + Convert.ToInt32(txtbTotalItemCount.Text)).ToString();
+                txtbTotalItemCount.Text = ((Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)) + Convert.ToDecimal(txtbTotalItemCount.Text)).ToString();
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) * (Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)))).ToString();
                 txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) * (Convert.ToDecimal(txtbPopUpQtyCount.Text) - Convert.ToDecimal(txtbPopUpOriginalQtyCount.Text)))).ToString();
             }
             EditSaleItemPopUp.IsOpen = false;
             dgSaleItem.Items.Refresh();
+        }
+        private void txtPopUpDiscount_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtPopUpDiscount.Text))
+            {
+                if ((Convert.ToDecimal(txtPopUpDiscount.Text) != 0))
+                {
+                    txtbPopUpItemSubTotalAmount.Text = (Convert.ToDecimal(txtbPopUpItemTotal.Text) - ((Convert.ToDecimal(txtPopUpDiscount.Text) / 100) * Convert.ToDecimal(txtbPopUpItemTotal.Text))).ToString();
+                }
+            }
+            else
+            {
+                txtbPopUpItemSubTotalAmount.Text = txtbPopUpItemTotal.Text;
+            }
         }
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
@@ -476,12 +498,6 @@ namespace RocketPOS.Helpers
             //Close register
             outletRegisterViewModel.UpdateOutletRegister(outletRegisterModel);
         }
-        private void btnCreateInvoiceAndClose_Click(object sender, RoutedEventArgs e)
-        {
-            ReceiptPrintView pj = new ReceiptPrintView();
-
-            pj.Print("Microsoft Print to PDF", 0);
-        }
         private void epOrder_LostFocus(object sender, RoutedEventArgs e)
         {
             var expander = sender as Expander;
@@ -496,6 +512,7 @@ namespace RocketPOS.Helpers
         private void btnModifyOrder_Click(object sender, RoutedEventArgs e)
         {
             ClearCustomerOrderItemControll();
+            btnKitchenStatus.Visibility = Visibility.Visible;
             var st = (CustomerOrderModel)lbCustomerOrderList.SelectedItem;
             CustomerOrderModel customerOrderModel = new CustomerOrderModel();
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
@@ -504,6 +521,8 @@ namespace RocketPOS.Helpers
             txtbSubTotalAmount.Text = customerOrderModel.GrossAmount.ToString();
             txtbTotalPayableAmount.Text = customerOrderModel.TotalPayable.ToString();
             txtbOrderId.Text = customerOrderModel.Id.ToString();
+            cmbCustomer.SelectedValue = customerOrderModel.CustomerId;
+            cmbWaiter.SelectedValue = customerOrderModel.WaiterEmployeeId;
 
             List<SaleItemModel> saleItems = new List<SaleItemModel>();
             foreach (var orderItem in customerOrderModel.CustomerOrderItemModels)
@@ -520,6 +539,7 @@ namespace RocketPOS.Helpers
                     CustomerOrderItemId = orderItem.CustomerOrderItemId,
                 });
                 dgSaleItem.Items.Add(saleItems);
+                txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + orderItem.FoodMenuQty).ToString();
             }
         }
 
@@ -585,12 +605,6 @@ namespace RocketPOS.Helpers
             pj.Print("Microsoft Print to PDF", customerBillModel.CustomerOrderId);
         }
         #endregion
-        private void btnLogOut_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        #endregion
 
         #region Customer Add/Edit
         private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
@@ -619,9 +633,6 @@ namespace RocketPOS.Helpers
         {
             ppCustomerAdd.IsOpen = false;
         }
-
-        #endregion
-
         private void btnPPCAddCustomer_Click(object sender, RoutedEventArgs e)
         {
             int insertedId = 0;
@@ -665,5 +676,13 @@ namespace RocketPOS.Helpers
                 MessageBox.Show(StatusMessages.CustomerSaveFailed, "Add Customer", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
             }
         }
+        #endregion
+        private void btnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        #endregion
+
+        
     }
 }
