@@ -146,7 +146,7 @@ namespace RocketPOS.Helpers
             txtbTotalItemCount.Text = "0";
             txtbOrderId.Text = "0";
             rdbDeliveryOrderType.IsChecked = false;
-            rdbDineInOrderType.IsChecked =false; 
+            rdbDineInOrderType.IsChecked = false;
             rdbTakeAwayOrderType.IsChecked = false;
             txtDiscount.Text = "0.0";
             txtServiceDeliveryCharge.Text = "0.0";
@@ -181,11 +181,11 @@ namespace RocketPOS.Helpers
             waiters = commonViewModel.GetWaiters();
             cmbWaiter.ItemsSource = waiters;
         }
-        private void GetOrderList(int orderStatus, int orderType,string searchKey)
+        private void GetOrderList(int orderStatus, int orderType, string searchKey)
         {
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
             List<CustomerOrderModel> customerOrderList = new List<CustomerOrderModel>();
-            customerOrderList = customerOrderViewModel.GetCustomerOrderList(orderStatus, orderType,searchKey);
+            customerOrderList = customerOrderViewModel.GetCustomerOrderList(orderStatus, orderType, searchKey);
             lbCustomerOrderList.ItemsSource = customerOrderList;
         }
         private int PlaceOrder(string type)
@@ -196,6 +196,30 @@ namespace RocketPOS.Helpers
             List<CustomerOrderItemModel> customerOrderItemModels = new List<CustomerOrderItemModel>();
             DataTable customerOrderItem = new DataTable();
             int insertedId = 0;
+            int orderType = 0;
+            string tableId = null;
+
+            if (rdbDineInOrderType.IsChecked == true)
+            {
+                orderType = (int)EnumUtility.OrderType.DineIN;
+                if (lbTablesList.SelectedValue!=null)
+                {
+                    tableId = lbTablesList.SelectedValue.ToString();
+                }
+                else
+                {
+                    tableId = txtbDineInTableId.Text;
+                }
+            }
+            else if (rdbTakeAwayOrderType.IsChecked == true)
+            {
+                orderType = (int)EnumUtility.OrderType.TakeAway;
+            }
+            else if (rdbDeliveryOrderType.IsChecked == true)
+            {
+                orderType = (int)EnumUtility.OrderType.Delivery;
+            }
+
 
             if (Convert.ToInt32(txtbOrderId.Text) == 0)
             {
@@ -227,9 +251,9 @@ namespace RocketPOS.Helpers
                 customerOrderModel.SalesInvoiceNumber = "0";
                 customerOrderModel.CustomerId = Convert.ToInt32(cmbCustomer.SelectedValue);
                 customerOrderModel.WaiterEmployeeId = Convert.ToInt32(cmbWaiter.SelectedValue);
-                customerOrderModel.OrderType = 1;
+                customerOrderModel.OrderType = orderType;
                 customerOrderModel.OrderDate = System.DateTime.Now;
-                customerOrderModel.TableId = 1;
+                customerOrderModel.TableId = tableId;
                 customerOrderModel.TockenNumber = "0";
                 customerOrderModel.GrossAmount = Convert.ToDecimal(txtbSubTotalAmount.Text);
                 customerOrderModel.DiscountPercentage = Convert.ToDecimal(txtDiscount.Text);
@@ -274,9 +298,9 @@ namespace RocketPOS.Helpers
                 customerOrderModel.SalesInvoiceNumber = "0";
                 customerOrderModel.CustomerId = Convert.ToInt32(cmbCustomer.SelectedValue);
                 customerOrderModel.WaiterEmployeeId = Convert.ToInt32(cmbWaiter.SelectedValue);
-                customerOrderModel.OrderType = 1;
+                customerOrderModel.OrderType = orderType;
                 customerOrderModel.OrderDate = System.DateTime.Now;
-                customerOrderModel.TableId = 1;
+                customerOrderModel.TableId = tableId;
                 customerOrderModel.TockenNumber = "0";
                 customerOrderModel.GrossAmount = Convert.ToDecimal(txtbSubTotalAmount.Text);
                 customerOrderModel.DiscountPercentage = Convert.ToDecimal(txtDiscount.Text);
@@ -423,7 +447,7 @@ namespace RocketPOS.Helpers
         }
         private void btnPlaceOrder_Click(object sender, RoutedEventArgs e)
         {
-            if (dgSaleItem.Items.Count==0)
+            if (dgSaleItem.Items.Count == 0)
             {
                 MessageBox.Show("Cart is empty!", "Place Order", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
                 return;
@@ -544,6 +568,20 @@ namespace RocketPOS.Helpers
             txtbOrderId.Text = customerOrderModel.Id.ToString();
             cmbCustomer.SelectedValue = customerOrderModel.CustomerId;
             cmbWaiter.SelectedValue = customerOrderModel.WaiterEmployeeId;
+
+            if (customerOrderModel.OrderType==1)
+            {
+                rdbDineInOrderType.IsChecked = true;
+                txtbDineInTableId.Text = customerOrderModel.TableId;
+            }
+            else if (customerOrderModel.OrderType == 2)
+            {
+                rdbTakeAwayOrderType.IsChecked = true;
+            }
+            else if(customerOrderModel.OrderType == 3)
+            {
+                rdbDeliveryOrderType.IsChecked = true;
+            }
 
             List<SaleItemModel> saleItems = new List<SaleItemModel>();
             foreach (var orderItem in customerOrderModel.CustomerOrderItemModels)
@@ -789,5 +827,25 @@ namespace RocketPOS.Helpers
             this.Close();
         }
         #endregion
+        private void btnPPCancelTable_Click(object sender, RoutedEventArgs e)
+        {
+            ppDineInTables.IsOpen = false;
+        }
+        private void btnPPSelectTable_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(lbTablesList.SelectedValue.ToString()))
+            {
+                txtbDineInTableId.Text = lbTablesList.SelectedValue.ToString();
+            }
+            ppDineInTables.IsOpen = false;
+        }
+        private void rdbDineInOrderType_Click(object sender, RoutedEventArgs e)
+        {
+            TableViewModel tableViewModel = new TableViewModel();
+            List<TableModel> tables = new List<TableModel>();
+            ppDineInTables.IsOpen = true;
+            tables = tableViewModel.GetTables(1);//outletId
+            lbTablesList.ItemsSource = tables;
+        }
     }
 }

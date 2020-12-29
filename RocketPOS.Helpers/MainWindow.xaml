@@ -127,10 +127,31 @@
                         </Grid.RowDefinitions>
                         <StackPanel  Orientation="Horizontal" >
                             <!--Row 0 Column 0-->
-                            <RadioButton x:Name="rdbDineInOrderType" Background="Orange" Style="{StaticResource {x:Type ToggleButton}}" Margin="5,5,5,5" Width="100">Dine In</RadioButton>
+                            <RadioButton x:Name="rdbDineInOrderType" Background="Orange" Style="{StaticResource {x:Type ToggleButton}}" Margin="5,5,5,5" Width="100" Click="rdbDineInOrderType_Click">Dine In</RadioButton>
                             <RadioButton x:Name="rdbTakeAwayOrderType" Background="Orange" Style="{StaticResource {x:Type ToggleButton}}" Margin="5,5,5,5" Width="100">Take Away</RadioButton>
                             <RadioButton x:Name="rdbDeliveryOrderType" Background="Orange" Style="{StaticResource {x:Type ToggleButton}}" Margin="5,5,5,5" Width="100">Delivery</RadioButton>
+                            <TextBlock x:Name="txtbDineInTableId" Text="NULL" Visibility="Hidden" />
                         </StackPanel>
+                       
+                        <Popup Name="ppDineInTables" Placement="Center" AllowsTransparency="False">
+                            <Grid Width="300" Height="350" Background="LightBlue">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="250"/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="txtbTables" Text="Tables" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                <ListBox x:Name="lbTablesList" Width="150" Height="210" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DisplayMemberPath="TableName" SelectedValuePath="Id">
+                                </ListBox>
+                                <Button x:Name="btnPPSelectTable" Grid.Row="2" Grid.Column="0" Content="Submit" Click="btnPPSelectTable_Click"/>
+                                <Button x:Name="btnPPCancelTable" Grid.Row="2" Grid.Column="1" Content="Cancel" Click="btnPPCancelTable_Click"/>
+                            </Grid>
+                        </Popup>
                     </Grid>
                     
                     <Grid Grid.Row="1">
@@ -310,8 +331,8 @@
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <Button x:Name="btnDicountPopUp" Content="%"  Width="50" Height="20" Click="btnDicountPopUp_Click"/>
                                 <TextBlock x:Name="txtbDiscount" Style="{StaticResource txtBlock}" Text="Discount %: "  />
-                                <TextBox x:Name="txtDiscount"  Width="50" Height="20"/>
-                                <TextBlock x:Name="txtbSubTotalDiscountAmount" Visibility="Hidden" />
+                                <TextBox x:Name="txtDiscount"  Width="50" Height="20" Text="0.0"/>
+                                <TextBlock x:Name="txtbSubTotalDiscountAmount" Visibility="Hidden" Text="0.0" />
                             </StackPanel>
                             <Popup Name="ppDiscountPopUp" Placement="Center" AllowsTransparency="False">
                                 <Grid Width="250" Height="150" Background="LightBlue">
@@ -349,8 +370,8 @@
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="btnServiceDeliveryPopUp" Content="%"  Width="20" Height="20" Click="btnServiceDeliveryPopUp_Click"/>
                                 <TextBlock x:Name="txtbServiceDeliveryCharge" Style="{StaticResource txtBlock}" Text="Service/Delivery Charge: " />
-                                <TextBox x:Name="txtServiceDeliveryCharge"  Width="20" Height="20"/>
-                                <TextBlock x:Name="txtbTotalDeliveryChargeAmt" Visibility="Hidden" />
+                                <TextBox x:Name="txtServiceDeliveryCharge"  Width="20" Height="20" Text="0.0"/>
+                                <TextBlock x:Name="txtbTotalDeliveryChargeAmt" Visibility="Hidden" Text="0.0"/>
                             </StackPanel>
                             <Popup Name="ppDeliveryServicePopUp" Placement="Center" AllowsTransparency="False">
                                 <Grid Width="250" Height="150" Background="LightBlue">
