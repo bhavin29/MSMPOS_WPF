@@ -28,7 +28,7 @@ namespace RocketPOS.Helpers
             GetCustomerList();
             rdbPendingSales.IsChecked = true;
             rdbAllSales.IsChecked = true;
-            GetOrderList(1, 4,string.Empty);
+            GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
         }
 
         #region Methods
@@ -145,6 +145,13 @@ namespace RocketPOS.Helpers
             txtbSubTotalAmount.Text = "0";
             txtbTotalItemCount.Text = "0";
             txtbOrderId.Text = "0";
+            rdbDeliveryOrderType.IsChecked = false;
+            rdbDineInOrderType.IsChecked =false; 
+            rdbTakeAwayOrderType.IsChecked = false;
+            txtDiscount.Text = "0.0";
+            txtServiceDeliveryCharge.Text = "0.0";
+            txtbSubTotalDiscountAmount.Text = "0";
+            txtbTotalDeliveryChargeAmt.Text = "0";
         }
         private void GetFoodItems(string type)
         {
@@ -174,7 +181,6 @@ namespace RocketPOS.Helpers
             waiters = commonViewModel.GetWaiters();
             cmbWaiter.ItemsSource = waiters;
         }
-
         private void GetOrderList(int orderStatus, int orderType,string searchKey)
         {
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
@@ -226,9 +232,9 @@ namespace RocketPOS.Helpers
                 customerOrderModel.TableId = 1;
                 customerOrderModel.TockenNumber = "0";
                 customerOrderModel.GrossAmount = Convert.ToDecimal(txtbSubTotalAmount.Text);
-                customerOrderModel.DiscountPercentage = 0;
-                customerOrderModel.DiscountAmount = 0;
-                customerOrderModel.DeliveryCharges = 0;
+                customerOrderModel.DiscountPercentage = Convert.ToDecimal(txtDiscount.Text);
+                customerOrderModel.DiscountAmount = Convert.ToDecimal(txtbSubTotalDiscountAmount.Text);
+                customerOrderModel.DeliveryCharges = Convert.ToDecimal(txtbTotalDeliveryChargeAmt.Text);
                 customerOrderModel.TaxAmount = 0;
                 customerOrderModel.TotalPayable = Convert.ToDecimal(txtbTotalPayableAmount.Text);
                 customerOrderModel.CustomerPaid = 0;
@@ -273,9 +279,9 @@ namespace RocketPOS.Helpers
                 customerOrderModel.TableId = 1;
                 customerOrderModel.TockenNumber = "0";
                 customerOrderModel.GrossAmount = Convert.ToDecimal(txtbSubTotalAmount.Text);
-                customerOrderModel.DiscountPercentage = 0;
-                customerOrderModel.DiscountAmount = 0;
-                customerOrderModel.DeliveryCharges = 0;
+                customerOrderModel.DiscountPercentage = Convert.ToDecimal(txtDiscount.Text);
+                customerOrderModel.DiscountAmount = Convert.ToDecimal(txtbSubTotalDiscountAmount.Text);
+                customerOrderModel.DeliveryCharges = Convert.ToDecimal(txtbTotalDeliveryChargeAmt.Text);
                 customerOrderModel.TaxAmount = 0;
                 customerOrderModel.TotalPayable = Convert.ToDecimal(txtbTotalPayableAmount.Text);
                 customerOrderModel.CustomerPaid = 0;
@@ -317,7 +323,6 @@ namespace RocketPOS.Helpers
             return insertedId;
         }
         #endregion
-
         #region Events
         private void GetSubCategory(object sender, RoutedEventArgs e)
         {
@@ -418,6 +423,18 @@ namespace RocketPOS.Helpers
         }
         private void btnPlaceOrder_Click(object sender, RoutedEventArgs e)
         {
+            if (dgSaleItem.Items.Count==0)
+            {
+                MessageBox.Show("Cart is empty!", "Place Order", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
+            if (rdbDeliveryOrderType.IsChecked == false && rdbDineInOrderType.IsChecked == false && rdbTakeAwayOrderType.IsChecked == false)
+            {
+                MessageBox.Show("You must select Dine In or Take Away or Delivery!", "Place Order", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
             if (cmbWaiter.SelectedItem == null)
             {
                 MessageBox.Show("Please Select Waiter.", "Place Order", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
@@ -501,6 +518,7 @@ namespace RocketPOS.Helpers
             //Close register
             outletRegisterViewModel.UpdateOutletRegister(outletRegisterModel);
         }
+        #region Search Order Left
         private void epOrder_LostFocus(object sender, RoutedEventArgs e)
         {
             var expander = sender as Expander;
@@ -545,7 +563,37 @@ namespace RocketPOS.Helpers
                 txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + orderItem.FoodMenuQty).ToString();
             }
         }
+        private void searchSalesOrder(object sender, RoutedEventArgs e)
+        {
+            int orderType = 0, orderStatus = 0;
+            if (rdbDineInSales.IsChecked == true)
+            {
+                orderType = (int)EnumUtility.OrderType.DineIN;
+            }
+            else if (rdbTakeAwaySales.IsChecked == true)
+            {
+                orderType = (int)EnumUtility.OrderType.TakeAway;
+            }
+            else if (rdbDeliverySales.IsChecked == true)
+            {
+                orderType = (int)EnumUtility.OrderType.Delivery;
+            }
+            else
+            {
+                orderType = (int)EnumUtility.OrderType.All;
+            }
 
+            if (rdbHoldSales.IsChecked == true)
+            {
+                orderStatus = (int)EnumUtility.OrderPaidStatus.Hold;
+            }
+            else
+            {
+                orderStatus = (int)EnumUtility.OrderPaidStatus.Pending;
+            }
+            GetOrderList(orderStatus, orderType, txtSearchModifyOrder.Text);
+        }
+        #endregion
         #region Direct Invoice PopUp
         private void btnDirectInvoice_Click(object sender, RoutedEventArgs e)
         {
@@ -608,7 +656,6 @@ namespace RocketPOS.Helpers
             pj.Print("Microsoft Print to PDF", customerBillModel.CustomerOrderId);
         }
         #endregion
-
         #region Customer Add/Edit
         private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
         {
@@ -680,12 +727,46 @@ namespace RocketPOS.Helpers
             }
         }
         #endregion
-        private void btnLogOut_Click(object sender, RoutedEventArgs e)
+        #region Discount Service Charge PopUp
+        private void btnDicountPopUp_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            ppDiscountPopUp.IsOpen = true;
+        }
+        private void btnPPDiscountCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ppDiscountPopUp.IsOpen = false;
+        }
+        private void btnPPDiscountApply_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(cmbPPDiscountNos.SelectionBoxItem.ToString()))
+            {
+                decimal percentage = Convert.ToDecimal(cmbPPDiscountNos.SelectionBoxItem);
+                txtDiscount.Text = percentage.ToString();
+                txtbSubTotalDiscountAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100).ToString();
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100)).ToString();
+            }
+            ppDiscountPopUp.IsOpen = false;
+        }
+        private void btnServiceDeliveryPopUp_Click(object sender, RoutedEventArgs e)
+        {
+            ppDeliveryServicePopUp.IsOpen = true;
+        }
+        private void btnPPDeliveryApply_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(cmbPPPercentageDelivery.SelectionBoxItem.ToString()))
+            {
+                decimal percentage = Convert.ToDecimal(cmbPPPercentageDelivery.SelectionBoxItem);
+                txtServiceDeliveryCharge.Text = percentage.ToString();
+                txtbTotalDeliveryChargeAmt.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100).ToString();
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100)).ToString();
+            }
+            ppDeliveryServicePopUp.IsOpen = false;
+        }
+        private void btnPPDeliveryCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ppDeliveryServicePopUp.IsOpen = false;
         }
         #endregion
-
         private void btnHold_Click(object sender, RoutedEventArgs e)
         {
             if (cmbWaiter.SelectedItem == null)
@@ -703,35 +784,10 @@ namespace RocketPOS.Helpers
             }
             PlaceOrder("Hold");
         }
-        private void searchSalesOrder(object sender, RoutedEventArgs e)
+        private void btnLogOut_Click(object sender, RoutedEventArgs e)
         {
-            int orderType = 0, orderStatus = 0;
-            if (rdbDineInSales.IsChecked == true)
-            {
-                orderType =(int)EnumUtility.OrderType.DineIN;
-            }
-            else if (rdbTakeAwaySales.IsChecked == true)
-            {
-                orderType = (int)EnumUtility.OrderType.TakeAway;
-            }
-            else if (rdbDeliverySales.IsChecked == true)
-            {
-                orderType = (int)EnumUtility.OrderType.Delivery;
-            }
-            else
-            { 
-                orderType = (int)EnumUtility.OrderType.All;
-            }
-
-            if (rdbHoldSales.IsChecked==true)
-            {
-                orderStatus = (int)EnumUtility.OrderPaidStatus.Hold;
-            }
-            else
-            {
-                orderStatus = (int)EnumUtility.OrderPaidStatus.Pending;
-            }
-            GetOrderList(orderStatus, orderType, txtSearchModifyOrder.Text);
+            this.Close();
         }
+        #endregion
     }
 }

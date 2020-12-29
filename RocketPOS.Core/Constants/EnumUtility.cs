@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace RocketPOS.Core.Constants
@@ -13,7 +14,6 @@ namespace RocketPOS.Core.Constants
             Delivery = 3,
             All = 4
         }
-
         public enum OrderPaidStatus
         {
             Pending = 1,
@@ -21,12 +21,20 @@ namespace RocketPOS.Core.Constants
             PartialPaid = 3,
             FullPaid = 4
         }
-
         public enum KOTStatus
         {
             Pending = 1,
             Cooking = 2,
             Completed = 3
+        }
+        public enum TableStatus
+        {
+            [Display(Name = "Open")]
+            Open = 1,
+            [Display(Name = "Occupied")]
+            Occupied = 2,
+            [Display(Name = "Clean")]
+            Clean = 3,
         }
     }
 }
