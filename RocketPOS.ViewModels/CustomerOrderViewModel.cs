@@ -21,9 +21,6 @@ namespace RocketPOS.ViewModels
             int insertedId = 0;
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
-                connection.Open();
-                using (var transaction = connection.BeginTransaction())
-                {
                     var dynamicParameters = new DynamicParameters();
                     dynamicParameters.Add("@CustomerOrderItemData", customerOrderItem.AsTableValuedParameter(StoredProcedure.TABLE_TYPE_CUST_ORDER_ITEMDATA));
                     dynamicParameters.Add("@Id", customerOrderModel.Id);
@@ -49,20 +46,36 @@ namespace RocketPOS.ViewModels
                     dynamicParameters.Add("@DateInserted", customerOrderModel.DateInserted);
 
                     insertedId = connection.Query<int>
-                        (StoredProcedure.PX_INSERT_CUSTOMER_ORDER, dynamicParameters, commandType: CommandType.StoredProcedure, commandTimeout: 0, transaction: transaction).FirstOrDefault();
-
-                    transaction.Commit();
+                        (StoredProcedure.PX_INSERT_CUSTOMER_ORDER, dynamicParameters, commandType: CommandType.StoredProcedure, commandTimeout: 0).FirstOrDefault();
                     return insertedId;
-                }
             }
         }
 
-        public List<CustomerOrderModel> GetCustomerOrderList()
+        public List<CustomerOrderModel> GetCustomerOrderList(int orderStatus, int orderType, string searchKey)
         {
             List<CustomerOrderModel> customerOrderList = new List<CustomerOrderModel>();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
             {
-                customerOrderList = db.Query<CustomerOrderModel>("SELECT [Id],[CustomerId],'TestCustomer' AS CustomerName, [WaiterEmployeeId],'TestWaiter' AS WaiterName,[OrderType],[TableId] FROM [CustomerOrder]").ToList();
+                string query = string.Empty;
+                query = "SELECT CO.Id,CustomerId,C.CustomerName,CO.CustomerId, CO.WaiterEmployeeId,E.FirstName+' '+E.LastName AS WaiterName,OrderType,TableId " +
+                                                                    " FROM CustomerOrder CO" +
+                                                                    " INNER JOIN Customer C" +
+                                                                    " ON CO.CustomerId = C.Id" +
+                                                                    " INNER JOIN Employee E" +
+                                                                    " ON CO.WaiterEmployeeId = E.Id" +
+                                                                    " Where CO.OrderStatus= " + orderStatus;
+
+                if (orderType != (int)EnumUtility.OrderType.All)
+                {
+                    query += " And CO.OrderType="+ orderType; 
+                }
+
+                if (!string.IsNullOrEmpty(searchKey))
+                {
+                    query += " And CO.Id Like '%" + searchKey + "%'";
+                }
+
+                customerOrderList = db.Query<CustomerOrderModel>(query).ToList();
 
                 return customerOrderList;
             }

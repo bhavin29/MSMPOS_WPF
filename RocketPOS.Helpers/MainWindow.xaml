@@ -27,7 +27,7 @@
         <!--Log out row-->
         <Grid Grid.Row="1" >
             <StackPanel x:Name="headerTopRightPanel" Orientation="Horizontal"   >
-                <TextBox x:Name="txtSearchModifyOrder" Style="{StaticResource TextBoxBaseStyle}"   Width="250" />
+                <TextBox x:Name="txtSearchModifyOrder" Style="{StaticResource TextBoxBaseStyle}"   Width="250" TextChanged="searchSalesOrder"/>
                 <Button x:Name="btnUnknow" Style="{StaticResource btnOrange}" Content=" UnKnow" />
                 <Button x:Name="btnOpenHoldSales" Style="{StaticResource btnOrange}" Content=" Hold Sales" />
                 <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator"  Click="btnCalculator_Click"/>
@@ -55,7 +55,24 @@
             <!--Left section-->
             <Grid Grid.Column="0" Background="RoyalBlue">
                 <StackPanel x:Name="leftPanel" Orientation="Vertical" >
-
+                    <Grid Margin="0,5,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <RadioButton x:Name="rdbPendingSales" Background="Orange" Style="{StaticResource {x:Type ToggleButton}}" Grid.Row="0" Grid.Column="0" Checked="searchSalesOrder">Pending Sales</RadioButton>
+                        <RadioButton x:Name="rdbHoldSales" Background="Orange" Style="{StaticResource {x:Type ToggleButton}}"  Grid.Row="0" Grid.Column="1" Checked="searchSalesOrder">Hold Sales</RadioButton>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                            <RadioButton x:Name="rdbAllSales" Background="Orange" Style="{StaticResource {x:Type ToggleButton}}" Margin="5,5,5,5" Width="50" Grid.Column="0" Checked="searchSalesOrder">All</RadioButton>
+                            <RadioButton x:Name="rdbDineInSales" Background="Orange" Style="{StaticResource {x:Type ToggleButton}}" Margin="5,5,5,5" Width="50" Grid.Column="0" Checked="searchSalesOrder">DI</RadioButton>
+                            <RadioButton x:Name="rdbTakeAwaySales" Background="Orange" Style="{StaticResource {x:Type ToggleButton}}" Margin="5,5,5,5" Width="50" Grid.Column="0" Checked="searchSalesOrder">TA</RadioButton>
+                            <RadioButton x:Name="rdbDeliverySales" Background="Orange" Style="{StaticResource {x:Type ToggleButton}}" Margin="5,5,5,5" Width="50" Grid.Column="0" Checked="searchSalesOrder" >D</RadioButton>
+                        </StackPanel>
+                    </Grid>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Width="250" Height="357" Background="White" >
                         <ListBox x:Name="lbCustomerOrderList" HorizontalAlignment="Center">
                             <ListBox.ItemTemplate>
@@ -84,7 +101,6 @@
                     </ScrollViewer>
                     <Button x:Name="btnModifyOrder"  Style="{StaticResource btnOrangeLng}"  Content="Alter Order/Add Item/Change Table" Click="btnModifyOrder_Click" />
                     <Button x:Name="btnPrintKot" Style="{StaticResource btnOrangeLng}" Content="Print KOT"  />
-                    
                 </StackPanel>
             </Grid>
 
@@ -323,7 +339,7 @@
                     <Grid Grid.Row="4">
                         <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" >
                             <Button x:Name="btnCancel" Style="{StaticResource btnGray}" Content="Cancel"  Click="btnCancel_Click"/>
-                            <Button x:Name="btnHold" Style="{StaticResource btnGray}" Content="Hold" />
+                            <Button x:Name="btnHold" Style="{StaticResource btnGray}" Content="Hold" Click="btnHold_Click"/>
                             <Button x:Name="btnDirectInvoice" Style="{StaticResource btnGray}" Content="Direct Invoice" Click="btnDirectInvoice_Click"/>
                             <Button x:Name="btnPlaceOrder" Style="{StaticResource btnGray}" Content="Place Order" Click="btnPlaceOrder_Click"/>
                         </StackPanel>

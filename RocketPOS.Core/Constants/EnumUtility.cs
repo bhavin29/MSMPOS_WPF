@@ -10,7 +10,8 @@ namespace RocketPOS.Core.Constants
         {
             DineIN = 1,
             TakeAway = 2,
-            Delivery = 3
+            Delivery = 3,
+            All = 4
         }
 
         public enum OrderPaidStatus

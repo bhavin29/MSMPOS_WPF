@@ -26,11 +26,9 @@ namespace RocketPOS.Helpers
             GenerateDynamicFoodMenu();
             GetWaiterList();
             GetCustomerList();
-
-            CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
-            List<CustomerOrderModel> customerOrderList = new List<CustomerOrderModel>();
-            customerOrderList = customerOrderViewModel.GetCustomerOrderList();
-            lbCustomerOrderList.ItemsSource = customerOrderList;
+            rdbPendingSales.IsChecked = true;
+            rdbAllSales.IsChecked = true;
+            GetOrderList(1, 4,string.Empty);
         }
 
         #region Methods
@@ -146,6 +144,7 @@ namespace RocketPOS.Helpers
             txtbTotalPayableAmount.Text = "0";
             txtbSubTotalAmount.Text = "0";
             txtbTotalItemCount.Text = "0";
+            txtbOrderId.Text = "0";
         }
         private void GetFoodItems(string type)
         {
@@ -168,7 +167,6 @@ namespace RocketPOS.Helpers
             FoodMenuModel foodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
             GenerateDynamicFoodItems(foodMenu, rootPath, searchKey, string.Empty);
         }
-
         private void GetWaiterList()
         {
             CommonViewModel commonViewModel = new CommonViewModel();
@@ -176,17 +174,25 @@ namespace RocketPOS.Helpers
             waiters = commonViewModel.GetWaiters();
             cmbWaiter.ItemsSource = waiters;
         }
-        private void PlaceOrder(string type)
+
+        private void GetOrderList(int orderStatus, int orderType,string searchKey)
+        {
+            CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
+            List<CustomerOrderModel> customerOrderList = new List<CustomerOrderModel>();
+            customerOrderList = customerOrderViewModel.GetCustomerOrderList(orderStatus, orderType,searchKey);
+            lbCustomerOrderList.ItemsSource = customerOrderList;
+        }
+        private int PlaceOrder(string type)
         {
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
             CustomerOrderModel customerOrderModel = new CustomerOrderModel();
             CustomerOrderItemModel customerOrderItemModel = new CustomerOrderItemModel();
             List<CustomerOrderItemModel> customerOrderItemModels = new List<CustomerOrderItemModel>();
-
+            DataTable customerOrderItem = new DataTable();
             int insertedId = 0;
+
             if (Convert.ToInt32(txtbOrderId.Text) == 0)
             {
-                DataTable customerOrderItem = new DataTable();
                 customerOrderItem.Columns.Add("CustomerOrderItemId", typeof(Int64));
                 customerOrderItem.Columns.Add("FoodMenuId", typeof(Int32));
                 customerOrderItem.Columns.Add("FoodMenuRate", typeof(decimal));
@@ -227,19 +233,13 @@ namespace RocketPOS.Helpers
                 customerOrderModel.TotalPayable = Convert.ToDecimal(txtbTotalPayableAmount.Text);
                 customerOrderModel.CustomerPaid = 0;
                 customerOrderModel.CustomerNote = null;
-                customerOrderModel.OrderStatus = 0;
+                customerOrderModel.OrderStatus = (int)EnumUtility.OrderPaidStatus.Pending;
                 customerOrderModel.AnyReason = null;
                 customerOrderModel.UserIdInserted = 1;
                 customerOrderModel.DateInserted = System.DateTime.Now;
-
-                insertedId = customerOrderViewModel.InsertCustomerOrder(customerOrderModel, customerOrderItem);
-                txtbOrderId.Text = insertedId.ToString();
             }
             else
             {
-
-
-                DataTable customerOrderItem = new DataTable();
                 customerOrderItem.Columns.Add("CustomerOrderItemId", typeof(Int64));
                 customerOrderItem.Columns.Add("FoodMenuId", typeof(Int32));
                 customerOrderItem.Columns.Add("FoodMenuRate", typeof(decimal));
@@ -280,38 +280,41 @@ namespace RocketPOS.Helpers
                 customerOrderModel.TotalPayable = Convert.ToDecimal(txtbTotalPayableAmount.Text);
                 customerOrderModel.CustomerPaid = 0;
                 customerOrderModel.CustomerNote = null;
-                customerOrderModel.OrderStatus = 0;
+                customerOrderModel.OrderStatus = (int)EnumUtility.OrderPaidStatus.Pending;
                 customerOrderModel.AnyReason = null;
                 customerOrderModel.UserIdInserted = 1;
                 customerOrderModel.DateInserted = System.DateTime.Now;
-
-                insertedId = customerOrderViewModel.InsertCustomerOrder(customerOrderModel, customerOrderItem);
-                txtbOrderId.Text = insertedId.ToString();
             }
+
 
             if (type == "DirectInvoice")
             {
-                if (insertedId > 0)
-                {
-                    ClearCustomerOrderItemControll();
-                }
-                else
-                {
-                    MessageBox.Show(StatusMessages.PlaceOrderFailed);
-                }
+                customerOrderModel.OrderStatus = (int)EnumUtility.OrderPaidStatus.FullPaid;
+            }
+            else if (type == "Hold")
+            {
+                customerOrderModel.OrderStatus = (int)EnumUtility.OrderPaidStatus.Hold;
             }
             else
             {
-                if (insertedId > 0)
-                {
-                    MessageBox.Show(StatusMessages.PlaceOrderSuccess);
-                    ClearCustomerOrderItemControll();
-                }
-                else
-                {
-                    MessageBox.Show(StatusMessages.PlaceOrderFailed);
-                }
+                customerOrderModel.OrderStatus = (int)EnumUtility.OrderPaidStatus.Pending;
             }
+
+            insertedId = customerOrderViewModel.InsertCustomerOrder(customerOrderModel, customerOrderItem);
+            txtbOrderId.Text = insertedId.ToString();
+
+            if (insertedId > 0)
+            {
+                //MessageBox.Show(StatusMessages.PlaceOrderSuccess);
+                MessageBox.Show(StatusMessages.PlaceOrderSuccess, "Place Order", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                ClearCustomerOrderItemControll();
+            }
+            else
+            {
+                //MessageBox.Show(StatusMessages.PlaceOrderFailed);
+                MessageBox.Show(StatusMessages.PlaceOrderFailed, "Place Order", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+            }
+            return insertedId;
         }
         #endregion
 
@@ -429,7 +432,7 @@ namespace RocketPOS.Helpers
                 return;
             }
             btnKitchenStatus.Visibility = Visibility.Hidden;
-            PlaceOrder("NewOrder");
+            PlaceOrder("Pending");
         }
         private void btnPopUpAddToCart_Click(object sender, RoutedEventArgs e)
         {
@@ -558,7 +561,6 @@ namespace RocketPOS.Helpers
         {
             ppDirectInvoice.IsOpen = false;
         }
-
         private void txtPPGivenAmount_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(txtPPGivenAmount.Text))
@@ -569,15 +571,16 @@ namespace RocketPOS.Helpers
         }
         private void btnDirectInvoiceSubmit_Click(object sender, RoutedEventArgs e)
         {
-            PlaceOrder("DirectInvoice");
+            int orderId = 0;
+            orderId = PlaceOrder("DirectInvoice");
 
             CustomerBillViewModel customerBillViewModel = new CustomerBillViewModel();
             CustomerBillModel customerBillModel = new CustomerBillModel();
             int insertedId = 0;
 
             customerBillModel.OutletId = 1;
-            customerBillModel.CustomerOrderId = Convert.ToInt32(txtbOrderId.Text);
-            customerBillModel.CustomerId = 1;
+            customerBillModel.CustomerOrderId = orderId;
+            customerBillModel.CustomerId = Convert.ToInt32(cmbCustomer.SelectedValue);
             customerBillModel.GrossAmount = Convert.ToDecimal(lblPPTotalPayableAmount.Content);
             customerBillModel.Discount = 0;
             customerBillModel.ServiceCharge = 0;
@@ -683,6 +686,52 @@ namespace RocketPOS.Helpers
         }
         #endregion
 
-        
+        private void btnHold_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmbWaiter.SelectedItem == null)
+            {
+                MessageBox.Show("Please Select Waiter.", "Place Order", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                cmbWaiter.Focus();
+                return;
+            }
+
+            if (cmbCustomer.SelectedItem == null)
+            {
+                MessageBox.Show("Please Select Customer.", "Place Order", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                cmbCustomer.Focus();
+                return;
+            }
+            PlaceOrder("Hold");
+        }
+        private void searchSalesOrder(object sender, RoutedEventArgs e)
+        {
+            int orderType = 0, orderStatus = 0;
+            if (rdbDineInSales.IsChecked == true)
+            {
+                orderType =(int)EnumUtility.OrderType.DineIN;
+            }
+            else if (rdbTakeAwaySales.IsChecked == true)
+            {
+                orderType = (int)EnumUtility.OrderType.TakeAway;
+            }
+            else if (rdbDeliverySales.IsChecked == true)
+            {
+                orderType = (int)EnumUtility.OrderType.Delivery;
+            }
+            else
+            { 
+                orderType = (int)EnumUtility.OrderType.All;
+            }
+
+            if (rdbHoldSales.IsChecked==true)
+            {
+                orderStatus = (int)EnumUtility.OrderPaidStatus.Hold;
+            }
+            else
+            {
+                orderStatus = (int)EnumUtility.OrderPaidStatus.Pending;
+            }
+            GetOrderList(orderStatus, orderType, txtSearchModifyOrder.Text);
+        }
     }
 }
