@@ -4,7 +4,16 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>rocket_pos.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="images\Error.jpg" />
+    <None Remove="images\Information.jpg" />
+    <None Remove="images\Question.png" />
+    <None Remove="images\rocket_pos_logo.jpg" />
+    <None Remove="images\Warning.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
@@ -14,6 +23,24 @@
     <ProjectReference Include="..\RocketPOS.Model\RocketPOS.Model.csproj" />
     <ProjectReference Include="..\RocketPOS.ViewModels\RocketPOS.ViewModels.csproj" />
     <ProjectReference Include="..\RocketPOS.Views\RocketPOS.Views.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\Error.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\Information.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\Question.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\rocket_pos_logo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\Warning.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

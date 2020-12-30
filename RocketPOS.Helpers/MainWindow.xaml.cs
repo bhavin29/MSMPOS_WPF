@@ -12,6 +12,7 @@ using System.Data;
 using RocketPOS.Core.Constants;
 using RocketPOS.Views;
 using System.Windows.Media;
+using RocketPOS.Helpers.RMessageBox;
 
 namespace RocketPOS.Helpers
 {
@@ -559,6 +560,7 @@ namespace RocketPOS.Helpers
             ClearCustomerOrderItemControll();
             btnKitchenStatus.Visibility = Visibility.Visible;
             var st = (CustomerOrderModel)lbCustomerOrderList.SelectedItem;
+
             CustomerOrderModel customerOrderModel = new CustomerOrderModel();
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
             customerOrderModel = customerOrderViewModel.GetCustomerOrderByOrderId(st.Id);
@@ -682,11 +684,14 @@ namespace RocketPOS.Helpers
             ppDirectInvoice.IsOpen = false;
             if (insertedId > 0)
             {
-                MessageBox.Show(StatusMessages.BillDetailSaveSuccess);
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, StatusMessages.BillDetailSaveSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+
+               // MessageBox.Show(StatusMessages.BillDetailSaveSuccess);
                 ClearCustomerOrderItemControll();
             }
             else
             {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, StatusMessages.BillDetailSaveSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                 MessageBox.Show(StatusMessages.BillDetailSaveFailed);
             }
 

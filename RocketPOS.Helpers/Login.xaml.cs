@@ -4,6 +4,8 @@ using RocketPOS.Model;
 using RocketPOS.ViewModels;
 using RocketPOS.Core;
 using RocketPOS.Core.Constants;
+using RocketPOS.Helpers.RMessageBox;
+using RocketPOS.Core.Constants;
 
 namespace RocketPOS.Helpers
 {
@@ -41,14 +43,14 @@ namespace RocketPOS.Helpers
             }
             else
             {
-                MessageBox.Show("Wrong UserName/PassWord");
+
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Wrong UserName/PassWord",MessageBoxButton.OK,EnumUtility.MessageBoxImage.Warning);
+                //var messageBoxResult = WpfMessageBox.Show("Message Box Title", "Are you sure?", MessageBoxButton.YesNo, RocketPOS.Core.Constants.EnumUtility.MessageBoxImage.Warning);
+                //if (messageBoxResult != MessageBoxResult.Yes) return;
+
+                //MessageBox.Show("Wrong UserName/PassWord");
                 ResetControl();
             }
-        }
-
-        private void btnLogout_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
         }
 
         private void ResetControl()

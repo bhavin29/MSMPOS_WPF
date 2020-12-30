@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using RocketPOS.Model;
 using RocketPOS.ViewModels;
 using RocketPOS.Core.Constants;
+using RocketPOS.Helpers.RMessageBox;
 
 namespace RocketPOS.Helpers
 {
@@ -47,7 +48,9 @@ namespace RocketPOS.Helpers
             }
             else
             {
-                MessageBox.Show("Please enter Opening Balance");
+                var messageBoxResult = WpfMessageBox.Show("ROCKET POS", "Please enter Opening Balance", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+
+               // MessageBox.Show("Please enter Opening Balance");
                 txtOpeningBal.Focus();
             }
         }

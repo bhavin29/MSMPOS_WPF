@@ -2,6 +2,7 @@
 {
     public static class StatusMessages
     {
+        public const string AppTitle = "ROCKET POS";
         public const string PlaceOrderSuccess = "Order Placed Successfully.";
         public const string PlaceOrderFailed = "Order Placed Failed.";
         public const string BillDetailSaveSuccess = "Bill Details Save Successfully.";
