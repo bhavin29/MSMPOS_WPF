@@ -14,8 +14,6 @@ namespace RocketPOS.Helpers
     /// </summary>
     public partial class Login : Window
     {
-        MainWindow mainWin = new MainWindow();
-        OpenRegister openRegister = new OpenRegister();
         List<LoginModel> loginModel = new List<LoginModel>();
         LoginViewModel loginViewModel = new LoginViewModel();
 
@@ -26,10 +24,13 @@ namespace RocketPOS.Helpers
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            loginModel = loginViewModel.GetUserLogin(txtUsername.Text, txtPassword.Password);
+             loginModel = loginViewModel.GetUserLogin(txtUsername.Text, txtPassword.Password);
             if (loginModel.Count > 0)
             {
                 LoginMerge(loginModel);
+
+                MainWindow mainWin = new MainWindow();
+                OpenRegister openRegister = new OpenRegister();
 
                 if (loginModel[0].OutletRegisterStatus == 1)
                 {
@@ -48,7 +49,6 @@ namespace RocketPOS.Helpers
                 //var messageBoxResult = WpfMessageBox.Show("Message Box Title", "Are you sure?", MessageBoxButton.YesNo, RocketPOS.Core.Constants.EnumUtility.MessageBoxImage.Warning);
                 //if (messageBoxResult != MessageBoxResult.Yes) return;
 
-                //MessageBox.Show("Wrong UserName/PassWord");
                 ResetControl();
             }
         }

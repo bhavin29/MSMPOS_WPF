@@ -13,6 +13,7 @@ using RocketPOS.Core.Constants;
 using RocketPOS.Views;
 using System.Windows.Media;
 using RocketPOS.Helpers.RMessageBox;
+using System.Windows.Threading;
 
 namespace RocketPOS.Helpers
 {
@@ -21,9 +22,13 @@ namespace RocketPOS.Helpers
     /// </summary>
     public partial class MainWindow : Window
     {
+        DispatcherTimer timer;
         public MainWindow()
         {
             InitializeComponent();
+
+            Timer();
+            HeaderFooter();
             GenerateDynamicFoodMenu();
             GetWaiterList();
             GetCustomerList();
@@ -829,6 +834,9 @@ namespace RocketPOS.Helpers
         }
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
         {
+            Login frmLogin = new Login();
+
+            frmLogin.Show();
             this.Close();
         }
         #endregion
@@ -851,6 +859,26 @@ namespace RocketPOS.Helpers
             ppDineInTables.IsOpen = true;
             tables = tableViewModel.GetTables(1);//outletId
             lbTablesList.ItemsSource = tables;
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            txtDatetime.Text = DateTime.Now.ToLongTimeString();
+        }
+        private void Timer()
+        {
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
+        }
+
+        private void HeaderFooter()
+        {
+            txtClientName.Text = LoginDetail.ClientName + "  |  " ;
+            txbOutletName.Text = LoginDetail.OutletName;
+            txtbUserName.Text = "User: " + LoginDetail.Username;
+            txtWebsite.Text = "www.RocketPOS.com";
         }
     }
 }

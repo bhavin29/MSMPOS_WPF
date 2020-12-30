@@ -6,7 +6,7 @@
 		       xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d"
-        Title="RocketPOS" Height="768" Width="1200" WindowStartupLocation="CenterScreen" Background="RoyalBlue">
+        Title="RocketPOS" Height="770" Width="1200" WindowStartupLocation="CenterScreen" Background="RoyalBlue">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -19,9 +19,9 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <!--Top header-->
-        <Grid Grid.Row="0" >
+        <Grid Grid.Row="0" Background="Black">
             <StackPanel x:Name="HeaderPanel" Orientation="Vertical" Margin="5" >
-                <TextBlock x:Name="txtbClientNam22e1"  Style="{StaticResource txtBlock}" Text="WELCOME TO ROCKET POS WELCOME TO ROCKET POSWELCOME TO ROCKET POSWELCOME TO ROCKET POSWELCOME TO ROCKET POSWELCOME TO ROCKET POSWELCOME TO ROCKET POS"  Height="25" />
+                <TextBlock x:Name="txtbClientNam22e1"  Style="{StaticResource txtBlock}" FontWeight="Bold"  Text="Rocket POS"  Height="25" />
             </StackPanel>
         </Grid>
         <!--Log out row-->
@@ -537,29 +537,30 @@
         </Grid>
         <!--Footer-->
         <Grid Grid.Row="4" >
-            <Grid>
+            <Grid Background="Black">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="400"/>
-                    <ColumnDefinition Width="400"/>
-                    <ColumnDefinition Width="400"/>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="500"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Column="0">
-                    <StackPanel x:Name="footerPanel" Orientation="Horizontal"   >
-                        <TextBlock x:Name="txtbClientName1"  Style="{StaticResource txtBlock}" Text="SHAYONA FOODS LTD"  />
-                        <TextBlock x:Name="txtbOutletName"  Style="{StaticResource txtBlock}" Text="PREMVATI 001"   />
+                    <StackPanel x:Name="footerPanel1" Orientation="Horizontal" Margin="5,5,5,5"  >
+                        <TextBlock x:Name="txtClientName"  Style="{StaticResource txtBlock}"   />
+                        <TextBlock x:Name="txbOutletName"  Style="{StaticResource txtBlock}"   />
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Column="1">
-                    <TextBlock x:Name="txtbUserName"  Style="{StaticResource txtBlock}" Text="Jag001"  />
+                    <StackPanel x:Name="footerPane21" Orientation="Horizontal" Margin="5,5,5,5"  >
+                        <TextBlock x:Name="txtbUserName"  Style="{StaticResource txtBlock}" />
+                    </StackPanel>
                 </Grid>
                 <Grid Grid.Column="2">
-
-                    <StackPanel x:Name="footer1Panel" Orientation="Horizontal"   >
-                        <TextBlock x:Name="txtDatetime"  Style="{StaticResource txtBlock}" Text="25-15-2020 12:30 PM"  />
-                        <TextBlock x:Name="txtRocket"  Style="{StaticResource txtBlock}" Text="www.ROCKETPOS.com"   />
+                    <StackPanel x:Name="footerPanel3" Orientation="Horizontal" Margin="5,5,5,5"  >
+                        <TextBlock x:Name="txtWebsite"  Style="{StaticResource txtBlock}"   />
+                        <TextBlock x:Name="txtDatetime"  Style="{StaticResource txtBlock}" Margin="250,0,0,0"/>
                     </StackPanel>
                 </Grid>
             </Grid>
