@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
+
 namespace RocketPOS.ViewModels
 {
     public class CustomerOrderViewModel
@@ -110,5 +111,35 @@ namespace RocketPOS.ViewModels
                 return paymentMethodModels;
             }
         }
+
+        public List<CustomerOrderHistoryModel> GetCustomerOrderHistoryList( DateTime fromDate, DateTime toDate)
+        {
+            List<CustomerOrderHistoryModel> customerOrderHistoryModels = new List<CustomerOrderHistoryModel>();
+            using (var db = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                string query = string.Empty;
+                query = "SELECT CO.SalesInvoiceNumber,C.CustomerName, " +
+                           "  CASE WHEN CO.OrderType = 1 THEN 'Dine IN' " +
+                                      "  WHEN CO.OrderType = 2 THEN 'Take Away' " +
+                                      "  WHEN CO.OrderType = 3 THEN 'Delivery' END as OrderType,  " +
+                            " CONVERT(VARCHAR(12),CO.OrderDate,3),CO.GrossAmount,CO.DiscountAmount,  " +
+                            " CO.DeliveryCharges,CO.TaxAmount,CO.TotalPayable ,  " +
+                            " CASE WHEN CO.OrderStatus = 1 THEN 'Pending'  " +
+                                      "  WHEN CO.OrderStatus = 2 THEN 'Hold'  " +
+                                      "  WHEN CO.OrderStatus = 3 THEN 'Partial Paid'  " +
+                                      "  WHEN CO.OrderStatus = 3 THEN 'Paid' END as OrderStatus  " +
+                            " FROM CustomerOrder CO  " +
+                            " INNER JOIN Customer C ON C.ID = CO.CustomerId  " +
+                            " WHERE OutletId =" + LoginDetail.OutletId +
+                            " AND convert(varchar(12),Orderdate,3) between '" + fromDate.ToShortDateString() + "' AND '" + toDate.ToShortDateString() + "'" +
+                            " ORDER BY CO.Orderdate desc;";
+
+                customerOrderHistoryModels = db.Query<CustomerOrderHistoryModel>(query).ToList();
+
+                return customerOrderHistoryModels;
+            }
+        }
+
+
     }
 }

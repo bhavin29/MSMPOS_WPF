@@ -1,0 +1,40 @@
+﻿<Window x:Class="RocketPOS.Helpers.Reports.CustomerOrderHistoryList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RocketPOS.Helpers.Reports"
+        mc:Ignorable="d"
+         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="False" WindowStyle="SingleBorderWindow"
+        Title="OrderList" Height="600" Width="845">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="840"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="500"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="Black">
+        </Grid>
+        <Grid Grid.Row="1" Background="Blue">
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="2">
+                <DataGrid x:Name="dgOrderList" ItemsSource="{Binding SaleItemModel}" ScrollViewer.CanContentScroll="True" 
+      ScrollViewer.VerticalScrollBarVisibility="Auto"
+      ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Invoice#" IsReadOnly="True" Binding="{Binding SalesInvoiceNumber}" Width="80"/>
+                        <DataGridTextColumn Header="Order Date" IsReadOnly="True"  Binding="{Binding OrderDate}" Width="80"/>
+                        <DataGridTextColumn Header="Order Type" IsReadOnly="True" Binding="{Binding OrderType}" Width="80"/>
+                        <DataGridTextColumn Header="Customer" IsReadOnly="True"  Binding="{Binding CustomerName}" Width="150"/>
+                        <DataGridTextColumn Header="Dist Amount" IsReadOnly="True"  Binding="{Binding DiscountAmount}" Width="80" />
+                        <DataGridTextColumn Header="Del. Charges" IsReadOnly="True"  Binding="{Binding DeliveryCharges}" Width="80"/>
+                        <DataGridTextColumn Header="Tax Amount" IsReadOnly="True"  Binding="{Binding TaxAmount}" Width="80"/>
+                        <DataGridTextColumn Header="Total Payable" IsReadOnly="True"  Binding="{Binding TotalPayable}" Width="80"/>
+                        <DataGridTextColumn Header="Order Status" IsReadOnly="True"  Binding="{Binding OrderStatus}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

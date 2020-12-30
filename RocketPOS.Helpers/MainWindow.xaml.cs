@@ -14,6 +14,7 @@ using RocketPOS.Views;
 using System.Windows.Media;
 using RocketPOS.Helpers.RMessageBox;
 using System.Windows.Threading;
+using RocketPOS.Helpers.Reports;
 
 namespace RocketPOS.Helpers
 {
@@ -524,6 +525,12 @@ namespace RocketPOS.Helpers
         }
         private void btnCalculator_Click(object sender, RoutedEventArgs e)
         {
+            CustomerOrderHistoryList customerOrderHistoryList = new CustomerOrderHistoryList();
+          
+            customerOrderHistoryList.Show();
+
+
+
             Calculator winCalCulator = new Calculator();
 
             winCalCulator.Width = 237;
