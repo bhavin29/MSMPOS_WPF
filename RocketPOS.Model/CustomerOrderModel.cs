@@ -15,7 +15,7 @@ namespace RocketPOS.Model
         public string WaiterName { get; set; }
         public int OrderType { get; set; }
         public DateTime OrderDate { get; set; }
-        public int TableId { get; set; }
+        public string TableId { get; set; }
         public string TockenNumber { get; set; }
         public decimal GrossAmount { get; set; }
         public decimal DiscountPercentage { get; set; }
