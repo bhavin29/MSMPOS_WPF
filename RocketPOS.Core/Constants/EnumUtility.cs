@@ -23,8 +23,11 @@ namespace RocketPOS.Core.Constants
         }
         public enum KOTStatus
         {
+            [Display(Name = "Pending")]
             Pending = 1,
+            [Display(Name = "Cooking")]
             Cooking = 2,
+            [Display(Name = "Completed")]
             Completed = 3
         }
         public enum TableStatus

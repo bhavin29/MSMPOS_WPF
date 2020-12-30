@@ -20,11 +20,13 @@ namespace RocketPOS.Helpers
         public Login()
         {
             InitializeComponent();
+            txtUsername.Text = "Admin";
+            txtPassword.Password = "Admin";
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-             loginModel = loginViewModel.GetUserLogin(txtUsername.Text, txtPassword.Password);
+            loginModel = loginViewModel.GetUserLogin(txtUsername.Text, txtPassword.Password);
             if (loginModel.Count > 0)
             {
                 LoginMerge(loginModel);

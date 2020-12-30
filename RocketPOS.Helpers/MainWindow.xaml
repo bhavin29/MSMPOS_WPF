@@ -73,7 +73,7 @@
                         </StackPanel>
                     </Grid>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Width="250" Height="357" Background="White" >
-                        <ListBox x:Name="lbCustomerOrderList" HorizontalAlignment="Center">
+                        <ListBox x:Name="lbCustomerOrderList" HorizontalAlignment="Left" Width="250" Height="357">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,5,0,5">
@@ -83,16 +83,17 @@
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                        <Expander Name="epOrder" Background="LightGray"   
+                                        <!--<Expander Name="epOrder" Background="LightGray"   
                                         HorizontalAlignment="Center" Header="{Binding Id}" FlowDirection="RightToLeft"   
                                         ExpandDirection="Down" IsExpanded="False" Margin="10,2,10,2" Width="250"    
-                                        FontSize="20" FontWeight="Bold" Foreground="Black" Expanded="epOrder_Expanded" LostFocus="epOrder_LostFocus">
-                                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" >
-                                                <TextBlock Text="{Binding CustomerId}"/>
-                                                <TextBlock Text="{Binding CustomerName}"/>
-                                                <TextBlock Text="{Binding WaiterName}"/>
+                                        FontSize="20" FontWeight="Bold" Foreground="Black" Expanded="epOrder_Expanded" LostFocus="epOrder_LostFocus">-->
+                                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" >
+                                            <TextBlock Text="Order No : "/><TextBlock Text="{Binding Id}"/>
+                                            <!--<TextBlock Text="{Binding CustomerId}"/>-->
+                                                <!--<TextBlock Text="{Binding CustomerName}"/>
+                                                <TextBlock Text="{Binding WaiterName}"/>-->
                                             </StackPanel>
-                                        </Expander>
+                                        <!--</Expander>-->
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -324,7 +325,12 @@
                         </Grid>
 
                         <Grid Grid.Row="1" Grid.Column="0">
-                            <Button x:Name="btnKitchenStatus" Visibility="Hidden"  Style="{StaticResource btnOrangeLng}" Content="Kitchen Status" Width="150" Height="25"  />
+                            <!--<Button x:Name="btnKitchenStatus" Visibility="Hidden"  Style="{StaticResource btnOrangeLng}" Content="Kitchen Status" Width="150" Height="25"  />-->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 0">
+                                <TextBlock x:Name="txtbKitchenStatusTitle" Style="{StaticResource txtBlock}" Visibility="Hidden" Text="KOT Status :"/>
+                                <TextBlock x:Name="txtbKitchenStatus" Style="{StaticResource txtBlock}" Visibility="Hidden" Text=""/>
+                            </StackPanel>
+                            
                         </Grid>
                         
                         <Grid Grid.Row="1"  Grid.Column="1">
@@ -495,10 +501,10 @@
                         <ColumnDefinition Width="530"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="50"/>
-                        <RowDefinition Height="50"/>
-                        <RowDefinition Height="465"/>
-                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="400"/>
+                        <RowDefinition Height="60"/>
                     </Grid.RowDefinitions>
 
 
@@ -507,10 +513,10 @@
 
                     </Grid>
                     <Grid Grid.Row="1">
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                            <StackPanel x:Name="spCategory" Orientation="Horizontal" >
+                        <ScrollViewer >
+                            <WrapPanel x:Name="spCategory" Orientation="Horizontal" >
                                 <Button x:Name="btnAll" Click="GetSubCategory" Style="{StaticResource btnGreen}" Content="All"  ></Button>
-                            </StackPanel>
+                            </WrapPanel>
                         </ScrollViewer>
 
                     </Grid>
@@ -524,13 +530,19 @@
                     </Grid>
 
                     <Grid Grid.Row="3">
-                        <StackPanel Orientation="Horizontal">
+                        <ScrollViewer>
+                            <StackPanel x:Name="spFavouriteCategory" Orientation="Horizontal" >
+                                
+                            </StackPanel>
+                        </ScrollViewer>
+                        
+                        <!--<StackPanel Orientation="Horizontal">
                             <Button x:Name="btnAppetizer" Style="{StaticResource btnGreen}"  Content="APPETIZER" />
                             <Button x:Name="btnWater" Style="{StaticResource btnGreen}"  Content="WATER" />
                             <Button x:Name="btnDesert" Style="{StaticResource btnGreen}"  Content="DESERT" />
                             <Button x:Name="btnMainCourse" Style="{StaticResource btnGreen}"  Content="MAIN COURSE" />
                             <Button x:Name="btnFAQ" Style="{StaticResource btnGreen}"  Content=" ? " />
-                        </StackPanel>
+                        </StackPanel>-->
                     </Grid>
                 </Grid>
             </Grid>
