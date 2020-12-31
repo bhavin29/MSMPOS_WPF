@@ -8,5 +8,10 @@ namespace RocketPOS.Core.Configuration
         {
             return ConfigurationSettings.AppSettings["ConnectionString"];
         }
+
+        public string GetPrinterName()
+        {
+            return ConfigurationSettings.AppSettings["PrinterName"];
+        }
     }
 }

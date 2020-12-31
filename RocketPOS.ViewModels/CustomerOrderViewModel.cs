@@ -44,8 +44,9 @@ namespace RocketPOS.ViewModels
                     dynamicParameters.Add("@AnyReason", customerOrderModel.AnyReason);
                     dynamicParameters.Add("@UserIdInserted", customerOrderModel.UserIdInserted);
                     dynamicParameters.Add("@DateInserted", customerOrderModel.DateInserted);
+                    dynamicParameters.Add("@KotStatus", customerOrderModel.KotStatus);
 
-                    insertedId = connection.Query<int>
+                insertedId = connection.Query<int>
                         (StoredProcedure.PX_INSERT_CUSTOMER_ORDER, dynamicParameters, commandType: CommandType.StoredProcedure, commandTimeout: 0).FirstOrDefault();
                     return insertedId;
             }
@@ -88,8 +89,9 @@ namespace RocketPOS.ViewModels
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
                 var query = "SELECT CO.Id,CO.OutletId,CO.SalesInvoiceNumber,CO.CustomerId,CO.WaiterEmployeeId,CO.OrderType,CO.TableId,CO.GrossAmount,CO.DiscountPercentage,CO.DiscountAmount,CO.DeliveryCharges,CO.TaxAmount,CO.TotalPayable,CO.CustomerNote,CO.OrderStatus, " +
-                            " COI.Id AS CustomerOrderItemId,COI.FoodMenuId,COI.FoodMenuRate,COI.FoodMenuQty,COI.AddonsId,COI.AddonsQty,COI.VarientId,COI.Discount,COI.Price,FM.FoodCategoryId,FM.FoodMenuName,FM.FoodMenuCode,FM.ColourCode,FM.SmallThumb,FM.SalesPrice,FM.Notes " +
+                            " COI.Id AS CustomerOrderItemId,COI.FoodMenuId,COI.FoodMenuRate,COI.FoodMenuQty,COI.AddonsId,COI.AddonsQty,COI.VarientId,COI.Discount,COI.Price,FM.FoodCategoryId,FM.FoodMenuName,FM.FoodMenuCode,FM.ColourCode,FM.SmallThumb,FM.SalesPrice,FM.Notes,COKOT.KOTStatus " +
                             " FROM dbo.CustomerOrder CO  INNER JOIN dbo.CustomerOrderItem COI  ON CO.Id = COI.CustomerOrderId " +
+                            " INNER JOIN dbo.CustomerOrderKOT COKOT  ON CO.Id = COKOT.CustomerOrderId " +
                             " INNER JOIN dbo.FoodMenu FM  ON FM.Id = COI.FoodMenuId  WHERE CO.Id = " + id;
                 orderDetailModel = connection.Query<OrderDetailModel>(query).ToList();
 
