@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		       xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:RocketPOS.Helpers"
-        mc:Ignorable="d"
+        mc:Ignorable="d" ResizeMode="NoResize" 
         Title="RocketPOS" Height="770" Width="1200" WindowStartupLocation="CenterScreen" Background="#00265B">
 
-    <Grid>
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1200"/>
         </Grid.ColumnDefinitions>
@@ -19,15 +19,15 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <!--Top header-->
-        <Grid Grid.Row="0" Background="Black">
+        <Grid Grid.Row="0" >
             <StackPanel x:Name="HeaderPanel" Orientation="Vertical" Margin="5" >
-                <TextBlock x:Name="txtbClientNam22e1"  Style="{StaticResource txtBlock}" FontWeight="Bold"  Text="Rocket POS"  Height="25" />
+                <TextBlock x:Name="txtHeaderTitle"  Style="{StaticResource txtBlock}" FontWeight="Bold"  Text="Welcome to Rocket POS"  Height="25" />
             </StackPanel>
         </Grid>
         <!--Log out row-->
         <Grid Grid.Row="1" >
             <StackPanel x:Name="headerTopRightPanel" Orientation="Horizontal"   >
-                <TextBox x:Name="txtSearchModifyOrder" Style="{StaticResource TextBoxBaseStyle}"   Width="250" TextChanged="searchSalesOrder"/>
+                <TextBox x:Name="txtSearchModifyOrder" Style="{StaticResource TextBoxBaseStyle}"   Width="250" Margin="0,0,2,0" TextChanged="searchSalesOrder"/>
                 <Button x:Name="btnUnknow" Style="{StaticResource btnOrange}" Content="Help"  />
                 <Button x:Name="btnKitchenNotification" Style="{StaticResource btnOrange}" Content="Kitchen Alter" />
                 <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator"  Click="btnCalculator_Click"/>
@@ -44,7 +44,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250"/>
                 <ColumnDefinition Width="405"/>
-                <ColumnDefinition Width="545"/>
+                <ColumnDefinition Width="540"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*">
@@ -52,7 +52,7 @@
             </Grid.RowDefinitions>
 
             <!--Left section-->
-            <Grid Grid.Column="0" Background="RoyalBlue">
+            <Grid Grid.Column="0" >
                 <StackPanel x:Name="leftPanel" Orientation="Vertical" >
                     <Grid Margin="1">
                         <Grid.ColumnDefinitions>
@@ -63,16 +63,16 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <RadioButton x:Name="rdbPendingSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="125" Margin="1" Grid.Row="0" Grid.Column="0" Checked="searchSalesOrder">Pending Sales</RadioButton>
-                        <RadioButton x:Name="rdbHoldSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}"  Height="50" Width="125" Margin="1"  Grid.Row="0" Grid.Column="1" Checked="searchSalesOrder">Hold Sales</RadioButton>
+                        <RadioButton x:Name="rdbPendingSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="125" Margin="0" Grid.Row="0" Grid.Column="0" Checked="searchSalesOrder">Pending Sales</RadioButton>
+                        <RadioButton x:Name="rdbHoldSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}"  Height="50" Width="127" Margin="0"  Grid.Row="0" Grid.Column="1" Checked="searchSalesOrder">Hold Sales</RadioButton>
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                            <RadioButton x:Name="rdbAllSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="1" Grid.Column="0" Checked="searchSalesOrder">All</RadioButton>
-                            <RadioButton x:Name="rdbDineInSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="1" Grid.Column="0" Checked="searchSalesOrder">Dine-IN</RadioButton>
-                            <RadioButton x:Name="rdbTakeAwaySales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="1" Grid.Column="0" Checked="searchSalesOrder">Take</RadioButton>
-                            <RadioButton x:Name="rdbDeliverySales" Background="#D9BA41" Foreground="White" FontSize="15"  Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="1" Grid.Column="0" Checked="searchSalesOrder" >Delivery</RadioButton>
+                            <RadioButton x:Name="rdbAllSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder">All</RadioButton>
+                            <RadioButton x:Name="rdbDineInSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder">Dine-IN</RadioButton>
+                            <RadioButton x:Name="rdbTakeAwaySales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder">Take</RadioButton>
+                            <RadioButton x:Name="rdbDeliverySales" Background="#D9BA41" Foreground="White" FontSize="15"  Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder" >Delivery</RadioButton>
                         </StackPanel>
                     </Grid>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Width="250" Height="419" Background="White" >
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Width="250" Height="411" Background="White" >
                         <ListBox x:Name="lbCustomerOrderList" HorizontalAlignment="Left" Width="250" Height="419">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -109,7 +109,7 @@
             <Grid Grid.Column="1" >
                 <Grid >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="405"/>
+                        <ColumnDefinition Width="410"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
@@ -122,16 +122,16 @@
 
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="405"/>
+                            <ColumnDefinition Width="410"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
-                        <StackPanel  Orientation="Horizontal" Margin="2">
+                        <StackPanel  Orientation="Horizontal" Margin="2,0,0,0">
                             <!--Row 0 Column 0-->
-                            <RadioButton x:Name="rdbDineInOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="133" Margin="1" Click="rdbDineInOrderType_Click">Dine In</RadioButton>
-                            <RadioButton x:Name="rdbTakeAwayOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="133" Margin="1">Take Away</RadioButton>
-                            <RadioButton x:Name="rdbDeliveryOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="135" Margin="1">Delivery</RadioButton>
+                            <RadioButton x:Name="rdbDineInOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="135" Margin="0" Click="rdbDineInOrderType_Click">Dine In</RadioButton>
+                            <RadioButton x:Name="rdbTakeAwayOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="135" Margin="0">Take Away</RadioButton>
+                            <RadioButton x:Name="rdbDeliveryOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="135" Margin="0,0,-5,0">Delivery</RadioButton>
                             <TextBlock x:Name="txtbDineInTableId" Text="NULL" Visibility="Hidden" />
                         </StackPanel>
 
@@ -158,16 +158,16 @@
 
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="400"/>
+                            <ColumnDefinition Width="405"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
-                        <StackPanel  Orientation="Horizontal" Margin="2">
+                        <StackPanel  Orientation="Horizontal" Margin="2,0,0,0">
                             <ComboBox x:Name="cmbWaiter" Style="{StaticResource cmbBox}" Width="145" Height="50" ItemsSource="{Binding}" SelectedValuePath="Id" DisplayMemberPath="FullName"  />
                             <ComboBox x:Name="cmbCustomer" Style="{StaticResource cmbBox}"    Width="145" Height="50" ItemsSource="{Binding}" SelectedValuePath="Id" DisplayMemberPath="CustomerName"  />
-                            <Button x:Name="btnEditCustomer" Style="{StaticResource btnOrange}" Width="50" Content="Edit" Click="btnEditCustomer_Click"/>
-                            <Button x:Name="btnAddCustomer" Style="{StaticResource btnOrange}" Width="60" Content="Add" Click="btnAddCustomer_Click"   />
+                            <Button x:Name="btnEditCustomer" Style="{StaticResource btnOrange}" Width="55" Content="Edit" Click="btnEditCustomer_Click"/>
+                            <Button x:Name="btnAddCustomer" Style="{StaticResource btnOrange}" Width="55" Content="Add" Click="btnAddCustomer_Click"   />
                         </StackPanel>
 
                         <Popup Name="ppCustomerAdd" Placement="Center" AllowsTransparency="False">
@@ -296,17 +296,17 @@
 
                     </Grid>
 
-                    <Grid Grid.Row="3" Background="#86A09E" Margin="3,1,2,3">
+                    <Grid Grid.Row="3" Background="#86A09E" Margin="2,0,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="255"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
-                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="35"/>
                             <RowDefinition Height="25"/>
-                            <RowDefinition Height="40"/>
-                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" Grid.Column="0">
                             <StackPanel Orientation="Horizontal">
@@ -507,30 +507,30 @@
                     </Grid>
                 </Grid>
             </Grid>
+            
             <!--right section-->
             <Grid Grid.Column="2" >
-                <Border BorderThickness="2"/>
-                <Grid>
+                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="530"/>
+                        <ColumnDefinition Width="540"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="100"/>
                         <RowDefinition Height="400"/>
-                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="200"/>
                     </Grid.RowDefinitions>
 
 
-                    <Grid Grid.Row="0">
-                        <ScrollViewer >
-                            <WrapPanel x:Name="spCategory" Orientation="Horizontal" >
-                                <Button x:Name="btnAll" Click="GetSubCategory" Style="{StaticResource btnOrange}" Content="All"  ></Button>
+                    <Grid Grid.Row="0" Margin="5,-4,0,0">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <WrapPanel x:Name="spCategory" Orientation="Horizontal" Margin="0">
+                                <Button x:Name="btnAll" Click="GetSubCategory" Style="{StaticResource btnOrange}" Margin="0" Content="All"  ></Button>
                             </WrapPanel>
                         </ScrollViewer>
 
                     </Grid>
-                    <Grid Grid.Row="1">
-                        <ScrollViewer >
+                    <Grid Grid.Row="1" Margin="2">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
                             <WrapPanel x:Name="spSubCategory" Orientation="Horizontal">
 
                             </WrapPanel>
@@ -538,13 +538,14 @@
 
                     </Grid>
 
-                    <Grid Grid.Row="2">
-                        <ScrollViewer>
+                    <Grid Grid.Row="2" Margin="2">
+                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="100">
                             <StackPanel x:Name="spFavouriteCategory" Orientation="Horizontal" >
 
                             </StackPanel>
                         </ScrollViewer>
-
+                        </StackPanel>
                         <!--<StackPanel Orientation="Horizontal">
                             <Button x:Name="btnAppetizer" Style="{StaticResource btnGreen}"  Content="APPETIZER" />
                             <Button x:Name="btnWater" Style="{StaticResource btnGreen}"  Content="WATER" />
@@ -558,7 +559,7 @@
         </Grid>
         <!--Footer-->
         <Grid Grid.Row="4" >
-            <Grid Background="Black">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="400"/>
                     <ColumnDefinition Width="300"/>

@@ -71,9 +71,12 @@ namespace RocketPOS.Helpers
                     Button btnCategory = new Button();
                     btnCategory.Content = foodCategory.FoodCategory;
                     btnCategory.Name = "btn" + foodCategory.Id;
+                    btnCategory.FontSize = 15;
                     btnCategory.Width = 100;
                     btnCategory.Height = 50;
-                    btnCategory.Margin = new Thickness(5, 0, 5, 10);
+                    btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
+                    btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                    btnCategory.Margin = new Thickness(1);
                     btnCategory.Click += GetSubCategory;
                     spCategory.Children.Add(btnCategory);
                 }
@@ -82,9 +85,12 @@ namespace RocketPOS.Helpers
                     Button btnCategory = new Button();
                     btnCategory.Content = foodCategory.FoodCategory;
                     btnCategory.Name = "btn" + foodCategory.Id;
+                    btnCategory.FontSize = 15;
                     btnCategory.Width = 100;
                     btnCategory.Height = 50;
-                    btnCategory.Margin = new Thickness(5, 0, 5, 10);
+                    btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41")); 
+                    btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                    btnCategory.Margin = new Thickness(1);
                     btnCategory.Click += GetSubCategory;
                     spFavouriteCategory.Children.Add(btnCategory);
                 }
@@ -419,7 +425,7 @@ namespace RocketPOS.Helpers
                 Discount = 0,
                 Total = Convert.ToUInt64(salePrice.Text) * 1,
                 CustomerOrderItemId = 0
-            });
+            }) ;
             dgSaleItem.Items.Add(saleItems);
         }
         //private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
