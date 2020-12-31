@@ -15,6 +15,7 @@ using System.Windows.Media;
 using RocketPOS.Helpers.RMessageBox;
 using System.Windows.Threading;
 using RocketPOS.Core.Configuration;
+using RocketPOS.Helpers.Reports;
 
 namespace RocketPOS.Helpers
 {
@@ -421,10 +422,10 @@ namespace RocketPOS.Helpers
             });
             dgSaleItem.Items.Add(saleItems);
         }
-        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            GetSearchFoodItems(txtSearch.Text.ToLower());
-        }
+        //private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    GetSearchFoodItems(txtSearch.Text.ToLower());
+        //}
         private void btnPlusQty_Click(object sender, RoutedEventArgs e)
         {
             List<SaleItemModel> saleItem = new List<SaleItemModel>();
@@ -562,13 +563,7 @@ namespace RocketPOS.Helpers
         }
         private void btnCalculator_Click(object sender, RoutedEventArgs e)
         {
-            CustomerOrderHistoryList customerOrderHistoryList = new CustomerOrderHistoryList();
-          
-            customerOrderHistoryList.Show();
-
-
-
-            Calculator winCalCulator = new Calculator();
+               Calculator winCalCulator = new Calculator();
 
             winCalCulator.Width = 237;
             winCalCulator.Height = 310;
@@ -959,6 +954,16 @@ namespace RocketPOS.Helpers
             txbOutletName.Text = LoginDetail.OutletName;
             txtbUserName.Text = "User: " + LoginDetail.Username;
             txtWebsite.Text = "www.RocketPOS.com";
+        }
+
+        private void btnLastSale_Click(object sender, RoutedEventArgs e)
+        {
+            CustomerOrderHistoryList customerOrderHistoryList = new CustomerOrderHistoryList();
+
+            customerOrderHistoryList.Show();
+
+
+
         }
     }
 }

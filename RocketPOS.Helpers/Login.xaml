@@ -11,7 +11,7 @@
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" 
         Width="1280" Height="760" 
         >
-    <Grid Width="1280" Height="760" Background="RoyalBlue">
+    <Grid Width="1280" Height="760" Background="#00265B">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1280"/>
         </Grid.ColumnDefinitions>
