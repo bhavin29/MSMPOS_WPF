@@ -25,7 +25,7 @@ namespace RocketPOS.ViewModels
                     " [User] U " +
                     " INNER JOIN OUTLET O ON O.Id = U.OutletId " +
                     " CROSS JOIN Client C " +
-                    " WHERE USERNAME = '" + userName + "' AND [PASSWORD] = '" + Password +"'";
+                    " WHERE USERNAME = '" + userName + "' AND [PASSWORD] = '" + Password + "' AND U.IsActive=1 AND O.IsActive=1";
 
                 loginModel = connection.Query<LoginModel>(query).ToList();
 

@@ -15,7 +15,7 @@ namespace RocketPOS.ViewModels
             List<TableModel> tables = new List<TableModel>();
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
-                var query = "SELECT Id,OutletId,TableName,PersonCapacity,TableIcon,Status FROM dbo.Tables Where OutletId="+ outletId;
+                var query = "SELECT Id,OutletId,TableName,PersonCapacity,TableIcon,Status FROM dbo.Tables Where OutletId="+ outletId + " And IsDeleted=0";
                 tables = connection.Query<TableModel>(query).ToList();
                 return tables;
             }

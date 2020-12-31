@@ -7,6 +7,7 @@ namespace RocketPOS.Model
     public class CustomerOrderModel : CustomerOrderItemModel
     {
         public int Id { get; set; }
+        public string CustomerOrderNo { get; set; }
         public int OutletId { get; set; }
         public string SalesInvoiceNumber { get; set; }
         public int CustomerId { get; set; }
