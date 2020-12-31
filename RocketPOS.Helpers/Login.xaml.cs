@@ -2,16 +2,17 @@
 using System.Windows;
 using RocketPOS.Model;
 using RocketPOS.ViewModels;
-using RocketPOS.Core;
 using RocketPOS.Core.Constants;
 using RocketPOS.Helpers.RMessageBox;
-using RocketPOS.Core.Constants;
+using NLog;
 
 namespace RocketPOS.Helpers
 {
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
+    /// 
+
     public partial class Login : Window
     {
         List<LoginModel> loginModel = new List<LoginModel>();
@@ -22,10 +23,15 @@ namespace RocketPOS.Helpers
             InitializeComponent();
             txtUsername.Text = "Admin";
             txtPassword.Password = "Admin";
+
+            Logger logger = LogManager.GetCurrentClassLogger();
+            logger.Error("Loggly Error");
+            logger.Info("Start logging");
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
+
             loginModel = loginViewModel.GetUserLogin(txtUsername.Text, txtPassword.Password);
             if (loginModel.Count > 0)
             {
@@ -47,7 +53,7 @@ namespace RocketPOS.Helpers
             else
             {
 
-                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Wrong UserName/PassWord",MessageBoxButton.OK,EnumUtility.MessageBoxImage.Warning);
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Wrong UserName/PassWord", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                 //var messageBoxResult = WpfMessageBox.Show("Message Box Title", "Are you sure?", MessageBoxButton.YesNo, RocketPOS.Core.Constants.EnumUtility.MessageBoxImage.Warning);
                 //if (messageBoxResult != MessageBoxResult.Yes) return;
 
