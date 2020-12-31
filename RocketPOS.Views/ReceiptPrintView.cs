@@ -130,7 +130,7 @@ namespace RocketPOS.Views
             Offset = Offset + Offset;
 
             //Name
-            int intPadding = 20+ ((pageWidthHeader - LoginDetail.ClientName.Length) / 2)*3;
+            int intPadding = 10+ ((pageWidthHeader - LoginDetail.ClientName.Length) / 2)*3;
             graphics.DrawString(LoginDetail.ClientName, smallfont, new SolidBrush(Color.Black), intPadding,  Offset);//50 + 22
  
             Offset = Offset + mediuminc;
@@ -143,10 +143,10 @@ namespace RocketPOS.Views
             DrawAtStartCenter(LoginDetail.Address2, Offset);
 
             Offset = Offset + mediuminc;
-            DrawAtStartCenter("Email: " + LoginDetail.Email, Offset);
+            DrawAtStartCenter("Email : " + LoginDetail.Email, Offset);
 
             Offset = Offset + mediuminc;
-            DrawAtStartCenter("Phone: " + LoginDetail.Address1, Offset);
+            DrawAtStartCenter("Phone : " + LoginDetail.Phone, Offset);
 
             String underLine = "-------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);

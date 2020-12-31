@@ -26,6 +26,7 @@ namespace RocketPOS.Model
         public decimal CustomerPaid { get; set; }
         public string CustomerNote { get; set; }
         public int OrderStatus { get; set; }
+        public int KotStatus { get; set; }
         public string AnyReason { get; set; }
         public int UserIdInserted { get; set; }
         public DateTime DateInserted { get; set; }

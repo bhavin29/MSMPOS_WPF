@@ -12,6 +12,7 @@ namespace RocketPOS.Model
     {
         public int Id { get; set; }
         public string FoodCategory { get; set; }
+        public int IsFavourite { get; set; }
         public List<SubCategory> SubCategory { get; set; }
     }
     public class SubCategory
@@ -28,6 +29,7 @@ namespace RocketPOS.Model
         public int Id { get; set; }
         public int FoodMenuId { get; set; }
         public string FoodCategory { get; set; }
+        public int IsFavourite { get; set; }
         public int FoodCategoryId { get; set; }
         public string SmallName { get; set; }
         public double SalesPrice { get; set; }
