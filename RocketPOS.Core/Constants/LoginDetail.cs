@@ -18,6 +18,9 @@ namespace RocketPOS.Core.Constants
         public static string Email = "";
         public static string Phone = "";
         public static string Logo = "";
+        public static string WebSite = "";
+        public static string ReceiptPrefix = "";
+        public static string OrderPrefix = "";
         public static string OpenTime = "";
         public static string CloseTime = "";
         public static int CurrencyId = 0;

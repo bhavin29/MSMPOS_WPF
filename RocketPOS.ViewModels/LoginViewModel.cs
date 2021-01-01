@@ -20,7 +20,7 @@ namespace RocketPOS.ViewModels
                 connection.Open();
                 var query = "SELECT U.Id as UserId,U.Username,U.OutletId,O.OutletName,U.RoletypeId, " +
                     " CASE WHEN(SELECT COUNT(*) from OutletRegister WHERE OutletId = U.OutletId and UserId = U.Id AND ApprovalUserId IS Null) = 0 THEN 0 ELSE 1 END AS 'OutletRegisterStatus' " +
-                    " ,C.ClientName,C.Address1,C.Address2,C.Email,C.Phone,C.Logo,C.OpenTime,C.CloseTime,C.CurrencyId,C.TimeZone,C.Header,C.Footer,C.Footer1,C.Footer2,C.Footer3,C.Footer4 " +
+                    " ,C.ClientName,C.Address1,C.Address2,C.Email,C.Phone,C.Logo,C.WebSite,C.ReceiptPrefix,C.OrderPrefix,C.OpenTime,C.CloseTime,C.CurrencyId,C.TimeZone,C.Header,C.Footer,C.Footer1,C.Footer2,C.Footer3,C.Footer4 " +
                     " from " +
                     " [User] U " +
                     " INNER JOIN OUTLET O ON O.Id = U.OutletId " +

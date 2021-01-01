@@ -35,6 +35,7 @@ namespace RocketPOS.Helpers
             GenerateDynamicFoodMenu();
             GetWaiterList();
             GetCustomerList();
+            txtbTotalPayableAmount.Text = "0.0";
             rdbPendingSales.IsChecked = true;
             rdbAllSales.IsChecked = true;
             GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
@@ -202,7 +203,7 @@ namespace RocketPOS.Helpers
             rdbTakeAwayOrderType.IsChecked = false;
             txtbtxtDiscount.Text = "0.0";
             txtbServiceDeliveryChargeLabel.Text = "0.0";
-            txtbSubTotalDiscountAmount.Text = "0.0";
+            txtSubTotalDiscountAmount.Text = "0.0";
             txtbTotalDeliveryChargeAmt.Text = "0.0";
             lbTablesList.SelectedValue = null;
             cmbPPDiscountNos.SelectedIndex = -1;
@@ -313,7 +314,7 @@ namespace RocketPOS.Helpers
                 customerOrderModel.TockenNumber = "0";
                 customerOrderModel.GrossAmount = Convert.ToDecimal(txtbSubTotalAmount.Text);
                 customerOrderModel.DiscountPercentage = Convert.ToDecimal(txtbtxtDiscount.Text);
-                customerOrderModel.DiscountAmount = Convert.ToDecimal(txtbSubTotalDiscountAmount.Text);
+                customerOrderModel.DiscountAmount = Convert.ToDecimal(txtSubTotalDiscountAmount.Text);
                 customerOrderModel.DeliveryCharges = Convert.ToDecimal(txtbTotalDeliveryChargeAmt.Text);
                 customerOrderModel.TaxAmount = 0;
                 customerOrderModel.TotalPayable = Convert.ToDecimal(txtbTotalPayableAmount.Text);
@@ -361,7 +362,7 @@ namespace RocketPOS.Helpers
                 customerOrderModel.TockenNumber = "0";
                 customerOrderModel.GrossAmount = Convert.ToDecimal(txtbSubTotalAmount.Text);
                 customerOrderModel.DiscountPercentage = Convert.ToDecimal(txtbtxtDiscount.Text);
-                customerOrderModel.DiscountAmount = Convert.ToDecimal(txtbSubTotalDiscountAmount.Text);
+                customerOrderModel.DiscountAmount = Convert.ToDecimal(txtSubTotalDiscountAmount.Text);
                 customerOrderModel.DeliveryCharges = Convert.ToDecimal(txtbTotalDeliveryChargeAmt.Text);
                 customerOrderModel.TaxAmount = 0;
                 customerOrderModel.TotalPayable = Convert.ToDecimal(txtbTotalPayableAmount.Text);
@@ -413,7 +414,7 @@ namespace RocketPOS.Helpers
             txtPPCPhone.Text = string.Empty;
             txtPPCEmail.Text = string.Empty;
             txtPPCAddress.Text = string.Empty;
-            cmbCustomer.SelectedIndex = 0;
+            cmbCustomer.SelectedIndex = -1;
         }
         #endregion
         #region Events
@@ -434,6 +435,21 @@ namespace RocketPOS.Helpers
             txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
             txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
 
+
+
+            //List<SaleItemModel> saleItems = new List<SaleItemModel>();
+            //saleItems.Add(new SaleItemModel()
+            //{
+            //    FoodMenuId = foodMenuId.Text,
+            //    Product = itemName.Text,
+            //    Price = Convert.ToDecimal(salePrice.Text),
+            //    Qty = 1,
+            //    Discount = 0,
+            //    Total = Convert.ToDecimal(salePrice.Text) * 1,
+            //    CustomerOrderItemId = 0
+            //});
+            //dgSaleItem.Items.Add(saleItems);
+
             List<SaleItemModel> saleItems = new List<SaleItemModel>();
             saleItems.Add(new SaleItemModel()
             {
@@ -446,6 +462,34 @@ namespace RocketPOS.Helpers
                 CustomerOrderItemId = 0
             });
             dgSaleItem.Items.Add(saleItems);
+            ////Boolean to check if he has row has been
+            //bool Found = false;
+            //if (dgSaleItem. > 0)
+            //{
+
+            //    //Check if the product Id exists with the same Price
+            //    foreach (DataGrid row in DataGrid.iteem)
+            //    {
+            //        if (Convert.ToString(row.Cells[0].Value) == textBox_ProductId.Text && Convert.ToString(row.Cells[1].Value) == textBox_Price.Text)
+            //        {
+            //            //Update the Quantity of the found row
+            //            row.Cells[2].Value = Convert.ToString(1 + Convert.ToInt16(row.Cells[2].Value));
+            //            Found = true;
+            //        }
+
+            //    }
+            //    if (!Found)
+            //    {
+            //        //Add the row to grid view
+            //        dataGridView.Rows.Add(textBox_ProductId.Text, textBox_Price.Text, 1);
+            //    }
+
+            //}
+            //else
+            //{
+            //    //Add the row to grid view for the first time
+            //    dataGridView.Rows.Add(textBox_ProductId.Text, textBox_Price.Text, 1);
+            //}
         }
         //private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         //{
@@ -646,7 +690,7 @@ namespace RocketPOS.Helpers
             cmbCustomer.SelectedValue = customerOrderModel.CustomerId;
             cmbWaiter.SelectedValue = customerOrderModel.WaiterEmployeeId;
             txtbDineInTableId.Text = customerOrderModel.TableId;
-            txtbSubTotalDiscountAmount.Text = customerOrderModel.DiscountAmount.ToString();
+            txtSubTotalDiscountAmount.Text = customerOrderModel.DiscountAmount.ToString();
             txtbTotalDeliveryChargeAmt.Text = customerOrderModel.DeliveryCharges.ToString();
 
             if (customerOrderModel.KotStatus == 1)
@@ -780,7 +824,7 @@ namespace RocketPOS.Helpers
             //customerBillModel.CustomerOrderId = orderId;
             //customerBillModel.CustomerId = Convert.ToInt32(cmbCustomer.SelectedValue);
             //customerBillModel.GrossAmount = Convert.ToDecimal(lblPPTotalPayableAmount.Content);
-            //customerBillModel.Discount = Convert.ToDecimal(txtbSubTotalDiscountAmount.Text);
+            //customerBillModel.Discount = Convert.ToDecimal(txtSubTotalDiscountAmount.Text);
             //customerBillModel.ServiceCharge = Convert.ToDecimal(txtbTotalDeliveryChargeAmt.Text);
             //customerBillModel.VatableAmount = 0;
             //customerBillModel.TotalAmount = Convert.ToDecimal(lblPPTotalPayableAmount.Content);
@@ -890,8 +934,8 @@ namespace RocketPOS.Helpers
             if (!string.IsNullOrEmpty(cmbPPDiscountNos.SelectionBoxItem.ToString()))
             {
                 decimal percentage = Convert.ToDecimal(cmbPPDiscountNos.SelectionBoxItem);
-                txtbtxtDiscount.Text = percentage.ToString();
-                txtbSubTotalDiscountAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100).ToString();
+                txtbtxtDiscount.Text = Convert.ToDecimal(percentage).ToString("0.00");
+                txtSubTotalDiscountAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100).ToString();
                 txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100)).ToString();
             }
             cmbPPDiscountNos.SelectedIndex = -1;
@@ -906,9 +950,9 @@ namespace RocketPOS.Helpers
             if (!string.IsNullOrEmpty(cmbPPPercentageDelivery.SelectionBoxItem.ToString()))
             {
                 decimal percentage = Convert.ToDecimal(cmbPPPercentageDelivery.SelectionBoxItem);
-                txtbServiceDeliveryChargeLabel.Text = percentage.ToString();
-                txtbTotalDeliveryChargeAmt.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100).ToString();
-                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100)).ToString();
+                txtbServiceDeliveryChargeLabel.Text = percentage.ToString("0.00");
+                txtbTotalDeliveryChargeAmt.Text = (percentage).ToString("0.00");
+                txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) + percentage)- Convert.ToDecimal(txtSubTotalDiscountAmount.Text)).ToString();
             }
             ppDeliveryServicePopUp.IsOpen = false;
             cmbPPPercentageDelivery.SelectedIndex = -1;
@@ -982,7 +1026,7 @@ namespace RocketPOS.Helpers
             txtClientName.Text = LoginDetail.ClientName + "  |  ";
             txbOutletName.Text = LoginDetail.OutletName;
             txtbUserName.Text = "User: " + LoginDetail.Username;
-            txtWebsite.Text = "www.RocketPOS.com";
+            txtWebsite.Text = LoginDetail.WebSite;
         }
 
         private void btnLastSale_Click(object sender, RoutedEventArgs e)
@@ -1052,6 +1096,23 @@ namespace RocketPOS.Helpers
             double windowHeight = this.Height;
             this.Left = (screenWidth / 2) - (windowWidth / 2);
             this.Top = ((screenHeight / 2) - (windowHeight / 2));
+        }
+
+        private void btnNewOrder_Click(object sender, RoutedEventArgs e)
+        {
+            ClearCustomerOrderItemControll();
+        }
+
+        private void txtSubTotalDiscountAmount_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtSubTotalDiscountAmount.Text))
+            {
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtSubTotalDiscountAmount.Text)).ToString(); 
+            }
+            else
+            {
+                txtbTotalPayableAmount.Text = txtbSubTotalAmount.Text;
+            }
         }
     }
 }
