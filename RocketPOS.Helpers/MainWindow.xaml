@@ -202,7 +202,8 @@
                                 <TextBox x:Name="txtPPCEmail" Text=""  Height="40" Width="290" Grid.Row="6" />
 
                                 <Label Content="Address " Height="40" Width="290" FontSize="16"  Grid.Row="7"  Foreground="White"/>
-
+                                <TextBox x:Name="txtPPCAddress" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text=""  Height="40" Width="290" Grid.Row="8"  Grid.ColumnSpan="2"/>
+                                
                                 
                                 <Button x:Name="btnPPCAddCustomer" Content="Save" Height="40" Width="100" FontSize="16" Background="#00265B" Foreground="White" Margin="5,5,-180,5" Grid.Row="9" Click="btnPPCAddCustomer_Click" />
                             </Grid>
