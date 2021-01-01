@@ -30,9 +30,6 @@ namespace RocketPOS.Helpers
             logger.Info("Start logging");
 
             CenterWindowOnScreen();
-
-            throw new Exception("1qwewe");
-
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
