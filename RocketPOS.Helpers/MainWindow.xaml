@@ -1,9 +1,9 @@
-﻿<Window x:Class="RocketPOS.Helpers.MainWindow"
+﻿ ﻿<Window x:Class="RocketPOS.Helpers.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:k="clr-namespace:LoginModule.Keyboard"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	    xmlns:k="clr-namespace:LoginModule.Keyboard"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d" ResizeMode="NoResize" 
@@ -28,17 +28,39 @@
         <!--Log out row-->
         <Grid Grid.Row="1" >
             <StackPanel x:Name="headerTopRightPanel" Orientation="Horizontal"   >
-                <TextBox x:Name="txtSearchModifyOrder" Style="{StaticResource TextBoxBaseStyle}"   Width="250" Margin="0,0,2,0" TextChanged="searchSalesOrder"/>
+                <TextBox x:Name="txtSearchModifyOrder" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Style="{StaticResource TextBoxBaseStyle}"   Width="250" Margin="0,0,2,0" TextChanged="searchSalesOrder"/>
                 <Button x:Name="btnUnknow" Style="{StaticResource btnOrange}" Content="Help"  />
                 <Button x:Name="btnKitchenNotification" Style="{StaticResource btnOrange}" Content="Kitchen Alter" />
                 <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator"  Click="btnCalculator_Click"/>
-                <Button x:Name="btnUnknow1" Style="{StaticResource btnOrange}" Content="Menu List"  />
+                <Button x:Name="btnFoodMenuList" Style="{StaticResource btnOrange}" Content="Menu List" Click="btnFoodMenuList_Click" />
                 <Button x:Name="btnLastSale" Style="{StaticResource btnOrange}"  Content="Sales List" Click="btnLastSale_Click" />
                 <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Register"   Click="btnRegister_Click" />
                 <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Report" />
                 <Button x:Name="btnBack" Style="{StaticResource btnOrange}" Content="Settings"  />
                 <Button x:Name="btnLogOut" Style="{StaticResource btnLightRed}" Content="LogOut" Width="125" Click="btnLogOut_Click"  />
             </StackPanel>
+            <Popup Name="ppFoodMenuList" Placement="Center" AllowsTransparency="False">
+                <Grid Width="400" Height="450" Background="LightBlue">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="350"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBox x:Name="txtSearchFoodMenuList" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBoxBaseStyle}" Width="380" Margin="0,5,0,5" TextChanged="txtSearchFoodMenuList_TextChanged"/>
+                    <DataGrid x:Name="dgFoodMenuList" Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding FoodMenu}" MouseDoubleClick="dgFoodMenuList_MouseDoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" IsReadOnly="True"  Width="100" Binding="{Binding SmallName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Price" IsReadOnly="True"  Width="100" Binding="{Binding SalesPrice}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Category" IsReadOnly="True"  Width="100" Binding="{Binding FoodCategory}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button x:Name="btnPPFoodListCancel" Width="100" Height="40" Grid.Row="2" Grid.Column="0" Content="Cancel" Click="btnPPFoodListCancel_Click"/>
+                </Grid>
+            </Popup>
         </Grid>
         <!--Main Functional area-->
         <Grid Grid.Row="2" >
@@ -89,8 +111,12 @@
                                         ExpandDirection="Down" IsExpanded="False" Margin="10,2,10,2" Width="250"    
                                         FontSize="20" FontWeight="Bold" Foreground="Black" Expanded="epOrder_Expanded" LostFocus="epOrder_LostFocus">-->
                                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" >
-                                            <TextBlock Text="Order No : "/>
-                                            <TextBlock Text="{Binding Id}"/>
+
+                                            <TextBlock Text="{Binding CustomerOrderNo}"/>
+                                            <TextBlock Text="  "/>
+                                            <TextBlock Text="[ "/>
+                                            <TextBlock Text="{Binding CustomerName}"/>
+                                            <TextBlock Text=" ]"/>
                                             <!--<TextBlock Text="{Binding CustomerId}"/>-->
                                             <!--<TextBlock Text="{Binding CustomerName}"/>
                                                 <TextBlock Text="{Binding WaiterName}"/>-->
@@ -190,21 +216,19 @@
                                 </Grid.RowDefinitions>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Customer Information" FontSize="20" Margin="5,5,5,5" Foreground="White" Grid.Row="0" />
-                                   <Button x:Name="btnPPCCancel" Content="Close" Height="40" Width="50" FontSize="16" Background="#00265B" Foreground="White" Margin="40,5,5,5" Click="btnPPCCancel_Click"/>
+                                    <Button x:Name="btnPPCCancel" Content="Close" Height="40" Width="50" FontSize="16" Background="#00265B" Foreground="White" Margin="40,5,5,5" Click="btnPPCCancel_Click"/>
                                 </StackPanel>
-                                    <Label x:Name="lblPPCName" Content="Name *" Foreground="White" FontSize="16" Height="40" Width="290" Grid.Row="1" />
-                                <TextBox x:Name="txtPPCName" Text="{Binding CustomerName}"  Height="40" Width="290" Grid.Row="2" />
+                                <Label x:Name="lblPPCName" Content="Name *" Foreground="White" FontSize="16" Height="40" Width="290" Grid.Row="1" />
+                                <TextBox x:Name="txtPPCName" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text="{Binding CustomerName}"  Height="40" Width="290" Grid.Row="2" />
 
                                 <Label Content="Phone *" Height="40" Width="290" FontSize="16" Foreground="White" Grid.Row="3" />
-                                <TextBox x:Name="txtPPCPhone" Text=""  Height="40" Width="290" Foreground="White"  Grid.Row="4" />
+                                <TextBox x:Name="txtPPCPhone" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text=""  Height="40" Width="290" Foreground="White"  Grid.Row="4" />
 
                                 <Label Content="Email " Height="40" Width="290" FontSize="16" Grid.Row="5" Grid.Column="0" Foreground="White" Grid.ColumnSpan="2"/>
-                                <TextBox x:Name="txtPPCEmail" Text=""  Height="40" Width="290" Grid.Row="6" />
+                                <TextBox x:Name="txtPPCEmail" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text=""  Height="40" Width="290" Grid.Row="6" />
 
                                 <Label Content="Address " Height="40" Width="290" FontSize="16"  Grid.Row="7"  Foreground="White"/>
                                 <TextBox x:Name="txtPPCAddress" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text=""  Height="40" Width="290" Grid.Row="8"  Grid.ColumnSpan="2"/>
-                               
-                                <Button x:Name="btnPPCAddCustomer" Content="Save" Height="40" Width="100" FontSize="16" Background="#00265B" Foreground="White" Margin="5,5,-180,5" Grid.Row="9" Click="btnPPCAddCustomer_Click" />
                             </Grid>
                         </Popup>
                     </Grid>
@@ -231,7 +255,7 @@
                                     <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding CustomerOrderItemId}"/>
                                     <DataGridTextColumn Header="Product" IsReadOnly="True"  Binding="{Binding Product}" Width="130"/>
                                     <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding FoodMenuId}"/>
-                                    <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Price}" Width="60"/>
+                                    <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Price,StringFormat={}{0:#,0.00}}" Width="60"/>
                                     <DataGridTemplateColumn Width="25" >
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
@@ -248,7 +272,7 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                     <!--<DataGridTextColumn Header="Discount" IsReadOnly="True"  Binding="{Binding Discount}" Width="50"/>-->
-                                    <DataGridTextColumn Header="Total" IsReadOnly="True"  Binding="{Binding Total}" Width="65"/>
+                                    <DataGridTextColumn Header="Total" IsReadOnly="True"  Binding="{Binding Total,StringFormat={}{0:#,0.00}}" Width="65"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
@@ -284,7 +308,7 @@
                                 <TextBlock x:Name="txtbPopUpItemTotal"  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="5,5,5,5"/>
                                 <TextBlock x:Name="txtbPopUpDiscount" Text="Discount" Margin="5,5,5,5" Grid.Row="2" Grid.Column="0"/>
                                 <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"/>
-                                <TextBox x:Name="txtPopUpDiscount" Margin="5,5,5,5" Grid.Row="2" Width="350" Grid.Column="2" TextChanged="txtPopUpDiscount_TextChanged"/>
+                                <TextBox x:Name="txtPopUpDiscount" k:TouchScreenKeyboard.TouchScreenKeyboard="True"  Margin="5,5,5,5" Grid.Row="2" Width="350" Grid.Column="2" TextChanged="txtPopUpDiscount_TextChanged"/>
                                 <TextBlock x:Name="txtbPopUpItemSubTotal" Text="Total" Margin="5,5,5,5" Grid.Row="3" Grid.Column="1"/>
                                 <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2"/>
                                 <TextBlock x:Name="txtbPopUpItemOriginalSubTotalAmount" Text="0" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2" Visibility="Hidden"/>
@@ -357,9 +381,9 @@
 
                         <Grid Grid.Row="1"  Grid.Column="1" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
-                                <TextBlock x:Name="txtbDiscount" Style="{StaticResource txtBlock}" Text="Discount (%): "  />
-                                <TextBox x:Name="txtDiscount"  Width="50" Height="20" Text="0.0"/>
                                 <TextBlock x:Name="txtbSubTotalDiscountAmount" Visibility="Hidden" Text="0.0" />
+                                <TextBlock x:Name="txtbDiscount" Style="{StaticResource txtBlock}" Text="Discount (%): "  />
+                                <TextBlock x:Name="txtbtxtDiscount" Style="{StaticResource txtBlock}" HorizontalAlignment="Right" Text="0.00"  />
                             </StackPanel>
                         </Grid>
 
@@ -376,7 +400,7 @@
                         <Grid Grid.Row="2"  Grid.Column="1" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtbTotalDiscount" Style="{StaticResource txtBlock}" Text="Discount: "  />
-                                <TextBlock x:Name="txtbTotalDiscountAmount" Style="{StaticResource txtBlock}" Text="0.00"  />
+                                <TextBlock x:Name="txtbTotalDiscountAmount" Style="{StaticResource txtBlock}" Text="0.00" HorizontalAlignment="Right"  />
                             </StackPanel>
                         </Grid>
 
@@ -409,19 +433,19 @@
                                 </Grid>
                             </Popup>
                         </Grid>
- 
+
                         <Grid Grid.Row="3"  Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 30 0">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock x:Name="txtbServiceDeliveryCharge" Style="{StaticResource txtBlock}" Text="Service/Delivery Charge: " />
-                                <TextBox x:Name="txtServiceDeliveryCharge"  Width="20" Height="20" Text="0.0"/>
                                 <TextBlock x:Name="txtbTotalDeliveryChargeAmt" Visibility="Hidden" Text="0.0"/>
+                                <TextBlock x:Name="txtbServiceDeliveryCharge" Style="{StaticResource txtBlock}" Text="Service/Delivery Charge: " />
+                                <TextBlock x:Name="txtbServiceDeliveryChargeLabel" Style="{StaticResource txtBlock}" Text="0.00" HorizontalAlignment="Right" />
                             </StackPanel>
                         </Grid>
-                        
+
                         <Grid Grid.Row="4"  Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 30 0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock x:Name="txtbTotalPayable" Style="{StaticResource txtBlock}"  Text="Payable: "  />
-                                <TextBlock x:Name="txtbTotalPayableAmount" Style="{StaticResource txtBlock}"  Text="0.00"  />
+                                <TextBlock x:Name="txtbTotalPayableAmount" Style="{StaticResource txtBlock}"  Text="0.00" HorizontalAlignment="Right" />
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -481,8 +505,8 @@
                                 <Label x:Name="lblPPDueAmount" Content="Due Payment" Height="30" Width="100" Grid.Row="6" Grid.Column="1"/>
 
                                 <!--Invoice PopUp Row 7-->
-                                <TextBox x:Name="txtPPPayAmount" Text="0"  Height="30" Width="100" Grid.Row="7" Grid.Column="0"/>
-                                <TextBox x:Name="txtPPDueAmount" Text="0"  Height="30" Width="100" Grid.Row="7" Grid.Column="1"/>
+                                <TextBox x:Name="txtPPPayAmount" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text="0"  Height="30" Width="100" Grid.Row="7" Grid.Column="0"/>
+                                <TextBox x:Name="txtPPDueAmount" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text="0"  Height="30" Width="100" Grid.Row="7" Grid.Column="1"/>
 
                                 <!--Invoice PopUp Row 8-->
                                 <Separator  Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"/>
@@ -493,7 +517,7 @@
 
                                 <!--Invoice PopUp Row 10-->
                                 <Label x:Name="lblPPChangeAmountTotal" Content="0" Height="30" Width="100" Grid.Row="10" Grid.Column="1"/>
-                                <TextBox x:Name="txtPPGivenAmount" Text="0"  Height="30" Width="100" Grid.Row="10" Grid.Column="0" TextChanged="txtPPGivenAmount_TextChanged"/>
+                                <TextBox x:Name="txtPPGivenAmount" k:TouchScreenKeyboard.TouchScreenKeyboard="True"  Text="0"  Height="30" Width="100" Grid.Row="10" Grid.Column="0" TextChanged="txtPPGivenAmount_TextChanged"/>
 
 
                                 <!--Invoice PopUp Row 11-->
@@ -507,10 +531,10 @@
                     </Grid>
                 </Grid>
             </Grid>
-            
+
             <!--right section-->
             <Grid Grid.Column="2" >
-                 <Grid>
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="540"/>
                     </Grid.ColumnDefinitions>
@@ -524,7 +548,7 @@
                     <Grid Grid.Row="0" Margin="5,-4,0,0">
                         <ScrollViewer HorizontalScrollBarVisibility="Auto">
                             <WrapPanel x:Name="spCategory" Orientation="Horizontal" Margin="0">
-                                <Button x:Name="btnAll" Click="GetSubCategory" Style="{StaticResource btnOrange}" Margin="0" Content="All"  ></Button>
+                                <!--<Button x:Name="btnAll" Click="GetSubCategory" Style="{StaticResource btnOrange}" Margin="0" Content="All"  ></Button>-->
                             </WrapPanel>
                         </ScrollViewer>
 
@@ -540,11 +564,11 @@
 
                     <Grid Grid.Row="2" Margin="2">
                         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="100">
-                            <StackPanel x:Name="spFavouriteCategory" Orientation="Horizontal" >
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="100">
+                                <StackPanel x:Name="spFavouriteCategory" Orientation="Horizontal" >
 
-                            </StackPanel>
-                        </ScrollViewer>
+                                </StackPanel>
+                            </ScrollViewer>
                         </StackPanel>
                         <!--<StackPanel Orientation="Horizontal">
                             <Button x:Name="btnAppetizer" Style="{StaticResource btnGreen}"  Content="APPETIZER" />
