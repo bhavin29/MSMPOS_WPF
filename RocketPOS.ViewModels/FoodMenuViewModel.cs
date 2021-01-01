@@ -10,7 +10,7 @@ namespace RocketPOS.ViewModels
     public class FoodMenuViewModel
     {
         AppSettings appSettings = new AppSettings();
-        public FoodMenuModel GetFoodMenu()
+        public FoodMenuModel GetFoodMenu(int outLetId)
         {
             FoodMenuModel foodMenuModel = new FoodMenuModel();
             List<FoodMenu> foodMenus = new List<FoodMenu>();
@@ -39,6 +39,24 @@ namespace RocketPOS.ViewModels
                 }).ToList();
             }
             return foodMenuModel;
+        }
+        public List<FoodMenu> GetFoodMenuPopUpList(int outLetId, string searchKey)
+        {
+            List<FoodMenu> foodMenus = new List<FoodMenu>();
+            using (var db = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "SELECT FMC.Id,FM.Id AS FoodMenuId,FMC.IsFavourite, FMC.FoodMenuCategoryName As FoodCategory,FM.FoodCategoryId,FM.FoodMenuName As SmallName,FM.FoodMenuCode,FM.SmallThumb,FM.SalesPrice FROM [dbo].[FoodMenuCategory] FMC " +
+                                                                 "Inner Join[dbo].[FoodMenu] FM " +
+                                                                 "ON FMC.Id = FM.FoodCategoryId Where FM.OutletId in ('" + outLetId + "') And FM.IsActive=1 And FMC.IsActive=1";
+
+                if (!string.IsNullOrEmpty(searchKey))
+                {
+                    query += " AND (FM.FoodMenuName Like '%"+ searchKey+ "%' OR FMC.FoodMenuCategoryName Like '%" + searchKey + "%')";
+                }
+                query += " Order By FM.FoodMenuName";
+                foodMenus = db.Query<FoodMenu>(query).ToList();
+            }
+            return foodMenus;
         }
     }
 }

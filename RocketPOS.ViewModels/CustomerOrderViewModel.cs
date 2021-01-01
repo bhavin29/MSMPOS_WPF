@@ -59,7 +59,7 @@ namespace RocketPOS.ViewModels
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
             {
                 string query = string.Empty;
-                query = "SELECT CO.Id,CustomerId,C.CustomerName,CO.CustomerId, CO.WaiterEmployeeId,E.FirstName+' '+E.LastName AS WaiterName,OrderType,TableId " +
+                query = "SELECT CO.Id,CO.CustomerOrderNo,CustomerId,C.CustomerName,CO.CustomerId, CO.WaiterEmployeeId,E.FirstName+' '+E.LastName AS WaiterName,OrderType,TableId " +
                                                                     " FROM CustomerOrder CO" +
                                                                     " INNER JOIN Customer C" +
                                                                     " ON CO.CustomerId = C.Id" +
@@ -89,7 +89,7 @@ namespace RocketPOS.ViewModels
             List<OrderDetailModel> orderDetailModel = new List<OrderDetailModel>();
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
-                var query = "SELECT CO.Id,CO.OutletId,CO.SalesInvoiceNumber,CO.CustomerId,CO.WaiterEmployeeId,CO.OrderType,CO.TableId,CO.GrossAmount,CO.DiscountPercentage,CO.DiscountAmount,CO.DeliveryCharges,CO.TaxAmount,CO.TotalPayable,CO.CustomerNote,CO.OrderStatus, " +
+                var query = "SELECT CO.Id,CO.CustomerOrderNo,CO.OutletId,CO.SalesInvoiceNumber,CO.CustomerId,CO.WaiterEmployeeId,CO.OrderType,CO.TableId,CO.GrossAmount,CO.DiscountPercentage,CO.DiscountAmount,CO.DeliveryCharges,CO.TaxAmount,CO.TotalPayable,CO.CustomerNote,CO.OrderStatus, " +
                             " COI.Id AS CustomerOrderItemId,COI.FoodMenuId,COI.FoodMenuRate,COI.FoodMenuQty,COI.AddonsId,COI.AddonsQty,COI.VarientId,COI.Discount,COI.Price,FM.FoodCategoryId,FM.FoodMenuName,FM.FoodMenuCode,FM.ColourCode,FM.SmallThumb,FM.SalesPrice,FM.Notes,COKOT.KOTStatus " +
                             " FROM dbo.CustomerOrder CO  INNER JOIN dbo.CustomerOrderItem COI  ON CO.Id = COI.CustomerOrderId " +
                             " INNER JOIN dbo.CustomerOrderKOT COKOT  ON CO.Id = COKOT.CustomerOrderId " +
