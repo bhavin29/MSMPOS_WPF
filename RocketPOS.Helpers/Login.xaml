@@ -7,23 +7,26 @@
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d"
         Title="ROCKET POS Login"
-         ShowInTaskbar="True" Topmost="False" WindowStyle="SingleBorderWindow"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" 
-        Width="1280" Height="760" 
+        Width="1280" Height="800" 
         >
-    <Grid Width="1280" Height="760" Background="#00265B">
+    <!--ShowInTaskbar="True" Topmost="true" WindowStyle="None" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"-->
+
+    <Grid Width="1280" Height="800" Background="#00265B">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1280"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="530"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="550"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" >
-            <StackPanel x:Name="HeaderPanel" Orientation="Vertical" Margin="20" >
-                <Label Content="ROCKET  POS" FontSize="30" Foreground="White" FontFamily="Cooper Black, 24pt" />
-                <Label Content="We Create, We Design, We Develop" FontSize="18" Foreground="White" FontFamily="Monotype Corsiva" FontWeight="UltraBlack" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Grid Grid.Row="0" Margin="20" >
+            <StackPanel x:Name="Header1Panel" Orientation="Vertical" HorizontalAlignment="Right">
+                <Button Name="btnLogout" Background="White" FontSize="10pt" FontFamily="Century Gothic" FontWeight="Bold" Foreground="RoyalBlue" Content="Logout"  Height="50" Width="50" Click="btnLogout_Click"/>
+            </StackPanel>
+            <StackPanel x:Name="HeaderPanel" Orientation="Vertical"  >
+                <Label Content="ROCKET  POS" HorizontalAlignment="Left" Width="400" FontSize="30" Foreground="White" FontFamily="Cooper Black, 24pt" />
+                <Label Content="We Create, We Design, We Develop" HorizontalAlignment="Left" Width="400" FontSize="18" Foreground="White" FontFamily="Monotype Corsiva" FontWeight="UltraBlack" />
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" >
@@ -59,7 +62,7 @@
             </Grid>
         </Grid>
         <Grid Grid.Row="2" >
-            <StackPanel x:Name="FooterPanel" Orientation="Vertical" Margin="5" >
+            <StackPanel x:Name="FooterPanel" Orientation="Horizontal" Margin="5" >
                 <Label Content="Copyrights 2021. All rights reserved By @RocketPOS" Foreground="White" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top"/>
             </StackPanel>
         </Grid>

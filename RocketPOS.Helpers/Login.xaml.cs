@@ -5,6 +5,7 @@ using RocketPOS.ViewModels;
 using RocketPOS.Core.Constants;
 using RocketPOS.Helpers.RMessageBox;
 using NLog;
+using System;
 
 namespace RocketPOS.Helpers
 {
@@ -27,6 +28,11 @@ namespace RocketPOS.Helpers
             Logger logger = LogManager.GetCurrentClassLogger();
             logger.Error("Loggly Error");
             logger.Info("Start logging");
+
+            CenterWindowOnScreen();
+
+            throw new Exception("1qwewe");
+
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -88,6 +94,21 @@ namespace RocketPOS.Helpers
             LoginDetail.Footer2 = loginModel[0].Footer2;
             LoginDetail.Footer3 = loginModel[0].Footer3;
             LoginDetail.Footer4 = loginModel[0].Footer4;
+        }
+
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            this.Left = (screenWidth / 2) - (windowWidth / 2);
+            this.Top =( (screenHeight / 2) - (windowHeight / 2)) ;
+        }
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
