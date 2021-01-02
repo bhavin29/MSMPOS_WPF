@@ -1,4 +1,4 @@
-﻿using Dapper;
+﻿using Dapper; 
 using RocketPOS.Core.Configuration;
 using RocketPOS.Model;
 using System;
@@ -20,12 +20,13 @@ namespace RocketPOS.ViewModels
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
                 connection.Open();
-                var query = "SELECT b.CustomerOrderId,b.Id As BillId,B.BillDateTime,O.OutletName,U.Username,C.CustomerName,B.TotalAmount As GrossAmount,B.VatableAmount,B.Discount,B.ServiceCharge,B.TotalAmount,PM.PaymentMethodName,BD.BillAmount FROM Bill B " +
-                             "  INNER JOIN BillDetail BD ON B.Id = BD.BillId " +
-                             "  INNER JOIN Outlet O ON O.Id = B.OutletId " +
-                             "  INNER JOIN[User] U ON U.ID = B.UserIdInserted " +
-                             "  INNER JOIN Customer C ON C.Id = b.CustomerId " +
-                             "  INNER JOIN PaymentMethod PM ON PM.Id = BD.PaymentMethodId " +
+                var query = "SELECT b.CustomerOrderId,b.Id As BillId,CO.SalesInvoiceNumber,B.BillDateTime,O.OutletName,U.Username,C.CustomerName,B.TotalAmount As GrossAmount,B.VatableAmount,B.Discount,B.ServiceCharge,B.TotalAmount,PM.PaymentMethodName,BD.BillAmount FROM Bill B " +
+                            "  INNER JOIN CustomerOrder CO ON B.CustomerOrderId = CO.Id " +
+                            "  INNER JOIN BillDetail BD ON B.Id = BD.BillId " +
+                            "  INNER JOIN Outlet O ON O.Id = B.OutletId " +
+                            "  INNER JOIN[User] U ON U.ID = B.UserIdInserted " +
+                            "  INNER JOIN Customer C ON C.Id = b.CustomerId " +
+                            "  INNER JOIN PaymentMethod PM ON PM.Id = BD.PaymentMethodId " +
                             "   WHERE b.CustomerOrderId =  " + billId.ToString();
 
                 printReceiptModel = connection.Query<PrintReceiptModel>(query).ToList();

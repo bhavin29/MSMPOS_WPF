@@ -16,10 +16,16 @@
         public const string SelectWaiter = "Please Select Waiter.";
         public const string SelectCustomer = "Please Select Customer.";
         public const string SelectOrder = "Please Select Order.";
+        public const string CancelOrder = "Are you sure to cancel this order?";
+        public const string CancelOrderSuccess = "Order cancelled Successfully.";
+        public const string CancelOrderFail = "Order cancelled failed.";
+        public const string WrongPassword = "Please Enter Valid Password!";
 
         #region MessageBox Title
         public const string PlaceOrderTitle = "Place Order";
+        public const string CancelOrderTitle = "Cancel Order";
         public const string CustomerTitle = "Add Customer";
+        public const string ApplyPasswordTitle = "Discount Password";
         #endregion
     }
 }

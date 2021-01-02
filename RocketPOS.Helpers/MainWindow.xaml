@@ -145,7 +145,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
-                        <RowDefinition Height="370"/>
+                        <RowDefinition Height="270"/>
                         <RowDefinition Height="165"/>
                         <RowDefinition Height="50"/>
 
@@ -195,7 +195,7 @@
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
                         <StackPanel  Orientation="Horizontal" Margin="2,0,0,0">
-                            <ComboBox x:Name="cmbWaiter" Style="{StaticResource cmbBox}" Width="145" Height="50" ItemsSource="{Binding}" SelectedValuePath="Id" DisplayMemberPath="FullName"  />
+                            <ComboBox x:Name="cmbWaiter" Style="{StaticResource cmbBox}" Width="145" Height="50" ItemsSource="{Binding}"/>
                             <ComboBox x:Name="cmbCustomer" Style="{StaticResource cmbBox}"    Width="145" Height="50" ItemsSource="{Binding}" SelectedValuePath="Id" DisplayMemberPath="CustomerName"  />
                             <Button x:Name="btnEditCustomer" Style="{StaticResource btnOrange}" Width="55" Content="Edit" Click="btnEditCustomer_Click"/>
                             <Button x:Name="btnAddCustomer" Style="{StaticResource btnOrange}" Width="55" Content="Add" Click="btnAddCustomer_Click"   />
@@ -328,7 +328,8 @@
 
                     <Grid Grid.Row="3" Background="#86A09E" Margin="2,0,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="78"/>
+                            <ColumnDefinition Width="72"/>
                             <ColumnDefinition Width="260"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -338,7 +339,7 @@
                             <RowDefinition Height="35"/>
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" Grid.Column="0">
+                        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock x:Name="txtbTotalItem" Style="{StaticResource txtBlock}"  Text=" No of Items :  "  />
                                 <TextBlock x:Name="txtbTotalItemCount" Style="{StaticResource txtBlock}" Text="0"   />
@@ -347,7 +348,7 @@
 
                         </Grid>
 
-                        <Grid Grid.Row="0"  Grid.Column="1" VerticalAlignment="Center">
+                        <Grid  Grid.Column="2" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 0">
                                 <TextBlock x:Name="txtbSubTotal" Style="{StaticResource txtBlock}" Text="Gross : "   />
                                 <TextBlock x:Name="txtbSubTotalAmount" Style="{StaticResource txtBlock}" Text="0.00"  />
@@ -355,11 +356,31 @@
 
                         </Grid>
 
-                        <Grid Grid.Row="1"  Grid.Column="0">
+                        <Grid Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="2">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 0 0">
                                 <Button x:Name="btnDicountPopUp" Style="{StaticResource btnOrangeLng}" Content="Discount %"  Width="100" Height="30" Click="btnDicountPopUp_Click"/>
-                                
+
                             </StackPanel>
+                            <Popup x:Name="ppPassword" Placement="Center">
+                                <Grid Width="250" Height="150" Background="LightBlue">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="100"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Apply Password" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                    <TextBlock Text="Password : " Grid.Row="1" Grid.Column="0"/>
+                                    <PasswordBox Name="txtDiscountPassword" Grid.Row="1" Grid.Column="1"/>
+                                    <Button x:Name="btnPPPaswordCancel" Content="Cancel" Grid.Row="2" Grid.Column="0" Click="btnPPPaswordCancel_Click"/>
+                                    <Button x:Name="btnPPPaswordApply" Content="Apply" Grid.Row="2" Grid.Column="1" Click="btnPPPaswordApply_Click"/>
+
+                                </Grid>
+                            </Popup>
                             <Popup Name="ppDiscountPopUp" Placement="Center" AllowsTransparency="False">
                                 <Grid Width="250" Height="150" Background="LightBlue">
                                     <Grid.ColumnDefinitions>
@@ -386,16 +407,16 @@
                                 </Grid>
                             </Popup>
                         </Grid>
-                        
 
-                        <Grid Grid.Row="1"  Grid.Column="1" VerticalAlignment="Center">
+
+                        <Grid Grid.Row="1"  Grid.Column="2" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 0">
                                 <TextBlock x:Name="txtbDiscount" Style="{StaticResource txtBlock}" Text="Discount (%): "  />
                                 <TextBlock x:Name="txtbtxtDiscount" Style="{StaticResource txtBlock}" HorizontalAlignment="Right" Text="0.00"  />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">
+                        <Grid Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Grid.ColumnSpan="2">
 
                             <!--<Button x:Name="btnKitchenStatus" Visibility="Hidden"  Style="{StaticResource btnOrangeLng}" Content="Kitchen Status" Width="150" Height="25"  />-->
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
@@ -405,14 +426,14 @@
                         </Grid>
 
 
-                        <Grid Grid.Row="2"  Grid.Column="1" VerticalAlignment="Center">
+                        <Grid Grid.Row="2"  Grid.Column="2" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 0">
                                 <TextBlock x:Name="txtbTotalDiscount" Style="{StaticResource txtBlock}" Text="Discount: "  />
                                 <TextBlock x:Name="txtbTotalDiscountAmount" Style="{StaticResource txtBlock}" Text="0.00" HorizontalAlignment="Right"  />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="3"  Grid.Column="0" HorizontalAlignment="Right" Margin="0 0 0 0">
+                        <Grid Grid.Row="3"  Grid.Column="0" HorizontalAlignment="Left" Margin="48,0,0,0" Grid.ColumnSpan="2">
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="btnServiceDeliveryPopUp" Content="Charges"  Style="{StaticResource btnOrangeLng}" Width="100" Height="30" Click="btnServiceDeliveryPopUp_Click"/>
                             </StackPanel>
@@ -442,7 +463,7 @@
                             </Popup>
                         </Grid>
 
-                        <Grid Grid.Row="3"  Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 10 0">
+                        <Grid Grid.Row="3"  Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock x:Name="txtbTotalDeliveryChargeAmt" Visibility="Hidden" Text="0.00"/>
                                 <TextBlock x:Name="txtbServiceDeliveryCharge" Style="{StaticResource txtBlock}" Text="Service/Delivery Charge: " />
@@ -450,14 +471,18 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="4"  Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 10 0">
+                        <Grid Grid.Row="4"  Grid.Column="2" HorizontalAlignment="Left" Margin="151,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock x:Name="txtbTotalPayable" Style="{StaticResource txtBlock}"  Text="Payable: "  />
                                 <TextBlock x:Name="txtbTotalPayableAmount" Style="{StaticResource txtBlock}"  Text="0.00" HorizontalAlignment="Right" />
                             </StackPanel>
                         </Grid>
-                        <Grid Grid.Row="2" Grid.Column="0">
-                            <TextBox x:Name="txtSubTotalDiscountAmount" Text="0.00" Width="100" TextChanged="txtSubTotalDiscountAmount_TextChanged" Margin="50,0,0,0"/>
+                        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="44*"/>
+                                <ColumnDefinition Width="31*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="txtSubTotalDiscountAmount" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text="0.00" Width="100" TextChanged="txtSubTotalDiscountAmount_TextChanged" Margin="50,0,0,0" Grid.ColumnSpan="2"/>
                         </Grid>
                     </Grid>
 

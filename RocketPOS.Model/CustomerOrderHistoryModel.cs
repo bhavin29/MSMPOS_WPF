@@ -6,6 +6,7 @@ namespace RocketPOS.Model
 {
     public class CustomerOrderHistoryModel
     {
+        public int Id { get; set; }
         public string SalesInvoiceNumber { get; set; }
         public string CustomerName { get; set; }
         public string OrderType { get; set; }

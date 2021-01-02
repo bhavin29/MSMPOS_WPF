@@ -15,13 +15,19 @@
             <RowDefinition Height="75"/>
             <RowDefinition Height="500"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="Black">
+        <Grid Grid.Row="0" Background="AliceBlue">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="From Date" Width="100" Height="50"/>
+                <DatePicker Name="dpFromDate" Width="100" Height="50"/>
+                <DatePicker Name="dpToDate"  Width="100" Height="50"/>
+                <Button x:Name="btnSearchOrderList" Content="Search"  Width="100" Height="50" Click="btnSearchOrderList_Click"/>
+            </StackPanel>
         </Grid>
         <Grid Grid.Row="1" Background="Blue">
             <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="2">
                 <DataGrid x:Name="dgOrderList" ItemsSource="{Binding SaleItemModel}" ScrollViewer.CanContentScroll="True" 
       ScrollViewer.VerticalScrollBarVisibility="Auto"
-      ScrollViewer.HorizontalScrollBarVisibility="Auto">
+      ScrollViewer.HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Invoice#" IsReadOnly="True" Binding="{Binding SalesInvoiceNumber}" Width="80"/>
                         <DataGridTextColumn Header="Order Date" IsReadOnly="True"  Binding="{Binding OrderDate}" Width="80"/>
@@ -32,6 +38,20 @@
                         <DataGridTextColumn Header="Tax Amount" IsReadOnly="True"  Binding="{Binding TaxAmount}" Width="80"/>
                         <DataGridTextColumn Header="Total Payable" IsReadOnly="True"  Binding="{Binding TotalPayable}" Width="80"/>
                         <DataGridTextColumn Header="Order Status" IsReadOnly="True"  Binding="{Binding OrderStatus}" Width="100"/>
+                        <DataGridTemplateColumn Width="25" Header="Receipt Print" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="R" x:Name="btnReceiptPrint" Style="{StaticResource btnOrange}" Width="25" Margin="0" VerticalAlignment="Center" Click="btnReceiptPrint_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="25" Header="A4 Print" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="A4" x:Name="btnReceiptA4Print" Style="{StaticResource btnOrange}" Width="25" Margin="0" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

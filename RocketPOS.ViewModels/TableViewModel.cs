@@ -20,5 +20,14 @@ namespace RocketPOS.ViewModels
                 return tables;
             }
         }
+
+        public void UpdateTableStatus(string tableId,int tableStatus)
+        {
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "Update [Tables] set Status="+ tableStatus + " Where Id="+ tableId;
+                connection.Query<bool>(query).FirstOrDefault();
+            }
+        }
     }
 }

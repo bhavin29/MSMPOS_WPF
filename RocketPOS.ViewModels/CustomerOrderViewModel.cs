@@ -46,6 +46,7 @@ namespace RocketPOS.ViewModels
                     dynamicParameters.Add("@UserIdInserted", customerOrderModel.UserIdInserted);
                     dynamicParameters.Add("@DateInserted", customerOrderModel.DateInserted);
                     dynamicParameters.Add("@KotStatus", customerOrderModel.KotStatus);
+                    dynamicParameters.Add("@OrderPrefix", LoginDetail.OrderPrefix);
 
                 insertedId = connection.Query<int>
                         (StoredProcedure.PX_INSERT_CUSTOMER_ORDER, dynamicParameters, commandType: CommandType.StoredProcedure, commandTimeout: 0).FirstOrDefault();
@@ -114,17 +115,17 @@ namespace RocketPOS.ViewModels
             }
         }
 
-        public List<CustomerOrderHistoryModel> GetCustomerOrderHistoryList( DateTime fromDate, DateTime toDate)
+        public List<CustomerOrderHistoryModel> GetCustomerOrderHistoryList( string fromDate, string toDate)
         {
             List<CustomerOrderHistoryModel> customerOrderHistoryModels = new List<CustomerOrderHistoryModel>();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
             {
                 string query = string.Empty;
-                query = "SELECT CO.SalesInvoiceNumber,C.CustomerName, " +
+                query = "SELECT CO.Id,CO.SalesInvoiceNumber,C.CustomerName, " +
                            "  CASE WHEN CO.OrderType = 1 THEN 'Dine IN' " +
                                       "  WHEN CO.OrderType = 2 THEN 'Take Away' " +
                                       "  WHEN CO.OrderType = 3 THEN 'Delivery' END as OrderType,  " +
-                            " CONVERT(VARCHAR(12),CO.OrderDate,3),CO.GrossAmount,CO.DiscountAmount,  " +
+                            " CONVERT(VARCHAR(10),CO.OrderDate,126) AS Orderdate,CO.GrossAmount,CO.DiscountAmount,  " +
                             " CO.DeliveryCharges,CO.TaxAmount,CO.TotalPayable ,  " +
                             " CASE WHEN CO.OrderStatus = 1 THEN 'Pending'  " +
                                       "  WHEN CO.OrderStatus = 2 THEN 'Hold'  " +
@@ -133,7 +134,7 @@ namespace RocketPOS.ViewModels
                             " FROM CustomerOrder CO  " +
                             " INNER JOIN Customer C ON C.ID = CO.CustomerId  " +
                             " WHERE OutletId =" + LoginDetail.OutletId +
-                            " AND convert(varchar(12),Orderdate,3) between '" + fromDate.ToShortDateString() + "' AND '" + toDate.ToShortDateString() + "'" +
+                            " AND convert(varchar(10),Orderdate,126) between '" + fromDate + "' AND '" + toDate + "'" +
                             " ORDER BY CO.Orderdate desc;";
 
                 customerOrderHistoryModels = db.Query<CustomerOrderHistoryModel>(query).ToList();
@@ -142,6 +143,25 @@ namespace RocketPOS.ViewModels
             }
         }
 
+        public int UpdateOrderStatus(string orderId,int orderStatus)
+        {
+            int insertedId = 0;
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                string query = string.Empty;
+                    query = @" Update CustomerOrder Set OrderStatus=@OrderStatus ,UserIdUpdated=@UserId,DateUpdated=@DateUpdated Where Id=@Id;
+                               SELECT CAST(@Id as int)";
+
+                insertedId = connection.Query<int>(query, new
+                {
+                    Id = orderId,
+                    OrderStatus = orderStatus,
+                    UserId = LoginDetail.UserId,
+                    DateUpdated = System.DateTime.Now
+                }).Single();
+            }
+            return insertedId;
+        }
 
     }
 }

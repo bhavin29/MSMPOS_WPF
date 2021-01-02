@@ -152,7 +152,7 @@ namespace RocketPOS.Views
             DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + mediuminc;
-            DrawAtStart("Receipt Number: " + printReceiptModel[0].BillId.ToString().PadRight((20 - printReceiptModel[0].BillId.ToString().Length) + 10) + "Date: " + DateTime.Now.ToString("MM/dd/yyyy HH:mm"), Offset); ;
+            DrawAtStart("Receipt Number: " + printReceiptModel[0].SalesInvoiceNumber.ToString().PadRight((20 - printReceiptModel[0].SalesInvoiceNumber.ToString().Length) + 10) + "Date: " + DateTime.Now.ToString("MM/dd/yyyy HH:mm"), Offset); ;
             Offset = Offset + mediuminc;
 
             // if (!String.Equals(order.Customer.Address, "N/A"))

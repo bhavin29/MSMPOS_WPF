@@ -34,5 +34,16 @@ namespace RocketPOS.ViewModels
             return loginModel;
         }
 
+        public int ValidateDiscountPassword(string password)
+        {
+            int validId = 0;
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "Select Id From [User] Where Password='"+ password + "' And RoleTypeId In (1,2) And IsActive=1";
+                validId = connection.Query<int>(query).FirstOrDefault();
+            }
+            return validId;
+        }
+
     }
 }
