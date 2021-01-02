@@ -19,6 +19,9 @@ namespace RocketPOS.Model
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Logo { get; set; }
+        public string WebSite { get; set; }
+        public string ReceiptPrefix { get; set; }
+        public string OrderPrefix { get; set; }
         public string OpenTime { get; set; }
         public string CloseTime { get; set; }
         public int CurrencyId { get; set; }

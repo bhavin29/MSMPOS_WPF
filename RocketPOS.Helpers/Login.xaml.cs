@@ -84,6 +84,9 @@ namespace RocketPOS.Helpers
             LoginDetail.Email = loginModel[0].Email;
             LoginDetail.Phone = loginModel[0].Phone;
             LoginDetail.Logo = loginModel[0].Logo;
+            LoginDetail.WebSite = loginModel[0].WebSite;
+            LoginDetail.ReceiptPrefix = loginModel[0].ReceiptPrefix;
+            LoginDetail.OrderPrefix = loginModel[0].OrderPrefix;
             LoginDetail.TimeZone = loginModel[0].TimeZone;
             LoginDetail.Header = loginModel[0].Header;
             LoginDetail.Footer = loginModel[0].Footer;
@@ -100,7 +103,7 @@ namespace RocketPOS.Helpers
             double windowWidth = this.Width;
             double windowHeight = this.Height;
             this.Left = (screenWidth / 2) - (windowWidth / 2);
-            this.Top =( (screenHeight / 2) - (windowHeight / 2)) ;
+            this.Top = ((screenHeight / 2) - (windowHeight / 2));
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
