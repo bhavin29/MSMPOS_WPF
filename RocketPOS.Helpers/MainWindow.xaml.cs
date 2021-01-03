@@ -16,6 +16,7 @@ using RocketPOS.Helpers.RMessageBox;
 using System.Windows.Threading;
 using RocketPOS.Core.Configuration;
 using RocketPOS.Helpers.Reports;
+using RocketPOS.Helpers.Tables;
 
 namespace RocketPOS.Helpers
 {
@@ -48,6 +49,12 @@ namespace RocketPOS.Helpers
             List<CustomerModel> customers = new List<CustomerModel>();
             customers = customerViewModel.GetCustomers();
             cmbCustomer.ItemsSource = customers;
+            cmbCustomer.Text = "-- Select Customer --";
+            cmbCustomer.IsEditable = true;
+            cmbCustomer.IsReadOnly = true;
+            cmbCustomer.SelectedValuePath = "Id";
+            cmbCustomer.DisplayMemberPath = "CustomerName";
+            cmbCustomer.SelectedIndex = -1;
         }
         private void GenerateDynamicFoodMenu()
         {
@@ -192,8 +199,10 @@ namespace RocketPOS.Helpers
         private void ClearCustomerOrderItemControll()
         {
             dgSaleItem.Items.Clear();
-            cmbWaiter.SelectedIndex = 0;
-            cmbCustomer.SelectedIndex = 0;
+            cmbWaiter.Text = "-- Select Waiter --";
+            cmbWaiter.SelectedIndex = -1;
+            cmbCustomer.Text = "-- Select Customer --";
+            cmbCustomer.SelectedIndex = -1;
             txtbTotalPayableAmount.Text = "0.0";
             txtbSubTotalAmount.Text = "0.0";
             txtbTotalItemCount.Text = "0.0";
@@ -206,9 +215,9 @@ namespace RocketPOS.Helpers
             txtSubTotalDiscountAmount.Text = "0.0";
             txtbTotalDiscountAmount.Text = "0.0";
             txtbTotalDeliveryChargeAmt.Text = "0.0";
-            lbTablesList.SelectedValue = null;
-            cmbPPDiscountNos.SelectedIndex = -1;
-            cmbPPPercentageDelivery.SelectedIndex = -1;
+            lbTablesList.SelectedIndex = -1;
+            cmbPPDiscountNos.SelectedIndex = 0;
+            cmbPPPercentageDelivery.SelectedIndex = 0;
             txtbKitchenStatusTitle.Visibility = Visibility.Hidden;
             txtbKitchenStatus.Visibility = Visibility.Hidden;
             txtDiscountPassword.Password = string.Empty;
@@ -286,7 +295,12 @@ namespace RocketPOS.Helpers
             List<WaiterModel> waiters = new List<WaiterModel>();
             waiters = commonViewModel.GetWaiters();
             cmbWaiter.ItemsSource = waiters;
-            cmbWaiter.SelectedIndex = 0;
+            cmbWaiter.Text = "-- Select Waiter --";
+            cmbWaiter.IsEditable = true;
+            cmbCustomer.IsReadOnly = true;
+            cmbWaiter.SelectedValuePath = "Id";
+            cmbWaiter.DisplayMemberPath = "FullName";
+            cmbWaiter.SelectedIndex = -1;
         }
         private void GetOrderList(int orderStatus, int orderType, string searchKey)
         {
@@ -309,7 +323,7 @@ namespace RocketPOS.Helpers
             if (rdbDineInOrderType.IsChecked == true)
             {
                 orderType = (int)EnumUtility.OrderType.DineIN;
-                if (lbTablesList.SelectedValue != null)
+                if (lbTablesList.SelectedIndex != -1)
                 {
                     tableId = lbTablesList.SelectedValue.ToString();
                 }
@@ -430,6 +444,7 @@ namespace RocketPOS.Helpers
             {
                 customerOrderModel.OrderStatus = (int)EnumUtility.OrderPaidStatus.FullPaid;
                 customerOrderModel.KotStatus = (int)EnumUtility.KOTStatus.Completed;
+                customerOrderModel.CustomerPaid = Convert.ToDecimal(txtPPPayAmount.Text);
             }
             else if (type == "Hold")
             {
@@ -620,14 +635,14 @@ namespace RocketPOS.Helpers
                 return;
             }
 
-            if (cmbWaiter.SelectedItem == null)
+            if (cmbWaiter.SelectedIndex == -1)
             {
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectWaiter, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                 cmbWaiter.Focus();
                 return;
             }
 
-            if (cmbCustomer.SelectedItem == null)
+            if (cmbCustomer.SelectedIndex == -1)
             {
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectCustomer, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                 cmbCustomer.Focus();
@@ -687,7 +702,7 @@ namespace RocketPOS.Helpers
                 orderId = txtbOrderId.Text;
                 if (!string.IsNullOrEmpty(orderId) && orderId != "0")
                 {
-                    
+
                     insertedId = customerOrderViewModel.UpdateOrderStatus(orderId, (int)EnumUtility.OrderPaidStatus.Cancel);
                     if (insertedId > 0)
                     {
@@ -850,6 +865,23 @@ namespace RocketPOS.Helpers
         #region Direct Invoice PopUp
         private void btnDirectInvoice_Click(object sender, RoutedEventArgs e)
         {
+            if (dgSaleItem.Items.Count == 0)
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.CartEmpty, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                return;
+            }
+            if (cmbWaiter.SelectedIndex == -1)
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectWaiter, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                cmbWaiter.Focus();
+                return;
+            }
+            if (cmbCustomer.SelectedIndex == -1)
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectCustomer, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                cmbCustomer.Focus();
+                return;
+            }
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
             List<PaymentMethodModel> paymentMethodModels = new List<PaymentMethodModel>();
             ppDirectInvoice.IsOpen = true;
@@ -885,7 +917,7 @@ namespace RocketPOS.Helpers
 
             //Update Table Status
             tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Clean);
-            
+
             customerOrderModel = customerOrderViewModel.GetCustomerOrderByOrderId(orderId);
             customerBillModel.OutletId = customerOrderModel.OutletId;
             customerBillModel.CustomerOrderId = customerOrderModel.Id;
@@ -937,7 +969,7 @@ namespace RocketPOS.Helpers
         }
         private void btnEditCustomer_Click(object sender, RoutedEventArgs e)
         {
-            if (cmbCustomer.SelectedItem == null)
+            if (cmbCustomer.SelectedIndex != -1)
             {
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerTitle, StatusMessages.CustomerSelectRequired, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                 Keyboard.Focus(cmbCustomer);
@@ -1036,7 +1068,7 @@ namespace RocketPOS.Helpers
         }
         private void btnPPDiscountApply_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(cmbPPDiscountNos.SelectionBoxItem.ToString()))
+            if (cmbPPDiscountNos.SelectedIndex != 0)
             {
                 CommonOrderCalculation(sender, "DiscountPercent");
                 //txtbtxtDiscount.Text = Convert.ToDecimal(percentage).ToString("0.00");
@@ -1044,7 +1076,12 @@ namespace RocketPOS.Helpers
                 //txtSubTotalDiscountAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100).ToString();
                 //txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100)).ToString();
             }
-            cmbPPDiscountNos.SelectedIndex = -1;
+            else
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.ApplyDiscountTitle, StatusMessages.PercentageSelect, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                return;
+            }
+            cmbPPDiscountNos.SelectedIndex = 0;
             ppDiscountPopUp.IsOpen = false;
         }
         private void btnServiceDeliveryPopUp_Click(object sender, RoutedEventArgs e)
@@ -1053,7 +1090,7 @@ namespace RocketPOS.Helpers
         }
         private void btnPPDeliveryApply_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(cmbPPPercentageDelivery.SelectionBoxItem.ToString()))
+            if (cmbPPPercentageDelivery.SelectedIndex != 0)
             {
                 CommonOrderCalculation(sender, "DeliveryCharge");
                 //decimal percentage = Convert.ToDecimal(cmbPPPercentageDelivery.SelectionBoxItem);
@@ -1061,8 +1098,13 @@ namespace RocketPOS.Helpers
                 //txtbTotalDeliveryChargeAmt.Text = (percentage).ToString("0.00");
                 //txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) + percentage) - Convert.ToDecimal(txtSubTotalDiscountAmount.Text)).ToString();
             }
+            else
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.ApplyServiceChargeTitle, StatusMessages.ServiceChargeSelect, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                return;
+            }
             ppDeliveryServicePopUp.IsOpen = false;
-            cmbPPPercentageDelivery.SelectedIndex = -1;
+            cmbPPPercentageDelivery.SelectedIndex = 0;
         }
         private void btnPPDeliveryCancel_Click(object sender, RoutedEventArgs e)
         {
@@ -1087,14 +1129,18 @@ namespace RocketPOS.Helpers
         #endregion
         private void btnHold_Click(object sender, RoutedEventArgs e)
         {
-            if (cmbWaiter.SelectedItem == null)
+            if (dgSaleItem.Items.Count == 0)
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.CartEmpty, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                return;
+            }
+            if (cmbWaiter.SelectedIndex == -1)
             {
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectWaiter, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                 cmbWaiter.Focus();
                 return;
             }
-
-            if (cmbCustomer.SelectedItem == null)
+            if (cmbCustomer.SelectedIndex == -1)
             {
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectCustomer, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                 cmbCustomer.Focus();
@@ -1117,10 +1163,15 @@ namespace RocketPOS.Helpers
         private void btnPPSelectTable_Click(object sender, RoutedEventArgs e)
         {
             TableViewModel tableViewModel = new TableViewModel();
-            if (!string.IsNullOrEmpty(lbTablesList.SelectedValue.ToString()))
+            if (lbTablesList.SelectedIndex != -1)
             {
                 txtbDineInTableId.Text = lbTablesList.SelectedValue.ToString();
-                tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int) EnumUtility.TableStatus.Occupied);
+                tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Occupied);
+            }
+            else
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.DineInSelect, StatusMessages.DineInSelect, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                return;
             }
             ppDineInTables.IsOpen = false;
         }
@@ -1252,6 +1303,12 @@ namespace RocketPOS.Helpers
         private void btnNewOrder_Click(object sender, RoutedEventArgs e)
         {
             ClearCustomerOrderItemControll();
+        }
+
+        private void btnDineTableView_Click(object sender, RoutedEventArgs e)
+        {
+            DineInTables dineInTables = new DineInTables();
+            dineInTables.Show();
         }
     }
 }

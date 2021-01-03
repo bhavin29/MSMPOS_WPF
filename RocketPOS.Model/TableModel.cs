@@ -12,5 +12,7 @@ namespace RocketPOS.Model
         public int PersonCapacity { get; set; }
         public string TableIcon { get; set; }
         public string Status { get; set; }
+
+        public string StatusDescription { get; set; }
     }
 }

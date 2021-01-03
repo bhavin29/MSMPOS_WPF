@@ -15,7 +15,7 @@ namespace RocketPOS.ViewModels
             List<TableModel> tables = new List<TableModel>();
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
-                var query = "SELECT Id,OutletId,TableName,PersonCapacity,TableIcon,Status FROM dbo.Tables Where OutletId="+ outletId + " And IsDeleted=0";
+                var query = "SELECT Id,OutletId,TableName,PersonCapacity,TableIcon,Status,case when Status=1 then 'Open' When Status=2 then 'Occupied' When Status=3 then 'Clean' Else 'Unknown' End as StatusDescription FROM dbo.Tables Where OutletId=" + outletId + " And IsDeleted=0";
                 tables = connection.Query<TableModel>(query).ToList();
                 return tables;
             }
@@ -23,10 +23,13 @@ namespace RocketPOS.ViewModels
 
         public void UpdateTableStatus(string tableId,int tableStatus)
         {
-            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            if (!string.IsNullOrEmpty(tableId))
             {
-                var query = "Update [Tables] set Status="+ tableStatus + " Where Id="+ tableId;
-                connection.Query<bool>(query).FirstOrDefault();
+                using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+                {
+                    var query = "Update [Tables] set Status=" + tableStatus + " Where Id=" + tableId;
+                    connection.Query<bool>(query).FirstOrDefault();
+                } 
             }
         }
     }
