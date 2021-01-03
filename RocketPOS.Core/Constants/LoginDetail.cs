@@ -31,6 +31,6 @@ namespace RocketPOS.Core.Constants
         public static string Footer2 = "";
         public static string Footer3 = "";
         public static string Footer4 = "";
-
+        public static DateTime SystemDate = DateTime.UtcNow;
     }
 }

@@ -43,15 +43,28 @@ namespace RocketPOS.Helpers
                 MainWindow mainWin = new MainWindow();
                 OpenRegister openRegister = new OpenRegister();
 
+ 
                 if (loginModel[0].OutletRegisterStatus == 1)
                 {
+                    DateTime dt = new DateTime();
+
+                    string v = DateTime.Now.ToShortDateString();
+                    dt = DateTime.Parse(v);
+
+                    int result = DateTime.Compare(loginModel[0].SystemDate, dt);
+
+                    if (result < 0)
+                    {
+                        var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "You are running with past date,please close your register and start new register with current date", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+                    }
+
                     mainWin.Show();
+                    this.Close();
                 }
                 else
                 {
-                    openRegister.Show();
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Please contact admin to open your register.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                 }
-                this.Close();
             }
             else
             {
@@ -94,6 +107,7 @@ namespace RocketPOS.Helpers
             LoginDetail.Footer2 = loginModel[0].Footer2;
             LoginDetail.Footer3 = loginModel[0].Footer3;
             LoginDetail.Footer4 = loginModel[0].Footer4;
+            LoginDetail.SystemDate = loginModel[0].SystemDate;
         }
 
         private void CenterWindowOnScreen()
