@@ -19,7 +19,8 @@ namespace RocketPOS.Core.Constants
             Pending = 1,
             Hold = 2,
             PartialPaid = 3,
-            FullPaid = 4
+            FullPaid = 4,
+            Cancel = 5
         }
         public enum KOTStatus
         {
@@ -55,6 +56,17 @@ namespace RocketPOS.Core.Constants
             Information,
             Error,
             None
+        }
+        public enum RoleTypeId
+        {
+            [Display(Name = "Admin")]
+            Admin = 1,
+            [Display(Name = "Manager")]
+            Manager = 2,
+            [Display(Name = "POS")]
+            POS = 3,
+            [Display(Name = "Waiter")]
+            Waiter = 4,
         }
     }
 }

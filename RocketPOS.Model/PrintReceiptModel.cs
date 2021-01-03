@@ -10,6 +10,7 @@ namespace RocketPOS.Model
         public int BillId { get; set; }
         public DateTime BillDateTime { get; set; }
         public string OutletName { get; set; }
+        public string SalesInvoiceNumber { get; set; }
         public string Username { get; set; }
         public string CustomerName { get; set; }
         public float GrossAmount { get; set; }

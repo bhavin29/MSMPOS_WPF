@@ -33,7 +33,8 @@ namespace RocketPOS.ViewModels
                 dynamicParameters.Add("@UserId", customerBillModel.UserId);
                 dynamicParameters.Add("@PaymentMethodId", customerBillModel.PaymentMethodId);
                 dynamicParameters.Add("@PaymentNumber", customerBillModel.PaymentNumber);
-
+                dynamicParameters.Add("@ReceiptPrefix", LoginDetail.ReceiptPrefix);
+                
                 insertedId = connection.Query<int>
                         (StoredProcedure.PX_INSERT_BILL_DETAILS, dynamicParameters, commandType: CommandType.StoredProcedure, commandTimeout: 0).FirstOrDefault();
                 return insertedId;
