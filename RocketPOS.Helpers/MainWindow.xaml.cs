@@ -659,7 +659,10 @@ namespace RocketPOS.Helpers
             {
                 outletRegisterViewModel.UpdateOutletRegister(outletRegisterModel);
                 WpfMessageBox.Show(StatusMessages.AppTitle, "Register closed successfully");
-  
+
+                OutletRegisterReport outletRegisterReport = new OutletRegisterReport();
+                outletRegisterReport.Show();
+
                 Login frmlogin = new Login();
                 frmlogin.Show();
                 this.Close();
@@ -1021,7 +1024,7 @@ namespace RocketPOS.Helpers
 
         void timer_Tick(object sender, EventArgs e)
         {
-            txtDatetime.Text = DateTime.Now.ToLongTimeString();
+            txtDatetime.Text =   DateTime.Now.ToLongTimeString();
         }
         private void Timer()
         {
@@ -1037,6 +1040,7 @@ namespace RocketPOS.Helpers
             txbOutletName.Text = LoginDetail.OutletName;
             txtbUserName.Text = "User: " + LoginDetail.Username;
             txtWebsite.Text = LoginDetail.WebSite;
+            txtSystemDate.Text = LoginDetail.SystemDate.ToShortDateString();
         }
 
         private void btnLastSale_Click(object sender, RoutedEventArgs e)

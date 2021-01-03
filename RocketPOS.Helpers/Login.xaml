@@ -25,6 +25,7 @@
                 <Button Name="btnLogout" Background="White" FontSize="10pt" FontFamily="Century Gothic" FontWeight="Bold" Foreground="RoyalBlue" Content="Logout"  Height="50" Width="50" Click="btnLogout_Click"/>
             </StackPanel>
             <StackPanel x:Name="HeaderPanel" Orientation="Vertical"  >
+                
                 <Label Content="ROCKET  POS" HorizontalAlignment="Left" Width="400" FontSize="30" Foreground="White" FontFamily="Cooper Black, 24pt" />
                 <Label Content="We Create, We Design, We Develop" HorizontalAlignment="Left" Width="400" FontSize="18" Foreground="White" FontFamily="Monotype Corsiva" FontWeight="UltraBlack" />
             </StackPanel>
