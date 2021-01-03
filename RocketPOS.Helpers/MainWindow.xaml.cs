@@ -1,4 +1,5 @@
 ﻿using System;
+using RocketPOS.Helpers.RMessageBox;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,6 @@ using System.Data;
 using RocketPOS.Core.Constants;
 using RocketPOS.Views;
 using System.Windows.Media;
-using RocketPOS.Helpers.RMessageBox;
 using System.Windows.Threading;
 using RocketPOS.Core.Configuration;
 using RocketPOS.Helpers.Reports;
@@ -647,14 +647,24 @@ namespace RocketPOS.Helpers
             OutletRegisterModel outletRegisterModel = new OutletRegisterModel();
 
             //Open regiter
-            outletRegisterModel.USerID = LoginDetail.UserId;
-            outletRegisterModel.OutletId = LoginDetail.OutletId;
-            outletRegisterModel.OpeningBalance = 500;
+            //outletRegisterModel.USerID = LoginDetail.UserId;
+            //outletRegisterModel.OutletId = LoginDetail.OutletId;
+            //outletRegisterModel.OpeningBalance = 500;
 
-            outletRegisterViewModel.InsertOutletRegister(outletRegisterModel);
+            // outletRegisterViewModel.InsertOutletRegister(outletRegisterModel);
 
-            //Close register
-            outletRegisterViewModel.UpdateOutletRegister(outletRegisterModel);
+            var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Are you sure to close register? ", MessageBoxButton.YesNo, EnumUtility.MessageBoxImage.Warning);
+
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                outletRegisterViewModel.UpdateOutletRegister(outletRegisterModel);
+                WpfMessageBox.Show(StatusMessages.AppTitle, "Register closed successfully");
+  
+                Login frmlogin = new Login();
+                frmlogin.Show();
+                this.Close();
+
+            }
         }
         #region Search Order Left
         private void epOrder_LostFocus(object sender, RoutedEventArgs e)

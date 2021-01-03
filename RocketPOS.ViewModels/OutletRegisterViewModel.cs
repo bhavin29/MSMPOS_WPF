@@ -2,6 +2,7 @@
 using RocketPOS.Core.Configuration;
 using RocketPOS.Model;
 using System.Data.SqlClient;
+using RocketPOS.Core.Constants;
 
 namespace RocketPOS.ViewModels
 {
@@ -18,6 +19,7 @@ namespace RocketPOS.ViewModels
                 SqlTransaction sqltrans = connection.BeginTransaction();
 
                 var query = "EXEC pxOutletRegister 1,@OutletId,@UserId,@OpeningBalance";
+
                 result = connection.Execute(query, outletRegisterModel, sqltrans, 0, System.Data.CommandType.Text);
 
                 if (result > 0)
@@ -40,7 +42,10 @@ namespace RocketPOS.ViewModels
                 connection.Open();
                 SqlTransaction sqltrans = connection.BeginTransaction();
 
-                var query = "EXEC pxOutletRegister 2,@OutletId,@UserId,NULL";
+                var query = "EXEC pxOutletRegister 2, " + 
+                                  LoginDetail.OutletId + ", " +
+                                  LoginDetail.UserId + ", NULL ;";
+
                 result = connection.Execute(query, outletRegisterModel, sqltrans, 0, System.Data.CommandType.Text);
 
                 if (result > 0)

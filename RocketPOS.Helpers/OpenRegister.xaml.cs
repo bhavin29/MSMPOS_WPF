@@ -50,7 +50,6 @@ namespace RocketPOS.Helpers
             {
                 var messageBoxResult = WpfMessageBox.Show("ROCKET POS", "Please enter Opening Balance", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
 
-               // MessageBox.Show("Please enter Opening Balance");
                 txtOpeningBal.Focus();
             }
         }

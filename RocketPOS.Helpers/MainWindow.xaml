@@ -38,7 +38,7 @@
                 <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator"  Click="btnCalculator_Click"/>
                 <Button x:Name="btnFoodMenuList" Style="{StaticResource btnOrange}" Content="Menu List" Click="btnFoodMenuList_Click" />
                 <Button x:Name="btnLastSale" Style="{StaticResource btnOrange}"  Content="Sales List" Click="btnLastSale_Click" />
-                <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Register"   Click="btnRegister_Click" />
+                <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Close Register"   Click="btnRegister_Click" />
                 <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Report" />
                 <Button x:Name="btnBack" Style="{StaticResource btnOrange}" Content="Settings"  />
                 <Button x:Name="btnLogOut" Style="{StaticResource btnLightRed}" Content="LogOut" Width="120" Click="btnLogOut_Click"  />

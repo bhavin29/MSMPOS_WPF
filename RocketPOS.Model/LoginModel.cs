@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace RocketPOS.Model
@@ -32,5 +33,8 @@ namespace RocketPOS.Model
         public string Footer2 { get; set; }
         public string Footer3 { get; set; }
         public string Footer4 { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime SystemDate { get; set; }
     }
 }
