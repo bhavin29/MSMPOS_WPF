@@ -76,6 +76,18 @@ namespace RocketPOS.Views
             graphics.DrawString(value, minifont,
                      new SolidBrush(Color.Black), startX + 130, startY + Offset);
         }
+
+        void InsertItemList(string key, string value, int OffsetY, int OffsetX)
+        {
+            Font minifont = new Font("Arial", 5);
+            int startX = 10;
+            int startY = 5;
+
+            graphics.DrawString(key, minifont,
+                         new SolidBrush(Color.Black), startX + OffsetX, startY + OffsetY);
+
+        }
+
         void InsertHeaderStyleItem(string key, string value, int Offset)
         {
             int startX = 10;
@@ -153,22 +165,6 @@ namespace RocketPOS.Views
 
             Offset = Offset + mediuminc;
             DrawAtStart("Receipt Number: " + printReceiptModel[0].SalesInvoiceNumber.ToString().PadRight((20 - printReceiptModel[0].SalesInvoiceNumber.ToString().Length) + 10) + "Date: " + DateTime.Now.ToString("MM/dd/yyyy HH:mm"), Offset); ;
-            Offset = Offset + mediuminc;
-
-            // if (!String.Equals(order.Customer.Address, "N/A"))
-            // {
-            //    Offset = Offset + mediuminc;
-            //    DrawAtStart("Address: Paldi", Offset);
-            // }
-
-            //   if (!String.Equals(order.Customer.Phone, "N/A"))
-            //   {
-            //       Offset = Offset + mediuminc;
-            //       DrawAtStart("Phone # : " + order.Customer.Phone, Offset);
-            //   }
-
-            // Offset = Offset + mediuminc;
-            //DrawAtStart("Date: " + DateTime.Now.ToString(), Offset);
 
             Offset = Offset + mediuminc;
             DrawAtStart("Customer: " + printReceiptModel[0].CustomerName, Offset);
@@ -178,68 +174,55 @@ namespace RocketPOS.Views
 
             Offset = Offset + largeinc;
 
-            InsertHeaderStyleItem("ITEM ", "RATE        AMOUNT ", Offset);
+            InsertHeaderStyleItem("ITEM                                RATE     QTY    AMOUNT ", "", Offset);
 
             Offset = Offset + largeinc;
 
             foreach (var item in printReceiptItemModel)
             {
-                InsertItem(item.FoodMenuName.ToString().PadRight((40- item.FoodMenuName.ToString().Length)+26)  + "x " +   item.FoodMenuRate.ToString("F").PadLeft((10 - item.FoodMenuName.ToString().Length) + 40) + item.Price, "25", Offset);
+                InsertItemList(item.FoodMenuName.ToString(), "", Offset, 5);
+                InsertItemList(item.FoodMenuRate.ToString("F"), "", Offset, 60 + (50 - (item.FoodMenuRate.ToString().Length * 4)));
+                InsertItemList(item.FoodMenuQty.ToString("F"), "", Offset, 90 + (50 - (item.FoodMenuQty.ToString().Length * 4)));
+                InsertItemList(item.Price.ToString("F"), "", Offset, 133 + (50-(item.Price.ToString().Length*4)));
+
+                // InsertItem(item.FoodMenuName.ToString().PadRight((55- (item.FoodMenuName.ToString().Length)))  + "x " +   item.FoodMenuRate.ToString("F").PadRight((25 - (item.FoodMenuRate.ToString().Length))) + item.Price.ToString("F"), "", Offset);
 
                 Offset = Offset + smallinc;
             }
-            ////   foreach (var itran in order.ItemTransactions)
-            //   {
-            //       InsertItem(itran.Item.Name + " x " + itran.Quantity, itran.Total.CValue, Offset);
-            //       Offset = Offset + smallinc;
-            //   }
-            ////   foreach (var dtran in order.DealTransactions)
-            //   {
-            //       InsertItem(dtran.Deal.Name, dtran.Total.CValue, Offset);
-            //       Offset = Offset + smallinc;
-
-            //       foreach (var di in dtran.Deal.DealItems)
-            //       {
-            //           InsertItem(di.Item.Name + " x " + (dtran.Quantity * di.Quantity), "", Offset);
-            //           Offset = Offset + smallinc;
-            //       }
-            //   }
+            Offset = Offset - smallinc;
 
             underLine = "-------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + largeinc;
-            InsertItem("GROSS TOTAL: ", printReceiptModel[0].GrossAmount.ToString().PadLeft(30), Offset);
+            InsertItem("GROSS TOTAL: ", printReceiptModel[0].GrossAmount.ToString("F").PadLeft(30 - printReceiptModel[0].GrossAmount.ToString().Length), Offset);
 
             Offset = Offset + smallinc;
-            InsertItem("DISCOUNT : ", printReceiptModel[0].Discount.ToString().PadLeft(30), Offset);
+            InsertItem("DISCOUNT : ", printReceiptModel[0].Discount.ToString("F").PadLeft(30 - printReceiptModel[0].Discount.ToString().Length), Offset);
 
             Offset = Offset + smallinc;
-            InsertItem("VATABLE: ", printReceiptModel[0].VatableAmount.ToString().PadLeft(30), Offset);
+            InsertItem("VATABLE: ", printReceiptModel[0].VatableAmount.ToString("F").PadLeft(30 - printReceiptModel[0].VatableAmount.ToString().Length), Offset);
 
             Offset = Offset + smallinc;
-            InsertItem("SER CRH: ", printReceiptModel[0].ServiceCharge.ToString().PadLeft(30), Offset);
+            InsertItem("SER CRH: ", printReceiptModel[0].ServiceCharge.ToString("F").PadLeft(30 - printReceiptModel[0].ServiceCharge.ToString().Length), Offset);
 
             Offset = Offset + smallinc;
-            InsertItem("TOTAL: ", printReceiptModel[0].TotalAmount.ToString().PadLeft(30), Offset);
+            InsertItem("TOTAL: ", printReceiptModel[0].TotalAmount.ToString("F").PadLeft(30 - printReceiptModel[0].TotalAmount.ToString().Length), Offset);
 
-            //   if (!order.Cash.Discount.IsZero())
-            //   {
-            //       Offset = Offset + smallinc;
-            //       InsertItem(" Discount: ", order.Cash.Discount.CValue, Offset);
-            //   }
-
+  
             underLine = "-------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + largeinc;
-            InsertItem("TOTAL: ", printReceiptModel[0].PaymentMethodName.ToString().PadRight(10) + " " + printReceiptModel[0].BillAmount.ToString().PadLeft(13), Offset);
+            InsertItem("TOTAL: ", printReceiptModel[0].PaymentMethodName.ToString().PadRight(10) + " " + printReceiptModel[0].BillAmount.ToString("F").PadLeft(10), Offset);
 
+            Offset = Offset + largeinc;
+            Offset = Offset + largeinc;
 
-           intPadding = 20 + ((pageWidthHeader - LoginDetail.ClientName.Length) / 2) * 3;
+            intPadding = 10 + ((pageWidthHeader - LoginDetail.ClientName.Length) / 2) * 3;
             graphics.DrawString(LoginDetail.Footer, smallfont, new SolidBrush(Color.Black), intPadding, Offset);//50 + 22
             
-             Offset = Offset + largeinc + 10;
+            Offset = Offset + largeinc;
 
             DrawAtStartCenter(LoginDetail.Footer1, Offset);
             Offset = Offset + mediuminc;
