@@ -9,8 +9,8 @@
         mc:Ignorable="d" 
         Title="RocketPOS" 
         Width="1280" Height="800" 
-        Background="#00265B">
-    <!--ShowInTaskbar="True" Topmost="true" WindowStyle="None" ResizeMode="NoResize">-->
+        Background="#00265B"
+    ShowInTaskbar="True" Topmost="true" WindowStyle="None" ResizeMode="NoResize">
 
     <Grid >
         <Grid.ColumnDefinitions>
@@ -145,8 +145,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
-                        <RowDefinition Height="270"/>
-                        <RowDefinition Height="165"/>
+                        <RowDefinition Height="353"/>
+                        <RowDefinition Height="182"/>
                         <RowDefinition Height="50"/>
 
                     </Grid.RowDefinitions>
@@ -259,9 +259,9 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>-->
                                     <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding CustomerOrderItemId}"/>
-                                    <DataGridTextColumn Header="Product" IsReadOnly="True"  Binding="{Binding Product}" Width="130"/>
+                                    <DataGridTextColumn Header="Product" IsReadOnly="True"  Binding="{Binding Product}" Width="150"/>
                                     <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding FoodMenuId}"/>
-                                    <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Price,StringFormat={}{0:#,0.00}}" Width="60">
+                                    <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Price}" Width="60">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="{x:Type TextBlock}">
                                                 <Setter Property="HorizontalAlignment" Value="Right" />
@@ -275,7 +275,7 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTextColumn Header="Qty" IsReadOnly="True" Binding="{Binding Qty,StringFormat={}{0:#,0.00}}" Width="30">
+                                    <DataGridTextColumn Header="Qty" IsReadOnly="True" Binding="{Binding Qty}" Width="30">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="{x:Type TextBlock}">
                                                 <Setter Property="HorizontalAlignment" Value="Right" />
@@ -290,7 +290,7 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                     <!--<DataGridTextColumn Header="Discount" IsReadOnly="True"  Binding="{Binding Discount}" Width="50"/>-->
-                                    <DataGridTextColumn Header="Total" IsReadOnly="True"  Binding="{Binding Total,StringFormat={}{0:#,0.00}}" Width="65">
+                                    <DataGridTextColumn Header="Total" IsReadOnly="True"  Binding="{Binding Total}" Width="65">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="{x:Type TextBlock}">
                                                 <Setter Property="HorizontalAlignment" Value="Right" />
@@ -348,12 +348,14 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="78"/>
                             <ColumnDefinition Width="72"/>
-                            <ColumnDefinition Width="260"/>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="100"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
-                            <RowDefinition Height="35"/>
                             <RowDefinition Height="25"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
                             <RowDefinition Height="35"/>
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
@@ -366,17 +368,40 @@
 
                         </Grid>
 
-                        <Grid  Grid.Column="2" VerticalAlignment="Center">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 0">
+                        <Grid Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
                                 <TextBlock x:Name="txtbSubTotal" Style="{StaticResource txtBlock}" Text="Gross : "   />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="0" Grid.Column="3" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtbSubTotalAmount" Style="{StaticResource txtBlock}" Text="0.00"  />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="1" Grid.Column="0" >
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="txtTableNumber" Style="{StaticResource txtBlock}"    />
                             </StackPanel>
 
                         </Grid>
+                        
+                        <Grid Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                                <TextBlock x:Name="txtTaxName" Style="{StaticResource txtBlock}" Text="Taxable : "   />
+                            </StackPanel>
+                        </Grid>
 
-                        <Grid Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="2">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 0 0">
-                                <Button x:Name="btnDicountPopUp" Style="{StaticResource btnOrangeLng}" Content="Discount %"  Width="100" Height="30" Click="btnDicountPopUp_Click"/>
+                        <Grid Grid.Row="1" Grid.Column="3" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
+                                <TextBlock x:Name="txtTaxAmount" Style="{StaticResource txtBlock}" Text="0.00"  />
+                            </StackPanel>
+                        </Grid>
+                        
+                        <Grid Grid.Row="2"  Grid.Column="0" Grid.ColumnSpan="2">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 0 0 0">
+                                <Button x:Name="btnDicountPopUp" Style="{StaticResource btnOrangeLng}" Content="Dist. %"  Width="70" Height="35" Click="btnDicountPopUp_Click"/>
 
                             </StackPanel>
                             <Popup x:Name="ppPassword" Placement="Center">
@@ -427,34 +452,37 @@
                             </Popup>
                         </Grid>
 
+                        <Grid Grid.Row="2"  Grid.Column="2" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock x:Name="txtbDiscount" Style="{StaticResource txtBlock}" Text="Discount (%) : "  />
+                            </StackPanel>
+                        </Grid>
 
-                        <Grid Grid.Row="1"  Grid.Column="2" VerticalAlignment="Center">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 0">
-                                <TextBlock x:Name="txtbDiscount" Style="{StaticResource txtBlock}" Text="Discount (%): "  />
+                        <Grid Grid.Row="2"  Grid.Column="3" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtbtxtDiscount" Style="{StaticResource txtBlock}" HorizontalAlignment="Right" Text="0.00"  />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Grid.ColumnSpan="2">
+                        <Grid Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left">
+                            <TextBox x:Name="txtSubTotalDiscountAmount" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text="0.00" Width="70" Height="30" LostFocus="txtSubTotalDiscountAmount_LostFocus" Margin="5,0,0,0" />
+                        </Grid>
 
-                            <!--<Button x:Name="btnKitchenStatus" Visibility="Hidden"  Style="{StaticResource btnOrangeLng}" Content="Kitchen Status" Width="150" Height="25"  />-->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
-                                <TextBlock x:Name="txtbKitchenStatusTitle" Style="{StaticResource txtBlock}" Visibility="Hidden" Text="KOT :"/>
-                                <TextBlock x:Name="txtbKitchenStatus" Style="{StaticResource txtBlock}" Visibility="Hidden" Text=""/>
+                        <Grid Grid.Row="3"  Grid.Column="2" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                                <TextBlock x:Name="txtbTotalDiscount" Style="{StaticResource txtBlock}" Text="Discount Amount : "  />
                             </StackPanel>
                         </Grid>
 
-
-                        <Grid Grid.Row="2"  Grid.Column="2" VerticalAlignment="Center">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 0">
-                                <TextBlock x:Name="txtbTotalDiscount" Style="{StaticResource txtBlock}" Text="Discount: "  />
+                        <Grid Grid.Row="3"  Grid.Column="3" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtbTotalDiscountAmount" Style="{StaticResource txtBlock}" Text="0.00" HorizontalAlignment="Right"  />
                             </StackPanel>
                         </Grid>
-
-                        <Grid Grid.Row="3"  Grid.Column="0" HorizontalAlignment="Left" Margin="48,0,0,0" Grid.ColumnSpan="2">
+ 
+                        <Grid Grid.Row="4"  Grid.Column="0" HorizontalAlignment="Left" Margin="5 0 0 0">
                             <StackPanel Orientation="Horizontal">
-                                <Button x:Name="btnServiceDeliveryPopUp" Content="Charges"  Style="{StaticResource btnOrangeLng}" Width="100" Height="30" Click="btnServiceDeliveryPopUp_Click"/>
+                                <Button x:Name="btnServiceDeliveryPopUp" Content="Charges"  Style="{StaticResource btnOrangeLng}" Width="70" Height="30" Click="btnServiceDeliveryPopUp_Click"/>
                             </StackPanel>
                             <Popup Name="ppDeliveryServicePopUp" Placement="Center" AllowsTransparency="False">
                                 <Grid Width="250" Height="150" Background="LightBlue">
@@ -483,27 +511,40 @@
                             </Popup>
                         </Grid>
 
-                        <Grid Grid.Row="3"  Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0">
+                        <Grid Grid.Row="4"  Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock x:Name="txtbTotalDeliveryChargeAmt" Visibility="Hidden" Text="0.00"/>
-                                <TextBlock x:Name="txtbServiceDeliveryCharge" Style="{StaticResource txtBlock}" Text="Service/Delivery Charge: " />
-                                <TextBlock x:Name="txtbServiceDeliveryChargeLabel" Style="{StaticResource txtBlock}" Text="0.00" HorizontalAlignment="Right" />
+                                <TextBlock x:Name="txtbServiceDeliveryCharge" Style="{StaticResource txtBlock}" Text="Delivery Charges :" />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="4"  Grid.Column="2" HorizontalAlignment="Left" Margin="151,0,0,0">
-                            <StackPanel Orientation="Horizontal">
+                        <Grid Grid.Row="4"  Grid.Column="3" VerticalAlignment="Center" >
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
+                                <TextBlock x:Name="txtbServiceDeliveryChargeLabel" Style="{StaticResource txtBlock}" Text="0.00" HorizontalAlignment="Right" />
+                            </StackPanel>
+                        </Grid>
+                        
+                        <Grid Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Grid.ColumnSpan="2">
+
+                            <!--<Button x:Name="btnKitchenStatus" Visibility="Hidden"  Style="{StaticResource btnOrangeLng}" Content="Kitchen Status" Width="150" Height="25"  />-->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                                <TextBlock x:Name="txtbKitchenStatusTitle" Style="{StaticResource txtBlock}" Visibility="Hidden" Text="KOT :"/>
+                                <TextBlock x:Name="txtbKitchenStatus" Style="{StaticResource txtBlock}" Visibility="Hidden" Text=""/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="5"  Grid.Column="2" HorizontalAlignment="Right" Margin=" 0 0 4 0">
+                            <StackPanel Orientation="Horizontal" >
                                 <TextBlock x:Name="txtbTotalPayable" Style="{StaticResource txtBlock}"  Text="Payable: "  />
+                            </StackPanel>
+                        </Grid>
+                        
+                        <Grid Grid.Row="5"  Grid.Column="3" VerticalAlignment="Center" >
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtbTotalPayableAmount" Style="{StaticResource txtBlock}"  Text="0.00" HorizontalAlignment="Right" />
                             </StackPanel>
                         </Grid>
-                        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="44*"/>
-                                <ColumnDefinition Width="31*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox x:Name="txtSubTotalDiscountAmount" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text="0.00" Width="100" TextChanged="txtSubTotalDiscountAmount_TextChanged" Margin="50,0,0,0" Grid.ColumnSpan="2"/>
-                        </Grid>
+
                     </Grid>
 
                     <Grid Grid.Row="4">
@@ -607,28 +648,24 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
-                        <RowDefinition Height="400"/>
-                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="500"/>
+                        <RowDefinition Height="100"/>
                     </Grid.RowDefinitions>
-
-
-                    <Grid Grid.Row="0" Margin="5,-4,0,0">
+                    <Grid Grid.Row="0" Margin="1,0,0,0" >
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <WrapPanel x:Name="spCategory" Orientation="Horizontal" Margin="0">
                             </WrapPanel>
                         </ScrollViewer>
-
                     </Grid>
-                    <Grid Grid.Row="1" Margin="2">
+                    <Grid Grid.Row="1" Margin="2,0,0,0" Background="RoyalBlue">
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <WrapPanel x:Name="spSubCategory" Orientation="Horizontal">
 
                             </WrapPanel>
                         </ScrollViewer>
-
                     </Grid>
 
-                    <Grid Grid.Row="2" Margin="2">
+                    <Grid Grid.Row="2" Margin="1,0,0,0" >
                         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="100">
                                 <StackPanel x:Name="spFavouriteCategory" Orientation="Horizontal" >

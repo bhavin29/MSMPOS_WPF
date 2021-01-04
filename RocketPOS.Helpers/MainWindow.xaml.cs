@@ -162,7 +162,8 @@ namespace RocketPOS.Helpers
             menuListPanel.Orientation = Orientation.Vertical;
 
             TextBlock txtSalePrice = new TextBlock();
-            txtSalePrice.Text = itemSubCat.SalesPrice.ToString();
+            txtSalePrice.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+            txtSalePrice.Text = Convert.ToDecimal(itemSubCat.SalesPrice).ToString("0.00");
             txtSalePrice.Name = "txtSalePrice" + itemSubCat.FoodCategoryId;
             menuListPanel.Children.Add(txtSalePrice);
 
@@ -175,19 +176,26 @@ namespace RocketPOS.Helpers
             {
                 imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\RocketPOS.StartUp\Images\defaultimage.png"));
             }
-            imgFood.MaxWidth = 150;
-            imgFood.MaxHeight = 100;
-            imgFood.Margin = new Thickness(5, 0, 5, 10);
+            imgFood.Width = 70;
+            imgFood.Height = 70;
+            imgFood.Margin = new Thickness(2,2,2,2);
+            imgFood.Stretch = Stretch.UniformToFill;
+    //        imgFood.HorizontalAlignment = Stretch;
+    //        imgFood.VerticalAlignment = "Top";
+    //        imgFood.Stretch = "UniformToFill";
             imgFood.Name = "imgFood" + itemSubCat.FoodCategoryId;
             menuListPanel.Children.Add(imgFood);
 
             TextBlock txtSmallName = new TextBlock();
+            txtSmallName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
             txtSmallName.Text = itemSubCat.SmallName;
             txtSmallName.Name = "txtSmallName" + itemSubCat.FoodCategoryId;
             menuListPanel.Children.Add(txtSmallName);
 
             TextBlock txtFoodMenuId = new TextBlock();
+            txtFoodMenuId.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
             txtFoodMenuId.Text = itemSubCat.FoodMenuId.ToString();
+            txtFoodMenuId.FontSize = 2;
             txtFoodMenuId.Name = "txtFoodMenuId" + itemSubCat.FoodMenuId;
             txtFoodMenuId.Visibility = Visibility.Hidden;
             menuListPanel.Children.Add(txtFoodMenuId);
@@ -224,13 +232,13 @@ namespace RocketPOS.Helpers
         }
         private void CommonOrderCalculation(object sender, string type)
         {
-            if (type == "FoodMenu")
+          if (type == "FoodMenu")
             {
                 var menuListPanel = sender as StackPanel;
                 var salePrice = menuListPanel.Children[0] as TextBlock;
 
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
-                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
+             //   txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
                 txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
             }
 
@@ -240,7 +248,7 @@ namespace RocketPOS.Helpers
                 if (foodMenuItem == null) return;
 
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(foodMenuItem.SalesPrice)).ToString();
-                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(foodMenuItem.SalesPrice)).ToString();
+               // txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(foodMenuItem.SalesPrice)).ToString();
                 txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
             }
 
@@ -250,13 +258,11 @@ namespace RocketPOS.Helpers
                 txtbtxtDiscount.Text = Convert.ToDecimal(percentage).ToString("0.00");
                 txtbTotalDiscountAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100).ToString("0.00");
                 txtSubTotalDiscountAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100).ToString();
-                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - ((Convert.ToDecimal(txtbSubTotalAmount.Text) * percentage) / 100)).ToString();
             }
 
             if (type == "DiscountAmount")
             {
                 txtbTotalDiscountAmount.Text = txtSubTotalDiscountAmount.Text;
-                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtSubTotalDiscountAmount.Text)).ToString();
             }
 
             if (type == "DeliveryCharge")
@@ -264,9 +270,8 @@ namespace RocketPOS.Helpers
                 decimal percentage = Convert.ToDecimal(cmbPPPercentageDelivery.SelectionBoxItem);
                 txtbServiceDeliveryChargeLabel.Text = percentage.ToString("0.00");
                 txtbTotalDeliveryChargeAmt.Text = (percentage).ToString("0.00");
-                txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) + percentage) - Convert.ToDecimal(txtSubTotalDiscountAmount.Text)).ToString();
             }
-
+            txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
         }
         private void GetFoodItems(string type)
         {
@@ -798,10 +803,17 @@ namespace RocketPOS.Helpers
             txtbTotalDiscountAmount.Text = customerOrderModel.DiscountAmount.ToString();
             txtbTotalDeliveryChargeAmt.Text = customerOrderModel.DeliveryCharges.ToString();
 
+            if (customerOrderModel.OrderType == (int)EnumUtility.OrderType.DineIN)
+            {
+                txtTableNumber.Text = " Table # " + customerOrderModel.TableId.ToString();
+            }
+            else
+            {
+                txtTableNumber.Text = "";
+            }
             if (customerOrderModel.KotStatus == 1)
             {
                 txtbKitchenStatus.Text = "Pending";
-                txtbKitchenStatus.Text += " [Table# " + customerOrderModel.TableId + "]";
             }
             else if (customerOrderModel.KotStatus == 2)
             {
@@ -1126,18 +1138,18 @@ namespace RocketPOS.Helpers
         }
         private void txtSubTotalDiscountAmount_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtSubTotalDiscountAmount.Text))
-            {
-                CommonOrderCalculation(sender, "DiscountAmount");
-                //txtbTotalDiscountAmount.Text = txtSubTotalDiscountAmount.Text;
-                //txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtSubTotalDiscountAmount.Text)).ToString();
-            }
-            else
-            {
-                txtbTotalPayableAmount.Text = txtbSubTotalAmount.Text;
-                txtbTotalDiscountAmount.Text = "0.00";
-                txtSubTotalDiscountAmount.Text = "0.00";
-            }
+            //if (!string.IsNullOrEmpty(txtSubTotalDiscountAmount.Text))
+            //{
+            //    CommonOrderCalculation(sender, "DiscountAmount");
+            //    //txtbTotalDiscountAmount.Text = txtSubTotalDiscountAmount.Text;
+            //    //txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtSubTotalDiscountAmount.Text)).ToString();
+            //}
+            //else
+            //{
+            //    txtbTotalPayableAmount.Text = txtbSubTotalAmount.Text;
+            //    txtbTotalDiscountAmount.Text = "0.00";
+            //    txtSubTotalDiscountAmount.Text = "0.00";
+            //}
         }
         #endregion
         private void btnHold_Click(object sender, RoutedEventArgs e)
@@ -1323,6 +1335,12 @@ namespace RocketPOS.Helpers
         {
             DineInTables dineInTables = new DineInTables();
             dineInTables.Show();
+        }
+          
+        private void txtSubTotalDiscountAmount_LostFocus(object sender, RoutedEventArgs e)
+        {
+            CommonOrderCalculation(sender, "DiscountAmount");
+            txtSubTotalDiscountAmount.Text = Convert.ToDecimal(txtSubTotalDiscountAmount.Text).ToString("0.00");
         }
     }
 }
