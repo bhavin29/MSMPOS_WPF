@@ -77,11 +77,12 @@ namespace RocketPOS.Helpers
         {
             try
             {
+                AppSettings appSettings = new AppSettings();
                 string rootPath = string.Empty;
                 FoodMenuViewModel foodMenuViewModel = new FoodMenuViewModel();
                 FoodMenuModel foodMenu = new FoodMenuModel();
                 //     rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
-                rootPath = "D:\\";
+                rootPath = appSettings.GetAppPath();
 
                 if (Application.Current.Resources["FoodList"] == null)
                 {
@@ -223,11 +224,11 @@ namespace RocketPOS.Helpers
             Image imgFood = new Image();
             try
             {
-                imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\RocketPOS.StartUp\Images\" + itemSubCat.SmallThumb));
+                imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\" + itemSubCat.SmallThumb));
             }
             catch (Exception)
             {
-                imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\RocketPOS.StartUp\Images\defaultimage.png"));
+                imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\defaultimage.png"));
             }
             imgFood.Width = 70;
             imgFood.Height = 70;
@@ -328,7 +329,8 @@ namespace RocketPOS.Helpers
         }
         private void GetFoodItems(string type)
         {
-            string rootPath = "d:\\";// new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
+            AppSettings appSettings = new AppSettings();
+            string rootPath = appSettings.GetAppPath();// new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
             spSubCategory.Children.Clear();
             FoodMenuModel foodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
             if (type == "All")
@@ -342,7 +344,8 @@ namespace RocketPOS.Helpers
         }
         private void GetSearchFoodItems(string searchKey)
         {
-            string rootPath = "d:\\";// new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
+            AppSettings appSettings = new AppSettings();
+            string rootPath = appSettings.GetAppPath();// new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
             spSubCategory.Children.Clear();
             FoodMenuModel foodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
             GenerateDynamicFoodItems(foodMenu, rootPath, searchKey, string.Empty);
@@ -427,7 +430,7 @@ namespace RocketPOS.Helpers
                 }
                 customerOrderModel.Id = 0;
                 customerOrderModel.OutletId = LoginDetail.OutletId;
-                customerOrderModel.SalesInvoiceNumber = "0";
+                customerOrderModel.SalesInvoiceNumber = null;
                 customerOrderModel.CustomerId = Convert.ToInt32(cmbCustomer.SelectedValue);
                 customerOrderModel.WaiterEmployeeId = Convert.ToInt32(cmbWaiter.SelectedValue);
                 customerOrderModel.OrderType = orderType;
@@ -475,7 +478,7 @@ namespace RocketPOS.Helpers
                 }
                 customerOrderModel.Id = Convert.ToInt32(txtbOrderId.Text);
                 customerOrderModel.OutletId = LoginDetail.OutletId;
-                customerOrderModel.SalesInvoiceNumber = "0";
+                customerOrderModel.SalesInvoiceNumber = null;
                 customerOrderModel.CustomerId = Convert.ToInt32(cmbCustomer.SelectedValue);
                 customerOrderModel.WaiterEmployeeId = Convert.ToInt32(cmbWaiter.SelectedValue);
                 customerOrderModel.OrderType = orderType;
@@ -858,7 +861,10 @@ namespace RocketPOS.Helpers
 
             if (customerOrderModel.OrderType == (int)EnumUtility.OrderType.DineIN)
             {
-                txtTableNumber.Text = " Table # " + customerOrderModel.TableId.ToString();
+                if (!string.IsNullOrEmpty(customerOrderModel.TableName))
+                {
+                    txtTableNumber.Text = " Table # " + customerOrderModel.TableName.ToString();
+                }
             }
             else
             {
