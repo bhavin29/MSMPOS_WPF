@@ -6,46 +6,119 @@
         xmlns:local="clr-namespace:RocketPOS.Helpers.Reports"
         mc:Ignorable="d"
          WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True" WindowStyle="SingleBorderWindow"
-        Title="OrderList" Height="600" Width="845">
+        Title="Order List" Height="600" Width="980" Background="#00265B">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="840"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="75"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="500"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="AliceBlue">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Label Content="From Date" Width="100" Height="50"/>
-                <DatePicker Name="dpFromDate" Width="100" Height="50"/>
-                <DatePicker Name="dpToDate"  Width="100" Height="50"/>
-                <Button x:Name="btnSearchOrderList" Content="Search"  Width="100" Height="50" Click="btnSearchOrderList_Click"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="40">
+                
+                <Label Content="From Date" Width="100" VerticalAlignment="Center"/>
+                <DatePicker Name="dpFromDate" Width="100" VerticalAlignment="Center"/>
+                
+                <Label Content="To Date" Width="100" VerticalAlignment="Center"/>
+                <DatePicker Name="dpToDate"  Width="100" VerticalAlignment="Center" />
+                
+                <Button x:Name="btnSearchOrderList" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Search" Height="40" Click="btnSearchOrderList_Click"/>
+   
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1" Background="Blue">
-            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="2">
+        <Grid Grid.Row="1" >
+            <StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment='Center'>
                 <DataGrid x:Name="dgOrderList" ItemsSource="{Binding SaleItemModel}" ScrollViewer.CanContentScroll="True" 
       ScrollViewer.VerticalScrollBarVisibility="Auto"
       ScrollViewer.HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Invoice#" IsReadOnly="True" Binding="{Binding SalesInvoiceNumber}" Width="80"/>
-                        <DataGridTextColumn Header="Order Date" IsReadOnly="True"  Binding="{Binding OrderDate}" Width="80"/>
-                        <DataGridTextColumn Header="Order Type" IsReadOnly="True" Binding="{Binding OrderType}" Width="80"/>
-                        <DataGridTextColumn Header="Customer" IsReadOnly="True"  Binding="{Binding CustomerName}" Width="150"/>
-                        <DataGridTextColumn Header="Dist Amount" IsReadOnly="True"  Binding="{Binding DiscountAmount}" Width="80" />
-                        <DataGridTextColumn Header="Del. Charges" IsReadOnly="True"  Binding="{Binding DeliveryCharges}" Width="80"/>
-                        <DataGridTextColumn Header="Tax Amount" IsReadOnly="True"  Binding="{Binding TaxAmount}" Width="80"/>
-                        <DataGridTextColumn Header="Total Payable" IsReadOnly="True"  Binding="{Binding TotalPayable}" Width="80"/>
-                        <DataGridTextColumn Header="Order Status" IsReadOnly="True"  Binding="{Binding OrderStatus}" Width="100"/>
-                        <DataGridTemplateColumn Width="25" Header="Receipt Print" >
+                        <DataGridTextColumn Header="Invoice#"  IsReadOnly="True" Binding="{Binding SalesInvoiceNumber}" >
+                            <DataGridTextColumn.CellStyle>
+                                <Style>
+                                    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
+                                    <Setter Property="FrameworkElement.Width" Value="80"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Order Date" IsReadOnly="True"  Binding="{Binding OrderDate}" Width="80">
+                            <DataGridTextColumn.CellStyle>
+                                <Style>
+                                    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="FrameworkElement.Width" Value="80"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Order Type" IsReadOnly="True" Binding="{Binding OrderType}" >
+                            <DataGridTextColumn.CellStyle>
+                                <Style>
+                                    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="FrameworkElement.Width" Value="80"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Customer" IsReadOnly="True"  Binding="{Binding CustomerName}" >
+                            <DataGridTextColumn.CellStyle>
+                                <Style>
+                                    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="FrameworkElement.Width" Value="120"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Dist Amount" IsReadOnly="True"   Binding="{Binding DiscountAmount}"  >
+                            <DataGridTextColumn.CellStyle>
+                                <Style>
+                                    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
+                                    <Setter Property="FrameworkElement.Width" Value="30"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Del. Charges" IsReadOnly="True"  Binding="{Binding DeliveryCharges}" Width="80">
+                            <DataGridTextColumn.CellStyle>
+                                <Style>
+                                    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
+                                    <Setter Property="FrameworkElement.Width" Value="30"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Tax Amount" IsReadOnly="True"  Binding="{Binding TaxAmount}" >
+                            <DataGridTextColumn.CellStyle>
+                                <Style>
+                                    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
+                                    <Setter Property="FrameworkElement.Width" Value="30"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Total Payable" IsReadOnly="True"  Binding="{Binding TotalPayable}" >
+                            <DataGridTextColumn.CellStyle>
+                                <Style>
+                                    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
+                                    <Setter Property="FrameworkElement.Width" Value="40"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+
+
+                        <DataGridTextColumn Header="Order Status" IsReadOnly="True"  Binding="{Binding OrderStatus}" >
+                            <DataGridTextColumn.CellStyle>
+                                <Style>
+                                    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="FrameworkElement.Width" Value="80"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+
+
+                        
+                        <DataGridTemplateColumn Width="50" Header="Receipt" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="R" x:Name="btnReceiptPrint" Style="{StaticResource btnOrange}" Width="25" Margin="0" VerticalAlignment="Center" Click="btnReceiptPrint_Click"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="25" Header="A4 Print" >
+                        <DataGridTemplateColumn Width="50" Header="" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="A4" x:Name="btnReceiptA4Print" Style="{StaticResource btnOrange}" Width="25" Margin="0" VerticalAlignment="Center"/>

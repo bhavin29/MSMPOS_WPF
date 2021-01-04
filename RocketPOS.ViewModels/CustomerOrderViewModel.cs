@@ -125,7 +125,7 @@ namespace RocketPOS.ViewModels
                            "  CASE WHEN CO.OrderType = 1 THEN 'Dine IN' " +
                                       "  WHEN CO.OrderType = 2 THEN 'Take Away' " +
                                       "  WHEN CO.OrderType = 3 THEN 'Delivery' END as OrderType,  " +
-                            " CONVERT(VARCHAR(10),CO.OrderDate,126) AS Orderdate,CO.GrossAmount,CO.DiscountAmount,  " +
+                            " CONVERT(VARCHAR(10),CO.OrderDate,105) AS Orderdate,CO.GrossAmount,CO.DiscountAmount,  " +
                             " CO.DeliveryCharges,CO.TaxAmount,CO.TotalPayable ,  " +
                             " CASE WHEN CO.OrderStatus = 1 THEN 'Pending'  " +
                                       "  WHEN CO.OrderStatus = 2 THEN 'Hold'  " +

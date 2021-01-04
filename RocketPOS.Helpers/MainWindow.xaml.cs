@@ -42,7 +42,7 @@ namespace RocketPOS.Helpers
                 GenerateDynamicFoodMenu();
                 GetWaiterList();
                 GetCustomerList();
-                txtbTotalPayableAmount.Text = "0.0";
+                txtbTotalPayableAmount.Text = "0.00";
                 rdbPendingSales.IsChecked = true;
                 rdbAllSales.IsChecked = true;
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
@@ -264,18 +264,18 @@ namespace RocketPOS.Helpers
             cmbWaiter.SelectedIndex = -1;
             cmbCustomer.Text = "-- Select Customer --";
             cmbCustomer.SelectedIndex = -1;
-            txtbTotalPayableAmount.Text = "0.0";
-            txtbSubTotalAmount.Text = "0.0";
-            txtbTotalItemCount.Text = "0.0";
+            txtbTotalPayableAmount.Text = "0.00";
+            txtbSubTotalAmount.Text = "0.00";
+            txtbTotalItemCount.Text = "0.00";
             txtbOrderId.Text = "0";
             rdbDeliveryOrderType.IsChecked = false;
             rdbDineInOrderType.IsChecked = false;
             rdbTakeAwayOrderType.IsChecked = false;
-            txtbtxtDiscount.Text = "0.0";
-            txtbServiceDeliveryChargeLabel.Text = "0.0";
-            txtSubTotalDiscountAmount.Text = "0.0";
-            txtbTotalDiscountAmount.Text = "0.0";
-            txtbTotalDeliveryChargeAmt.Text = "0.0";
+            txtbtxtDiscount.Text = "0.00";
+            txtbServiceDeliveryChargeLabel.Text = "0.00";
+            txtSubTotalDiscountAmount.Text = "0.00";
+            txtbTotalDiscountAmount.Text = "0.00";
+            txtbTotalDeliveryChargeAmt.Text = "0.00";
             lbTablesList.SelectedIndex = -1;
             cmbPPDiscountNos.SelectedIndex = 0;
             cmbPPPercentageDelivery.SelectedIndex = 0;
@@ -846,15 +846,15 @@ namespace RocketPOS.Helpers
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
             customerOrderModel = customerOrderViewModel.GetCustomerOrderByOrderId(st.Id);
 
-            txtbSubTotalAmount.Text = customerOrderModel.GrossAmount.ToString();
+            txtbSubTotalAmount.Text = Convert.ToDecimal(customerOrderModel.GrossAmount).ToString("0.00");
             txtbTotalPayableAmount.Text = customerOrderModel.TotalPayable.ToString();
             txtbOrderId.Text = customerOrderModel.Id.ToString();
             cmbCustomer.SelectedValue = customerOrderModel.CustomerId;
             cmbWaiter.SelectedValue = customerOrderModel.WaiterEmployeeId;
             txtbDineInTableId.Text = customerOrderModel.TableId;
-            txtSubTotalDiscountAmount.Text = customerOrderModel.DiscountAmount.ToString();
-            txtbTotalDiscountAmount.Text = customerOrderModel.DiscountAmount.ToString();
-            txtbTotalDeliveryChargeAmt.Text = customerOrderModel.DeliveryCharges.ToString();
+            txtSubTotalDiscountAmount.Text = Convert.ToDecimal(customerOrderModel.DiscountAmount).ToString("0.00");
+            txtbTotalDiscountAmount.Text = Convert.ToDecimal(customerOrderModel.DiscountAmount).ToString("0.00");
+            txtbTotalDeliveryChargeAmt.Text = Convert.ToDecimal(customerOrderModel.DeliveryCharges).ToString("0.00");
 
             if (customerOrderModel.OrderType == (int)EnumUtility.OrderType.DineIN)
             {

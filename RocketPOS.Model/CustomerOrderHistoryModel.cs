@@ -10,7 +10,7 @@ namespace RocketPOS.Model
         public string SalesInvoiceNumber { get; set; }
         public string CustomerName { get; set; }
         public string OrderType { get; set; }
-        public DateTime OrderDate { get; set; }
+        public string OrderDate { get; set; }
         public decimal GrossAmount { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal DeliveryCharges { get; set; }
