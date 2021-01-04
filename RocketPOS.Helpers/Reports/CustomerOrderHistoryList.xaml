@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RocketPOS.Helpers.Reports"
         mc:Ignorable="d"
-         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="False" WindowStyle="SingleBorderWindow"
+         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True" WindowStyle="SingleBorderWindow"
         Title="OrderList" Height="600" Width="845">
     <Grid>
         <Grid.ColumnDefinitions>

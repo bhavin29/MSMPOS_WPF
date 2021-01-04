@@ -6,6 +6,8 @@ using RocketPOS.Core.Constants;
 using RocketPOS.Helpers.RMessageBox;
 using NLog;
 using System;
+using NLog.Fluent;
+using System.Diagnostics;
 
 namespace RocketPOS.Helpers
 {
@@ -18,18 +20,30 @@ namespace RocketPOS.Helpers
     {
         List<LoginModel> loginModel = new List<LoginModel>();
         LoginViewModel loginViewModel = new LoginViewModel();
-
+        Logger logger;
         public Login()
         {
-            InitializeComponent();
-            txtUsername.Text = "Admin";
-            txtPassword.Password = "Admin";
+            try
+            {
+                InitializeComponent();
+                txtUsername.Text = "Admin";
+                txtPassword.Password = "Admin";
 
-            Logger logger = LogManager.GetCurrentClassLogger();
-            logger.Error("Loggly Error");
-            logger.Info("Start logging");
+                logger = LogManager.GetCurrentClassLogger();
+                logger.Error("Loggly Error");
+                logger.Info("Start logging");
 
-            CenterWindowOnScreen();
+                CenterWindowOnScreen();
+            }
+            catch(Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                var frame = st.GetFrame(0);
+                var line = frame.GetFileLineNumber();
+                logger.Error().Exception(ex).Property("line-number", line).Write(); //using NLog.Fluent, .NET 4.5 
+
+                WpfMessageBox.Show(StatusMessages.AppTitle, ex.Message, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+            }
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)

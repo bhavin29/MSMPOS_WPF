@@ -17,6 +17,9 @@ using System.Windows.Threading;
 using RocketPOS.Core.Configuration;
 using RocketPOS.Helpers.Reports;
 using RocketPOS.Helpers.Tables;
+using NLog;
+using System.Diagnostics;
+using NLog.Fluent;
 
 namespace RocketPOS.Helpers
 {
@@ -26,20 +29,34 @@ namespace RocketPOS.Helpers
     public partial class MainWindow : Window
     {
         DispatcherTimer timer;
+        Logger logger;
         public MainWindow()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+                logger = LogManager.GetCurrentClassLogger();
+                CenterWindowOnScreen();
+                Timer();
+                HeaderFooter();
+                GenerateDynamicFoodMenu();
+                GetWaiterList();
+                GetCustomerList();
+                txtbTotalPayableAmount.Text = "0.0";
+                rdbPendingSales.IsChecked = true;
+                rdbAllSales.IsChecked = true;
+                GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                var frame = st.GetFrame(0);
+                var line = frame.GetFileLineNumber();
+                logger.Error().Exception(ex).Property("line-number", line).Write(); //using NLog.Fluent, .NET 4.5 
 
-            CenterWindowOnScreen();
-            Timer();
-            HeaderFooter();
-            GenerateDynamicFoodMenu();
-            GetWaiterList();
-            GetCustomerList();
-            txtbTotalPayableAmount.Text = "0.0";
-            rdbPendingSales.IsChecked = true;
-            rdbAllSales.IsChecked = true;
-            GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
+                WpfMessageBox.Show(StatusMessages.AppTitle, line.ToString() + "--" + ex.ToString(), MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+                logger.Error(ex.ToString());
+            }
         }
 
         #region Methods
@@ -58,43 +75,29 @@ namespace RocketPOS.Helpers
         }
         private void GenerateDynamicFoodMenu()
         {
-            string rootPath = string.Empty;
-            FoodMenuViewModel foodMenuViewModel = new FoodMenuViewModel();
-            FoodMenuModel foodMenu = new FoodMenuModel();
-            rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
+            try
+            {
+                string rootPath = string.Empty;
+                FoodMenuViewModel foodMenuViewModel = new FoodMenuViewModel();
+                FoodMenuModel foodMenu = new FoodMenuModel();
+                //     rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
+                rootPath = "D:\\";
 
-            if (Application.Current.Resources["FoodList"] == null)
-            {
-                foodMenu = foodMenuViewModel.GetFoodMenu(LoginDetail.OutletId);
-                Application.Current.Resources["FoodList"] = foodMenu;
-            }
-            else
-            {
-                foodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
-            }
+                if (Application.Current.Resources["FoodList"] == null)
+                {
+                    foodMenu = foodMenuViewModel.GetFoodMenu(LoginDetail.OutletId);
+                    Application.Current.Resources["FoodList"] = foodMenu;
+                }
+                else
+                {
+                    foodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
+                }
 
-            if (foodMenu.FoodList.Count > 0)
-            {
-                Button btnCategory = new Button();
-                btnCategory.Content = "All";
-                btnCategory.Name = "btnAll";
-                btnCategory.FontSize = 15;
-                btnCategory.Width = 100;
-                btnCategory.Height = 50;
-                btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
-                btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                btnCategory.Margin = new Thickness(1);
-                btnCategory.Click += GetSubCategory;
-                spCategory.Children.Add(btnCategory);
-            }
-
-            foreach (var foodCategory in foodMenu.FoodList)
-            {
-                if (foodCategory.IsFavourite == 0)
+                if (foodMenu.FoodList.Count > 0)
                 {
                     Button btnCategory = new Button();
-                    btnCategory.Content = foodCategory.FoodCategory;
-                    btnCategory.Name = "btn" + foodCategory.Id;
+                    btnCategory.Content = "All";
+                    btnCategory.Name = "btnAll";
                     btnCategory.FontSize = 15;
                     btnCategory.Width = 100;
                     btnCategory.Height = 50;
@@ -104,57 +107,107 @@ namespace RocketPOS.Helpers
                     btnCategory.Click += GetSubCategory;
                     spCategory.Children.Add(btnCategory);
                 }
-                else
+
+                foreach (var foodCategory in foodMenu.FoodList)
                 {
-                    Button btnCategory = new Button();
-                    btnCategory.Content = foodCategory.FoodCategory;
-                    btnCategory.Name = "btn" + foodCategory.Id;
-                    btnCategory.FontSize = 15;
-                    btnCategory.Width = 100;
-                    btnCategory.Height = 50;
-                    btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
-                    btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                    btnCategory.Margin = new Thickness(1);
-                    btnCategory.Click += GetSubCategory;
-                    spFavouriteCategory.Children.Add(btnCategory);
+                    if (foodCategory.IsFavourite == 0)
+                    {
+                        Button btnCategory = new Button();
+                        btnCategory.Content = foodCategory.FoodCategory;
+                        btnCategory.Name = "btn" + foodCategory.Id;
+                        btnCategory.FontSize = 15;
+                        btnCategory.Width = 100;
+                        btnCategory.Height = 50;
+                        btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
+                        btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                        btnCategory.Margin = new Thickness(1);
+                        btnCategory.Click += GetSubCategory;
+                        spCategory.Children.Add(btnCategory);
+                    }
+                    else
+                    {
+                        Button btnCategory = new Button();
+                        btnCategory.Content = foodCategory.FoodCategory;
+                        btnCategory.Name = "btn" + foodCategory.Id;
+                        btnCategory.FontSize = 15;
+                        btnCategory.Width = 100;
+                        btnCategory.Height = 50;
+                        btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
+                        btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                        btnCategory.Margin = new Thickness(1);
+                        btnCategory.Click += GetSubCategory;
+                        spFavouriteCategory.Children.Add(btnCategory);
+                    }
+                    //Button btnCategory = new Button();
+                    //btnCategory.Content = foodCategory.FoodCategory;
+                    //btnCategory.Name = "btn" + foodCategory.Id;
+                    //btnCategory.Width = 100;
+                    //btnCategory.Height = 50;
+                    //btnCategory.Margin = new Thickness(5, 0, 5, 10);
+                    //btnCategory.Click += GetSubCategory;
+                    //spCategory.Children.Add(btnCategory);
                 }
-                //Button btnCategory = new Button();
-                //btnCategory.Content = foodCategory.FoodCategory;
-                //btnCategory.Name = "btn" + foodCategory.Id;
-                //btnCategory.Width = 100;
-                //btnCategory.Height = 50;
-                //btnCategory.Margin = new Thickness(5, 0, 5, 10);
-                //btnCategory.Click += GetSubCategory;
-                //spCategory.Children.Add(btnCategory);
+
+                if (foodMenu.FoodList.Count > 0)
+                {
+                    GenerateDynamicFoodItems(foodMenu, rootPath, string.Empty, "All");
+                }
+
             }
-            GenerateDynamicFoodItems(foodMenu, rootPath, string.Empty, "All");
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                var frame = st.GetFrame(0);
+                var line = frame.GetFileLineNumber();
+                logger.Error().Exception(ex).Property("line-number", line).Write(); //using NLog.Fluent, .NET 4.5 
+
+                WpfMessageBox.Show(StatusMessages.AppTitle, line.ToString() + "--" + ex.ToString(), MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+                logger.Error(ex.ToString());
+            }
+
         }
         private void GenerateDynamicFoodItems(FoodMenuModel foodMenu, string rootPath, string searchKey, string type)
         {
-            foreach (var foodCategory in foodMenu.FoodList)
+            try
             {
-                foreach (var itemSubCat in foodCategory.SubCategory)
+
+
+                foreach (var foodCategory in foodMenu.FoodList)
                 {
-                    if (!string.IsNullOrEmpty(searchKey) && (itemSubCat.SmallName.ToLower().Contains(searchKey) || itemSubCat.SalesPrice.ToString().ToLower().Contains(searchKey)))
+                    foreach (var itemSubCat in foodCategory.SubCategory)
                     {
-                        GenerateDyanmicFoodItemsList(itemSubCat, rootPath);
-                    }
-                    else if (!string.IsNullOrEmpty(type))
-                    {
-                        if (type == "All")
+                        if (!string.IsNullOrEmpty(searchKey) && (itemSubCat.SmallName.ToLower().Contains(searchKey) || itemSubCat.SalesPrice.ToString().ToLower().Contains(searchKey)))
                         {
                             GenerateDyanmicFoodItemsList(itemSubCat, rootPath);
                         }
-                        else
+                        else if (!string.IsNullOrEmpty(type))
                         {
-                            if (itemSubCat.FoodCategoryId.ToString() == type)
+                            if (type == "All")
                             {
                                 GenerateDyanmicFoodItemsList(itemSubCat, rootPath);
+                            }
+                            else
+                            {
+                                if (itemSubCat.FoodCategoryId.ToString() == type)
+                                {
+                                    GenerateDyanmicFoodItemsList(itemSubCat, rootPath);
+                                }
                             }
                         }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                var frame = st.GetFrame(0);
+                var line = frame.GetFileLineNumber();
+                logger.Error().Exception(ex).Property("line-number", line).Write(); //using NLog.Fluent, .NET 4.5 
+
+                WpfMessageBox.Show(StatusMessages.AppTitle, line.ToString() + "--" + ex.ToString(), MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+                logger.Error(ex.ToString());
+            }
+
         }
         private void GenerateDyanmicFoodItemsList(SubCategory itemSubCat, string rootPath)
         {
@@ -178,11 +231,11 @@ namespace RocketPOS.Helpers
             }
             imgFood.Width = 70;
             imgFood.Height = 70;
-            imgFood.Margin = new Thickness(2,2,2,2);
+            imgFood.Margin = new Thickness(2, 2, 2, 2);
             imgFood.Stretch = Stretch.UniformToFill;
-    //        imgFood.HorizontalAlignment = Stretch;
-    //        imgFood.VerticalAlignment = "Top";
-    //        imgFood.Stretch = "UniformToFill";
+            //        imgFood.HorizontalAlignment = Stretch;
+            //        imgFood.VerticalAlignment = "Top";
+            //        imgFood.Stretch = "UniformToFill";
             imgFood.Name = "imgFood" + itemSubCat.FoodCategoryId;
             menuListPanel.Children.Add(imgFood);
 
@@ -232,13 +285,13 @@ namespace RocketPOS.Helpers
         }
         private void CommonOrderCalculation(object sender, string type)
         {
-          if (type == "FoodMenu")
+            if (type == "FoodMenu")
             {
                 var menuListPanel = sender as StackPanel;
                 var salePrice = menuListPanel.Children[0] as TextBlock;
 
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
-             //   txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
+                //   txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
                 txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
             }
 
@@ -248,7 +301,7 @@ namespace RocketPOS.Helpers
                 if (foodMenuItem == null) return;
 
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(foodMenuItem.SalesPrice)).ToString();
-               // txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(foodMenuItem.SalesPrice)).ToString();
+                // txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(foodMenuItem.SalesPrice)).ToString();
                 txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
             }
 
@@ -275,7 +328,7 @@ namespace RocketPOS.Helpers
         }
         private void GetFoodItems(string type)
         {
-            string rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
+            string rootPath = "d:\\";// new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
             spSubCategory.Children.Clear();
             FoodMenuModel foodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
             if (type == "All")
@@ -289,7 +342,7 @@ namespace RocketPOS.Helpers
         }
         private void GetSearchFoodItems(string searchKey)
         {
-            string rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
+            string rootPath = "d:\\";// new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
             spSubCategory.Children.Clear();
             FoodMenuModel foodMenu = (FoodMenuModel)Application.Current.Resources["FoodList"];
             GenerateDynamicFoodItems(foodMenu, rootPath, searchKey, string.Empty);
@@ -1211,7 +1264,7 @@ namespace RocketPOS.Helpers
 
         void timer_Tick(object sender, EventArgs e)
         {
-            txtDatetime.Text =   DateTime.Now.ToLongTimeString();
+            txtDatetime.Text = DateTime.Now.ToLongTimeString();
         }
         private void Timer()
         {
@@ -1336,7 +1389,7 @@ namespace RocketPOS.Helpers
             DineInTables dineInTables = new DineInTables();
             dineInTables.Show();
         }
-          
+
         private void txtSubTotalDiscountAmount_LostFocus(object sender, RoutedEventArgs e)
         {
             CommonOrderCalculation(sender, "DiscountAmount");
