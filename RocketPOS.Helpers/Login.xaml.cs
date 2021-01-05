@@ -26,6 +26,7 @@ namespace RocketPOS.Helpers
             try
             {
                 InitializeComponent();
+
                 txtUsername.Text = "Admin";
                 txtPassword.Password = "Admin";
 
@@ -53,10 +54,6 @@ namespace RocketPOS.Helpers
             if (loginModel.Count > 0)
             {
                 LoginMerge(loginModel);
-
-                MainWindow mainWin = new MainWindow();
-                OpenRegister openRegister = new OpenRegister();
-
  
                 if (loginModel[0].OutletRegisterStatus == 1)
                 {
@@ -75,6 +72,7 @@ namespace RocketPOS.Helpers
                     loginViewModel.UpdateLoginLogout("login");
                     loginViewModel.LoginHistory(1);
 
+                    MainWindow mainWin = new MainWindow();
                     mainWin.Show();
                     this.Close();
                 }
@@ -85,11 +83,7 @@ namespace RocketPOS.Helpers
             }
             else
             {
-
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Wrong UserName/PassWord", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
-                //var messageBoxResult = WpfMessageBox.Show("Message Box Title", "Are you sure?", MessageBoxButton.YesNo, RocketPOS.Core.Constants.EnumUtility.MessageBoxImage.Warning);
-                //if (messageBoxResult != MessageBoxResult.Yes) return;
-
                 ResetControl();
             }
         }

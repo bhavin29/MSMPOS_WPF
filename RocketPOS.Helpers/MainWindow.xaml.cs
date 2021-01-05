@@ -82,7 +82,6 @@ namespace RocketPOS.Helpers
                 string rootPath = string.Empty;
                 FoodMenuViewModel foodMenuViewModel = new FoodMenuViewModel();
                 FoodMenuModel foodMenu = new FoodMenuModel();
-                //     rootPath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
                 rootPath = appSettings.GetAppPath();
 
                 if (Application.Current.Resources["FoodList"] == null)
@@ -140,19 +139,11 @@ namespace RocketPOS.Helpers
                         btnCategory.Click += GetSubCategory;
                         spFavouriteCategory.Children.Add(btnCategory);
                     }
-                    //Button btnCategory = new Button();
-                    //btnCategory.Content = foodCategory.FoodCategory;
-                    //btnCategory.Name = "btn" + foodCategory.Id;
-                    //btnCategory.Width = 100;
-                    //btnCategory.Height = 50;
-                    //btnCategory.Margin = new Thickness(5, 0, 5, 10);
-                    //btnCategory.Click += GetSubCategory;
-                    //spCategory.Children.Add(btnCategory);
                 }
 
                 if (foodMenu.FoodList.Count > 0)
                 {
-                    GenerateDynamicFoodItems(foodMenu, rootPath, string.Empty, "All");
+                    GenerateDynamicFoodItemsALL(foodMenu, rootPath, string.Empty, "All");
                 }
 
             }
@@ -168,12 +159,33 @@ namespace RocketPOS.Helpers
             }
 
         }
+        private void GenerateDynamicFoodItemsALL(FoodMenuModel foodMenu, string rootPath, string searchKey, string type)
+        {
+            try
+            {
+                foreach (var foodCategory in foodMenu.FoodList)
+                {
+                    foreach (var itemSubCat in foodCategory.SubCategory)
+                    {
+                        GenerateDyanmicFoodItemsList(itemSubCat, rootPath);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                var frame = st.GetFrame(0);
+                var line = frame.GetFileLineNumber();
+                logger.Error().Exception(ex).Property("line-number", line).Write(); //using NLog.Fluent, .NET 4.5 
+
+                WpfMessageBox.Show(StatusMessages.AppTitle, line.ToString() + "--" + ex.ToString(), MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+                logger.Error(ex.ToString());
+            }
+        }
         private void GenerateDynamicFoodItems(FoodMenuModel foodMenu, string rootPath, string searchKey, string type)
         {
             try
             {
-
-
                 foreach (var foodCategory in foodMenu.FoodList)
                 {
                     foreach (var itemSubCat in foodCategory.SubCategory)
@@ -198,6 +210,9 @@ namespace RocketPOS.Helpers
                         }
                     }
                 }
+
+
+
             }
             catch (Exception ex)
             {
@@ -211,6 +226,7 @@ namespace RocketPOS.Helpers
             }
 
         }
+
         private void GenerateDyanmicFoodItemsList(SubCategory itemSubCat, string rootPath)
         {
             StackPanel menuListPanel = new StackPanel();
@@ -225,7 +241,20 @@ namespace RocketPOS.Helpers
             Image imgFood = new Image();
             try
             {
-                imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\" + itemSubCat.SmallThumb));
+                if (!string.IsNullOrEmpty(itemSubCat.SmallThumb))
+                {
+                    string directory = Path.GetDirectoryName(rootPath + @"\Images\");
+                    string filePath = Path.Combine(directory, itemSubCat.SmallThumb);
+
+                    if (File.Exists(filePath))
+                    {
+                        imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\" + itemSubCat.SmallThumb));
+                    }
+                }
+                else
+                {
+                    imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\defaultimage.png"));
+                }
             }
             catch (Exception)
             {
@@ -235,9 +264,6 @@ namespace RocketPOS.Helpers
             imgFood.Height = 70;
             imgFood.Margin = new Thickness(2, 2, 2, 2);
             imgFood.Stretch = Stretch.UniformToFill;
-            //        imgFood.HorizontalAlignment = Stretch;
-            //        imgFood.VerticalAlignment = "Top";
-            //        imgFood.Stretch = "UniformToFill";
             imgFood.Name = "imgFood" + itemSubCat.FoodCategoryId;
             menuListPanel.Children.Add(imgFood);
 
@@ -1239,7 +1265,6 @@ namespace RocketPOS.Helpers
 
             loginViewModel.UpdateLoginLogout("logout");
             loginViewModel.LoginHistory(2);
-
             frmLogin.Show();
             this.Close();
         }
