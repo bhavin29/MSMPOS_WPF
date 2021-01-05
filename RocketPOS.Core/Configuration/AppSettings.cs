@@ -13,5 +13,10 @@ namespace RocketPOS.Core.Configuration
         {
             return ConfigurationSettings.AppSettings["PrinterName"];
         }
+
+        public string GetAppPath()
+        {
+            return ConfigurationSettings.AppSettings["AppPath"];
+        }
     }
 }

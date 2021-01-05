@@ -5,36 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RocketPOS.Helpers.Tables"
         mc:Ignorable="d" Topmost="True"
-        Title="DineInTables" Height="600" Width="800">
+        Title="DineInTables" Height="800" Width="1200">
     <Grid>
-            <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="800"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="500"/>
-            </Grid.RowDefinitions>
-        <ListBox x:Name="lbDineInTables" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Width="500" Height="500">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--<ListBox x:Name="lbDineInTables" Grid.Row="1" Grid.Column="0" Width="800" Height="500" HorizontalContentAlignment="Right" >
             <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Width="50" >
-                        <Grid Margin="0,5,0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"/>
-                                <RowDefinition Height="20"/>
-                                <RowDefinition Height="20"/>
-                            </Grid.RowDefinitions>
-                            
-                            <TextBlock Text="{Binding TableName}" Grid.Row="0" Grid.Column="0"/>
-                            <TextBlock Text="{Binding StatusDescription}" Grid.Row="1" Grid.Column="0"/>
-                            <TextBlock Text="{Binding PersonCapacity}" Grid.Row="2" Grid.Column="0"/>
-                        </Grid>
-                    </StackPanel>
-                </DataTemplate>
+                <DataTemplate>-->
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <WrapPanel x:Name="wpTableView" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="1000" Height="600">
+                <!--<Grid Margin="0,5,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>-->
+                <!--<TextBlock Text="{Binding TableName}" />
+                            <TextBlock Text="{Binding StatusDescription}" />
+                            <TextBlock Text="{Binding PersonCapacity}" />-->
+                <!--</Grid>-->
+            </WrapPanel>
+        </ScrollViewer>
+        <!--</DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+        </ListBox>-->
     </Grid>
 </Window>

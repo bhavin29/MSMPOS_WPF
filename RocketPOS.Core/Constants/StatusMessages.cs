@@ -23,6 +23,7 @@
         public const string PercentageSelect = "Please Select Percentage.";
         public const string ServiceChargeSelect = "Please Select Service Charge.";
         public const string DineInSelect = "Please Select Table.";
+        public const string DineInTableIsClean = "Are you sure table is clean?";
 
         #region MessageBox Title
         public const string PlaceOrderTitle = "Place Order";

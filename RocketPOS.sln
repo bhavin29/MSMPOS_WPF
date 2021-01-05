@@ -7,13 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketPOS.Helpers", "Rocket
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketPOS.Model", "RocketPOS.Model\RocketPOS.Model.csproj", "{C10C1A0A-412B-454A-90E0-93B4376EC9C3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketPOS.StartUp", "RocketPOS.StartUp\RocketPOS.StartUp.csproj", "{9EEE2C53-F55F-4D59-A953-A7A8247AA794}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketPOS.ViewModels", "RocketPOS.ViewModels\RocketPOS.ViewModels.csproj", "{1F8CF63B-131C-4E0C-A833-6EFEE1114A29}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketPOS.Views", "RocketPOS.Views\RocketPOS.Views.csproj", "{48D4977B-C5D7-4226-B799-A11E0D9399AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketPOS.Core", "RocketPOS.Core\RocketPOS.Core.csproj", "{B90C5D8E-D477-45C8-B9BC-6CE381039D49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketPOS.Core", "RocketPOS.Core\RocketPOS.Core.csproj", "{B90C5D8E-D477-45C8-B9BC-6CE381039D49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{C10C1A0A-412B-454A-90E0-93B4376EC9C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C10C1A0A-412B-454A-90E0-93B4376EC9C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C10C1A0A-412B-454A-90E0-93B4376EC9C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9EEE2C53-F55F-4D59-A953-A7A8247AA794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9EEE2C53-F55F-4D59-A953-A7A8247AA794}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9EEE2C53-F55F-4D59-A953-A7A8247AA794}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9EEE2C53-F55F-4D59-A953-A7A8247AA794}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1F8CF63B-131C-4E0C-A833-6EFEE1114A29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F8CF63B-131C-4E0C-A833-6EFEE1114A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F8CF63B-131C-4E0C-A833-6EFEE1114A29}.Release|Any CPU.ActiveCfg = Release|Any CPU
