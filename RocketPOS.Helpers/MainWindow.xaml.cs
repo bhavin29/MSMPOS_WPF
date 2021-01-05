@@ -863,7 +863,7 @@ namespace RocketPOS.Helpers
             {
                 if (!string.IsNullOrEmpty(customerOrderModel.TableName))
                 {
-                    txtTableNumber.Text = " Table # " + customerOrderModel.TableName.ToString();
+                    txtTableNumber.Text = " #" + customerOrderModel.TableName.ToString();
                 }
             }
             else

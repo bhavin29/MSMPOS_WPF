@@ -26,6 +26,7 @@ namespace RocketPOS.Helpers.Tables
         public DineInTables()
         {
             InitializeComponent();
+            CenterWindowOnScreen();
             GetDineInTableList();
         }
 
@@ -43,69 +44,81 @@ namespace RocketPOS.Helpers.Tables
 
                 foreach (var table in tablesList)
                 {
-                    StackPanel tableListPanel = new StackPanel();
-                    tableListPanel.Orientation = Orientation.Vertical;
-                    tableListPanel.Width = 250;
-                    tableListPanel.Height = 250;
-
-                    //Table Id
-                    TextBlock txtbTableId = new TextBlock();
-                    //txtbTableName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                    txtbTableId.Text = table.Id.ToString();
-                    txtbTableId.Name = "txtbTableId_" + table.Id;
-                    txtbTableId.Visibility = Visibility.Hidden;
-                    tableListPanel.Children.Add(txtbTableId);
-
-
-                    //Table Name
-                    TextBlock txtbTableName = new TextBlock();
-                    //txtbTableName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                    txtbTableName.Text = "#" + table.TableName;
-                    txtbTableName.Name = "txtbTableName" + table.Id;
-                    tableListPanel.Children.Add(txtbTableName);
-
-                    //Table Image
                     Image imgTableStatus = new Image();
+                    SolidColorBrush solidColorBrush = new SolidColorBrush();
+
                     if (Convert.ToInt32(table.Status) == (int)EnumUtility.TableStatus.Clean)
                     {
                         imgTableStatus.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\Clean.jpg"));
+                        solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#7D001A"));
                     }
                     else if (Convert.ToInt32(table.Status) == (int)EnumUtility.TableStatus.Occupied)
                     {
                         imgTableStatus.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\Occupied.jpg"));
+                        solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#00265B"));
                     }
                     else
                     {
                         imgTableStatus.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\Pending.jpg"));
+                        solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                     }
-                    imgTableStatus.Width = 150;
-                    imgTableStatus.Height = 150;
-                    imgTableStatus.Margin = new Thickness(5, 5, 5, 5);
+
+                    StackPanel tableListPanel = new StackPanel();
+                    tableListPanel.Orientation = Orientation.Vertical;
+                    tableListPanel.VerticalAlignment = VerticalAlignment.Top;
+                    tableListPanel.Width = 140;
+                    tableListPanel.Height = 165;
+                    tableListPanel.Background = solidColorBrush;
+                    tableListPanel.Margin = new Thickness(1);
+
+                    //Table Id
+                    TextBlock txtbTableId = new TextBlock();
+                    txtbTableId.Text = table.Id.ToString();
+                    txtbTableId.Name = "txtbTableId_" + table.Id;
+                    txtbTableId.FontSize = 5;
+                    txtbTableId.Visibility = Visibility.Hidden;
+                    tableListPanel.Children.Add(txtbTableId);
+
+                    //Table Name
+                    TextBlock txtbTableName = new TextBlock();
+                    txtbTableName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                    txtbTableName.Text = "#" + table.TableName;
+                    txtbTableName.FontSize = 16;
+                    txtbTableName.Name = "txtbTableName" + table.Id;
+                    txtbTableName.Margin = new Thickness(2);
+                    tableListPanel.Children.Add(txtbTableName);
+
+                    //Table Image
+                    imgTableStatus.Width = 75;
+                    imgTableStatus.Height = 75;
+                    imgTableStatus.Margin = new Thickness(2);
                     imgTableStatus.Stretch = Stretch.UniformToFill;
                     imgTableStatus.Name = "imgTableStatus" + table.Status;
                     tableListPanel.Children.Add(imgTableStatus);
 
-                    //Table Status Id
-                    TextBlock txtbTableStatusId = new TextBlock();
-                    //txtbTableStatus.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                    txtbTableStatusId.Text = table.Status;
-                    txtbTableStatusId.Visibility = Visibility.Hidden;
-                    tableListPanel.Children.Add(txtbTableStatusId);
-
-
                     //Table Status
                     TextBlock txtbTableStatus = new TextBlock();
-                    //txtbTableStatus.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                     txtbTableStatus.Text = "Status : " + table.StatusDescription;
                     txtbTableStatus.Name = "txtbTableStatus" + table.Id;
+                    txtbTableStatus.FontSize = 16;
+                    txtbTableStatus.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                    txtbTableStatus.Margin = new Thickness(2);
                     tableListPanel.Children.Add(txtbTableStatus);
 
                     //Table Capacity
                     TextBlock txtbTableCapacity = new TextBlock();
-                    //txtbTableCapacity.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                     txtbTableCapacity.Text = "Capacity : " + table.PersonCapacity.ToString();
                     txtbTableCapacity.Name = "txtbTableCapacity" + table.Id;
+                    txtbTableCapacity.FontSize = 16;
+                    txtbTableCapacity.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                    txtbTableCapacity.Margin = new Thickness(2);
                     tableListPanel.Children.Add(txtbTableCapacity);
+
+                    //Table Status Id
+                    TextBlock txtbTableStatusId = new TextBlock();
+                    txtbTableStatusId.Text = table.Status;
+                    txtbTableStatusId.Visibility = Visibility.Hidden;
+                    tableListPanel.Children.Add(txtbTableStatusId);
 
                     tableListPanel.Name = "tableListPanel" + table.Id.ToString();
                     tableListPanel.MouseDown += PerformTableOperation;
@@ -120,9 +133,9 @@ namespace RocketPOS.Helpers.Tables
             var tableListPanel = sender as StackPanel;
             var txtbTableId = tableListPanel.Children[0] as TextBlock;
             var txtbTableName = tableListPanel.Children[1] as TextBlock;
-            var txtbTableStatusId = tableListPanel.Children[3] as TextBlock;
+            var txtbTableStatusId = tableListPanel.Children[5] as TextBlock;
 
-            if (Convert.ToInt32(txtbTableStatusId.Text)==(int)EnumUtility.TableStatus.Clean)
+            if (Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Clean)
             {
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.DineInTitle, StatusMessages.DineInTableIsClean, MessageBoxButton.YesNo, EnumUtility.MessageBoxImage.Question);
                 if (messageBoxResult.ToString() == "Yes")
@@ -142,5 +155,16 @@ namespace RocketPOS.Helpers.Tables
                 this.Close();
             }
         }
+
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            this.Left = (screenWidth / 2) - (windowWidth / 2);
+            this.Top = ((screenHeight / 2) - (windowHeight / 2));
+        }
+
     }
 }
