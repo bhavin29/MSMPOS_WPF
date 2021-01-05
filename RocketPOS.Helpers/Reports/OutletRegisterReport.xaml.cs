@@ -25,17 +25,17 @@ namespace RocketPOS.Helpers.Reports
             AppSettings appSettings = new AppSettings();
 
             string strUri = appSettings.GetWebAppUri();
-            strUri  += "/Report/OutletRegister?outletRegisterId=" + LoginDetail.OutletRegisterId;
+            strUri  += "Report/OutletRegister?outletRegisterId=" + LoginDetail.OutletRegisterId;
 
             Uri uri = new Uri(strUri, UriKind.RelativeOrAbsolute);
 
             this.webBrowser.Navigate(uri);
 
-            //PrintDialog printDialog = new PrintDialog();
-            //if (printDialog.ShowDialog() == true)
-            //{
-            //    printDialog.PrintVisual(print, "OutletRegisterReport");
-            //}
+            PrintDialog printDialog = new PrintDialog();
+            if (printDialog.ShowDialog() == true)
+            {
+                printDialog.PrintVisual(print, "OutletRegisterReport");
+            }
 
         }
 

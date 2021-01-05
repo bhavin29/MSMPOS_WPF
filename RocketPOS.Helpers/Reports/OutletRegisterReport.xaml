@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RocketPOS.Helpers.Reports"
         mc:Ignorable="d"
-        Title="OutletRegisterReport" Height="800" Width="800">
+        Title="OutletRegisterReport" Height="800" Width="500">
     <Grid x:Name="print">
         <WebBrowser x:Name="webBrowser" Source="https://localhost:44319/Report/OutletRegister?outletRegisterId=21"   
-  Width="795" Height="795"  />
+  Width="500" Height="795"  />
     </Grid>
 </Window>

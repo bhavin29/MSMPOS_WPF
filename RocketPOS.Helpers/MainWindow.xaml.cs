@@ -809,14 +809,14 @@ namespace RocketPOS.Helpers
                 WpfMessageBox.Show(StatusMessages.AppTitle, "Register closed successfully");
 
                 OutletRegisterReport outletRegisterReport = new OutletRegisterReport();
-                outletRegisterReport.Show();
-
-
-
+   
                 Login frmlogin = new Login();
+                
                 frmlogin.Show();
+                
+                outletRegisterReport.Show();
+                
                 this.Close();
-
             }
         }
         #region Search Order Left
