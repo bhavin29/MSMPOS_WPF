@@ -30,7 +30,6 @@ namespace RocketPOS.Helpers
                 txtPassword.Password = "Admin";
                 
                 CenterWindowOnScreen();
-                throw new DivideByZeroException();
             }
             catch (Exception ex)
             {
@@ -110,6 +109,7 @@ namespace RocketPOS.Helpers
             LoginDetail.Footer3 = loginModel[0].Footer3;
             LoginDetail.Footer4 = loginModel[0].Footer4;
             LoginDetail.SystemDate = loginModel[0].SystemDate;
+            LoginDetail.OutletRegisterId = loginModel[0].OutletRegisterId;
         }
 
         private void CenterWindowOnScreen()

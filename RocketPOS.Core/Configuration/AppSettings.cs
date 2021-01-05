@@ -18,5 +18,9 @@ namespace RocketPOS.Core.Configuration
         {
             return ConfigurationSettings.AppSettings["AppPath"];
         }
+        public string GetWebAppUri()
+        {
+            return ConfigurationSettings.AppSettings["WebAppUri"];
+        }
     }
 }

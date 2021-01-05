@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketPOS.Core.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -9,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using RocketPOS.Core.Constants;
 namespace RocketPOS.Helpers.Reports
 {
     /// <summary>
@@ -20,7 +21,12 @@ namespace RocketPOS.Helpers.Reports
         public OutletRegisterReport()
         {
             InitializeComponent();
-            string strUri = "https://localhost:44319/Report/OutletRegister?outletRegisterId=21";
+
+            AppSettings appSettings = new AppSettings();
+
+            string strUri = appSettings.GetWebAppUri();
+            strUri  += "/Report/OutletRegister?outletRegisterId=" + LoginDetail.OutletRegisterId;
+
             Uri uri = new Uri(strUri, UriKind.RelativeOrAbsolute);
 
             this.webBrowser.Navigate(uri);

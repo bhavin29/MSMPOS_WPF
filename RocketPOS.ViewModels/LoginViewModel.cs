@@ -24,7 +24,7 @@ namespace RocketPOS.ViewModels
                          " CASE WHEN(SELECT COUNT(*) from OutletRegister WHERE OutletId = ORG.OutletId and UserId = U.Id AND CloseDateTime IS Null) = 0 THEN 0 ELSE 1 END AS 'OutletRegisterStatus' " +
                         " , (SELECT max(OpenDate) from OutletRegister WHERE OutletId = ORG.OutletId and UserId = U.Id AND CloseDateTime IS Null)  AS 'SystemDate'  , " +
                          " C.ClientName,C.Address1,C.Address2,C.Email,C.Phone,C.Logo,C.WebSite,C.ReceiptPrefix,C.OrderPrefix,C.OpenTime, " +
-                         "  C.CloseTime,C.CurrencyId,C.TimeZone,C.Header,C.Footer,C.Footer1,C.Footer2,C.Footer3,C.Footer4 " +
+                         "  C.CloseTime,C.CurrencyId,C.TimeZone,C.Header,C.Footer,C.Footer1,C.Footer2,C.Footer3,C.Footer4, ORG.Id as OutletRegisterId " +
                          " from[User] U INNER JOIN OutletRegister ORG ON U.Id = ORG.UserId " +
                          " INNER JOIN Outlet O On O.Id = ORG.OutletId " +
                          " CROSS JOIN Client C " +

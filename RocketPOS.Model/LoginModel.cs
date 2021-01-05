@@ -36,5 +36,7 @@ namespace RocketPOS.Model
 
         [DataType(DataType.Date)]
         public DateTime SystemDate { get; set; }
+
+        public int OutletRegisterId { get; set; }
     }
 }

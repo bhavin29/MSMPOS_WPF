@@ -811,6 +811,8 @@ namespace RocketPOS.Helpers
                 OutletRegisterReport outletRegisterReport = new OutletRegisterReport();
                 outletRegisterReport.Show();
 
+
+
                 Login frmlogin = new Login();
                 frmlogin.Show();
                 this.Close();
