@@ -25,6 +25,7 @@ namespace RocketPOS.Model
         public decimal DiscountAmount { get; set; }
         public decimal DeliveryCharges { get; set; }
         public decimal TaxAmount { get; set; }
+        public decimal VatableAmount { get; set; }
         public decimal TotalPayable { get; set; }
         public decimal CustomerPaid { get; set; }
         public string CustomerNote { get; set; }

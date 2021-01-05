@@ -13,6 +13,7 @@ namespace RocketPOS.Model
         public decimal Discount { get; set; }
         public decimal ServiceCharge { get; set; }
         public decimal VatableAmount { get; set; }
+        public decimal TaxAmount { get; set; }
         public decimal TotalAmount { get; set; }
         public int BillStatus { get; set; }
         public int OutletRegisterId { get; set; }
