@@ -30,6 +30,7 @@ namespace RocketPOS.Helpers
     {
         DispatcherTimer timer;
         Logger logger;
+        LoginViewModel loginViewModel = new LoginViewModel();
         public MainWindow()
         {
             try
@@ -1235,6 +1236,9 @@ namespace RocketPOS.Helpers
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
         {
             Login frmLogin = new Login();
+
+            loginViewModel.UpdateLoginLogout("logout");
+            loginViewModel.LoginHistory(2);
 
             frmLogin.Show();
             this.Close();

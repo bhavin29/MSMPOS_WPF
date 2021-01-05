@@ -72,6 +72,9 @@ namespace RocketPOS.Helpers
                         var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "You are running with past date,please close your register and start new register with current date", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
                     }
 
+                    loginViewModel.UpdateLoginLogout("login");
+                    loginViewModel.LoginHistory(1);
+
                     mainWin.Show();
                     this.Close();
                 }
