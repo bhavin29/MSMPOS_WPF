@@ -29,14 +29,12 @@ namespace RocketPOS.Helpers
     public partial class MainWindow : Window
     {
         DispatcherTimer timer;
-        Logger logger;
         LoginViewModel loginViewModel = new LoginViewModel();
         public MainWindow()
         {
             try
             {
                 InitializeComponent();
-                logger = LogManager.GetCurrentClassLogger();
                 CenterWindowOnScreen();
                 Timer();
                 HeaderFooter();
@@ -50,13 +48,7 @@ namespace RocketPOS.Helpers
             }
             catch (Exception ex)
             {
-                var st = new StackTrace(ex, true);
-                var frame = st.GetFrame(0);
-                var line = frame.GetFileLineNumber();
-                logger.Error().Exception(ex).Property("line-number", line).Write(); //using NLog.Fluent, .NET 4.5 
-
-                WpfMessageBox.Show(StatusMessages.AppTitle, line.ToString() + "--" + ex.ToString(), MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
-                logger.Error(ex.ToString());
+                SystemError.Register(ex);
             }
         }
 
@@ -149,15 +141,8 @@ namespace RocketPOS.Helpers
             }
             catch (Exception ex)
             {
-                var st = new StackTrace(ex, true);
-                var frame = st.GetFrame(0);
-                var line = frame.GetFileLineNumber();
-                logger.Error().Exception(ex).Property("line-number", line).Write(); //using NLog.Fluent, .NET 4.5 
-
-                WpfMessageBox.Show(StatusMessages.AppTitle, line.ToString() + "--" + ex.ToString(), MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
-                logger.Error(ex.ToString());
+                SystemError.Register(ex);
             }
-
         }
         private void GenerateDynamicFoodItemsALL(FoodMenuModel foodMenu, string rootPath, string searchKey, string type)
         {
@@ -173,13 +158,7 @@ namespace RocketPOS.Helpers
             }
             catch (Exception ex)
             {
-                var st = new StackTrace(ex, true);
-                var frame = st.GetFrame(0);
-                var line = frame.GetFileLineNumber();
-                logger.Error().Exception(ex).Property("line-number", line).Write(); //using NLog.Fluent, .NET 4.5 
-
-                WpfMessageBox.Show(StatusMessages.AppTitle, line.ToString() + "--" + ex.ToString(), MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
-                logger.Error(ex.ToString());
+                SystemError.Register(ex);
             }
         }
         private void GenerateDynamicFoodItems(FoodMenuModel foodMenu, string rootPath, string searchKey, string type)
@@ -210,21 +189,11 @@ namespace RocketPOS.Helpers
                         }
                     }
                 }
-
-
-
             }
             catch (Exception ex)
             {
-                var st = new StackTrace(ex, true);
-                var frame = st.GetFrame(0);
-                var line = frame.GetFileLineNumber();
-                logger.Error().Exception(ex).Property("line-number", line).Write(); //using NLog.Fluent, .NET 4.5 
-
-                WpfMessageBox.Show(StatusMessages.AppTitle, line.ToString() + "--" + ex.ToString(), MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
-                logger.Error(ex.ToString());
+                SystemError.Register(ex);
             }
-
         }
 
         private void GenerateDyanmicFoodItemsList(SubCategory itemSubCat, string rootPath)

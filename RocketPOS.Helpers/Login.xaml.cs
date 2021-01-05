@@ -20,7 +20,6 @@ namespace RocketPOS.Helpers
     {
         List<LoginModel> loginModel = new List<LoginModel>();
         LoginViewModel loginViewModel = new LoginViewModel();
-        Logger logger;
         public Login()
         {
             try
@@ -29,21 +28,13 @@ namespace RocketPOS.Helpers
 
                 txtUsername.Text = "Admin";
                 txtPassword.Password = "Admin";
-
-                logger = LogManager.GetCurrentClassLogger();
-                logger.Error("Loggly Error");
-                logger.Info("Start logging");
-
+                
                 CenterWindowOnScreen();
+                throw new DivideByZeroException();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                var st = new StackTrace(ex, true);
-                var frame = st.GetFrame(0);
-                var line = frame.GetFileLineNumber();
-                logger.Error().Exception(ex).Property("line-number", line).Write(); //using NLog.Fluent, .NET 4.5 
-
-                WpfMessageBox.Show(StatusMessages.AppTitle, ex.Message, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+                SystemError.Register(ex);
             }
         }
 
@@ -54,7 +45,7 @@ namespace RocketPOS.Helpers
             if (loginModel.Count > 0)
             {
                 LoginMerge(loginModel);
- 
+
                 if (loginModel[0].OutletRegisterStatus == 1)
                 {
                     DateTime dt = new DateTime();
