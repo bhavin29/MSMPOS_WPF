@@ -33,13 +33,14 @@
             <StackPanel x:Name="headerTopRightPanel" Orientation="Horizontal"   >
                 <TextBox x:Name="txtSearchModifyOrder" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Style="{StaticResource TextBoxBaseStyle}"   Width="250" Margin="0,0,2,0" TextChanged="searchSalesOrder"/>
                 <Button x:Name="btnNewOrder" Style="{StaticResource btnOrange}" Content="New Order" Click="btnNewOrder_Click" />
-                <Button x:Name="btnUnknow" Style="{StaticResource btnOrange}" Content="Reset"  />
                 <Button x:Name="btnDineTableView" Style="{StaticResource btnOrange}" Content="Table View" Click="btnDineTableView_Click" />
                 <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator"  Click="btnCalculator_Click"/>
                 <Button x:Name="btnFoodMenuList" Style="{StaticResource btnOrange}" Content="Menu List" Click="btnFoodMenuList_Click" />
                 <Button x:Name="btnLastSale" Style="{StaticResource btnOrange}"  Content="Sales List" Click="btnLastSale_Click" />
                 <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Close Register"   Click="btnRegister_Click" />
-                <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Report" />
+                <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Reports" />
+                <Button x:Name="btnUnknow" Style="{StaticResource btnOrange}" Content="Help"  />
+ 
                 <Button x:Name="btnBack" Style="{StaticResource btnOrange}" Content="Settings"  />
                 <Button x:Name="btnLogOut" Style="{StaticResource btnLightRed}" Content="LogOut" Width="120" Click="btnLogOut_Click"  />
             </StackPanel>
