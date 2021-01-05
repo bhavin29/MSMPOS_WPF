@@ -211,6 +211,12 @@ namespace RocketPOS.Helpers
                 StackPanel menuListPanel = new StackPanel();
                 menuListPanel.Orientation = Orientation.Vertical;
 
+                TextBlock txtSmallName = new TextBlock();
+                txtSmallName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                txtSmallName.Text = itemSubCat.SmallName;
+                txtSmallName.Name = "txtSmallName" + itemSubCat.FoodCategoryId;
+                menuListPanel.Children.Add(txtSmallName);
+
                 TextBlock txtSalePrice = new TextBlock();
                 txtSalePrice.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtSalePrice.Text = Convert.ToDecimal(itemSubCat.SalesPrice).ToString("0.00");
@@ -239,18 +245,12 @@ namespace RocketPOS.Helpers
                 {
                     imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\defaultimage.png"));
                 }
-                imgFood.Width = 70;
+                imgFood.Width = 80;
                 imgFood.Height = 70;
                 imgFood.Margin = new Thickness(2, 2, 2, 2);
                 imgFood.Stretch = Stretch.UniformToFill;
                 imgFood.Name = "imgFood" + itemSubCat.FoodCategoryId;
                 menuListPanel.Children.Add(imgFood);
-
-                TextBlock txtSmallName = new TextBlock();
-                txtSmallName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                txtSmallName.Text = itemSubCat.SmallName;
-                txtSmallName.Name = "txtSmallName" + itemSubCat.FoodCategoryId;
-                menuListPanel.Children.Add(txtSmallName);
 
                 TextBlock txtFoodMenuId = new TextBlock();
                 txtFoodMenuId.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
@@ -263,6 +263,7 @@ namespace RocketPOS.Helpers
                 TextBlock txtFoodVat = new TextBlock();
                 txtFoodVat.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtFoodVat.Text = Convert.ToDecimal(itemSubCat.FoodVat).ToString("0.00");
+                txtFoodVat.FontSize = 2;
                 txtFoodVat.Name = "txtFoodVat" + itemSubCat.FoodCategoryId;
                 txtFoodVat.Visibility = Visibility.Hidden;
                 menuListPanel.Children.Add(txtFoodVat);
@@ -270,6 +271,7 @@ namespace RocketPOS.Helpers
                 TextBlock txtFoodcess = new TextBlock();
                 txtFoodcess.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtFoodcess.Text = Convert.ToDecimal(itemSubCat.Foodcess).ToString("0.00");
+                txtFoodcess.FontSize = 2;
                 txtFoodcess.Name = "txtFoodcess" + itemSubCat.FoodCategoryId;
                 txtFoodcess.Visibility = Visibility.Hidden;
                 menuListPanel.Children.Add(txtFoodcess);
@@ -327,7 +329,7 @@ namespace RocketPOS.Helpers
                 if (type == "FoodMenu")
                 {
                     var menuListPanel = sender as StackPanel;
-                    var salePrice = menuListPanel.Children[0] as TextBlock;
+                    var salePrice = menuListPanel.Children[1] as TextBlock;
                     var foodVat = menuListPanel.Children[4] as TextBlock;
                     var foodCess = menuListPanel.Children[5] as TextBlock;
 
@@ -663,8 +665,8 @@ namespace RocketPOS.Helpers
             {
 
                 var menuListPanel = sender as StackPanel;
-                var salePrice = menuListPanel.Children[0] as TextBlock;
-                var itemName = menuListPanel.Children[2] as TextBlock;
+                var salePrice = menuListPanel.Children[1] as TextBlock;
+                var itemName = menuListPanel.Children[0] as TextBlock;
                 var foodMenuId = menuListPanel.Children[3] as TextBlock;
                 var foodVat = menuListPanel.Children[4] as TextBlock;
                 var foodcess = menuListPanel.Children[5] as TextBlock;
@@ -700,7 +702,7 @@ namespace RocketPOS.Helpers
                     Discount = 0,
                     Total = Convert.ToDecimal(salePrice.Text) * 1,
                     CustomerOrderItemId = 0,
-                    FoodVat= Convert.ToDecimal(foodVat.Text),
+                    FoodVat = Convert.ToDecimal(foodVat.Text),
                     Foodcess = Convert.ToDecimal(foodcess.Text)
                 });
 
@@ -731,7 +733,6 @@ namespace RocketPOS.Helpers
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-                throw;
             }
         }
         //private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -748,7 +749,7 @@ namespace RocketPOS.Helpers
                 saleItem[0].Qty += 1;
                 saleItem[0].Total += saleItem[0].Price * 1;
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(saleItem[0].Price)).ToString();
-                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(saleItem[0].Price)+ (Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess))).ToString();
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(saleItem[0].Price) + (Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess))).ToString();
                 txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
                 txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess)).ToString();
                 dgSaleItem.Items.Refresh();
@@ -769,7 +770,7 @@ namespace RocketPOS.Helpers
                 saleItem[0].Qty -= 1;
                 saleItem[0].Total -= saleItem[0].Price * 1;
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(saleItem[0].Price)).ToString();
-                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) - Convert.ToDecimal(saleItem[0].Price)- (Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess))).ToString();
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) - Convert.ToDecimal(saleItem[0].Price) - (Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess))).ToString();
                 txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) - 1).ToString();
                 txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) - (Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess))).ToString();
                 if (saleItem[0].Qty == 0)
@@ -1149,7 +1150,7 @@ namespace RocketPOS.Helpers
                         Discount = orderItem.Discount,
                         Total = Convert.ToDecimal(orderItem.Price),
                         CustomerOrderItemId = orderItem.CustomerOrderItemId,
-                        FoodVat= orderItem.FoodVat,
+                        FoodVat = orderItem.FoodVat,
                         Foodcess = orderItem.Foodcess
                     });
                     dgSaleItem.Items.Add(saleItems);
@@ -1230,7 +1231,7 @@ namespace RocketPOS.Helpers
                 ppDirectInvoice.IsOpen = true;
                 totalPaid = customerBillViewModel.GetCustomerTotalPaidAmount(txtbOrderId.Text);
                 lblPPTotalPaidAmount.Content = totalPaid;
-                lblPPTotalRemainingAmount.Content = (Convert.ToDecimal(txtbTotalPayableAmount.Text)- Convert.ToDecimal(totalPaid)).ToString("0.00");
+                lblPPTotalRemainingAmount.Content = (Convert.ToDecimal(txtbTotalPayableAmount.Text) - Convert.ToDecimal(totalPaid)).ToString("0.00");
                 lblPPTotalPayableAmount.Content = txtbTotalPayableAmount.Text;
                 txtPPPayAmount.Text = lblPPTotalRemainingAmount.Content.ToString();
                 paymentMethodModels = customerOrderViewModel.GetPaymentMethod();
@@ -1349,7 +1350,6 @@ namespace RocketPOS.Helpers
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-                throw;
             }
         }
         #endregion
