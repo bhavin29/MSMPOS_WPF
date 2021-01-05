@@ -22,6 +22,8 @@ namespace RocketPOS.Model
         public string SmallThumb { get; set; }
         public string SmallName { get; set; }
         public int FoodCategoryId { get; set; }
+        public decimal FoodVat { get; set; }
+        public decimal Foodcess { get; set; }
     }
 
     public class FoodMenu
@@ -34,5 +36,7 @@ namespace RocketPOS.Model
         public string SmallName { get; set; }
         public double SalesPrice { get; set; }
         public string SmallThumb { get; set; }
+        public decimal FoodVat { get; set; }
+        public decimal Foodcess { get; set; }
     }
 }

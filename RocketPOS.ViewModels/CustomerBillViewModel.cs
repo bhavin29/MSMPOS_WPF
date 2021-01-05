@@ -34,10 +34,20 @@ namespace RocketPOS.ViewModels
                 dynamicParameters.Add("@PaymentMethodId", customerBillModel.PaymentMethodId);
                 dynamicParameters.Add("@PaymentNumber", customerBillModel.PaymentNumber);
                 dynamicParameters.Add("@ReceiptPrefix", LoginDetail.ReceiptPrefix);
-                
+                dynamicParameters.Add("@TaxAmount", customerBillModel.TaxAmount);
+
                 insertedId = connection.Query<int>
                         (StoredProcedure.PX_INSERT_BILL_DETAILS, dynamicParameters, commandType: CommandType.StoredProcedure, commandTimeout: 0).FirstOrDefault();
                 return insertedId;
+            }
+        }
+
+        public decimal GetCustomerTotalPaidAmount(string orderId)
+        {
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "Select isnull(sum(TotalAmount),0) from Bill where CustomerOrderId=" + orderId;
+                return connection.Query<decimal>(query).FirstOrDefault();
             }
         }
     }

@@ -16,5 +16,7 @@ namespace RocketPOS.Model
         public int VarientId { get; set; }
         public decimal Discount { get; set; }
         public decimal Price { get; set; }
+        public decimal FoodVat { get; set; }
+        public decimal Foodcess { get; set; }
     }
 }

@@ -13,5 +13,7 @@ namespace RocketPOS.Model
         public decimal Qty { get; set; }
         public decimal Discount { get; set; }
         public decimal Total { get; set; }
+        public decimal FoodVat { get; set; }
+        public decimal Foodcess { get; set; }
     }
 }
