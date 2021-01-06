@@ -200,8 +200,8 @@
                         </Grid.RowDefinitions>
                         <StackPanel  Orientation="Horizontal" Margin="2,0,0,0" Grid.ColumnSpan="2">
                             <ComboBox x:Name="cmbWaiter" Style="{StaticResource cmbBox}"  Width="145" Height="50" />
-                            <ComboBox x:Name="cmbCustomer" Style="{StaticResource cmbBox}" Width="145" Height="50"/>
-                            <Button x:Name="btnEditCustomer" Style="{StaticResource btnOrange}" Width="55" Content="Edit" Click="btnEditCustomer_Click"/>
+                            <ComboBox x:Name="cmbCustomer" Style="{StaticResource cmbBox}" Width="145" Height="50" GotFocus="cmbCustomer_GotFocus"/>
+                            <Button x:Name="btnEditCustomer" Style="{StaticResource btnOrange}" Width="55" Content="Edit" IsEnabled="False" Click="btnEditCustomer_Click"/>
                             <Button x:Name="btnAddCustomer" Style="{StaticResource btnOrange}" Width="55" Content="Add" Click="btnAddCustomer_Click"   />
                         </StackPanel>
 

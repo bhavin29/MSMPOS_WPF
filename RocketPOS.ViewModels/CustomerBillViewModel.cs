@@ -29,7 +29,6 @@ namespace RocketPOS.ViewModels
                 dynamicParameters.Add("@VatableAmount", customerBillModel.VatableAmount);
                 dynamicParameters.Add("@TotalAmount", customerBillModel.TotalAmount);
                 dynamicParameters.Add("@BillStatus", customerBillModel.BillStatus);
-                dynamicParameters.Add("@OutletRegisterId", customerBillModel.OutletRegisterId);
                 dynamicParameters.Add("@UserId", customerBillModel.UserId);
                 dynamicParameters.Add("@PaymentMethodId", customerBillModel.PaymentMethodId);
                 dynamicParameters.Add("@PaymentNumber", customerBillModel.PaymentNumber);
