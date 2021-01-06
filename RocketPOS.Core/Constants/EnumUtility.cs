@@ -20,7 +20,7 @@ namespace RocketPOS.Core.Constants
             Hold = 2,
             PartialPaid = 3,
             FullPaid = 4,
-            Cancel = 5
+            Cancelled = 5
         }
         public enum KOTStatus
         {

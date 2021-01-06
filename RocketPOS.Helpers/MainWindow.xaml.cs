@@ -965,7 +965,7 @@ namespace RocketPOS.Helpers
                     if (!string.IsNullOrEmpty(orderId) && orderId != "0")
                     {
 
-                        insertedId = customerOrderViewModel.UpdateOrderStatus(orderId, (int)EnumUtility.OrderPaidStatus.Cancel);
+                        insertedId = customerOrderViewModel.UpdateOrderStatus(orderId, (int)EnumUtility.OrderPaidStatus.Cancelled);
                         if (insertedId > 0)
                         {
                             var messageBoxSuccessResult = WpfMessageBox.Show(StatusMessages.CancelOrderTitle, StatusMessages.CancelOrderSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);

@@ -130,7 +130,9 @@ namespace RocketPOS.ViewModels
                             " CASE WHEN CO.OrderStatus = 1 THEN 'Pending'  " +
                                       "  WHEN CO.OrderStatus = 2 THEN 'Hold'  " +
                                       "  WHEN CO.OrderStatus = 3 THEN 'Partial Paid'  " +
-                                      "  WHEN CO.OrderStatus = 3 THEN 'Paid' END as OrderStatus  " +
+                                      "  WHEN CO.OrderStatus = 4 THEN 'Paid' " +
+                                      "  WHEN CO.OrderStatus = 5 THEN 'Cancelled' " +
+                                      "  END as OrderStatus  " +
                             " FROM CustomerOrder CO  " +
                             " INNER JOIN Customer C ON C.ID = CO.CustomerId  " +
                             " WHERE OutletId =" + LoginDetail.OutletId +
