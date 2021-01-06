@@ -315,6 +315,7 @@ namespace RocketPOS.Helpers
                 txtbKitchenStatus.Visibility = Visibility.Hidden;
                 txtDiscountPassword.Password = string.Empty;
                 txtTaxAmount.Text = "0.00";
+                btnEditCustomer.IsEnabled = false;
             }
             catch (Exception ex)
             {
@@ -1316,7 +1317,6 @@ namespace RocketPOS.Helpers
                     customerBillModel.BillStatus = (int)EnumUtility.OrderPaidStatus.PartialPaid;
                 }
 
-                customerBillModel.OutletRegisterId = 4;
                 customerBillModel.UserId = LoginDetail.UserId;
                 customerBillModel.PaymentMethodId = Convert.ToInt32(cmbPPPaymentMethod.SelectedValue);
                 customerBillModel.PaymentNumber = string.Empty;
@@ -1374,20 +1374,23 @@ namespace RocketPOS.Helpers
         {
             try
             {
-                if (cmbCustomer.SelectedIndex != -1)
+                if (cmbCustomer.SelectedIndex == -1)
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerTitle, StatusMessages.CustomerSelectRequired, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     Keyboard.Focus(cmbCustomer);
                     return;
                 }
-                CustomerViewModel customerViewModel = new CustomerViewModel();
-                CustomerModel customerModel = new CustomerModel();
-                customerModel = customerViewModel.GetCustomerById(Convert.ToInt32(cmbCustomer.SelectedValue));
-                txtPPCName.Text = customerModel.CustomerName;
-                txtPPCPhone.Text = customerModel.CustomerPhone;
-                txtPPCEmail.Text = customerModel.CustomerEmail;
-                txtPPCAddress.Text = customerModel.CustomerAddress1;
-                ppCustomerAdd.IsOpen = true;
+                else
+                {
+                    CustomerViewModel customerViewModel = new CustomerViewModel();
+                    CustomerModel customerModel = new CustomerModel();
+                    customerModel = customerViewModel.GetCustomerById(Convert.ToInt32(cmbCustomer.SelectedValue));
+                    txtPPCName.Text = customerModel.CustomerName;
+                    txtPPCPhone.Text = customerModel.CustomerPhone;
+                    txtPPCEmail.Text = customerModel.CustomerEmail;
+                    txtPPCAddress.Text = customerModel.CustomerAddress1;
+                    ppCustomerAdd.IsOpen = true;
+                }
             }
             catch (Exception ex)
             {
@@ -1400,6 +1403,7 @@ namespace RocketPOS.Helpers
             try
             {
                 ppCustomerAdd.IsOpen = false;
+                btnEditCustomer.IsEnabled = false;
             }
             catch (Exception ex)
             {
@@ -1449,6 +1453,7 @@ namespace RocketPOS.Helpers
                 else
                 {
                     ppCustomerAdd.IsOpen = false;
+                    btnEditCustomer.IsEnabled = false;
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerTitle, StatusMessages.CustomerSaveFailed, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
                 }
             }
@@ -1457,6 +1462,10 @@ namespace RocketPOS.Helpers
                 SystemError.Register(ex);
                 throw;
             }
+        }
+        private void cmbCustomer_GotFocus(object sender, RoutedEventArgs e)
+        {
+            btnEditCustomer.IsEnabled = true;
         }
         #endregion
         #region Discount Service Charge PopUp
@@ -1900,6 +1909,7 @@ namespace RocketPOS.Helpers
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
                 
+                
                 string settings = LoginDetail.MainWindowSettings;
                 string[] wordsSettings = settings.Split('$');
 
@@ -1931,7 +1941,7 @@ namespace RocketPOS.Helpers
 
                     }
                 }
-
+               
                 //Set Header Marquee Text
                 txtHeaderTitle.Text = LoginDetail.HeaderMarqueeText;
                 canMain.Height = 50;
@@ -1994,5 +2004,7 @@ namespace RocketPOS.Helpers
                 throw;
             }
         }
+
+        
     }
 }
