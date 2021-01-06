@@ -110,6 +110,8 @@ namespace RocketPOS.Helpers
             LoginDetail.Footer4 = loginModel[0].Footer4;
             LoginDetail.SystemDate = loginModel[0].SystemDate;
             LoginDetail.OutletRegisterId = loginModel[0].OutletRegisterId;
+            LoginDetail.MainWindowSettings = loginModel[0].MainWindowSettings;
+            LoginDetail.HeaderMarqueeText = loginModel[0].HeaderMarqueeText;
         }
 
         private void CenterWindowOnScreen()
@@ -120,6 +122,8 @@ namespace RocketPOS.Helpers
             double windowHeight = this.Height;
             this.Left = (screenWidth / 2) - (windowWidth / 2);
             this.Top = ((screenHeight / 2) - (windowHeight / 2));
+
+            lblFooter.Content += "  Ver: " + LoginDetail.AppVersion;
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)

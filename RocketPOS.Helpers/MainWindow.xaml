@@ -9,8 +9,8 @@
         mc:Ignorable="d" 
         Title="RocketPOS" 
         Width="1280" Height="800" 
-        Background="#00265B"
-    ShowInTaskbar="True" Topmost="true" WindowStyle="None" ResizeMode="NoResize">
+        Background="#00265B">
+    <!--ShowInTaskbar="True" Topmost="true" WindowStyle="None" ResizeMode="NoResize">-->
 
     <Grid >
         <Grid.ColumnDefinitions>
@@ -24,9 +24,9 @@
         </Grid.RowDefinitions>
         <!--Top header-->
         <Grid Grid.Row="0" >
-            <StackPanel x:Name="HeaderPanel" Orientation="Vertical" Margin="5" >
-                <TextBlock x:Name="txtHeaderTitle"  Style="{StaticResource txtBlock}" FontWeight="Bold"  Text="Welcome to Rocket POS"  Height="25" />
-            </StackPanel>
+            <Canvas ClipToBounds="True" Name="canMain" Canvas.Left="50"  Canvas.Top="100"  Grid.Row="0" Height="50" Width="1200" >
+                <TextBlock x:Name="txtHeaderTitle" Foreground="White" FontSize="25" FontWeight="Bold"    />
+            </Canvas>
         </Grid>
         <!--Log out row-->
         <Grid Grid.Row="1" >
@@ -40,7 +40,7 @@
                 <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Close Register"   Click="btnRegister_Click" />
                 <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Reports" />
                 <Button x:Name="btnUnknow" Style="{StaticResource btnOrange}" Content="Help"  />
- 
+
                 <Button x:Name="btnBack" Style="{StaticResource btnOrange}" Content="Settings"  />
                 <Button x:Name="btnLogOut" Style="{StaticResource btnLightRed}" Content="LogOut" Width="120" Click="btnLogOut_Click"  />
             </StackPanel>
@@ -387,7 +387,7 @@
                             </StackPanel>
 
                         </Grid>
-                        
+
                         <Grid Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
                                 <TextBlock x:Name="txtTaxName" Style="{StaticResource txtBlock}" Text="Taxable : "   />
@@ -399,7 +399,7 @@
                                 <TextBlock x:Name="txtTaxAmount" Style="{StaticResource txtBlock}" Text="0.00"  />
                             </StackPanel>
                         </Grid>
-                        
+
                         <Grid Grid.Row="2"  Grid.Column="0" Grid.ColumnSpan="2">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 0 0 0">
                                 <Button x:Name="btnDicountPopUp" Style="{StaticResource btnOrangeLng}" Content="Dist. %"  Width="70" Height="35" Click="btnDicountPopUp_Click"/>
@@ -480,7 +480,7 @@
                                 <TextBlock x:Name="txtbTotalDiscountAmount" Style="{StaticResource txtBlock}" Text="0.00" HorizontalAlignment="Right"  />
                             </StackPanel>
                         </Grid>
- 
+
                         <Grid Grid.Row="4"  Grid.Column="0" HorizontalAlignment="Left" Margin="5 0 0 0">
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="btnServiceDeliveryPopUp" Content="Charges"  Style="{StaticResource btnOrangeLng}" Width="70" Height="30" Click="btnServiceDeliveryPopUp_Click"/>
@@ -524,7 +524,7 @@
                                 <TextBlock x:Name="txtbServiceDeliveryChargeLabel" Style="{StaticResource txtBlock}" Text="0.00" HorizontalAlignment="Right" />
                             </StackPanel>
                         </Grid>
-                        
+
                         <Grid Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Grid.ColumnSpan="2">
 
                             <!--<Button x:Name="btnKitchenStatus" Visibility="Hidden"  Style="{StaticResource btnOrangeLng}" Content="Kitchen Status" Width="150" Height="25"  />-->
@@ -539,7 +539,7 @@
                                 <TextBlock x:Name="txtbTotalPayable" Style="{StaticResource txtBlock}"  Text="Payable: "  />
                             </StackPanel>
                         </Grid>
-                        
+
                         <Grid Grid.Row="5"  Grid.Column="3" VerticalAlignment="Center" >
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtbTotalPayableAmount" Style="{StaticResource txtBlock}"  Text="0.00" HorizontalAlignment="Right" />
@@ -616,7 +616,7 @@
                                 <Label x:Name="lblPPTotalPaidAmount" Content="0.00" Height="25" Width="100" Grid.Row="9" Grid.Column="0"/>
                                 <Label x:Name="lblPPTotalRemainingAmount" Content="0.00" Height="25" Width="100" Grid.Row="9" Grid.Column="1"/>
 
-                                
+
                                 <!--Invoice PopUp Row 10-->
                                 <Separator  Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"/>
 
@@ -649,8 +649,8 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
-                        <RowDefinition Height="500"/>
-                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="535"/>
+                        <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0" Margin="1,0,0,0" >
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -666,9 +666,9 @@
                         </ScrollViewer>
                     </Grid>
 
-                    <Grid Grid.Row="2" Margin="1,0,0,0" >
+                    <Grid Grid.Row="2" Margin="0,0,0,0" >
                         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="100">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
                                 <StackPanel x:Name="spFavouriteCategory" Orientation="Horizontal" >
 
                                 </StackPanel>
@@ -682,8 +682,8 @@
         <Grid Grid.Row="4" >
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="400"/>
-                    <ColumnDefinition Width="380"/>
+                    <ColumnDefinition Width="500"/>
+                    <ColumnDefinition Width="280"/>
                     <ColumnDefinition Width="500"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -691,6 +691,7 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Column="0">
                     <StackPanel x:Name="footerPanel1" Orientation="Horizontal" Margin="5,5,5,5"  >
+                        <Image Source="images/logo.png" Margin="0,0,3,0" Width="25" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left"></Image>
                         <TextBlock x:Name="txtClientName"  Style="{StaticResource txtBlock}"   />
                         <TextBlock x:Name="txbOutletName"  Style="{StaticResource txtBlock}"   />
                     </StackPanel>
@@ -703,7 +704,7 @@
                 <Grid Grid.Column="2">
                     <StackPanel x:Name="footerPanel3" Orientation="Horizontal" Margin="5,5,5,5"  >
                         <TextBlock x:Name="txtWebsite"  Style="{StaticResource txtBlock}"   />
-                        <TextBlock x:Name="txtSystemDate"  Style="{StaticResource txtBlock}" Margin="195,0,0,0"/>
+                        <TextBlock x:Name="txtSystemDate"  Style="{StaticResource txtBlock}" Margin="200,0,0,0"/>
                         <TextBlock x:Name="txtDatetime"  Style="{StaticResource txtBlock}" Margin="3,0,0,0"/>
                     </StackPanel>
                 </Grid>

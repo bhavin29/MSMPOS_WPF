@@ -38,5 +38,8 @@ namespace RocketPOS.Model
         public DateTime SystemDate { get; set; }
 
         public int OutletRegisterId { get; set; }
+        public string MainWindowSettings { get; set; }
+
+        public string HeaderMarqueeText { get; set; }
     }
 }

@@ -19,8 +19,9 @@ namespace RocketPOS.ViewModels
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
             {
                 foodMenus = db.Query<FoodMenu>("SELECT FMC.Id,FM.Id AS FoodMenuId,FMC.IsFavourite, FMC.FoodMenuCategoryName As FoodCategory,FM.FoodCategoryId,SUBSTRING(FM.FoodMenuName,0,10) As SmallName,FM.FoodMenuCode,FM.SmallThumb,FM.SalesPrice,ISNULL(FM.FoodVat,0) AS FoodVat ,ISNULL(FM.Foodcess,0) AS Foodcess FROM [dbo].[FoodMenuCategory] FMC " +
-                                                                "Inner Join[dbo].[FoodMenu] FM " +
-                                                                "ON FMC.Id = FM.FoodCategoryId Where (',' + FM.OutletId + ',') LIKE '%," + outLetId + ",%' And FM.IsActive=1 And FMC.IsActive=1").ToList();
+                                                "Inner Join[dbo].[FoodMenu] FM " +
+                                                "ON FMC.Id = FM.FoodCategoryId Where (',' + FM.OutletId + ',') LIKE '%," + outLetId + 
+                                                ",%' And FM.IsActive=1 And FMC.IsActive=1 AND FMC.ISDeleted=0 AND FM.ISDeleted=0 order by FMC.position,FM.position").ToList();
 
                 foodMenuModel.FoodList = foodMenus.GroupBy(menuCat => new { menuCat.Id, menuCat.FoodCategory, menuCat.IsFavourite }, (menuCategory, mainElements) => new FoodList
                 {

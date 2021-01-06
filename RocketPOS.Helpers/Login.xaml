@@ -7,9 +7,9 @@
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d"
         Title="ROCKET POS Login"
-        Width="1280" Height="800" 
-        >
-    <!--ShowInTaskbar="True" Topmost="true" WindowStyle="None" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"-->
+        Width="1280" Height="800" >
+
+    <!--ShowInTaskbar="True" Topmost="true" WindowStyle="None" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">-->
 
     <Grid Width="1280" Height="800" Background="#00265B">
         <Grid.ColumnDefinitions>
@@ -64,7 +64,7 @@
         </Grid>
         <Grid Grid.Row="2" >
             <StackPanel x:Name="FooterPanel" Orientation="Horizontal" Margin="5" >
-                <Label Content="Copyrights 2021. All rights reserved By @RocketPOS" Foreground="White" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top"/>
+                <Label Name="lblFooter" Content="Copyrights 2021. All rights reserved By @RocketPOS" Foreground="White" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top"/>
             </StackPanel>
         </Grid>
     </Grid>

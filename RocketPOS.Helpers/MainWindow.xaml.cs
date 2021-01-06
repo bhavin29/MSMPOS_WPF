@@ -20,6 +20,7 @@ using RocketPOS.Helpers.Tables;
 using NLog;
 using System.Diagnostics;
 using NLog.Fluent;
+using System.Windows.Media.Animation;
 
 namespace RocketPOS.Helpers
 {
@@ -100,7 +101,7 @@ namespace RocketPOS.Helpers
                     btnCategory.Content = "All";
                     btnCategory.Name = "btnAll";
                     btnCategory.FontSize = 15;
-                    btnCategory.Width = 100;
+                    btnCategory.Width = 97;
                     btnCategory.Height = 50;
                     btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                     btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
@@ -117,7 +118,7 @@ namespace RocketPOS.Helpers
                         btnCategory.Content = foodCategory.FoodCategory;
                         btnCategory.Name = "btn" + foodCategory.Id;
                         btnCategory.FontSize = 15;
-                        btnCategory.Width = 100;
+                        btnCategory.Width = 97;
                         btnCategory.Height = 50;
                         btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                         btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
@@ -131,7 +132,7 @@ namespace RocketPOS.Helpers
                         btnCategory.Content = foodCategory.FoodCategory;
                         btnCategory.Name = "btn" + foodCategory.Id;
                         btnCategory.FontSize = 15;
-                        btnCategory.Width = 100;
+                        btnCategory.Width = 97;
                         btnCategory.Height = 50;
                         btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                         btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
@@ -1748,7 +1749,7 @@ namespace RocketPOS.Helpers
             try
             {
                 txtClientName.Text = LoginDetail.ClientName + "  |  ";
-                txbOutletName.Text = LoginDetail.OutletName;
+                txbOutletName.Text = LoginDetail.OutletName + "  |  Ver: " + LoginDetail.AppVersion;
                 txtbUserName.Text = "User: " + LoginDetail.Username;
                 txtWebsite.Text = LoginDetail.WebSite;
                 txtSystemDate.Text = LoginDetail.SystemDate.ToShortDateString();
@@ -1896,6 +1897,53 @@ namespace RocketPOS.Helpers
                 double windowHeight = this.Height;
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
+                
+                string settings = LoginDetail.MainWindowSettings;
+                string[] wordsSettings = settings.Split('$');
+
+                foreach (var word in wordsSettings)
+                {
+                    string[] words = word.Split('=');
+
+                    if (words[0] == "ShowInTaskbar")
+                    {
+
+                        this.ShowInTaskbar = bool.Parse(words[1].ToString());
+
+                    }
+                    else if (words[0] == "Topmost")
+                    {
+                        this.Topmost = bool.Parse(words[1].ToString());
+
+                    }
+                    else if (words[0] == "WindowStyle")
+                    {
+                        if (words[1] == "None")
+                            this.WindowStyle = WindowStyle.None;
+
+                    }
+                    else if (words[0] == "ResizeMode")
+                    {
+                        if (words[1] == "NoResize")
+                            this.ResizeMode = ResizeMode.NoResize;
+
+                    }
+                }
+
+                //Set Header Marquee Text
+                txtHeaderTitle.Text = LoginDetail.HeaderMarqueeText;
+                canMain.Height = 50;
+                canMain.Width = 1200;
+
+                double height = 50;// canMain.ActualHeight - txtHeaderTitle.ActualHeight;
+                txtHeaderTitle.Margin = new Thickness(1);// new Thickness(0, height / 2, 0, 0);
+                DoubleAnimation doubleAnimation = new DoubleAnimation();
+                doubleAnimation.From = -200;// txtHeaderTitle.ActualWidth;
+                doubleAnimation.To = 1200;// canMain.ActualWidth;
+                doubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
+                doubleAnimation.Duration = new Duration(TimeSpan.Parse("0:0:20"));
+                txtHeaderTitle.BeginAnimation(Canvas.RightProperty, doubleAnimation);
+
             }
             catch (Exception ex)
             {

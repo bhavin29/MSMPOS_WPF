@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="images\Error.jpg" />
     <None Remove="images\Information.jpg" />
+    <None Remove="images\logo.png" />
     <None Remove="images\Question.png" />
     <None Remove="images\rocket_pos_logo.jpg" />
     <None Remove="images\Warning.png" />
@@ -34,6 +35,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\Information.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\Question.png">

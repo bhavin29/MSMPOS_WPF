@@ -6,6 +6,9 @@ namespace RocketPOS.Core.Constants
 {
     public  static class LoginDetail
     {
+        //Created application run time
+        public static string AppVersion = "0.01";
+        //from login database
         public static int UserId = 0;
         public static string Username = "";
         public static string OutletName = "";
@@ -33,5 +36,7 @@ namespace RocketPOS.Core.Constants
         public static string Footer4 = "";
         public static DateTime SystemDate = DateTime.UtcNow;
         public static int OutletRegisterId = 0;
+        public static string MainWindowSettings = "";
+        public static string HeaderMarqueeText = "";
     }
 }
