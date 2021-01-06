@@ -611,7 +611,10 @@ namespace RocketPOS.Helpers
 
                 if (insertedId > 0)
                 {
-                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.PlaceOrderSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                    if (type != "DirectInvoice")
+                    {
+                        var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.PlaceOrderSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                    }
                     ClearCustomerOrderItemControll();
                     GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
                 }
@@ -1241,7 +1244,6 @@ namespace RocketPOS.Helpers
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-                throw;
             }
         }
         private void btnDirectInvoicePopupCancel_Click(object sender, RoutedEventArgs e)

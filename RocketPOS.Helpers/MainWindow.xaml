@@ -168,41 +168,44 @@
                         </StackPanel>
 
                         <Popup Name="ppDineInTables" Placement="Center" AllowsTransparency="False" >
-                            <Grid Width="300" Height="350" Background="LightBlue">
+                            <Grid Width="250" Height="500" Background="#86A09E">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
-                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="250"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="250"/>
-                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="400"/>
+                                    <RowDefinition Height="50"/>
                                 </Grid.RowDefinitions>
-
-                                <TextBlock x:Name="txtbTables" Text="Tables" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                <ListBox x:Name="lbTablesList" Width="150" Height="210" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DisplayMemberPath="TableName" SelectedValuePath="Id">
-                                </ListBox>
-                                <Button x:Name="btnPPSelectTable" Grid.Row="2" Grid.Column="0" Content="Submit" Click="btnPPSelectTable_Click"/>
-                                <Button x:Name="btnPPCancelTable" Grid.Row="2" Grid.Column="1" Content="Cancel" Click="btnPPCancelTable_Click"/>
+                                <StackPanel Orientation="Horizontal" Margin="2" Grid.Row="0" >
+                                    <TextBlock Text="Table Information" FontSize="20" Margin="5,5,5,5" Foreground="White" />
+                                    <Button x:Name="btnPPCancelTable"  Content="Close" Height="40" Width="50" FontSize="16" Background="#00265B" Foreground="White" Margin="25,5,5,5" Click="btnPPCancelTable_Click"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="1" Grid.Row="1" >
+                                    <ListBox x:Name="lbTablesList" Width="200" Height="400" FontSize="24" HorizontalAlignment="Center"  DisplayMemberPath="TableName" SelectedValuePath="Id">
+                                    </ListBox>
+                                </StackPanel>
+                                <Button x:Name="btnPPSelectTable" Grid.Row="2" Content="Save" Height="40" Width="100" FontSize="16" Background="#00265B" Foreground="White" Margin="5,0,-130,0"  Click="btnPPSelectTable_Click"/>
                             </Grid>
                         </Popup>
                     </Grid>
 
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="410"/>
+                            <ColumnDefinition Width="75.298"/>
+                            <ColumnDefinition Width="334.702"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
-                        <StackPanel  Orientation="Horizontal" Margin="2,0,0,0">
+                        <StackPanel  Orientation="Horizontal" Margin="2,0,0,0" Grid.ColumnSpan="2">
                             <ComboBox x:Name="cmbWaiter" Style="{StaticResource cmbBox}"  Width="145" Height="50" />
                             <ComboBox x:Name="cmbCustomer" Style="{StaticResource cmbBox}" Width="145" Height="50"/>
                             <Button x:Name="btnEditCustomer" Style="{StaticResource btnOrange}" Width="55" Content="Edit" Click="btnEditCustomer_Click"/>
                             <Button x:Name="btnAddCustomer" Style="{StaticResource btnOrange}" Width="55" Content="Add" Click="btnAddCustomer_Click"   />
                         </StackPanel>
 
-                        <Popup Name="ppCustomerAdd" Placement="Center" AllowsTransparency="False">
+                        <Popup Name="ppCustomerAdd" Placement="Center" AllowsTransparency="False" Grid.ColumnSpan="2">
                             <Grid Width="300" Height="375" Background="#86A09E">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="300"/>
@@ -406,49 +409,54 @@
 
                             </StackPanel>
                             <Popup x:Name="ppPassword" Placement="Center">
-                                <Grid Width="250" Height="150" Background="LightBlue">
+                                <Grid Width="250" Height="200" Background="#86A09E">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="250"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="50"/>
-                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="90"/>
                                         <RowDefinition Height="50"/>
                                     </Grid.RowDefinitions>
-
-                                    <TextBlock Text="Apply Password" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                    <TextBlock Text="Password : " Grid.Row="1" Grid.Column="0"/>
-                                    <PasswordBox Name="txtDiscountPassword" Grid.Row="1" Grid.Column="1"/>
-                                    <Button x:Name="btnPPPaswordCancel" Content="Cancel" Grid.Row="2" Grid.Column="0" Click="btnPPPaswordCancel_Click"/>
-                                    <Button x:Name="btnPPPaswordApply" Content="Apply" Grid.Row="2" Grid.Column="1" Click="btnPPPaswordApply_Click"/>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                                        <TextBlock Text="Discount Password" Foreground="White"  FontSize="20" Margin="2"/>
+                                        <Button x:Name="btnPPPaswordCancel" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White" Margin="15,5,5,5" Content="Cancel" Click="btnPPPaswordCancel_Click"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical" Grid.Row="1" Margin="2" HorizontalAlignment="Left">
+                                        <TextBlock Text="Enter Admin Password" Foreground="White" FontSize="16" Height="30" />
+                                        <PasswordBox Name="txtDiscountPassword" Height="40" Width="220" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <Button x:Name="btnPPPaswordApply"  Grid.Row="2" Content="Save" Height="40" Width="70" FontSize="16" Background="#00265B" Foreground="White" Margin="5,0,-160,5" Click="btnPPPaswordApply_Click"/>
 
                                 </Grid>
                             </Popup>
                             <Popup Name="ppDiscountPopUp" Placement="Center" AllowsTransparency="False">
-                                <Grid Width="250" Height="150" Background="LightBlue">
+                                <Grid Width="250" Height="400" Background="#86A09E">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="250"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="50"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="300"/>
+                                        <RowDefinition Height="50"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock x:Name="txtbPPApplyOrderDiscount" Text="Apply Discount" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                    <TextBlock x:Name="txtbPPSelectDiscount" Text="Select Percentage" Grid.Row="1" Grid.Column="0" />
-                                    <ComboBox x:Name="cmbPPDiscountNos" Grid.Row="1" Grid.Column="1">
-                                        <ComboBoxItem IsSelected="True">-- Select Percentage --</ComboBoxItem>
-                                        <ComboBoxItem>0</ComboBoxItem>
-                                        <ComboBoxItem>5</ComboBoxItem>
-                                        <ComboBoxItem>10</ComboBoxItem>
-                                        <ComboBoxItem>15</ComboBoxItem>
-                                        <ComboBoxItem>20</ComboBoxItem>
-                                        <ComboBoxItem>25</ComboBoxItem>
-                                    </ComboBox>
-                                    <Button x:Name="btnPPDiscountCancel" Content="Cancel" Grid.Row="2" Grid.Column="0" Click="btnPPDiscountCancel_Click"/>
-                                    <Button x:Name="btnPPDiscountApply" Content="Apply" Grid.Row="2" Grid.Column="1" Click="btnPPDiscountApply_Click"/>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                                        <TextBlock x:Name="txtbPPApplyOrderDiscount" Text="Apply Discount %" Foreground="White"  FontSize="20" Margin="2" HorizontalAlignment="Center" />
+                                        <Button x:Name="btnPPDiscountCancel" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White" Margin="25,5,5,5" Content="Cancel" Click="btnPPDiscountCancel_Click"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical" Grid.Row="1" Margin="2">
+                                        <TextBlock x:Name="txtbPPSelectDiscount" Text="Select Discount Percentage" Foreground="White" FontSize="16" Grid.Row="1" />
+                                        <ComboBox x:Name="cmbPPDiscountNos" Grid.Row="1" >
+                                            <ComboBoxItem IsSelected="True">-- Select Percentage --</ComboBoxItem>
+                                            <ComboBoxItem>0</ComboBoxItem>
+                                            <ComboBoxItem>5</ComboBoxItem>
+                                            <ComboBoxItem>10</ComboBoxItem>
+                                            <ComboBoxItem>15</ComboBoxItem>
+                                            <ComboBoxItem>20</ComboBoxItem>
+                                            <ComboBoxItem>25</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <Button x:Name="btnPPDiscountApply"  Grid.Row="2"  Content="Save" Height="40" Width="70" FontSize="16" Background="#00265B" Foreground="White" Margin="5,0,-160,5" Click="btnPPDiscountApply_Click"/>
                                 </Grid>
                             </Popup>
                         </Grid>
@@ -486,28 +494,31 @@
                                 <Button x:Name="btnServiceDeliveryPopUp" Content="Charges"  Style="{StaticResource btnOrangeLng}" Width="70" Height="30" Click="btnServiceDeliveryPopUp_Click"/>
                             </StackPanel>
                             <Popup Name="ppDeliveryServicePopUp" Placement="Center" AllowsTransparency="False">
-                                <Grid Width="250" Height="150" Background="LightBlue">
+                                <Grid Width="300" Height="400" Background="#86A09E">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="300"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="50"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="300"/>
+                                        <RowDefinition Height="50"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock x:Name="txtbPPApplyOrderDeliveryService" Text="Apply Delivery Service Charge" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                    <TextBlock x:Name="txtbPPSelectDeliveryService" Text="Select Percentage" Grid.Row="1" Grid.Column="0" />
-                                    <ComboBox x:Name="cmbPPPercentageDelivery" Grid.Row="1" Grid.Column="1">
-                                        <ComboBoxItem IsSelected="True">-- Select Service Charge --</ComboBoxItem>
-                                        <ComboBoxItem>5</ComboBoxItem>
-                                        <ComboBoxItem>10</ComboBoxItem>
-                                        <ComboBoxItem>15</ComboBoxItem>
-                                        <ComboBoxItem>20</ComboBoxItem>
-                                        <ComboBoxItem>25</ComboBoxItem>
-                                    </ComboBox>
-                                    <Button x:Name="btnPPDeliveryCancel" Content="Cancel" Grid.Row="2" Grid.Column="0" Click="btnPPDeliveryCancel_Click"/>
-                                    <Button x:Name="btnPPDeliveryApply" Content="Apply" Grid.Row="2" Grid.Column="1" Click="btnPPDeliveryApply_Click"/>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                                        <TextBlock x:Name="txtbPPApplyOrderDeliveryService" Text="Delivery / Service Charge" Foreground="White"  FontSize="20" Margin="2" HorizontalAlignment="Center"/>
+                                        <Button x:Name="btnPPDeliveryCancel"  Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White" Margin="10,5,5,5" Content="Cancel" Click="btnPPDeliveryCancel_Click"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical" Grid.Row="1" Margin="2">
+                                        <TextBlock x:Name="txtbPPSelectDeliveryService" Text="Select Charges" Foreground="White" FontSize="16" />
+                                        <ComboBox x:Name="cmbPPPercentageDelivery" Grid.Row="1" Grid.Column="1">
+                                            <ComboBoxItem IsSelected="True">-- Select Service Charge --</ComboBoxItem>
+                                            <ComboBoxItem>5</ComboBoxItem>
+                                            <ComboBoxItem>10</ComboBoxItem>
+                                            <ComboBoxItem>15</ComboBoxItem>
+                                            <ComboBoxItem>20</ComboBoxItem>
+                                            <ComboBoxItem>25</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <Button x:Name="btnPPDeliveryApply" Grid.Row="2" Content="Save" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White" Margin="230,5,5,5"  Click="btnPPDeliveryApply_Click"/>
                                 </Grid>
                             </Popup>
                         </Grid>
@@ -552,89 +563,67 @@
                         <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" >
                             <Button x:Name="btnCancel" Style="{StaticResource btnMarun}" Content="Order Cancel"  Click="btnCancel_Click"/>
                             <Button x:Name="btnHold" Style="{StaticResource btnMarun}" Content="Order Hold" Click="btnHold_Click"/>
-                            <Button x:Name="btnDirectInvoice" Style="{StaticResource btnMarun}" Content="Direct Invoice" Click="btnDirectInvoice_Click"/>
+                            <Button x:Name="btnDirectInvoice" Style="{StaticResource btnMarun}" Content="Payment" Click="btnDirectInvoice_Click"/>
                             <Button x:Name="btnPlaceOrder" Style="{StaticResource btnMarun}" Content="Place Order" Click="btnPlaceOrder_Click"/>
                         </StackPanel>
                         <Popup Name="ppDirectInvoice" Placement="Center" AllowsTransparency="False">
-                            <Grid Width="300" Height="420" Background="LightBlue">
+                            <Grid Width="350" Height="650" Background="#86A09E">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
-                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="175"/>
+                                    <ColumnDefinition Width="175"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="10"/>
-                                    <RowDefinition Height="35"/>
-                                    <RowDefinition Height="10"/>
-                                    <RowDefinition Height="35"/>
-                                    <RowDefinition Height="10"/>
-                                    <RowDefinition Height="35"/>
-                                    <RowDefinition Height="35"/>
-                                    <RowDefinition Height="25"/>
-                                    <RowDefinition Height="35"/>
-                                    <RowDefinition Height="10"/>
-                                    <RowDefinition Height="35"/>
-                                    <RowDefinition Height="35"/>
-                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="60"/>
                                     <RowDefinition Height="40"/>
+                                    <RowDefinition Height="150"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="30"/>
                                 </Grid.RowDefinitions>
 
                                 <!--Invoice PopUp Row 0-->
-                                <TextBlock Text="Finalize Order" Margin="5,5,5,5" Height="20" Width="100" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-
+                                <TextBlock Text="Payment" Foreground="White"  FontSize="20"  HorizontalAlignment="Left"  Margin="5,5,5,5" Height="40" Width="200" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                <Button x:Name="btnDirectInvoicePopupCancel" Content="Cancel" Margin="110,5,5,5" Grid.Row="0" Grid.Column="1" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Click="btnDirectInvoicePopupCancel_Click" />
                                 <!--Invoice PopUp Row 1-->
-                                <Separator  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-
+                                <Label x:Name="lblPPTotalPayable" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Total Payable Amount" Foreground="White" FontSize="16" Height="30" Width="176" Grid.Row="1" Grid.Column="0"/>
+                                <Label x:Name="lblPPTotalPayableAmount" Content="0" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" FontSize="16"  Height="30" Width="100" Grid.Row="1" Grid.Column="1"/>
                                 <!--Invoice PopUp Row 2-->
-                                <Label x:Name="lblPPTotalPayable" Content="Total Payable" Height="30" Width="100" Grid.Row="2" Grid.Column="0"/>
-                                <Label x:Name="lblPPTotalPayableAmount" Content="0" Height="30" Width="100" Grid.Row="2" Grid.Column="1"/>
-
-                                <!--Invoice PopUp Row 3-->
-                                <Separator  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
-
-                                <!--Invoice PopUp Row 4-->
-                                <Label x:Name="lblPPTotalPayment" Content="Total Payment" Height="30" Width="100" Grid.Row="4" Grid.Column="0"/>
-                                <ComboBox x:Name="cmbPPPaymentMethod" Height="30" Width="130" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding}" SelectedValuePath="Id" DisplayMemberPath="PaymentMethodName">
+                                <Label x:Name="lblPPTotalPayment" HorizontalAlignment="Left" Content="Select Payment Method" Foreground="White" FontSize="16" Height="30" Width="177" Grid.Row="2" Grid.Column="0"/>
+                                <ComboBox x:Name="cmbPPPaymentMethod" HorizontalAlignment="Left" FontSize="22" Height="30" Width="130" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding}" SelectedValuePath="Id" DisplayMemberPath="PaymentMethodName">
                                 </ComboBox>
+                                <!--Invoice PopUp Row 3-->
+                                <Label x:Name="lblPPPayAmount" HorizontalAlignment="Left" Content="Pay Amount" Foreground="White" FontSize="16" Height="30" Width="150" Grid.Row="3" Grid.Column="0"/>
+                                <Label x:Name="lblPPDueAmount" HorizontalAlignment="Left" Content="Due Payment" Foreground="White" FontSize="16" Height="30" Width="150" Grid.Row="3" Grid.Column="1"/>
+                                <!--Invoice PopUp Row 4-->
+                                <TextBox x:Name="txtPPPayAmount" HorizontalAlignment="Left" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text="0"  Margin="5" Height="30" Width="100" Grid.Row="4" Grid.Column="0"/>
+                                <TextBox x:Name="txtPPDueAmount" HorizontalAlignment="Left" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text="0" Margin="5"  Height="30" Width="100" Grid.Row="4" Grid.Column="1"/>
 
                                 <!--Invoice PopUp Row 5-->
-                                <Separator  Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                <Label x:Name="lblPPTotalPaid" HorizontalAlignment="Left" Content="Total Paid" Foreground="White" FontSize="16" Height="35" Width="150" Grid.Row="5" Grid.Column="0"/>
+                                <Label x:Name="lblPPTotalRemaining" HorizontalAlignment="Left" Content="Remaining Amount" Foreground="White" FontSize="16" Height="35" Width="150" Grid.Row="5" Grid.Column="1"/>
 
                                 <!--Invoice PopUp Row 6-->
-                                <Label x:Name="lblPPPayAmount" Content="Pay Amount" Height="30" Width="100" Grid.Row="6" Grid.Column="0"/>
-                                <Label x:Name="lblPPDueAmount" Content="Due Payment" Height="30" Width="100" Grid.Row="6" Grid.Column="1"/>
+                                <Label x:Name="lblPPTotalPaidAmount" Margin="5" HorizontalAlignment="Left" Content="0.00" Foreground="White" FontSize="16" Height="30" Width="100" Grid.Row="6" Grid.Column="0"/>
+                                <Label x:Name="lblPPTotalRemainingAmount" HorizontalAlignment="Left" Content="0.00" Foreground="White" FontSize="16" Height="30" Width="100" Grid.Row="6" Grid.Column="1"/>
 
                                 <!--Invoice PopUp Row 7-->
-                                <TextBox x:Name="txtPPPayAmount" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text="0"  Height="30" Width="100" Grid.Row="7" Grid.Column="0"/>
-                                <TextBox x:Name="txtPPDueAmount" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text="0"  Height="30" Width="100" Grid.Row="7" Grid.Column="1"/>
+                                <Label x:Name="lblPPGivenAmount" HorizontalAlignment="Left" Content="Given Amount" Foreground="White" FontSize="16" Height="30" Width="175" Grid.Row="7" Grid.Column="0" />
+                                <Label x:Name="lblPPChangeAmount" HorizontalAlignment="Left" Content="Change Payment" Foreground="White" FontSize="16" Height="30" Width="175" Grid.Row="7" Grid.Column="1"/>
 
                                 <!--Invoice PopUp Row 8-->
-                                <Label x:Name="lblPPTotalPaid" Content="Total Paid" Height="35" Width="100" Grid.Row="8" Grid.Column="0"/>
-                                <Label x:Name="lblPPTotalRemaining" Content="Remaining Amount" Height="35" Width="120" Grid.Row="8" Grid.Column="1"/>
+                                <Label x:Name="lblPPChangeAmountTotal" HorizontalAlignment="Left" Content="0" Foreground="White" FontSize="16" Height="30" Width="175" Grid.Row="8" Grid.Column="1"/>
+                                <TextBox x:Name="txtPPGivenAmount" HorizontalAlignment="Left" Margin="5" k:TouchScreenKeyboard.TouchScreenKeyboard="True"  Text="0"  Height="30" Width="100" Grid.Row="8" Grid.Column="0" TextChanged="txtPPGivenAmount_TextChanged"/>
 
                                 <!--Invoice PopUp Row 9-->
-                                <Label x:Name="lblPPTotalPaidAmount" Content="0.00" Height="25" Width="100" Grid.Row="9" Grid.Column="0"/>
-                                <Label x:Name="lblPPTotalRemainingAmount" Content="0.00" Height="25" Width="100" Grid.Row="9" Grid.Column="1"/>
-
-
-                                <!--Invoice PopUp Row 10-->
-                                <Separator  Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"/>
-
-                                <!--Invoice PopUp Row 11-->
-                                <Label x:Name="lblPPGivenAmount" Content="Given Amount" Height="30" Width="100" Grid.Row="11" Grid.Column="0" />
-                                <Label x:Name="lblPPChangeAmount" Content="Change Payment" Height="30" Width="100" Grid.Row="11" Grid.Column="1"/>
-
-                                <!--Invoice PopUp Row 12-->
-                                <Label x:Name="lblPPChangeAmountTotal" Content="0" Height="30" Width="100" Grid.Row="12" Grid.Column="1"/>
-                                <TextBox x:Name="txtPPGivenAmount" k:TouchScreenKeyboard.TouchScreenKeyboard="True"  Text="0"  Height="30" Width="100" Grid.Row="12" Grid.Column="0" TextChanged="txtPPGivenAmount_TextChanged"/>
-
-
-                                <!--Invoice PopUp Row 13-->
-                                <Separator  Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2"/>
-
-                                <!--Invoice PopUp Row 14-->
-                                <Button x:Name="btnDirectInvoicePopupCancel" Content="Cancel" Margin="5,5,5,5" Grid.Row="14" Grid.Column="0" Click="btnDirectInvoicePopupCancel_Click" />
-                                <Button x:Name="btnDirectInvoiceSubmit" Content="Submit" Margin="5,5,5,5" Grid.Row="14" Grid.Column="1"  Click="btnDirectInvoiceSubmit_Click" />
+                                <Button x:Name="btnDirectInvoiceSubmit" Content="Save" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Margin="105,5,5,5" Grid.Row="9" Grid.Column="1"  Click="btnDirectInvoiceSubmit_Click" />
+                                <Label x:Name="lbl" HorizontalAlignment="Left" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Content="Note: Kindly check all inforation correctly " Foreground="White" FontSize="16" Height="30" Width="300" />
+                                <Label x:Name="lbl1" HorizontalAlignment="Left" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" Content="          before SAVE!!!" Foreground="White" FontSize="16" Height="30" Width="300" />
                             </Grid>
                         </Popup>
                     </Grid>
