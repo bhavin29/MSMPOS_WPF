@@ -60,17 +60,17 @@ namespace RocketPOS.Helpers.Tables
                         if (Convert.ToInt32(table.Status) == (int)EnumUtility.TableStatus.Clean)
                         {
                             imgTableStatus.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\Clean.jpg"));
-                            solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("MediumVioletRed"));
+                            solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#cf2e0e"));
                         }
                         else if (Convert.ToInt32(table.Status) == (int)EnumUtility.TableStatus.Occupied)
                         {
                             imgTableStatus.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\Occupied.jpg"));
-                            solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("Yellow"));
+                            solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#dce309"));
                         }
                         else
                         {
                             imgTableStatus.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\Pending.jpg"));
-                            solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("Green"));
+                            solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#32a836"));
                         }
 
                         StackPanel tableListPanel = new StackPanel();
@@ -91,9 +91,10 @@ namespace RocketPOS.Helpers.Tables
 
                         //Table Name
                         TextBlock txtbTableName = new TextBlock();
-                        txtbTableName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                        txtbTableName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#000"));
                         txtbTableName.Text = "#" + table.TableName;
                         txtbTableName.FontSize = 16;
+                        txtbTableName.FontWeight = FontWeights.Bold;
                         txtbTableName.Name = "txtbTableName" + table.Id;
                         txtbTableName.Margin = new Thickness(2);
                         tableListPanel.Children.Add(txtbTableName);
@@ -108,10 +109,11 @@ namespace RocketPOS.Helpers.Tables
 
                         //Table Status
                         TextBlock txtbTableStatus = new TextBlock();
-                        txtbTableStatus.Text = "Status : " + table.StatusDescription;
+                        txtbTableStatus.Text =  table.StatusDescription;
                         txtbTableStatus.Name = "txtbTableStatus" + table.Id;
-                        txtbTableStatus.FontSize = 16;
-                        txtbTableStatus.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                        txtbTableStatus.FontSize = 18;
+                        txtbTableStatus.FontWeight = FontWeights.Bold;
+                        txtbTableStatus.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#000"));
                         txtbTableStatus.Margin = new Thickness(2);
                         tableListPanel.Children.Add(txtbTableStatus);
 
@@ -120,7 +122,8 @@ namespace RocketPOS.Helpers.Tables
                         txtbTableCapacity.Text = "Capacity : " + table.PersonCapacity.ToString();
                         txtbTableCapacity.Name = "txtbTableCapacity" + table.Id;
                         txtbTableCapacity.FontSize = 16;
-                        txtbTableCapacity.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                        txtbTableCapacity.FontWeight = FontWeights.Bold;
+                        txtbTableCapacity.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#000"));
                         txtbTableCapacity.Margin = new Thickness(2);
                         tableListPanel.Children.Add(txtbTableCapacity);
 
