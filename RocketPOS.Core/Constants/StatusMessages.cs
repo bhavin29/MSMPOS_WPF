@@ -23,7 +23,9 @@
         public const string PercentageSelect = "Please Select Percentage.";
         public const string ServiceChargeSelect = "Please Select Service Charge.";
         public const string DineInSelect = "Please Select Table.";
-        public const string DineInTableIsClean = "Are you surem table is cleaned?";
+        public const string DineInTableIsClean = "Are you sure table is cleaned?";
+        public const string PaymentMethodSelect = "Please select payment method!";
+        public const string FoodImageSelect = "Please select .jpg ,.jpeg or .png file only!";
 
         #region MessageBox Title
         public const string PlaceOrderTitle = "Place Order";
@@ -33,6 +35,8 @@
         public const string ApplyDiscountTitle = "Apply Discount";
         public const string ApplyServiceChargeTitle = "Apply Service Charge";
         public const string DineInTitle = "Dine In Tables";
+        public const string BillPaymentTitle = "Bill Payment";
+        public const string FoodImageUploadTitle = "Upload Food Image";
         #endregion
     }
 }
