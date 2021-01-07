@@ -63,7 +63,7 @@ namespace RocketPOS.Helpers
                 List<CustomerModel> customers = new List<CustomerModel>();
                 customers = customerViewModel.GetCustomers();
                 cmbCustomer.ItemsSource = customers;
-                cmbCustomer.Text = "-- Select Customer --";
+                cmbCustomer.Text = "Select Customer";
                 cmbCustomer.IsEditable = true;
                 cmbCustomer.IsReadOnly = true;
                 cmbCustomer.SelectedValuePath = "Id";
@@ -297,9 +297,9 @@ namespace RocketPOS.Helpers
             try
             {
                 dgSaleItem.Items.Clear();
-                cmbWaiter.Text = "-- Select Waiter --";
+                cmbWaiter.Text = "Select Waiter";
                 cmbWaiter.SelectedIndex = -1;
-                cmbCustomer.Text = "-- Select Customer --";
+                cmbCustomer.Text = "Select Customer";
                 cmbCustomer.SelectedIndex = -1;
                 txtbTotalPayableAmount.Text = "0.00";
                 txtbSubTotalAmount.Text = "0.00";
@@ -435,7 +435,7 @@ namespace RocketPOS.Helpers
                 List<WaiterModel> waiters = new List<WaiterModel>();
                 waiters = commonViewModel.GetWaiters();
                 cmbWaiter.ItemsSource = waiters;
-                cmbWaiter.Text = "-- Select Waiter --";
+                cmbWaiter.Text = "Select Waiter";
                 cmbWaiter.IsEditable = true;
                 cmbCustomer.IsReadOnly = true;
                 cmbWaiter.SelectedValuePath = "Id";

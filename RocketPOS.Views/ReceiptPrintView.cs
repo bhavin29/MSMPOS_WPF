@@ -7,6 +7,7 @@ using System.Drawing;
 using RocketPOS.Model;
 using RocketPOS.ViewModels;
 using RocketPOS.Core.Constants;
+using System.Windows;
 
 namespace RocketPOS.Views
 {
@@ -39,10 +40,17 @@ namespace RocketPOS.Views
         {
             billId = id;
             PrintDocument = new PrintDocument();
-            PrintDocument.PrinterSettings.PrinterName = printername;
 
-            PrintDocument.PrintPage += new PrintPageEventHandler(FormatPage);
-            PrintDocument.Print();
+            foreach (String strPrinter in PrinterSettings.InstalledPrinters)
+            {
+                if (strPrinter == printername)
+                {
+                    PrintDocument.PrinterSettings.PrinterName = printername;
+
+                    PrintDocument.PrintPage += new PrintPageEventHandler(FormatPage);
+                    PrintDocument.Print();
+                }
+            }
         }
         void DrawAtStart(string text, int Offset)
         {
