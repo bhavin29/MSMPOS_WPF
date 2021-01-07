@@ -49,8 +49,8 @@
                 </Grid>
                 <Grid Grid.Row="0" Grid.Column="2">
                     <StackPanel x:Name="MiddlePanel1" Orientation="Vertical" Margin="5" >
-                        <TextBox Name="txtUsername"  k:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="12" HorizontalAlignment="Left" Margin="0,0,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" Height="41"/>
-                        <PasswordBox Name="txtPassword" k:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="12" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="245" Height="41"/>
+                        <TextBox Name="txtUsername"   FontSize="12" HorizontalAlignment="Left" Margin="0,0,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" Height="41"/>
+                        <PasswordBox Name="txtPassword"  FontSize="12" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="245" Height="41"/>
                         <Button Name="btnLogin" Background="White" FontSize="14pt" FontFamily="Century Gothic" FontWeight="Bold" Foreground="RoyalBlue" Content="LOGIN" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Height="56" Width="245" Click="btnLogin_Click"/>
                     </StackPanel>
                 </Grid>

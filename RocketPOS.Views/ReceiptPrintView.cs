@@ -36,21 +36,15 @@ namespace RocketPOS.Views
             capacity = 5 * 1;// order.DealTransactions.Capacity;
             InitialHeight += capacity;
         }
-        public void Print(string printername,int id)
+        public void Print(string printername, int id)
         {
             billId = id;
             PrintDocument = new PrintDocument();
 
-            foreach (String strPrinter in PrinterSettings.InstalledPrinters)
-            {
-                if (strPrinter == printername)
-                {
-                    PrintDocument.PrinterSettings.PrinterName = printername;
+            PrintDocument.PrinterSettings.PrinterName = printername;
 
-                    PrintDocument.PrintPage += new PrintPageEventHandler(FormatPage);
-                    PrintDocument.Print();
-                }
-            }
+            PrintDocument.PrintPage += new PrintPageEventHandler(FormatPage);
+            PrintDocument.Print();
         }
         void DrawAtStart(string text, int Offset)
         {
@@ -64,8 +58,8 @@ namespace RocketPOS.Views
         //NEW
         void DrawAtStartCenter(string text, int Offset)
         {
-          //  int intPadding = 
-            int startX = 25 + ((pageWidthHeader - text.Length) / 2)*3; 
+            //  int intPadding = 
+            int startX = 25 + ((pageWidthHeader - text.Length) / 2) * 3;
             int startY = 5;
             Font minifont = new Font("Arial", 5);
 
@@ -132,7 +126,7 @@ namespace RocketPOS.Views
             Font largefont = new Font("Arial", 12);
             int Offset = 10;
             int smallinc = 10, mediuminc = 12, largeinc = 15;
-   
+
             //Getting Receipt data 
             List<PrintReceiptModel> printReceiptModel = new List<PrintReceiptModel>();
             List<PrintReceiptItemModel> printReceiptItemModel = new List<PrintReceiptItemModel>();
@@ -150,9 +144,9 @@ namespace RocketPOS.Views
             Offset = Offset + Offset;
 
             //Name
-            int intPadding = 10+ ((pageWidthHeader - LoginDetail.ClientName.Length) / 2)*3;
-            graphics.DrawString(LoginDetail.ClientName, smallfont, new SolidBrush(Color.Black), intPadding,  Offset);//50 + 22
- 
+            int intPadding = 10 + ((pageWidthHeader - LoginDetail.ClientName.Length) / 2) * 3;
+            graphics.DrawString(LoginDetail.ClientName, smallfont, new SolidBrush(Color.Black), intPadding, Offset);//50 + 22
+
             Offset = Offset + mediuminc;
             DrawAtStartCenter(LoginDetail.Header, Offset);
 
@@ -191,7 +185,7 @@ namespace RocketPOS.Views
                 InsertItemList(item.FoodMenuName.ToString(), "", Offset, 5);
                 InsertItemList(item.FoodMenuRate.ToString("F"), "", Offset, 60 + (50 - (item.FoodMenuRate.ToString().Length * 4)));
                 InsertItemList(item.FoodMenuQty.ToString("F"), "", Offset, 90 + (50 - (item.FoodMenuQty.ToString().Length * 4)));
-                InsertItemList(item.Price.ToString("F"), "", Offset, 133 + (50-(item.Price.ToString().Length*4)));
+                InsertItemList(item.Price.ToString("F"), "", Offset, 133 + (50 - (item.Price.ToString().Length * 4)));
 
                 // InsertItem(item.FoodMenuName.ToString().PadRight((55- (item.FoodMenuName.ToString().Length)))  + "x " +   item.FoodMenuRate.ToString("F").PadRight((25 - (item.FoodMenuRate.ToString().Length))) + item.Price.ToString("F"), "", Offset);
 
@@ -217,7 +211,7 @@ namespace RocketPOS.Views
             Offset = Offset + smallinc;
             InsertItem("TOTAL: ", printReceiptModel[0].TotalAmount.ToString("F").PadLeft(30 - printReceiptModel[0].TotalAmount.ToString().Length), Offset);
 
-  
+
             underLine = "-------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
@@ -229,7 +223,7 @@ namespace RocketPOS.Views
 
             intPadding = 10 + ((pageWidthHeader - LoginDetail.ClientName.Length) / 2) * 3;
             graphics.DrawString(LoginDetail.Footer, smallfont, new SolidBrush(Color.Black), intPadding, Offset);//50 + 22
-            
+
             Offset = Offset + largeinc;
 
             DrawAtStartCenter(LoginDetail.Footer1, Offset);
@@ -244,7 +238,7 @@ namespace RocketPOS.Views
             DrawAtStartCenter(LoginDetail.Footer4, Offset);
             Offset = Offset + mediuminc;
 
-  
+
             //DrawAtStart(LoginDetail.Footer1, Offset);
 
             //Offset = Offset + mediuminc;

@@ -10,7 +10,6 @@
         Title="RocketPOS" 
         Width="1280" Height="800" 
         Background="#00265B">
-    <!--ShowInTaskbar="True" Topmost="true" WindowStyle="None" ResizeMode="NoResize">-->
 
     <Grid >
         <Grid.ColumnDefinitions>
@@ -31,7 +30,7 @@
         <!--Log out row-->
         <Grid Grid.Row="1" >
             <StackPanel x:Name="headerTopRightPanel" Orientation="Horizontal"   >
-                <TextBox x:Name="txtSearchModifyOrder" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Style="{StaticResource TextBoxBaseStyle}"   Width="250" Margin="0,0,2,0" TextChanged="searchSalesOrder"/>
+                <TextBox x:Name="txtSearchModifyOrder"  Style="{StaticResource TextBoxBaseStyle}"   Width="250" Margin="0,0,2,0" TextChanged="searchSalesOrder"/>
                 <Button x:Name="btnNewOrder" Style="{StaticResource btnOrange}" Content="New Order" Click="btnNewOrder_Click" />
                 <Button x:Name="btnDineTableView" Style="{StaticResource btnOrange}" Content="Table View" Click="btnDineTableView_Click" />
                 <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator"  Click="btnCalculator_Click"/>
@@ -56,7 +55,7 @@
                             <RowDefinition Height="40"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal">
-                        <TextBox x:Name="txtSearchFoodMenuList" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBoxBaseStyle}" Width="480" Margin="0,5,0,5" TextChanged="txtSearchFoodMenuList_TextChanged"/>
+                        <TextBox x:Name="txtSearchFoodMenuList"  Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBoxBaseStyle}" Width="480" Margin="0,5,0,5" TextChanged="txtSearchFoodMenuList_TextChanged"/>
                         <Button x:Name="btnPPFoodListCancel" Margin="15,0,0,0" Width="100" Height="40" Grid.Row="0" Grid.Column="0" Content="Cancel" Click="btnPPFoodListCancel_Click"/>
                         </StackPanel>
               <DataGrid x:Name="dgFoodMenuList" Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding FoodMenu}" MouseDoubleClick="dgFoodMenuList_MouseDoubleClick">
@@ -127,10 +126,6 @@
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                        <!--<Expander Name="epOrder" Background="LightGray"   
-                                        HorizontalAlignment="Center" Header="{Binding Id}" FlowDirection="RightToLeft"   
-                                        ExpandDirection="Down" IsExpanded="False" Margin="10,2,10,2" Width="250"    
-                                        FontSize="20" FontWeight="Bold" Foreground="Black" Expanded="epOrder_Expanded" LostFocus="epOrder_LostFocus">-->
                                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" >
 
                                             <TextBlock Text="{Binding CustomerOrderNo}"/>
@@ -138,9 +133,6 @@
                                             <TextBlock Text="[ "/>
                                             <TextBlock Text="{Binding CustomerName}"/>
                                             <TextBlock Text=" ]"/>
-                                            <!--<TextBlock Text="{Binding CustomerId}"/>-->
-                                            <!--<TextBlock Text="{Binding CustomerName}"/>
-                                                <TextBlock Text="{Binding WaiterName}"/>-->
                                         </StackPanel>
                                         <!--</Expander>-->
                                     </Grid>
@@ -246,16 +238,16 @@
                                         <Button x:Name="btnPPCCancel" Content="Close" Height="40" Width="50" FontSize="16" Background="#00265B" Foreground="White" Margin="40,5,5,5" Click="btnPPCCancel_Click"/>
                                     </StackPanel>
                                     <Label x:Name="lblPPCName" Content="Name *" Foreground="White" FontSize="16" Height="40" Width="290" Grid.Row="1" />
-                                    <TextBox x:Name="txtPPCName"  Text="{Binding CustomerName}" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Height="40" Width="290" Grid.Row="2" />
+                                    <TextBox x:Name="txtPPCName"  Text="{Binding CustomerName}"  Height="40" Width="290" Grid.Row="2" />
 
                                     <Label Content="Phone *" Height="40" Width="290" FontSize="16" Foreground="White" Grid.Row="3" />
-                                    <TextBox x:Name="txtPPCPhone"   Text="" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Height="40" Width="290"   Grid.Row="4" />
+                                    <TextBox x:Name="txtPPCPhone"   Text=""  Height="40" Width="290"   Grid.Row="4" />
 
                                     <Label Content="Email " Height="40" Width="290" FontSize="16" Grid.Row="5" Grid.Column="0" Foreground="White" Grid.ColumnSpan="2"/>
-                                    <TextBox x:Name="txtPPCEmail"  Text="" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Height="40" Width="290" Grid.Row="6" />
+                                    <TextBox x:Name="txtPPCEmail"  Text=""  Height="40" Width="290" Grid.Row="6" />
 
                                     <Label Content="Address " Height="40" Width="290" FontSize="16"  Grid.Row="7"  Foreground="White"/>
-                                    <TextBox x:Name="txtPPCAddress"  Text="" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Height="40" Width="290" Grid.Row="8"  Grid.ColumnSpan="2"/>
+                                    <TextBox x:Name="txtPPCAddress"  Text=""  Height="40" Width="290" Grid.Row="8"  Grid.ColumnSpan="2"/>
 
                                     <Button x:Name="btnPPCAddCustomer" Content="Save" Height="40" Width="100" FontSize="16" Background="#00265B" Foreground="White" Margin="5,5,-180,5" Grid.Row="9" Click="btnPPCAddCustomer_Click" />
                                 </Grid>
@@ -357,7 +349,7 @@
                                     <TextBlock x:Name="txtbPopUpItemTotal"  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="5,5,5,5"/>
                                     <TextBlock x:Name="txtbPopUpDiscount" Text="Discount" Margin="5,5,5,5" Grid.Row="2" Grid.Column="0"/>
                                     <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"/>
-                                    <TextBox x:Name="txtPopUpDiscount" k:TouchScreenKeyboard.TouchScreenKeyboard="True"  Margin="5,5,5,5" Grid.Row="2" Width="350" Grid.Column="2" TextChanged="txtPopUpDiscount_TextChanged"/>
+                                    <TextBox x:Name="txtPopUpDiscount"   Margin="5,5,5,5" Grid.Row="2" Width="350" Grid.Column="2" TextChanged="txtPopUpDiscount_TextChanged"/>
                                     <TextBlock x:Name="txtbPopUpItemSubTotal" Text="Total" Margin="5,5,5,5" Grid.Row="3" Grid.Column="1"/>
                                     <TextBlock Text="$" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2"/>
                                     <TextBlock x:Name="txtbPopUpItemOriginalSubTotalAmount" Text="0" Margin="5,5,5,5" Grid.Row="3" Grid.Column="2" Visibility="Hidden"/>
@@ -507,7 +499,7 @@
                         </Grid>
 
                         <Grid Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left">
-                            <TextBox x:Name="txtSubTotalDiscountAmount" k:TouchScreenKeyboard.TouchScreenKeyboard="True" Text="0.00" Width="70" Height="30" LostFocus="txtSubTotalDiscountAmount_LostFocus" Margin="5,0,0,0" />
+                            <TextBox x:Name="txtSubTotalDiscountAmount"  Width="70" Height="30" LostFocus="txtSubTotalDiscountAmount_LostFocus" Margin="5,0,0,0" />
                         </Grid>
 
                         <Grid Grid.Row="3"  Grid.Column="2" VerticalAlignment="Center">
@@ -544,7 +536,7 @@
                                         <StackPanel Orientation="Vertical" Grid.Row="1" Margin="2">
                                             <TextBlock x:Name="txtbPPSelectDeliveryService" Text="Select Charges" Foreground="White" FontSize="16" />
                                             <ListBox x:Name="lbPPPercentageDelivery" Grid.Row="1" Grid.Column="1" FontSize="26">
-                                                <ListBoxItem>5</ListBoxItem>
+                                                <ListBoxItem>0</ListBoxItem>
                                                 <ListBoxItem>10</ListBoxItem>
                                                 <ListBoxItem>15</ListBoxItem>
                                                 <ListBoxItem>20</ListBoxItem>
@@ -566,7 +558,7 @@
                         <Grid Grid.Row="4"  Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock x:Name="txtbTotalDeliveryChargeAmt" Visibility="Hidden" Text="0.00"/>
-                                <TextBlock x:Name="txtbServiceDeliveryCharge" Style="{StaticResource txtBlock}" Text="Delivery Charges :" />
+                                <TextBlock x:Name="txtbServiceDeliveryCharge" Style="{StaticResource txtBlock}" Text=" Delivery Charges :" />
                             </StackPanel>
                         </Grid>
 
@@ -585,9 +577,9 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="5"  Grid.Column="2" HorizontalAlignment="Right" Margin=" 0 0 4 0">
+                        <Grid Grid.Row="5"  Grid.Column="2" HorizontalAlignment="Right" Margin=" 0 0 3 0">
                             <StackPanel Orientation="Horizontal" >
-                                <TextBlock x:Name="txtbTotalPayable" Style="{StaticResource txtBlock}"  Text="Payable: "  />
+                                <TextBlock x:Name="txtbTotalPayable" Style="{StaticResource txtBlock}"  Text="Payable :"  />
                             </StackPanel>
                         </Grid>
 
