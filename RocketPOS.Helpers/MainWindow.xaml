@@ -169,7 +169,7 @@
                         <StackPanel  Orientation="Horizontal" Margin="0,0,0,0">
                             <!--Row 0 Column 0-->
                             <TextBlock x:Name="txtbDineInTableId" Text="NULL" Visibility="Hidden" Margin="-27,0,0,0" />
-                            <RadioButton x:Name="rdbDineInOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="133" Margin="1,0,0,00" Click="rdbDineInOrderType_Click">Dine In</RadioButton>
+                            <RadioButton x:Name="rdbDineInOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="135" Margin="1,0,0,00" Click="rdbDineInOrderType_Click">Dine In</RadioButton>
                             <RadioButton x:Name="rdbTakeAwayOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="134" Margin="1,0,0,0">Take Away</RadioButton>
                             <RadioButton x:Name="rdbDeliveryOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="138" Margin="1,0,0,0">Delivery</RadioButton>
                         </StackPanel>

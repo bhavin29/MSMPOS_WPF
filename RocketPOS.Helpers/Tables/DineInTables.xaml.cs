@@ -60,17 +60,17 @@ namespace RocketPOS.Helpers.Tables
                         if (Convert.ToInt32(table.Status) == (int)EnumUtility.TableStatus.Clean)
                         {
                             imgTableStatus.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\Clean.jpg"));
-                            solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#7D001A"));
+                            solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("MediumVioletRed"));
                         }
                         else if (Convert.ToInt32(table.Status) == (int)EnumUtility.TableStatus.Occupied)
                         {
                             imgTableStatus.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\Occupied.jpg"));
-                            solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#00265B"));
+                            solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("Yellow"));
                         }
                         else
                         {
                             imgTableStatus.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\Pending.jpg"));
-                            solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
+                            solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("Green"));
                         }
 
                         StackPanel tableListPanel = new StackPanel();
