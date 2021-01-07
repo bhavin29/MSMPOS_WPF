@@ -31,17 +31,16 @@
         <Grid Grid.Row="1" >
             <StackPanel x:Name="headerTopRightPanel" Orientation="Horizontal"   >
                 <TextBox x:Name="txtSearchModifyOrder"  Style="{StaticResource TextBoxBaseStyle}"   Width="250" Margin="0,0,2,0" TextChanged="searchSalesOrder"/>
-                <Button x:Name="btnNewOrder" Style="{StaticResource btnOrange}" Content="New Order" Click="btnNewOrder_Click" />
-                <Button x:Name="btnDineTableView" Style="{StaticResource btnOrange}" Content="Table View" Click="btnDineTableView_Click" />
-                <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator"  Click="btnCalculator_Click"/>
-                <Button x:Name="btnFoodMenuList" Style="{StaticResource btnOrange}" Content="Menu List" Click="btnFoodMenuList_Click" />
-                <Button x:Name="btnLastSale" Style="{StaticResource btnOrange}"  Content="Sales List" Click="btnLastSale_Click" />
-                <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Close Register"   Click="btnRegister_Click" />
-                <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Reports" />
-                <Button x:Name="btnUnknow" Style="{StaticResource btnOrange}" Content="Help"  />
+                <Button x:Name="btnNewOrder" Style="{StaticResource btnOrange}" Content="New Order" Width="133" Click="btnNewOrder_Click" />
+                <Button x:Name="btnDineTableView" Style="{StaticResource btnOrange}" Content="Table View" Width="133" Click="btnDineTableView_Click" />
+                <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator" Width="136"   Click="btnCalculator_Click"/>
+                <Button x:Name="btnFoodMenuList" Style="{StaticResource btnOrange}" Content="Menu List" Width="100" Click="btnFoodMenuList_Click" />
+                <Button x:Name="btnLastSale" Style="{StaticResource btnOrange}"  Content="Sales List" Width="98" Click="btnLastSale_Click" />
+                <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Close Register"  Width="99" Click="btnRegister_Click" />
+                <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Reports" Width="99"/>
 
-                <Button x:Name="btnBack" Style="{StaticResource btnOrange}" Content="Settings"  />
-                <Button x:Name="btnLogOut" Style="{StaticResource btnLightRed}" Content="LogOut" Width="120" Click="btnLogOut_Click"  />
+                <Button x:Name="btnBack" Style="{StaticResource btnOrange}" Content="Settings" Width="99" />
+                <Button x:Name="btnLogOut" Style="{StaticResource btnLightRed}" Content="LogOut" Width="98" Margin="1,0,0,0" Click="btnLogOut_Click"  />
             </StackPanel>
             <Popup Name="ppFoodMenuList" Placement="Center" AllowsTransparency="False">
                 <Border BorderBrush="Black" BorderThickness="5,5,5,5">
@@ -167,12 +166,12 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
-                        <StackPanel  Orientation="Horizontal" Margin="2,0,0,0">
+                        <StackPanel  Orientation="Horizontal" Margin="0,0,0,0">
                             <!--Row 0 Column 0-->
-                            <RadioButton x:Name="rdbDineInOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="135" Margin="0" Click="rdbDineInOrderType_Click">Dine In</RadioButton>
-                            <RadioButton x:Name="rdbTakeAwayOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="135" Margin="0">Take Away</RadioButton>
-                            <RadioButton x:Name="rdbDeliveryOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="135" Margin="0,0,-5,0">Delivery</RadioButton>
-                            <TextBlock x:Name="txtbDineInTableId" Text="NULL" Visibility="Hidden" />
+                            <TextBlock x:Name="txtbDineInTableId" Text="NULL" Visibility="Hidden" Margin="-27,0,0,0" />
+                            <RadioButton x:Name="rdbDineInOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="133" Margin="1,0,0,00" Click="rdbDineInOrderType_Click">Dine In</RadioButton>
+                            <RadioButton x:Name="rdbTakeAwayOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="134" Margin="1,0,0,0">Take Away</RadioButton>
+                            <RadioButton x:Name="rdbDeliveryOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="138" Margin="1,0,0,0">Delivery</RadioButton>
                         </StackPanel>
 
                         <Popup Name="ppDineInTables" Placement="Center" AllowsTransparency="False" >
@@ -208,11 +207,11 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
-                        <StackPanel  Orientation="Horizontal" Margin="2,0,0,0" Grid.ColumnSpan="2">
-                            <ComboBox x:Name="cmbWaiter" Style="{StaticResource cmbBox}"  Width="145" Height="50" />
-                            <ComboBox x:Name="cmbCustomer" Style="{StaticResource cmbBox}" Width="145" Height="50" GotFocus="cmbCustomer_GotFocus"/>
-                            <Button x:Name="btnEditCustomer" Style="{StaticResource btnOrange}" Width="55" Content="Edit" IsEnabled="False" Click="btnEditCustomer_Click"/>
-                            <Button x:Name="btnAddCustomer" Style="{StaticResource btnOrange}" Width="55" Content="Add" Click="btnAddCustomer_Click"   />
+                        <StackPanel  Orientation="Horizontal" Margin="1,0,0,0" Grid.ColumnSpan="2">
+                            <ComboBox x:Name="cmbWaiter" Style="{StaticResource cmbBox}" FontSize="15" Margin="2,0,0,0" Width="133" Height="50" />
+                            <ComboBox x:Name="cmbCustomer" Style="{StaticResource cmbBox}" FontSize="15" Width="134" Height="50" GotFocus="cmbCustomer_GotFocus"/>
+                            <Button x:Name="btnEditCustomer" Style="{StaticResource btnOrange}" Width="67" Content="Edit" IsEnabled="False" Click="btnEditCustomer_Click"/>
+                            <Button x:Name="btnAddCustomer" Style="{StaticResource btnOrange}" Width="67" Content="Add" Click="btnAddCustomer_Click"   />
                         </StackPanel>
 
                         <Popup Name="ppCustomerAdd" Placement="Center" AllowsTransparency="False" Grid.ColumnSpan="2">
@@ -265,7 +264,7 @@
 
                         <StackPanel Grid.Row="2" Orientation="Horizontal" >
 
-                            <DataGrid x:Name="dgSaleItem" ItemsSource="{Binding SaleItemModel}" RowHeight="30" Width="400">
+                            <DataGrid x:Name="dgSaleItem" Margin="2" ItemsSource="{Binding SaleItemModel}" RowHeight="30" Width="407">
                                 <DataGrid.Columns>
                                     <!--<DataGridTemplateColumn Header="" Width="35" >
                                         <DataGridTemplateColumn.CellTemplate>
@@ -275,7 +274,7 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>-->
                                     <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding CustomerOrderItemId}"/>
-                                    <DataGridTextColumn Header="Product" IsReadOnly="True"  Binding="{Binding Product}" Width="150"/>
+                                    <DataGridTextColumn Header="Product" IsReadOnly="True"  Binding="{Binding Product}" Width="160"/>
                                     <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding FoodMenuId}"/>
                                     <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Price}" Width="60">
                                         <DataGridTextColumn.ElementStyle>
@@ -362,7 +361,7 @@
 
                     </Grid>
 
-                    <Grid Grid.Row="3" Background="#86A09E" Margin="2,0,0,0">
+                    <Grid Grid.Row="3" Background="#86A09E" Margin="2,0,2,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="78"/>
                             <ColumnDefinition Width="72"/>
@@ -653,13 +652,13 @@
                         <RowDefinition Height="535"/>
                         <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Margin="1,0,0,0" >
+                    <Grid Grid.Row="0" >
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <WrapPanel x:Name="spCategory" Orientation="Horizontal" Margin="0">
                             </WrapPanel>
                         </ScrollViewer>
                     </Grid>
-                    <Grid Grid.Row="1" Margin="2,0,0,0" Background="RoyalBlue">
+                    <Grid Grid.Row="1" Margin="1,0,0,0" Background="#00265B">
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <WrapPanel x:Name="spSubCategory" Orientation="Horizontal">
 
@@ -667,7 +666,7 @@
                         </ScrollViewer>
                     </Grid>
 
-                    <Grid Grid.Row="2" Margin="0,0,0,0" >
+                    <Grid Grid.Row="2" Margin="1,1,0,0" >
                         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
                                 <StackPanel x:Name="spFavouriteCategory" Orientation="Horizontal" >

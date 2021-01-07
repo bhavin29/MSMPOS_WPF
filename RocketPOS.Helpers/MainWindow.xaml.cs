@@ -106,11 +106,11 @@ namespace RocketPOS.Helpers
                     btnCategory.Content = "All";
                     btnCategory.Name = "btnAll";
                     btnCategory.FontSize = 15;
-                    btnCategory.Width = 97;
+                    btnCategory.Width = 100;
                     btnCategory.Height = 50;
                     btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                     btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                    btnCategory.Margin = new Thickness(1);
+                    btnCategory.Margin = new Thickness(1,0,0,0);
                     btnCategory.Click += GetSubCategory;
                     spCategory.Children.Add(btnCategory);
                 }
@@ -123,11 +123,11 @@ namespace RocketPOS.Helpers
                         btnCategory.Content = foodCategory.FoodCategory;
                         btnCategory.Name = "btn" + foodCategory.Id;
                         btnCategory.FontSize = 15;
-                        btnCategory.Width = 97;
+                        btnCategory.Width = 100;
                         btnCategory.Height = 50;
                         btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                         btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                        btnCategory.Margin = new Thickness(1);
+                        btnCategory.Margin = new Thickness(1,0,0,0);
                         btnCategory.Click += GetSubCategory;
                         spCategory.Children.Add(btnCategory);
                     }
@@ -137,11 +137,11 @@ namespace RocketPOS.Helpers
                         btnCategory.Content = foodCategory.FoodCategory;
                         btnCategory.Name = "btn" + foodCategory.Id;
                         btnCategory.FontSize = 15;
-                        btnCategory.Width = 97;
+                        btnCategory.Width = 100;
                         btnCategory.Height = 50;
                         btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                         btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                        btnCategory.Margin = new Thickness(1);
+                        btnCategory.Margin = new Thickness(1,0,0,0);
                         btnCategory.Click += GetSubCategory;
                         spFavouriteCategory.Children.Add(btnCategory);
                     }
