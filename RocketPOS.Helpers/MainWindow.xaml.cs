@@ -334,7 +334,6 @@ namespace RocketPOS.Helpers
         {
             try
             {
-
                 if (type == "FoodMenu")
                 {
                     var menuListPanel = sender as StackPanel;
@@ -376,6 +375,10 @@ namespace RocketPOS.Helpers
                     txtbServiceDeliveryChargeLabel.Text = percentage.ToString("0.00");
                     txtbTotalDeliveryChargeAmt.Text = (percentage).ToString("0.00");
                 }
+
+                if (string.IsNullOrEmpty(txtSubTotalDiscountAmount.Text))
+                    txtbTotalDiscountAmount.Text = "0.00";
+
                 txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
             }
             catch (Exception ex)
@@ -1939,12 +1942,16 @@ namespace RocketPOS.Helpers
             try
             {
                 CommonOrderCalculation(sender, "DiscountAmount");
-                txtSubTotalDiscountAmount.Text = Convert.ToDecimal(txtSubTotalDiscountAmount.Text).ToString("0.00");
+                if (!string.IsNullOrEmpty(txtSubTotalDiscountAmount.Text))
+                    txtSubTotalDiscountAmount.Text = Convert.ToDecimal(txtSubTotalDiscountAmount.Text).ToString("0.00");
+                else
+                {
+                    txtSubTotalDiscountAmount.Text = "0.00";
+                }
             }
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-
             }
         }
 
@@ -1959,7 +1966,7 @@ namespace RocketPOS.Helpers
                 }
                 else
                 {
-                    if ((Convert.ToDecimal(txtPPPayAmount.Text) - Convert.ToDecimal(lblPPTotalPayableAmount.Content)) > 0)
+                    if ((Convert.ToDecimal(txtPPPayAmount.Text) - Convert.ToDecimal(lblPPTotalPayableAmount.Content)) >= 0)
                     {
                         lblPPChangeAmountTotal.Content = (Convert.ToDecimal(txtPPPayAmount.Text) - Convert.ToDecimal(lblPPTotalPayableAmount.Content)).ToString();
                     }
