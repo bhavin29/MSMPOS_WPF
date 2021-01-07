@@ -34,79 +34,70 @@
       ScrollViewer.VerticalScrollBarVisibility="Auto"
       ScrollViewer.HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Invoice#"  IsReadOnly="True" Binding="{Binding SalesInvoiceNumber}" >
-                            <DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn Header="Invoice#"  IsReadOnly="True" Width="80" Binding="{Binding SalesInvoiceNumber}" >
+                            <DataGridTextColumn.ElementStyle>
                                 <Style>
                                     <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
-                                    <Setter Property="FrameworkElement.Width" Value="80"/>
                                 </Style>
-                            </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Order Date" IsReadOnly="True"  Binding="{Binding OrderDate}" Width="80">
-                            <DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn Header="Order Date" IsReadOnly="True" Binding="{Binding OrderDate}" Width="80">
+                            <DataGridTextColumn.ElementStyle>
                                 <Style>
                                     <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="FrameworkElement.Width" Value="80"/>
                                 </Style>
-                            </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Order Type" IsReadOnly="True" Binding="{Binding OrderType}" >
-                            <DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn Header="Order Type" IsReadOnly="True" Width="80" Binding="{Binding OrderType}" >
+                            <DataGridTextColumn.ElementStyle>
                                 <Style>
                                     <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="FrameworkElement.Width" Value="80"/>
                                 </Style>
-                            </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Customer" IsReadOnly="True"  Binding="{Binding CustomerName}" >
-                            <DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn Header="Customer" IsReadOnly="True" Width="130" Binding="{Binding CustomerName}" >
+                            <DataGridTextColumn.ElementStyle>
                                 <Style>
                                     <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="FrameworkElement.Width" Value="120"/>
                                 </Style>
-                            </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Dist Amount" IsReadOnly="True"   Binding="{Binding DiscountAmount}"  >
-                            <DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn Header="Dist Amount" IsReadOnly="True" Width="80"  Binding="{Binding DiscountAmount}"  >
+                            <DataGridTextColumn.ElementStyle>
                                 <Style>
                                     <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
-                                    <Setter Property="FrameworkElement.Width" Value="30"/>
                                 </Style>
-                            </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
                         <DataGridTextColumn Header="Del. Charges" IsReadOnly="True"  Binding="{Binding DeliveryCharges}" Width="80">
-                            <DataGridTextColumn.CellStyle>
+                            <DataGridTextColumn.ElementStyle>
                                 <Style>
                                     <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
-                                    <Setter Property="FrameworkElement.Width" Value="30"/>
                                 </Style>
-                            </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Tax Amount" IsReadOnly="True"  Binding="{Binding TaxAmount}" >
-                            <DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn Header="Tax Amount" IsReadOnly="True"  Width="80" Binding="{Binding TaxAmount}" >
+                            <DataGridTextColumn.ElementStyle>
                                 <Style>
                                     <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
-                                    <Setter Property="FrameworkElement.Width" Value="30"/>
                                 </Style>
-                            </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Total Payable" IsReadOnly="True"  Binding="{Binding TotalPayable}" >
-                            <DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn Header="Total Payable" IsReadOnly="True"  Width="100" Binding="{Binding TotalPayable}" >
+                            <DataGridTextColumn.ElementStyle>
                                 <Style>
                                     <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
-                                    <Setter Property="FrameworkElement.Width" Value="40"/>
                                 </Style>
-                            </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
 
-                        <DataGridTextColumn Header="Order Status" IsReadOnly="True"  Binding="{Binding OrderStatus}" >
-                            <DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn Header="Order Status" IsReadOnly="True" Width="80"  Binding="{Binding OrderStatus}" >
+                            <DataGridTextColumn.ElementStyle>
                                 <Style>
                                     <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="FrameworkElement.Width" Value="80"/>
                                 </Style>
-                            </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
 

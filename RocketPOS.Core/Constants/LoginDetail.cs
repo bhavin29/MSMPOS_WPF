@@ -38,5 +38,7 @@ namespace RocketPOS.Core.Constants
         public static int OutletRegisterId = 0;
         public static string MainWindowSettings = "";
         public static string HeaderMarqueeText = "";
+        public static string DeliveryList = "";
+        public static string DiscountList = "";
     }
 }

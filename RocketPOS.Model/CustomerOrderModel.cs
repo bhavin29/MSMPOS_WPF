@@ -12,11 +12,12 @@ namespace RocketPOS.Model
         public string SalesInvoiceNumber { get; set; }
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
-        public int WaiterEmployeeId { get; set; }
+        public string WaiterEmployeeId { get; set; }
         public string WaiterName { get; set; }
         public int OrderType { get; set; }
         public DateTime OrderDate { get; set; }
         public string TableId { get; set; }
+        public string AllocatedPerson { get; set; }
         public string TableName { get; set; }
         
         public string TockenNumber { get; set; }
