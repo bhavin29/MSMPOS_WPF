@@ -12,7 +12,11 @@
     <None Remove="images\Information.jpg" />
     <None Remove="images\logo.png" />
     <None Remove="images\Question.png" />
+    <None Remove="images\RocketPOS Left24 Full.bmp" />
+    <None Remove="images\RocketPOS Left24.bmp" />
+    <None Remove="images\RocketPOS24bitTop.bmp" />
     <None Remove="images\rocket_pos_logo.jpg" />
+    <None Remove="images\ShayonaLogo.jpg" />
     <None Remove="images\Warning.png" />
   </ItemGroup>
 
@@ -43,8 +47,20 @@
     <Resource Include="images\Question.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="images\RocketPOS Left24 Full.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\RocketPOS Left24.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\RocketPOS24bitTop.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="images\rocket_pos_logo.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\ShayonaLogo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\Warning.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
