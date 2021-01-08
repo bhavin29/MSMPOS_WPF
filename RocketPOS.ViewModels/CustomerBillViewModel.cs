@@ -14,7 +14,7 @@ namespace RocketPOS.ViewModels
     public class CustomerBillViewModel
     {
         AppSettings appSettings = new AppSettings();
-        public int InsertBillDetail(CustomerBillModel customerBillModel)
+        public int InsertBillDetail(CustomerBillModel customerBillModel,DataTable multipleBillPayment)
         {
             int insertedId = 0;
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
@@ -30,10 +30,9 @@ namespace RocketPOS.ViewModels
                 dynamicParameters.Add("@TotalAmount", customerBillModel.TotalAmount);
                 dynamicParameters.Add("@BillStatus", customerBillModel.BillStatus);
                 dynamicParameters.Add("@UserId", customerBillModel.UserId);
-                dynamicParameters.Add("@PaymentMethodId", customerBillModel.PaymentMethodId);
-                dynamicParameters.Add("@PaymentNumber", customerBillModel.PaymentNumber);
                 dynamicParameters.Add("@ReceiptPrefix", LoginDetail.ReceiptPrefix);
                 dynamicParameters.Add("@TaxAmount", customerBillModel.TaxAmount);
+                dynamicParameters.Add("@MultipleBillPayment", multipleBillPayment.AsTableValuedParameter(StoredProcedure.TABLE_TYPE_MULTIPLE_BILL_PAYMENT));
 
                 insertedId = connection.Query<int>
                         (StoredProcedure.PX_INSERT_BILL_DETAILS, dynamicParameters, commandType: CommandType.StoredProcedure, commandTimeout: 0).FirstOrDefault();

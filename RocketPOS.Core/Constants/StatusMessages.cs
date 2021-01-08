@@ -26,6 +26,7 @@
         public const string DineInSelect = "Please Select Table.";
         public const string DineInTableIsClean = "Are you sure table is cleaned?";
         public const string PaymentMethodSelect = "Please select payment method!";
+        public const string PaymentMustBeHigher = "Please pay payable amount.";
         public const string FoodImageSelect = "Please select .jpg ,.jpeg or .png file only!";
         public const string FoodImageUploadSuccess = "Picture uploaded successfully.";
         public const string FoodImageUploadFailed = "Picture uploaded failed.";

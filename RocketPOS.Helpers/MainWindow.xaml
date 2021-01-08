@@ -406,9 +406,9 @@
                                 <TextBlock x:Name="txtbTotalItemCount" Style="{StaticResource txtBlock}" Text="0"   />
                                 <TextBlock x:Name="txtbOrderId" Text="0"  Visibility="Hidden"/>
                             </StackPanel>
-
                         </Grid>
-
+                        
+                        
                         <Grid Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
                                 <TextBlock x:Name="txtbSubTotal" Style="{StaticResource txtBlock}" Text="Gross : "   />
@@ -433,10 +433,13 @@
                                 <TextBlock x:Name="txtTaxName" Style="{StaticResource txtBlock}" Text="Taxable : "   />
                             </StackPanel>
                         </Grid>
+                        <TextBlock x:Name="txtVatableAmount" Grid.Row="1" Visibility="Hidden" Style="{StaticResource txtBlock}" Text="0.00"  />
+                        <TextBlock x:Name="txtNonVatableAmount" Grid.Row="1" Grid.Column="1" Visibility="Hidden" Style="{StaticResource txtBlock}" Text="0.00"  />
 
                         <Grid Grid.Row="1" Grid.Column="3" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtTaxAmount" Style="{StaticResource txtBlock}" Text="0.00"  />
+                                
                             </StackPanel>
                         </Grid>
 
@@ -614,21 +617,35 @@
                                         <RowDefinition Height="30"/>
                                     </Grid.RowDefinitions>
 
-                                    <!--Invoice PopUp Row 0-->
-                                    <TextBlock Text="Payment" Foreground="White"  FontSize="20"  HorizontalAlignment="Left"  Margin="5,5,5,5" Height="40" Width="200" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                    <Button x:Name="btnDirectInvoicePopupCancel" Content="Cancel" Margin="110,5,5,5" Grid.Row="0" Grid.Column="1" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Click="btnDirectInvoicePopupCancel_Click" />
-                                    <!--Invoice PopUp Row 1-->
-                                    <Label x:Name="lblPPTotalPayable" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Total Payable Amount" Foreground="White" FontSize="16" Height="40" Width="176" Grid.Row="1" Grid.Column="0"/>
-                                    <Label x:Name="lblPPTotalPayableAmount" Content="0" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" FontSize="20" FontWeight="Bold" Height="40" Width="100" Grid.Row="1" Grid.Column="1"/>
-                                    <!--Invoice PopUp Row 2-->
-                                    <Label x:Name="lblPPTotalPayment" HorizontalAlignment="Left" Content="Select Payment Method" Foreground="White" FontSize="16" Height="40" Width="177" Grid.Row="2" Grid.Column="0"/>
-                                    <ListBox x:Name="lbPPPaymentMethod" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding}" SelectedValuePath="Id" FontSize="20" Margin="5" DisplayMemberPath="PaymentMethodName"/>
+                                        <!--Invoice PopUp Row 0-->
+                                        <TextBlock Text="Payment" Foreground="White"  FontSize="20"  HorizontalAlignment="Left"  Margin="5,5,5,5" Height="40" Width="200" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                        <Button x:Name="btnDirectInvoicePopupCancel" Content="Cancel" Margin="110,5,5,5" Grid.Row="0" Grid.Column="1" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Click="btnDirectInvoicePopupCancel_Click" />
+                                        <!--Invoice PopUp Row 1-->
+                                        <Label x:Name="lblPPTotalPayable" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Total Payable Amount" Foreground="White" FontSize="16" Height="40" Width="176" Grid.Row="1" Grid.Column="0"/>
+                                        <Label x:Name="lblPPTotalPayableAmount" Content="0" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" FontSize="20" FontWeight="Bold" Height="40" Width="100" Grid.Row="1" Grid.Column="1"/>
+                                        <!--Invoice PopUp Row 2-->
+                                        <!--<Label x:Name="lblPPTotalPayment" HorizontalAlignment="Left" Content="Select Payment Method" Foreground="White" FontSize="16" Height="40" Width="177" Grid.Row="2" Grid.Column="0"/>-->
+                                    <!--<ListBox x:Name="lbPPPaymentMethod" Grid.Row="2" Visibility="Hidden" Grid.Column="0" FontSize="20" Margin="5" ItemsSource="{Binding}">
+                                    </ListBox>-->
+
+                                    <DataGrid x:Name="dgPaymentMethod" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="false" ItemsSource="{Binding PaymentMethodModel}" >
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Payment Type" IsReadOnly="True"  Width="100" Binding="{Binding PaymentMethodName}"></DataGridTextColumn>
+                                            <DataGridTemplateColumn Width="100" IsReadOnly="True">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox x:Name="txtPaymentAmount" Text="{Binding Amount}" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
                                     <!--Invoice PopUp Row 3-->
-                                    <Label x:Name="lblPPPayAmount" HorizontalAlignment="Left" Content="Paid" Foreground="White" FontSize="16" Height="40" Width="150" Grid.Row="3" Grid.Column="0"/>
-                                    <TextBox x:Name="txtPPPayAmount"  FontSize="24" FontWeight="Bold"  HorizontalContentAlignment="Right"   Height="40" Width="165" Grid.Row="3" Grid.Column="1" TextChanged="txtPPPayAmount_TextChanged"/>
-                                    <!--Invoice PopUp Row 4-->
-                                    <Label x:Name="lblPPChangeAmount" HorizontalAlignment="Left" Content="Chnage" Foreground="White" FontSize="16" Height="40" Width="175" Grid.Row="4" Grid.Column="0"/>
-                                    <Label x:Name="lblPPChangeAmountTotal" HorizontalContentAlignment="Right" FontSize="24" Background="Black" FontWeight="Bold" Foreground="White" Height="40" Width="165" Grid.Row="4" Grid.Column="1"/>
+                                        <Label x:Name="lblPPPayAmount" HorizontalAlignment="Left" Content="Paid" Foreground="White" FontSize="16" Height="40" Width="150" Grid.Row="3" Grid.Column="0"/>
+                                        <TextBox x:Name="txtPPPayAmount"  FontSize="24" FontWeight="Bold"  HorizontalContentAlignment="Right"   Height="40" Width="165" Grid.Row="3" Grid.Column="1" TextChanged="txtPPPayAmount_TextChanged"/>
+                                        <!--Invoice PopUp Row 4-->
+                                        <Label x:Name="lblPPChangeAmount" HorizontalAlignment="Left" Content="Chnage" Foreground="White" FontSize="16" Height="40" Width="175" Grid.Row="4" Grid.Column="0"/>
+                                        <Label x:Name="lblPPChangeAmountTotal" HorizontalContentAlignment="Right" FontSize="24" Background="Black" FontWeight="Bold" Foreground="White" Height="40" Width="165" Grid.Row="4" Grid.Column="1"/>
 
                                     <Button x:Name="btnDirectInvoiceSubmit" Content="Save" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Margin="105,5,5,5" Grid.Row="5" Grid.Column="1"  Click="btnDirectInvoiceSubmit_Click" />
                                     <Label x:Name="lbl" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Content="Note: Kindly check all inforation correctly " Foreground="White" FontSize="16" Height="30" Width="300" />
