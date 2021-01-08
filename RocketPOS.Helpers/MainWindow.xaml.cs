@@ -217,16 +217,25 @@ namespace RocketPOS.Helpers
                 StackPanel menuListPanel = new StackPanel();
                 menuListPanel.Orientation = Orientation.Vertical;
 
+                StackPanel menuName = new StackPanel();
+                menuName.Height = 33;
+                menuName.Width=96;
+
                 TextBlock txtSmallName = new TextBlock();
                 txtSmallName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtSmallName.Text = itemSubCat.SmallName;
+                txtSmallName.TextWrapping = TextWrapping.Wrap;
+                txtSmallName.ToolTip = itemSubCat.SmallName; 
                 txtSmallName.Name = "txtSmallName" + itemSubCat.FoodCategoryId;
-                menuListPanel.Children.Add(txtSmallName);
+                menuName.Children.Add(txtSmallName);
+
+                menuListPanel.Children.Add(menuName);
 
                 TextBlock txtSalePrice = new TextBlock();
                 txtSalePrice.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtSalePrice.Text = Convert.ToDecimal(itemSubCat.SalesPrice).ToString("0.00");
                 txtSalePrice.Name = "txtSalePrice" + itemSubCat.FoodCategoryId;
+                txtSalePrice.FontWeight = FontWeights.Bold;
                 menuListPanel.Children.Add(txtSalePrice);
 
                 Image imgFood = new Image();
@@ -251,7 +260,7 @@ namespace RocketPOS.Helpers
                 {
                     imgFood.Source = new BitmapImage(new System.Uri(rootPath + @"\Images\defaultimage.png"));
                 }
-                imgFood.Width = 80;
+                imgFood.Width = 96;
                 imgFood.Height = 70;
                 imgFood.Margin = new Thickness(2, 2, 2, 2);
                 imgFood.Stretch = Stretch.UniformToFill;
@@ -269,7 +278,7 @@ namespace RocketPOS.Helpers
                 TextBlock txtFoodVat = new TextBlock();
                 txtFoodVat.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtFoodVat.Text = Convert.ToDecimal(itemSubCat.FoodVat).ToString("0.00");
-                txtFoodVat.FontSize = 2;
+                txtFoodVat.FontSize = 1;
                 txtFoodVat.Name = "txtFoodVat" + itemSubCat.FoodCategoryId;
                 txtFoodVat.Visibility = Visibility.Hidden;
                 menuListPanel.Children.Add(txtFoodVat);
@@ -277,7 +286,7 @@ namespace RocketPOS.Helpers
                 TextBlock txtFoodcess = new TextBlock();
                 txtFoodcess.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtFoodcess.Text = Convert.ToDecimal(itemSubCat.Foodcess).ToString("0.00");
-                txtFoodcess.FontSize = 2;
+                txtFoodcess.FontSize = 1;
                 txtFoodcess.Name = "txtFoodcess" + itemSubCat.FoodCategoryId;
                 txtFoodcess.Visibility = Visibility.Hidden;
                 menuListPanel.Children.Add(txtFoodcess);
@@ -694,10 +703,12 @@ namespace RocketPOS.Helpers
         {
             try
             {
-
                 var menuListPanel = sender as StackPanel;
+
+                var menuNamePanel = menuListPanel.Children[0] as StackPanel;
+                var itemName = menuNamePanel.Children[0] as TextBlock;
+  
                 var salePrice = menuListPanel.Children[1] as TextBlock;
-                var itemName = menuListPanel.Children[0] as TextBlock;
                 var foodMenuId = menuListPanel.Children[3] as TextBlock;
                 var foodVat = menuListPanel.Children[4] as TextBlock;
                 var foodcess = menuListPanel.Children[5] as TextBlock;
