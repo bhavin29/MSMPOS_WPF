@@ -56,10 +56,10 @@ namespace RocketPOS.Views
                      new SolidBrush(Color.Black), startX + 5, startY + Offset);
         }
         //NEW
-        void DrawAtStartCenter(string text, int Offset)
+        void DrawAtStartCenter(string text, int Offset,int OffsetX)
         {
             //  int intPadding = 
-            int startX = 25 + ((pageWidthHeader - text.Length) / 2) * 3;
+            int startX = OffsetX + 25 + ((pageWidthHeader - text.Length) / 2) * 4;
             int startY = 5;
             Font minifont = new Font("Arial", 5);
 
@@ -121,11 +121,12 @@ namespace RocketPOS.Views
             graphics = e.Graphics;
             Font minifont = new Font("Arial", 5);
             Font itemfont = new Font("Arial", 6);
-            Font smallfont = new Font("Arial", 8);
-            Font mediumfont = new Font("Arial", 10);
-            Font largefont = new Font("Arial", 12);
+            Font smallfont = new Font("Arial", 12);
+            Font mediumfont = new Font("Arial", 14);
+            Font largefont = new Font("Arial", 16);
+
             int Offset = 10;
-            int smallinc = 10, mediuminc = 12, largeinc = 15;
+            int smallinc = 10, mediuminc = 12, largeinc = 17;
 
             //Getting Receipt data 
             List<PrintReceiptModel> printReceiptModel = new List<PrintReceiptModel>();
@@ -133,8 +134,36 @@ namespace RocketPOS.Views
 
             //Parameter pass global Customer Order Id
             PrintReceiptViewModel printReceiptViewModel = new PrintReceiptViewModel();
+
+            List<ReportOffsetModel> reportOffsetModels = new List<ReportOffsetModel>();
+
             printReceiptModel = printReceiptViewModel.GetPrintReceiptByBillId(billId);
             printReceiptItemModel = printReceiptViewModel.GetPrintReceiptItemByBillId(billId);
+            reportOffsetModels = printReceiptViewModel.GetReportOffsetByReportName("R1");
+
+            int intClientName = reportOffsetModels.Find(x => x.ReportColumn.Contains("ClientName")).ColumnOffset;
+            int intHeader = reportOffsetModels.Find(x => x.ReportColumn.Contains("Header")).ColumnOffset;
+            int intAddress1 = reportOffsetModels.Find(x => x.ReportColumn.Contains("Address1")).ColumnOffset;
+            int intAddress2 = reportOffsetModels.Find(x => x.ReportColumn.Contains("Address2")).ColumnOffset;
+            int intEmail = reportOffsetModels.Find(x => x.ReportColumn.Contains("Email")).ColumnOffset;
+            int intPhone = reportOffsetModels.Find(x => x.ReportColumn.Contains("Phone")).ColumnOffset;
+            int intDate = reportOffsetModels.Find(x => x.ReportColumn.Contains("Date")).ColumnOffset;
+            int intItemHeader = reportOffsetModels.Find(x => x.ReportColumn.Contains("Item-header")).ColumnOffset;
+            int intItemFoodMenuName = reportOffsetModels.Find(x => x.ReportColumn.Contains("Item-FoodMenuName")).ColumnOffset;
+            int intItemFoodMenuRate = reportOffsetModels.Find(x => x.ReportColumn.Contains("Item-FoodMenuRate")).ColumnOffset;
+            int intItemFoodMenuQty = reportOffsetModels.Find(x => x.ReportColumn.Contains("Item-FoodMenuQty")).ColumnOffset;
+            int intItemPrice = reportOffsetModels.Find(x => x.ReportColumn.Contains("Item-Price")).ColumnOffset;
+            int intGROSSTotal = reportOffsetModels.Find(x => x.ReportColumn.Contains("GROSSTotal")).ColumnOffset;
+            int intVATABLE = reportOffsetModels.Find(x => x.ReportColumn.Contains("VATABLE")).ColumnOffset;
+            int intDISCOUNT = reportOffsetModels.Find(x => x.ReportColumn.Contains("DISCOUNT")).ColumnOffset;
+            int intDELIVERYCharge = reportOffsetModels.Find(x => x.ReportColumn.Contains("DELIVERYCharge")).ColumnOffset;
+            int intTOTAL = reportOffsetModels.Find(x => x.ReportColumn.Contains("TOTAL")).ColumnOffset;
+            int intPaid = reportOffsetModels.Find(x => x.ReportColumn.Contains("Paid")).ColumnOffset;
+            int intFooter = reportOffsetModels.Find(x => x.ReportColumn.Contains("Footer")).ColumnOffset;
+            int intFooter1 = reportOffsetModels.Find(x => x.ReportColumn.Contains("Footer1")).ColumnOffset;
+            int intFooter2 = reportOffsetModels.Find(x => x.ReportColumn.Contains("Footer2")).ColumnOffset;
+            int intFooter3 = reportOffsetModels.Find(x => x.ReportColumn.Contains("Footer3")).ColumnOffset;
+            int intFooter4 = reportOffsetModels.Find(x => x.ReportColumn.Contains("Footer4")).ColumnOffset;
 
             //Image image = Image.FromFile("d:\\2.jpg");
 
@@ -144,29 +173,31 @@ namespace RocketPOS.Views
             Offset = Offset + Offset;
 
             //Name
-            int intPadding = 10 + ((pageWidthHeader - LoginDetail.ClientName.Length) / 2) * 3;
-            graphics.DrawString(LoginDetail.ClientName, smallfont, new SolidBrush(Color.Black), intPadding, Offset);//50 + 22
+            int intPadding = 10 + ((pageWidthHeader - LoginDetail.ClientName.Length) / 2) * 4;
+
+ 
+            graphics.DrawString(LoginDetail.ClientName, smallfont, new SolidBrush(Color.Black), intClientName, Offset);//50 + 22
 
             Offset = Offset + mediuminc;
-            DrawAtStartCenter(LoginDetail.Header, Offset);
+            DrawAtStartCenter(LoginDetail.Header, Offset,intHeader);
 
             Offset = Offset + mediuminc;
-            DrawAtStartCenter(LoginDetail.Address1, Offset);
+            DrawAtStartCenter(LoginDetail.Address1, Offset,intAddress1);
 
             Offset = Offset + mediuminc;
-            DrawAtStartCenter(LoginDetail.Address2, Offset);
+            DrawAtStartCenter(LoginDetail.Address2, Offset,intAddress2);
 
             Offset = Offset + mediuminc;
-            DrawAtStartCenter("Email : " + LoginDetail.Email, Offset);
+            DrawAtStartCenter("Email : " + LoginDetail.Email, Offset,intEmail);
 
             Offset = Offset + mediuminc;
-            DrawAtStartCenter("Phone : " + LoginDetail.Phone, Offset);
+            DrawAtStartCenter("Phone : " + LoginDetail.Phone, Offset,intPhone);
 
             String underLine = "-------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + mediuminc + 6;
-            DrawAtStart("Receipt Number: " + printReceiptModel[0].SalesInvoiceNumber.ToString().PadRight((20 - printReceiptModel[0].SalesInvoiceNumber.ToString().Length) + 10) + "Date: " + DateTime.Now.ToString("MM/dd/yyyy HH:mm"), Offset); ;
+            DrawAtStart("Receipt Number: " + printReceiptModel[0].SalesInvoiceNumber.ToString().PadRight((intDate - printReceiptModel[0].SalesInvoiceNumber.ToString().Length) + 10) + "Date: " + DateTime.Now.ToString("MM/dd/yyyy HH:mm"), Offset); ;
 
             Offset = Offset + mediuminc;
             DrawAtStart("Customer: " + printReceiptModel[0].CustomerName, Offset);
@@ -176,16 +207,16 @@ namespace RocketPOS.Views
 
             Offset = Offset + largeinc;
 
-            InsertHeaderStyleItem("ITEM                                RATE     QTY    AMOUNT ", "", Offset);
+            InsertHeaderStyleItem("ITEM".PadRight(intItemHeader) +  "RATE     QTY    AMOUNT ", "", Offset);
 
             Offset = Offset + largeinc;
 
             foreach (var item in printReceiptItemModel)
             {
-                InsertItemList(item.FoodMenuName.ToString(), "", Offset, 5);
-                InsertItemList(item.FoodMenuRate.ToString("F"), "", Offset, 60 + (50 - (item.FoodMenuRate.ToString().Length * 4)));
-                InsertItemList(item.FoodMenuQty.ToString("F"), "", Offset, 90 + (50 - (item.FoodMenuQty.ToString().Length * 4)));
-                InsertItemList(item.Price.ToString("F") + " " + item.FoodVat.ToString(), "", Offset, 133 + (50 - (item.Price.ToString().Length * 4)));
+                InsertItemList(item.FoodMenuName.ToString(), "", Offset, intItemFoodMenuName);
+                InsertItemList(item.FoodMenuRate.ToString("F"), "", Offset, intItemFoodMenuRate + (50 - (item.FoodMenuRate.ToString().Length * 4)));
+                InsertItemList(item.FoodMenuQty.ToString("F"), "", Offset, intItemFoodMenuQty + (50 - (item.FoodMenuQty.ToString().Length * 4)));
+                InsertItemList(item.Price.ToString("F") + " " + item.FoodVat.ToString(), "", Offset, intItemPrice + (50 - (item.Price.ToString().Length * 4)));
                 Offset = Offset + smallinc;
             }
             Offset = Offset - smallinc;
@@ -194,44 +225,44 @@ namespace RocketPOS.Views
             DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + largeinc;
-            InsertItem("GROSS TOTAL: ", printReceiptModel[0].GrossAmount.ToString("F").PadLeft(30 - printReceiptModel[0].GrossAmount.ToString().Length), Offset);
+            InsertItem("GROSS TOTAL: ", printReceiptModel[0].GrossAmount.ToString("F").PadLeft(intGROSSTotal - printReceiptModel[0].GrossAmount.ToString().Length), Offset);
 
             Offset = Offset + smallinc;
-            InsertItem("VATABLE: ", printReceiptModel[0].VatableAmount.ToString("F").PadLeft(30 - printReceiptModel[0].VatableAmount.ToString().Length), Offset);
+            InsertItem("VATABLE: ", printReceiptModel[0].VatableAmount.ToString("F").PadLeft(intVATABLE - printReceiptModel[0].VatableAmount.ToString().Length), Offset);
             
             Offset = Offset + smallinc;
-            InsertItem("DISCOUNT: ", printReceiptModel[0].Discount.ToString("F").PadLeft(30 - printReceiptModel[0].Discount.ToString().Length), Offset);
+            InsertItem("DISCOUNT: ", printReceiptModel[0].Discount.ToString("F").PadLeft(intDISCOUNT - printReceiptModel[0].Discount.ToString().Length), Offset);
  
             Offset = Offset + smallinc;
-            InsertItem("DELIVERY CHARGE: ", printReceiptModel[0].ServiceCharge.ToString("F").PadLeft(30 - printReceiptModel[0].ServiceCharge.ToString().Length), Offset);
+            InsertItem("DELIVERY CHARGE: ", printReceiptModel[0].ServiceCharge.ToString("F").PadLeft(intDELIVERYCharge - printReceiptModel[0].ServiceCharge.ToString().Length), Offset);
 
             Offset = Offset + smallinc;
-            InsertItem("TOTAL: ", printReceiptModel[0].TotalAmount.ToString("F").PadLeft(30 - printReceiptModel[0].TotalAmount.ToString().Length), Offset);
+            InsertItem("TOTAL: ", printReceiptModel[0].TotalAmount.ToString("F").PadLeft(intTOTAL - printReceiptModel[0].TotalAmount.ToString().Length), Offset);
 
             underLine = "-------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + largeinc;
-            InsertItem("TOTAL: ", printReceiptModel[0].PaymentMethodName.ToString().PadRight(10) + " " + printReceiptModel[0].BillAmount.ToString("F").PadLeft(10), Offset);
+            InsertItem("Paid: ", printReceiptModel[0].PaymentMethodName.ToString().PadRight(2) + " " + printReceiptModel[0].BillAmount.ToString("F").PadLeft(intPaid), Offset);
 
             Offset = Offset + largeinc;
             Offset = Offset + largeinc;
 
             intPadding = 10 + ((pageWidthHeader - LoginDetail.ClientName.Length) / 2) * 3;
-            graphics.DrawString(LoginDetail.Footer, smallfont, new SolidBrush(Color.Black), intPadding, Offset);//50 + 22
+            graphics.DrawString(LoginDetail.Footer, smallfont, new SolidBrush(Color.Black), intFooter, Offset);//50 + 22
 
             Offset = Offset + largeinc;
 
-            DrawAtStartCenter(LoginDetail.Footer1, Offset);
+            DrawAtStartCenter(LoginDetail.Footer1, Offset,intFooter1);
             Offset = Offset + mediuminc;
 
-            DrawAtStartCenter(LoginDetail.Footer2, Offset);
+            DrawAtStartCenter(LoginDetail.Footer2, Offset,intFooter2);
             Offset = Offset + mediuminc;
 
-            DrawAtStartCenter(LoginDetail.Footer3, Offset);
+            DrawAtStartCenter(LoginDetail.Footer3, Offset,intFooter3);
             Offset = Offset + mediuminc;
 
-            DrawAtStartCenter(LoginDetail.Footer4, Offset);
+            DrawAtStartCenter(LoginDetail.Footer4, Offset,intFooter4);
             Offset = Offset + mediuminc;
         }
     }

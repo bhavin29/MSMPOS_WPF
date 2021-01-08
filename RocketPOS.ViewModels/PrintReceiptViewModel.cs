@@ -54,5 +54,22 @@ namespace RocketPOS.ViewModels
             return printReceiptItemModel;
         }
 
+        public List<ReportOffsetModel> GetReportOffsetByReportName(string reportName)
+        {
+            List<ReportOffsetModel> reportOffsetModels = new List<ReportOffsetModel>();
+
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                connection.Open();
+
+                var query = " Select ReportName, ReportColumn, ColumnOffset from ReportOffset " +
+                            " WHERE ReportName = '" + reportName.ToString() + "'";
+
+                reportOffsetModels = connection.Query<ReportOffsetModel>(query).ToList();
+            }
+
+            return reportOffsetModels;
+
+        }
     }
 }
