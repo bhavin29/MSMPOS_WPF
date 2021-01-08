@@ -18,5 +18,7 @@ namespace RocketPOS.Model
         public decimal Price { get; set; }
         public decimal FoodVat { get; set; }
         public decimal Foodcess { get; set; }
+        public decimal TaxPercentage { get; set; }
+        public int IsVatable { get; set; }
     }
 }

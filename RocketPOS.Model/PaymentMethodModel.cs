@@ -8,5 +8,6 @@ namespace RocketPOS.Model
     {
         public int Id { get; set; }
         public string PaymentMethodName { get; set; }
+        public decimal Amount { get; set; }
     }
 }
