@@ -222,13 +222,13 @@ namespace RocketPOS.Helpers
 
                 StackPanel menuName = new StackPanel();
                 menuName.Height = 33;
-                menuName.Width=96;
+                menuName.Width = 96;
 
                 TextBlock txtSmallName = new TextBlock();
                 txtSmallName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtSmallName.Text = itemSubCat.SmallName;
                 txtSmallName.TextWrapping = TextWrapping.Wrap;
-                txtSmallName.ToolTip = itemSubCat.SmallName; 
+                txtSmallName.ToolTip = itemSubCat.SmallName;
                 txtSmallName.Name = "txtSmallName" + itemSubCat.FoodCategoryId;
                 menuName.Children.Add(txtSmallName);
 
@@ -294,6 +294,22 @@ namespace RocketPOS.Helpers
                 txtFoodcess.Visibility = Visibility.Hidden;
                 menuListPanel.Children.Add(txtFoodcess);
 
+                TextBlock txtTaxPercentage = new TextBlock();
+                txtTaxPercentage.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                txtTaxPercentage.Text = Convert.ToDecimal(itemSubCat.TaxPercentage).ToString("0.00");
+                txtTaxPercentage.FontSize = 1;
+                txtTaxPercentage.Name = "txtTaxPercentage" + itemSubCat.FoodCategoryId;
+                txtTaxPercentage.Visibility = Visibility.Hidden;
+                menuListPanel.Children.Add(txtTaxPercentage);
+
+                TextBlock txtIsVatable = new TextBlock();
+                txtIsVatable.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                txtIsVatable.Text = Convert.ToInt32(itemSubCat.IsVatable).ToString();
+                txtIsVatable.FontSize = 1;
+                txtIsVatable.Name = "txtIsVatable" + itemSubCat.FoodCategoryId;
+                txtIsVatable.Visibility = Visibility.Hidden;
+                menuListPanel.Children.Add(txtIsVatable);
+
                 menuListPanel.Name = "childPanel" + itemSubCat.FoodCategoryId;
                 menuListPanel.MouseDown += GetPrice_MouseDown;
                 spSubCategory.Children.Add(menuListPanel);
@@ -337,11 +353,33 @@ namespace RocketPOS.Helpers
                 txtPPPayAmount.Text = "";
                 lblPPChangeAmountTotal.Content = "";
                 txtTableNumber.Text = "";
+                txtVatableAmount.Text = "0.00";
+                txtNonVatableAmount.Text = "0.00";
             }
             catch (Exception ex)
             {
                 SystemError.Register(ex);
 
+            }
+        }
+
+        private decimal GetPercentageAmount(decimal amount, decimal percent)
+        {
+            try
+            {
+                if (percent != 0)
+                {
+                    return ((amount * percent) / 100);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+                return 0;
             }
         }
         private void CommonOrderCalculation(object sender, string type)
@@ -354,10 +392,21 @@ namespace RocketPOS.Helpers
                     var salePrice = menuListPanel.Children[1] as TextBlock;
                     var foodVat = menuListPanel.Children[4] as TextBlock;
                     var foodCess = menuListPanel.Children[5] as TextBlock;
+                    var taxPercentage = menuListPanel.Children[6] as TextBlock;
+                    var isVatable = menuListPanel.Children[7] as TextBlock;
 
                     txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
                     txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
-                    txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + Convert.ToDecimal(foodVat.Text) + Convert.ToDecimal(foodCess.Text)).ToString();
+                    //txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + Convert.ToDecimal(foodVat.Text) + Convert.ToDecimal(foodCess.Text)).ToString();
+                    txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(Convert.ToDecimal(salePrice.Text), Convert.ToDecimal(taxPercentage.Text))).ToString();
+                    if (Convert.ToInt32(isVatable.Text) == 1)
+                    {
+                        txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(salePrice.Text)- GetPercentageAmount(Convert.ToDecimal(salePrice.Text), Convert.ToDecimal(taxPercentage.Text)))).ToString();
+                    }
+                    else
+                    {
+                        txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
+                    }
                 }
 
                 if (type == "FoodMenuGridList")
@@ -367,7 +416,16 @@ namespace RocketPOS.Helpers
 
                     txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(foodMenuItem.SalesPrice)).ToString();
                     txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
-                    txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + Convert.ToDecimal(foodMenuItem.FoodVat) + Convert.ToDecimal(foodMenuItem.Foodcess)).ToString();
+                    //txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + Convert.ToDecimal(foodMenuItem.FoodVat) + Convert.ToDecimal(foodMenuItem.Foodcess)).ToString();
+                    txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(Convert.ToDecimal(foodMenuItem.SalesPrice), Convert.ToDecimal(foodMenuItem.TaxPercentage))).ToString();
+                    if (Convert.ToInt32(foodMenuItem.IsVatable) == 1)
+                    {
+                        txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(foodMenuItem.SalesPrice) - GetPercentageAmount(Convert.ToDecimal(foodMenuItem.SalesPrice), Convert.ToDecimal(foodMenuItem.TaxPercentage)))).ToString();
+                    }
+                    else
+                    {
+                        txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) + Convert.ToDecimal(foodMenuItem.SalesPrice)).ToString();
+                    }
                 }
 
                 if (type == "DiscountPercent")
@@ -393,7 +451,7 @@ namespace RocketPOS.Helpers
                 if (string.IsNullOrEmpty(txtSubTotalDiscountAmount.Text))
                     txtbTotalDiscountAmount.Text = "0.00";
 
-                txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
+                txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text) + Convert.ToDecimal(txtTaxAmount.Text)).ToString();
             }
             catch (Exception ex)
             {
@@ -556,6 +614,8 @@ namespace RocketPOS.Helpers
                 customerOrderModel.DiscountPercentage = Convert.ToDecimal(txtbtxtDiscount.Text);
                 customerOrderModel.DiscountAmount = Convert.ToDecimal(txtbTotalDiscountAmount.Text);
                 customerOrderModel.DeliveryCharges = Convert.ToDecimal(txtbTotalDeliveryChargeAmt.Text);
+                customerOrderModel.VatableAmount = Convert.ToDecimal(txtVatableAmount.Text);
+                customerOrderModel.NonVatableAmount = Convert.ToDecimal(txtNonVatableAmount.Text);
                 customerOrderModel.TaxAmount = Convert.ToDecimal(txtTaxAmount.Text);
                 customerOrderModel.TotalPayable = Convert.ToDecimal(txtbTotalPayableAmount.Text);
                 customerOrderModel.CustomerPaid = 0;
@@ -609,6 +669,8 @@ namespace RocketPOS.Helpers
                 customerOrderModel.DiscountPercentage = Convert.ToDecimal(txtbtxtDiscount.Text);
                 customerOrderModel.DiscountAmount = Convert.ToDecimal(txtSubTotalDiscountAmount.Text);
                 customerOrderModel.DeliveryCharges = Convert.ToDecimal(txtbTotalDeliveryChargeAmt.Text);
+                customerOrderModel.VatableAmount = Convert.ToDecimal(txtVatableAmount.Text);
+                customerOrderModel.NonVatableAmount = Convert.ToDecimal(txtNonVatableAmount.Text);
                 customerOrderModel.TaxAmount = Convert.ToDecimal(txtTaxAmount.Text);
                 customerOrderModel.TotalPayable = Convert.ToDecimal(txtbTotalPayableAmount.Text);
                 customerOrderModel.CustomerPaid = 0;
@@ -711,11 +773,13 @@ namespace RocketPOS.Helpers
 
                 var menuNamePanel = menuListPanel.Children[0] as StackPanel;
                 var itemName = menuNamePanel.Children[0] as TextBlock;
-  
+
                 var salePrice = menuListPanel.Children[1] as TextBlock;
                 var foodMenuId = menuListPanel.Children[3] as TextBlock;
                 var foodVat = menuListPanel.Children[4] as TextBlock;
                 var foodcess = menuListPanel.Children[5] as TextBlock;
+                var taxPercentage = menuListPanel.Children[6] as TextBlock;
+                var isVatable = menuListPanel.Children[7] as TextBlock;
 
                 CommonOrderCalculation(sender, "FoodMenu");
 
@@ -731,7 +795,9 @@ namespace RocketPOS.Helpers
                     Total = Convert.ToDecimal(salePrice.Text) * 1,
                     CustomerOrderItemId = 0,
                     FoodVat = Convert.ToDecimal(foodVat.Text),
-                    Foodcess = Convert.ToDecimal(foodcess.Text)
+                    Foodcess = Convert.ToDecimal(foodcess.Text),
+                    TaxPercentage = Convert.ToDecimal(taxPercentage.Text),
+                    IsVatable = Convert.ToInt32(isVatable.Text)
                 });
 
                 bool isFound = false;
@@ -779,7 +845,18 @@ namespace RocketPOS.Helpers
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(saleItem[0].Price)).ToString();
                 txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(saleItem[0].Price) + (Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess))).ToString();
                 txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
-                txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess)).ToString();
+                //txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess)).ToString();
+
+                txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage))).ToString();
+                if (Convert.ToInt32(saleItem[0].IsVatable) == 1)
+                {
+                    txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) - GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage)))).ToString();
+                }
+                else
+                {
+                    txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) + Convert.ToDecimal(saleItem[0].Price)).ToString();
+                }
+                CommonOrderCalculation(null, string.Empty);
                 dgSaleItem.Items.Refresh();
             }
             catch (Exception ex)
@@ -800,11 +877,22 @@ namespace RocketPOS.Helpers
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(saleItem[0].Price)).ToString();
                 txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) - Convert.ToDecimal(saleItem[0].Price) - (Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess))).ToString();
                 txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) - 1).ToString();
-                txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) - (Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess))).ToString();
+                //txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) - (Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess))).ToString();
+                txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) - GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage))).ToString();
+                if (Convert.ToInt32(saleItem[0].IsVatable) == 1)
+                {
+                    txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) - GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage)))).ToString();
+                }
+                else
+                {
+                    txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) - Convert.ToDecimal(saleItem[0].Price)).ToString();
+                }
+
                 if (saleItem[0].Qty == 0)
                 {
                     dgSaleItem.Items.RemoveAt(dgSaleItem.SelectedIndex);
                 }
+                CommonOrderCalculation(null, string.Empty);
                 dgSaleItem.Items.Refresh();
             }
             catch (Exception ex)
@@ -999,7 +1087,7 @@ namespace RocketPOS.Helpers
                     cmbCustomer.Focus();
                     return;
                 }
-   
+
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.CancelOrderTitle, StatusMessages.CancelOrder, MessageBoxButton.YesNo, EnumUtility.MessageBoxImage.Question);
                 if (messageBoxResult.ToString() == "Yes")
                 {
@@ -1119,6 +1207,8 @@ namespace RocketPOS.Helpers
                 txtbTotalDiscountAmount.Text = Convert.ToDecimal(customerOrderModel.DiscountAmount).ToString("0.00");
                 txtbTotalDeliveryChargeAmt.Text = Convert.ToDecimal(customerOrderModel.DeliveryCharges).ToString("0.00");
                 txtTaxAmount.Text = Convert.ToDecimal(customerOrderModel.TaxAmount).ToString("0.00");
+                txtVatableAmount.Text = Convert.ToDecimal(customerOrderModel.VatableAmount).ToString("0.00");
+                txtNonVatableAmount.Text = Convert.ToDecimal(customerOrderModel.NonVatableAmount).ToString("0.00");
 
                 if (customerOrderModel.OrderType == (int)EnumUtility.OrderType.DineIN)
                 {
@@ -1172,7 +1262,9 @@ namespace RocketPOS.Helpers
                         Total = Convert.ToDecimal(orderItem.Price),
                         CustomerOrderItemId = orderItem.CustomerOrderItemId,
                         FoodVat = orderItem.FoodVat,
-                        Foodcess = orderItem.Foodcess
+                        Foodcess = orderItem.Foodcess,
+                        TaxPercentage = orderItem.TaxPercentage,
+                        IsVatable = orderItem.IsVatable
                     });
                     dgSaleItem.Items.Add(saleItems);
                     txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + orderItem.FoodMenuQty).ToString();
@@ -1228,6 +1320,7 @@ namespace RocketPOS.Helpers
         {
             try
             {
+
                 if (dgSaleItem.Items.Count == 0)
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.CartEmpty, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
@@ -1257,7 +1350,8 @@ namespace RocketPOS.Helpers
                 ppDirectInvoice.IsOpen = true;
                 lblPPTotalPayableAmount.Content = txtbTotalPayableAmount.Text;
                 paymentMethodModels = customerOrderViewModel.GetPaymentMethod();
-                lbPPPaymentMethod.ItemsSource = paymentMethodModels;
+                //lbPPPaymentMethod.ItemsSource = paymentMethodModels;
+                dgPaymentMethod.ItemsSource = paymentMethodModels;
             }
             catch (Exception ex)
             {
@@ -1296,11 +1390,38 @@ namespace RocketPOS.Helpers
         {
             try
             {
-                if (lbPPPaymentMethod.SelectedIndex == -1)
+                DataTable multipleBillPayment = new DataTable();
+                multipleBillPayment.Columns.Add("PaymentMethodId", typeof(Int32));
+                multipleBillPayment.Columns.Add("Amount", typeof(Decimal));
+
+                decimal totalAmount = 0;
+                decimal paidAmount = 0;
+                int j = 1; //Set this equal to desired column index where you add the textbox amount 
+                for (int i = 0; i < dgPaymentMethod.Items.Count; i++)
                 {
-                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.BillPaymentTitle, StatusMessages.PaymentMethodSelect, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    var paymentMethod = (PaymentMethodModel)dgPaymentMethod.Items[i];
+                    ContentPresenter myCp = dgPaymentMethod.Columns[j].GetCellContent(paymentMethod) as ContentPresenter;
+                    var myTemplate = myCp.ContentTemplate;
+                    TextBox mytxtbox = myTemplate.FindName("txtPaymentAmount", myCp) as TextBox;
+                    paidAmount = Convert.ToDecimal(mytxtbox.Text);
+                    totalAmount = totalAmount + paidAmount;
+                    if (paidAmount > 0)
+                    {
+                        multipleBillPayment.Rows.Add(paymentMethod.Id, paidAmount);
+                    }
+                }
+
+                if (totalAmount < Convert.ToDecimal(lblPPTotalPayableAmount.Content))
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.BillPaymentTitle, StatusMessages.PaymentMustBeHigher, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     return;
                 }
+
+                //if (lbPPPaymentMethod.SelectedIndex == -1)
+                //{
+                //    var messageBoxResult = WpfMessageBox.Show(StatusMessages.BillPaymentTitle, StatusMessages.PaymentMethodSelect, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                //    return;
+                //}
                 int orderId = 0;
                 orderId = PlaceOrder("DirectInvoice");
                 TableViewModel tableViewModel = new TableViewModel();
@@ -1322,16 +1443,15 @@ namespace RocketPOS.Helpers
                 customerBillModel.GrossAmount = customerOrderModel.GrossAmount;
                 customerBillModel.Discount = customerOrderModel.DiscountAmount;
                 customerBillModel.ServiceCharge = customerOrderModel.DeliveryCharges;
-                customerBillModel.VatableAmount = customerOrderModel.TaxAmount;
+                customerBillModel.VatableAmount = customerOrderModel.VatableAmount;
                 customerBillModel.TaxAmount = customerOrderModel.TaxAmount;
                 customerBillModel.TotalAmount = Convert.ToDecimal(lblPPTotalPayableAmount.Content);
                 customerBillModel.BillStatus = (int)EnumUtility.OrderPaidStatus.FullPaid;
-
                 customerBillModel.UserId = LoginDetail.UserId;
-                customerBillModel.PaymentMethodId = Convert.ToInt32(lbPPPaymentMethod.SelectedValue);
+                //customerBillModel.PaymentMethodId = Convert.ToInt32(lbPPPaymentMethod.SelectedValue);
                 customerBillModel.PaymentNumber = string.Empty;
 
-                insertedId = customerBillViewModel.InsertBillDetail(customerBillModel);
+                insertedId = customerBillViewModel.InsertBillDetail(customerBillModel, multipleBillPayment);
                 ppDirectInvoice.IsOpen = false;
                 if (insertedId > 0)
                 {
@@ -1878,7 +1998,11 @@ namespace RocketPOS.Helpers
                     Qty = 1,
                     Discount = 0,
                     Total = Convert.ToDecimal(foodMenuItem.SalesPrice) * 1,
-                    CustomerOrderItemId = 0
+                    CustomerOrderItemId = 0,
+                    Foodcess = Convert.ToDecimal(foodMenuItem.Foodcess),
+                    FoodVat = Convert.ToDecimal(foodMenuItem.FoodVat),
+                    TaxPercentage = Convert.ToDecimal(foodMenuItem.TaxPercentage),
+                    IsVatable = Convert.ToInt32(foodMenuItem.IsVatable)
                 });
                 //dgSaleItem.Items.Add(saleItems);
 
@@ -1928,7 +2052,7 @@ namespace RocketPOS.Helpers
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
 
-
+                
                 string settings = LoginDetail.MainWindowSettings;
                 string[] wordsSettings = settings.Split('$');
 
@@ -1977,7 +2101,7 @@ namespace RocketPOS.Helpers
 
                 //Hide control
 
-                if (LoginDetail.DeliveryList.Length ==0)
+                if (LoginDetail.DeliveryList.Length == 0)
                 {
                     btnServiceDeliveryPopUp.Visibility = Visibility.Hidden;
                     txtbTotalDeliveryChargeAmt.Visibility = Visibility.Hidden;
