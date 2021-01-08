@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using RocketPOS.Core.Configuration;
+using RocketPOS.Core.Constants;
 using RocketPOS.Model;
 using RocketPOS.ViewModels;
 using RocketPOS.Views;
@@ -28,7 +29,7 @@ namespace RocketPOS.Helpers.Reports
             InitializeComponent();
             dpFromDate.SelectedDate = System.DateTime.Now;
             dpToDate.SelectedDate = System.DateTime.Now;
-            customerOrderHistoryModel =  customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString("yyyy/MM/dd"), dpToDate.SelectedDate.Value.ToString("yyyy/MM/dd"));
+            customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString("yyyy/MM/dd"), dpToDate.SelectedDate.Value.ToString("yyyy/MM/dd"));
             this.dgOrderList.ItemsSource = customerOrderHistoryModel;
         }
 
@@ -39,18 +40,32 @@ namespace RocketPOS.Helpers.Reports
 
         private void btnSearchOrderList_Click(object sender, RoutedEventArgs e)
         {
-            List<CustomerOrderHistoryModel> customerOrderHistoryModel = new List<CustomerOrderHistoryModel>();
-            CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
-            customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString("yyyy/MM/dd"), dpToDate.SelectedDate.Value.ToString("yyyy/MM/dd"));
-            this.dgOrderList.ItemsSource = customerOrderHistoryModel;
+            try
+            {
+                List<CustomerOrderHistoryModel> customerOrderHistoryModel = new List<CustomerOrderHistoryModel>();
+                CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
+                customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString("yyyy/MM/dd"), dpToDate.SelectedDate.Value.ToString("yyyy/MM/dd"));
+                this.dgOrderList.ItemsSource = customerOrderHistoryModel;
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
         }
 
         private void btnReceiptPrint_Click(object sender, RoutedEventArgs e)
         {
-            ReceiptPrintView printReceipt = new ReceiptPrintView();
-            AppSettings appSettings = new AppSettings();
-            var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
-            printReceipt.Print(appSettings.GetPrinterName(), order.Id);
+            try
+            {
+                ReceiptPrintView printReceipt = new ReceiptPrintView();
+                AppSettings appSettings = new AppSettings();
+                var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
+                printReceipt.Print(appSettings.GetPrinterName(), order.Id);
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
         }
     }
 }

@@ -28,7 +28,7 @@ namespace RocketPOS.Helpers
 
                 txtUsername.Text = "Admin";
                 txtPassword.Password = "Admin";
-                
+
                 CenterWindowOnScreen();
             }
             catch (Exception ex)
@@ -39,42 +39,48 @@ namespace RocketPOS.Helpers
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-
-            loginModel = loginViewModel.GetUserLogin(txtUsername.Text, txtPassword.Password);
-            if (loginModel.Count > 0)
+            try
             {
-                LoginMerge(loginModel);
-
-                if (loginModel[0].OutletRegisterStatus == 1)
+                loginModel = loginViewModel.GetUserLogin(txtUsername.Text, txtPassword.Password);
+                if (loginModel.Count > 0)
                 {
-                    DateTime dt = new DateTime();
+                    LoginMerge(loginModel);
 
-                    string v = DateTime.Now.ToShortDateString();
-                    dt = DateTime.Parse(v);
-
-                    int result = DateTime.Compare(loginModel[0].SystemDate, dt);
-
-                    if (result < 0)
+                    if (loginModel[0].OutletRegisterStatus == 1)
                     {
-                        var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "You are running with past date,please close your register and start new register with current date", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+                        DateTime dt = new DateTime();
+
+                        string v = DateTime.Now.ToShortDateString();
+                        dt = DateTime.Parse(v);
+
+                        int result = DateTime.Compare(loginModel[0].SystemDate, dt);
+
+                        if (result < 0)
+                        {
+                            var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "You are running with past date,please close your register and start new register with current date", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+                        }
+
+                        loginViewModel.UpdateLoginLogout("login");
+                        loginViewModel.LoginHistory(1);
+
+                        MainWindow mainWin = new MainWindow();
+                        mainWin.Show();
+                        this.Hide();
                     }
-
-                    loginViewModel.UpdateLoginLogout("login");
-                    loginViewModel.LoginHistory(1);
-
-                    MainWindow mainWin = new MainWindow();
-                    mainWin.Show();
-                    this.Hide();
+                    else
+                    {
+                        var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Please contact admin to open your register.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    }
                 }
                 else
                 {
-                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Please contact admin to open your register.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Wrong UserName/PassWord", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    ResetControl();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Wrong UserName/PassWord", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
-                ResetControl();
+                SystemError.Register(ex);
             }
         }
 
