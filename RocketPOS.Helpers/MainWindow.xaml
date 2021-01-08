@@ -153,8 +153,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
-                        <RowDefinition Height="353"/>
-                        <RowDefinition Height="182"/>
+                        <RowDefinition Height="353"/> 
+                        <RowDefinition Height="182"/> 
                         <RowDefinition Height="50"/>
 
                     </Grid.RowDefinitions>
@@ -176,7 +176,7 @@
 
                         <Popup Name="ppDineInTables" Placement="Center" AllowsTransparency="False" >
                             <Border BorderBrush="Black" BorderThickness="5,5,5,5">
-                                <Grid Width="250" Height="500" Background="#86A09E">
+                                <Grid Width="250" Height="550" Background="#86A09E">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="250"/>
                                     </Grid.ColumnDefinitions>
@@ -184,16 +184,21 @@
                                         <RowDefinition Height="50"/>
                                         <RowDefinition Height="400"/>
                                         <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50"/>
                                     </Grid.RowDefinitions>
                                     <StackPanel Orientation="Horizontal" Margin="2" Grid.Row="0" >
                                         <TextBlock Text="Table Information" FontSize="20" Margin="5,5,5,5" Foreground="White" />
                                         <Button x:Name="btnPPCancelTable"  Content="Close" Height="40" Width="50" FontSize="16" Background="#00265B" Foreground="White" Margin="25,5,5,5" Click="btnPPCancelTable_Click"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="1" Grid.Row="1" >
-                                        <ListBox x:Name="lbTablesList" Width="200" Height="400" FontSize="24" HorizontalAlignment="Center"  DisplayMemberPath="TableName" SelectedValuePath="Id">
+                                        <ListBox x:Name="lbTablesList" Width="200" Height="400" FontSize="24" HorizontalAlignment="Center"  DisplayMemberPath="TableName" SelectedValuePath="Id" >
                                         </ListBox>
                                     </StackPanel>
-                                    <Button x:Name="btnPPSelectTable" Grid.Row="2" Content="Save" Height="40" Width="100" FontSize="16" Background="#00265B" Foreground="White" Margin="5,0,-130,0"  Click="btnPPSelectTable_Click"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="1" Grid.Row="2" >
+                                        <TextBlock Text="Total Person" FontSize="20" Margin="5,5,5,5" Foreground="White" />
+                                        <TextBox x:Name="txtAllocatedPerson" Width="80" Grid.Row="2" Grid.Column="1"/>
+                                    </StackPanel>
+                                    <Button x:Name="btnPPSelectTable" Grid.Row="3" Content="Save" Height="40" Width="100" FontSize="16" Background="#00265B" Foreground="White" Margin="5,0,-130,0"  Click="btnPPSelectTable_Click"/>
                                 </Grid>
                             </Border>
                         </Popup>
@@ -462,21 +467,7 @@
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" Grid.Row="1" Margin="2">
                                             <TextBlock x:Name="txtbPPSelectDiscount" Text="Select Discount Percentage" Foreground="White" FontSize="16" Grid.Row="1" />
-                                            <ListBox x:Name="lbPPDiscountPercent" Grid.Row="1" FontSize="24" >
-                                                <ListBoxItem>0</ListBoxItem>
-                                                <ListBoxItem>1</ListBoxItem>
-                                                <ListBoxItem>2</ListBoxItem>
-                                                <ListBoxItem>3</ListBoxItem>
-                                                <ListBoxItem>4</ListBoxItem>
-                                                <ListBoxItem>5</ListBoxItem>
-                                                <ListBoxItem>6</ListBoxItem>
-                                                <ListBoxItem>7</ListBoxItem>
-                                                <ListBoxItem>8</ListBoxItem>
-                                                <ListBoxItem>9</ListBoxItem>
-                                                <ListBoxItem>10</ListBoxItem>
-                                                <ListBoxItem>11</ListBoxItem>
-                                                <ListBoxItem>20</ListBoxItem>
-                                                <ListBoxItem>25</ListBoxItem>
+                                            <ListBox x:Name="lbPPDiscountPercent" Grid.Row="1" FontSize="24" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="380">
                                             </ListBox>
                                         </StackPanel>
                                         <Button x:Name="btnPPDiscountApply"  Grid.Row="2"  Content="Save" Height="40" Width="70" FontSize="16" Background="#00265B" Foreground="White" Margin="5,0,-160,5" Click="btnPPDiscountApply_Click"/>
@@ -534,18 +525,7 @@
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" Grid.Row="1" Margin="2">
                                             <TextBlock x:Name="txtbPPSelectDeliveryService" Text="Select Charges" Foreground="White" FontSize="16" />
-                                            <ListBox x:Name="lbPPPercentageDelivery" Grid.Row="1" Grid.Column="1" FontSize="26">
-                                                <ListBoxItem>0</ListBoxItem>
-                                                <ListBoxItem>10</ListBoxItem>
-                                                <ListBoxItem>15</ListBoxItem>
-                                                <ListBoxItem>20</ListBoxItem>
-                                                <ListBoxItem>25</ListBoxItem>
-                                                <ListBoxItem>15</ListBoxItem>
-                                                <ListBoxItem>20</ListBoxItem>
-                                                <ListBoxItem>25</ListBoxItem>
-                                                <ListBoxItem>15</ListBoxItem>
-                                                <ListBoxItem>20</ListBoxItem>
-                                                <ListBoxItem>25</ListBoxItem>
+                                            <ListBox x:Name="lbPPPercentageDelivery" Grid.Row="1" Grid.Column="1" FontSize="26" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="380">
                                             </ListBox>
                                         </StackPanel>
                                         <Button x:Name="btnPPDeliveryApply" Grid.Row="2" Content="Save" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White" Margin="230,5,5,5"  Click="btnPPDeliveryApply_Click"/>

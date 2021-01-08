@@ -41,5 +41,7 @@ namespace RocketPOS.Model
         public string MainWindowSettings { get; set; }
 
         public string HeaderMarqueeText { get; set; }
+        public string DeliveryList { get; set; }
+        public string DiscountList { get; set; }
     }
 }

@@ -22,35 +22,36 @@ namespace RocketPOS.ViewModels
             int insertedId = 0;
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
-                    var dynamicParameters = new DynamicParameters();
-                    dynamicParameters.Add("@CustomerOrderItemData", customerOrderItem.AsTableValuedParameter(StoredProcedure.TABLE_TYPE_CUST_ORDER_ITEMDATA));
-                    dynamicParameters.Add("@Id", customerOrderModel.Id);
-                    dynamicParameters.Add("@OutletId", customerOrderModel.OutletId);
-                    dynamicParameters.Add("@SalesInvoiceNumber", customerOrderModel.SalesInvoiceNumber);
-                    dynamicParameters.Add("@CustomerId", customerOrderModel.CustomerId);
-                    dynamicParameters.Add("@WaiterEmployeeId", customerOrderModel.WaiterEmployeeId);
-                    dynamicParameters.Add("@OrderType", customerOrderModel.OrderType);
-                    dynamicParameters.Add("@OrderDate", customerOrderModel.OrderDate);
-                    dynamicParameters.Add("@TableId", customerOrderModel.TableId);
-                    dynamicParameters.Add("@TockenNumber", customerOrderModel.TockenNumber);
-                    dynamicParameters.Add("@GrossAmount", customerOrderModel.GrossAmount);
-                    dynamicParameters.Add("@DiscountPercentage", customerOrderModel.DiscountPercentage);
-                    dynamicParameters.Add("@DiscountAmount", customerOrderModel.DiscountAmount);
-                    dynamicParameters.Add("@DeliveryCharges", customerOrderModel.DeliveryCharges);
-                    dynamicParameters.Add("@TaxAmount", customerOrderModel.TaxAmount);
-                    dynamicParameters.Add("@TotalPayable", customerOrderModel.TotalPayable);
-                    dynamicParameters.Add("@CustomerPaid", customerOrderModel.CustomerPaid);
-                    dynamicParameters.Add("@CustomerNote", customerOrderModel.CustomerNote);
-                    dynamicParameters.Add("@OrderStatus", customerOrderModel.OrderStatus);
-                    dynamicParameters.Add("@AnyReason", customerOrderModel.AnyReason);
-                    dynamicParameters.Add("@UserIdInserted", customerOrderModel.UserIdInserted);
-                    dynamicParameters.Add("@DateInserted", customerOrderModel.DateInserted);
-                    dynamicParameters.Add("@KotStatus", customerOrderModel.KotStatus);
-                    dynamicParameters.Add("@OrderPrefix", LoginDetail.OrderPrefix);
+                var dynamicParameters = new DynamicParameters();
+                dynamicParameters.Add("@CustomerOrderItemData", customerOrderItem.AsTableValuedParameter(StoredProcedure.TABLE_TYPE_CUST_ORDER_ITEMDATA));
+                dynamicParameters.Add("@Id", customerOrderModel.Id);
+                dynamicParameters.Add("@OutletId", customerOrderModel.OutletId);
+                dynamicParameters.Add("@SalesInvoiceNumber", customerOrderModel.SalesInvoiceNumber);
+                dynamicParameters.Add("@CustomerId", customerOrderModel.CustomerId);
+                dynamicParameters.Add("@WaiterEmployeeId", customerOrderModel.WaiterEmployeeId);
+                dynamicParameters.Add("@OrderType", customerOrderModel.OrderType);
+                dynamicParameters.Add("@OrderDate", customerOrderModel.OrderDate);
+                dynamicParameters.Add("@TableId", customerOrderModel.TableId);
+                dynamicParameters.Add("@AllocatedPerson", customerOrderModel.AllocatedPerson);
+                dynamicParameters.Add("@TockenNumber", customerOrderModel.TockenNumber);
+                dynamicParameters.Add("@GrossAmount", customerOrderModel.GrossAmount);
+                dynamicParameters.Add("@DiscountPercentage", customerOrderModel.DiscountPercentage);
+                dynamicParameters.Add("@DiscountAmount", customerOrderModel.DiscountAmount);
+                dynamicParameters.Add("@DeliveryCharges", customerOrderModel.DeliveryCharges);
+                dynamicParameters.Add("@TaxAmount", customerOrderModel.TaxAmount);
+                dynamicParameters.Add("@TotalPayable", customerOrderModel.TotalPayable);
+                dynamicParameters.Add("@CustomerPaid", customerOrderModel.CustomerPaid);
+                dynamicParameters.Add("@CustomerNote", customerOrderModel.CustomerNote);
+                dynamicParameters.Add("@OrderStatus", customerOrderModel.OrderStatus);
+                dynamicParameters.Add("@AnyReason", customerOrderModel.AnyReason);
+                dynamicParameters.Add("@UserIdInserted", customerOrderModel.UserIdInserted);
+                dynamicParameters.Add("@DateInserted", customerOrderModel.DateInserted);
+                dynamicParameters.Add("@KotStatus", customerOrderModel.KotStatus);
+                dynamicParameters.Add("@OrderPrefix", LoginDetail.OrderPrefix);
 
                 insertedId = connection.Query<int>
                         (StoredProcedure.PX_INSERT_CUSTOMER_ORDER, dynamicParameters, commandType: CommandType.StoredProcedure, commandTimeout: 0).FirstOrDefault();
-                    return insertedId;
+                return insertedId;
             }
         }
 
@@ -60,17 +61,17 @@ namespace RocketPOS.ViewModels
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
             {
                 string query = string.Empty;
-                query = "SELECT CO.Id,CO.CustomerOrderNo,CustomerId,C.CustomerName,CO.CustomerId, CO.WaiterEmployeeId,E.FirstName+' '+E.LastName AS WaiterName,OrderType,TableId " +
+                query = "SELECT CO.Id,CO.CustomerOrderNo,CustomerId,C.CustomerName,CO.CustomerId, CO.WaiterEmployeeId,E.FirstName+' '+E.LastName AS WaiterName,OrderType,TableId,AllocatedPerson " +
                                                                     " FROM CustomerOrder CO" +
                                                                     " INNER JOIN Customer C" +
                                                                     " ON CO.CustomerId = C.Id" +
-                                                                    " INNER JOIN Employee E" +
+                                                                    " LEFT JOIN Employee E" +
                                                                     " ON CO.WaiterEmployeeId = E.Id" +
                                                                     " Where CO.OrderStatus= " + orderStatus;
 
                 if (orderType != (int)EnumUtility.OrderType.All)
                 {
-                    query += " And CO.OrderType="+ orderType; 
+                    query += " And CO.OrderType=" + orderType;
                 }
 
                 if (!string.IsNullOrEmpty(searchKey))
@@ -90,7 +91,7 @@ namespace RocketPOS.ViewModels
             List<OrderDetailModel> orderDetailModel = new List<OrderDetailModel>();
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
-                var query = "SELECT CO.Id,CO.CustomerOrderNo,CO.OutletId,CO.SalesInvoiceNumber,CO.CustomerId,CO.WaiterEmployeeId,CO.OrderType,CO.TableId,CO.GrossAmount,CO.DiscountPercentage,CO.DiscountAmount,CO.DeliveryCharges,CO.TaxAmount,CO.TotalPayable,CO.CustomerNote,CO.OrderStatus, " +
+                var query = "SELECT CO.Id,CO.CustomerOrderNo,CO.OutletId,CO.SalesInvoiceNumber,CO.CustomerId,CO.WaiterEmployeeId,CO.OrderType,CO.TableId,CO.AllocatedPerson,CO.GrossAmount,CO.DiscountPercentage,CO.DiscountAmount,CO.DeliveryCharges,CO.TaxAmount,CO.TotalPayable,CO.CustomerNote,CO.OrderStatus, " +
                             " COI.Id AS CustomerOrderItemId,COI.FoodMenuId,COI.FoodMenuRate,COI.FoodMenuQty,COI.AddonsId,COI.AddonsQty,COI.VarientId,COI.Discount,COI.Price,FM.FoodCategoryId,FM.FoodMenuName,FM.FoodMenuCode,FM.ColourCode,FM.SmallThumb,FM.SalesPrice,ISNULL(FM.FoodVat,0) AS FoodVat,ISNULL(FM.Foodcess,0) AS Foodcess,FM.Notes,COKOT.KOTStatus,T.TableName " +
                             " FROM dbo.CustomerOrder CO  INNER JOIN dbo.CustomerOrderItem COI  ON CO.Id = COI.CustomerOrderId " +
                             " INNER JOIN dbo.CustomerOrderKOT COKOT  ON CO.Id = COKOT.CustomerOrderId " +
@@ -115,7 +116,7 @@ namespace RocketPOS.ViewModels
             }
         }
 
-        public List<CustomerOrderHistoryModel> GetCustomerOrderHistoryList( string fromDate, string toDate)
+        public List<CustomerOrderHistoryModel> GetCustomerOrderHistoryList(string fromDate, string toDate)
         {
             List<CustomerOrderHistoryModel> customerOrderHistoryModels = new List<CustomerOrderHistoryModel>();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
@@ -145,13 +146,13 @@ namespace RocketPOS.ViewModels
             }
         }
 
-        public int UpdateOrderStatus(string orderId,int orderStatus)
+        public int UpdateOrderStatus(string orderId, int orderStatus)
         {
             int insertedId = 0;
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
                 string query = string.Empty;
-                    query = @" Update CustomerOrder Set OrderStatus=@OrderStatus ,UserIdUpdated=@UserId,DateUpdated=@DateUpdated Where Id=@Id;
+                query = @" Update CustomerOrder Set OrderStatus=@OrderStatus ,UserIdUpdated=@UserId,DateUpdated=@DateUpdated Where Id=@Id;
                                SELECT CAST(@Id as int)";
 
                 insertedId = connection.Query<int>(query, new

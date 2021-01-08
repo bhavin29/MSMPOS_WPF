@@ -62,12 +62,14 @@ namespace RocketPOS.ViewModels
             return foodMenus;
         }
 
-        public int UploadFoodImage(string fileName,int foodMenuId)
+        public bool UploadFoodImage(string fileName,int foodMenuId)
         {
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
-                var query = "Update FoodMenu Set SmallThumb='"+ fileName + "' Where Id=" + foodMenuId;
-                return connection.Query<int>(query).FirstOrDefault();
+                var query = "Update FoodMenu Set SmallThumb=@FileName Where Id=@Id";
+                //return connection.Query<int>(query).FirstOrDefault();
+                var count = connection.Execute(query, new { FileName=fileName,Id= foodMenuId });
+                return count > 0;
             }
         }
     }

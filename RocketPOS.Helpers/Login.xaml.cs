@@ -112,6 +112,8 @@ namespace RocketPOS.Helpers
             LoginDetail.OutletRegisterId = loginModel[0].OutletRegisterId;
             LoginDetail.MainWindowSettings = loginModel[0].MainWindowSettings;
             LoginDetail.HeaderMarqueeText = loginModel[0].HeaderMarqueeText;
+            LoginDetail.DeliveryList = loginModel[0].DeliveryList;
+            LoginDetail.DiscountList = loginModel[0].DiscountList;
         }
 
         private void CenterWindowOnScreen()
