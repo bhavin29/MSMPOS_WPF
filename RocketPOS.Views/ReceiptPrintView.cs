@@ -276,6 +276,13 @@ namespace RocketPOS.Views
 
             DrawAtStartCenter(LoginDetail.Footer4, Offset, intFooter4);
             Offset = Offset + mediuminc;
+
+            DrawAtStartCenter(LoginDetail.Footer4, Offset, intFooter4);
+            Offset = Offset + mediuminc;
+            Offset = Offset + mediuminc;
+
+            if (LoginDetail.Powerby.Length > 0)
+                InsertItemList(LoginDetail.Powerby, null, Offset, 5);
         }
     }
 }
