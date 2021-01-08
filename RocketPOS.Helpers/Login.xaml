@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d"
-        Title=""
+        Title="" Closing="Window_Closing"
         Width="1280" Height="500" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
 
     <!--ShowInTaskbar="True" Topmost="true" WindowStyle="None" >-->

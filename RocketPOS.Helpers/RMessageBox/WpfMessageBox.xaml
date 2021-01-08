@@ -52,11 +52,11 @@
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0" 
 
-                    EndPoint="0,1" Opacity="0.5">
-                        <GradientStop Color="#5A80EA" 
+                    EndPoint="0,1" Opacity="1">
+                        <GradientStop Color="#5928b1" 
 
                         Offset="0.0"/>
-                        <GradientStop Color="#5A80EA" 
+                        <GradientStop Color="#5928b1" 
 
                         Offset="1.0"/>
                     </LinearGradientBrush>
@@ -71,7 +71,7 @@
 
                 LineHeight="22" FontSize="16" 
 
-                VerticalAlignment="Center" Foreground="Black"/>
+                VerticalAlignment="Center" Foreground="White"/>
             </Grid>
             <Image Name="img" Margin="5" Grid.Row="1" 
 
@@ -100,13 +100,13 @@
 
                     Margin="3,5" MinWidth="70" Height="35"  
 
-                    Click="Button_Click" Foreground="Black" 
+                    Click="Button_Click" Foreground="White" 
 
                     FontSize="14" 
 
                             Style="{StaticResource MessageBoxButtonStyle}"     
 
-                            Background="#5A80EA" VerticalAlignment="Center" 
+                            Background="#5928b1" VerticalAlignment="Center" 
 
                             HorizontalAlignment="Stretch"  
 
@@ -117,11 +117,11 @@
 
                     Margin="3,5" MinWidth="70" Height="35" 
 
-                    Click="Button_Click" Foreground="Black" FontSize="14" 
+                    Click="Button_Click" Foreground="White" FontSize="14" 
 
                             Style="{StaticResource MessageBoxButtonStyle}"    
 
-                            Background="#5A80EA" VerticalAlignment="Center" 
+                            Background="#5928b1" VerticalAlignment="Center" 
 
                             HorizontalAlignment="Stretch"  
 
@@ -132,13 +132,13 @@
 
                     Margin="3,5" MinWidth="70" Height="35" 
 
-                    Click="Button_Click" Foreground="Black" 
+                    Click="Button_Click" Foreground="White" 
 
                     FontSize="14" 
 
                               Style="{StaticResource MessageBoxButtonStyle}"   
 
-                              Background="#5A80EA" VerticalAlignment="Center" 
+                              Background="#5928b1" VerticalAlignment="Center" 
 
                               HorizontalAlignment="Stretch"  
 
@@ -153,9 +153,9 @@
 
                                 Style="{StaticResource MessageBoxButtonStyle}" 
 
-                                Foreground="Black" 
+                                Foreground="White" 
 
-                                Background="#5A80EA" FontSize="14" 
+                                Background="#5928b1" FontSize="14" 
 
                                 VerticalAlignment="Center" 
 

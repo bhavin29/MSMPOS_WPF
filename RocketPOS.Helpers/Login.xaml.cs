@@ -64,7 +64,7 @@ namespace RocketPOS.Helpers
 
                     MainWindow mainWin = new MainWindow();
                     mainWin.Show();
-                    this.Close();
+                    this.Hide();
                 }
                 else
                 {
@@ -132,6 +132,11 @@ namespace RocketPOS.Helpers
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            App.Current.Shutdown();
         }
     }
 }

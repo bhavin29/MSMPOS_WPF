@@ -111,7 +111,7 @@ namespace RocketPOS.Helpers
                     btnCategory.BorderThickness = new Thickness(1);
                     btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#bcddee"));
                     btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                    btnCategory.Margin = new Thickness(1, 0, 0, 0);
+                    btnCategory.Margin = new Thickness(0, 0, 0, 0);
                     btnCategory.Click += GetSubCategory;
                     spCategory.Children.Add(btnCategory);
                 }
@@ -129,7 +129,7 @@ namespace RocketPOS.Helpers
                         btnCategory.BorderThickness = new Thickness(1);
                         btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                         btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                        btnCategory.Margin = new Thickness(1, 0, 0, 0);
+                        btnCategory.Margin = new Thickness(0, 0, 0, 0);
                         btnCategory.Click += GetSubCategory;
                         spCategory.Children.Add(btnCategory);
                     }
@@ -144,7 +144,7 @@ namespace RocketPOS.Helpers
                         btnCategory.BorderThickness = new Thickness(1);
                         btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                         btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                        btnCategory.Margin = new Thickness(1, 0, 0, 0);
+                        btnCategory.Margin = new Thickness(0, 0, 0, 0);
                         btnCategory.Click += GetSubCategory;
                         spFavouriteCategory.Children.Add(btnCategory);
                     }
@@ -1796,7 +1796,8 @@ namespace RocketPOS.Helpers
             try
             {
                 CustomerOrderHistoryList customerOrderHistoryList = new CustomerOrderHistoryList();
-                customerOrderHistoryList.Show();
+                customerOrderHistoryList.Owner = this;
+                customerOrderHistoryList.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -2010,7 +2011,7 @@ namespace RocketPOS.Helpers
             try
             {
                 DineInTables dineInTables = new DineInTables();
-                dineInTables.Show();
+                dineInTables.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -2123,9 +2124,17 @@ namespace RocketPOS.Helpers
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-
             }
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Login frmLogin = new Login();
+
+            loginViewModel.UpdateLoginLogout("logout");
+            loginViewModel.LoginHistory(2);
+            frmLogin.Show();
+            this.Hide();
+        }
     }
 }
