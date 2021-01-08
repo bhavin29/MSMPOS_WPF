@@ -42,7 +42,9 @@ namespace RocketPOS.ViewModels
             {
                 connection.Open();
 
-                var query = "SELECT FM.FoodMenuName,COI.FoodMenuQty,COI.FoodMenuRate,COI.Price FROM CustomerOrderItem  COI " +
+                var query = " SELECT FM.FoodMenuName,COI.FoodMenuQty,COI.FoodMenuRate,COI.Price, " +
+                            " (SELECT CASE WHEN ISNULL(COI.FOODMENUVAT,0) <> 0 OR ISNULL(COI.FOODMenuCess,0) <> 0 THEN 'V' ELSE '' END) AS FOODVAT " +
+                            " FROM CustomerOrderItem  COI " +
                             " INNER JOIN FoodMenu FM ON FM.ID = COI.FoodMenuId " +
                             " WHERE CustomerOrderId = " + billId.ToString();
 

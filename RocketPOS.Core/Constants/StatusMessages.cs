@@ -4,6 +4,7 @@
     {
         public const string AppTitle = "ROCKET POS";
         public const string PlaceOrderSuccess = "Order Placed Successfully.";
+        public const string PlaceOrderHold = "Order Placed Hold Successfully.";
         public const string PlaceOrderFailed = "Order Placed Failed.";
         public const string BillDetailSaveSuccess = "Bill Details Save Successfully.";
         public const string BillDetailSaveFailed = "Bill Details Save Failed.";

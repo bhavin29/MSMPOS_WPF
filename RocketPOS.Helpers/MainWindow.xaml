@@ -55,7 +55,7 @@
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal">
                         <TextBox x:Name="txtSearchFoodMenuList"  Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBoxBaseStyle}" Width="480" Margin="0,5,0,5" TextChanged="txtSearchFoodMenuList_TextChanged"/>
-                        <Button x:Name="btnPPFoodListCancel" Margin="15,0,0,0" Width="100" Height="40" Grid.Row="0" Grid.Column="0" Content="Cancel" Click="btnPPFoodListCancel_Click"/>
+                            <Button x:Name="btnPPFoodListCancel" Margin="15,0,0,0" Width="100" Height="40" FontSize="16" Background="#00265B" Foreground="White" Grid.Row="0" Grid.Column="0" Content="Close" Click="btnPPFoodListCancel_Click"/>
                         </StackPanel>
               <DataGrid x:Name="dgFoodMenuList" Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding FoodMenu}" MouseDoubleClick="dgFoodMenuList_MouseDoubleClick">
                             <DataGrid.Columns>

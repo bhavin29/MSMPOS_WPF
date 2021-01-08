@@ -13,7 +13,7 @@ namespace RocketPOS.Views
 {
     //https://stackoverflow.com/questions/28096578/writing-nice-receipt-in-c-sharp-wpf-for-printing-on-thermal-printer-pos
 
-    public class ReceiptPrintView
+    public class ReceiptPrintSmallView
     {
 
         private PrintDocument PrintDocument;
@@ -22,7 +22,7 @@ namespace RocketPOS.Views
         private int billId = 0;
         int pageWidthHeader = 50;
 
-        public ReceiptPrintView()
+        public ReceiptPrintSmallView()
         {
             //  this.order = order;
             //  this.shop = shop;
@@ -165,7 +165,7 @@ namespace RocketPOS.Views
             String underLine = "-------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
-            Offset = Offset + mediuminc + 6;
+            Offset = Offset + mediuminc;
             DrawAtStart("Receipt Number: " + printReceiptModel[0].SalesInvoiceNumber.ToString().PadRight((20 - printReceiptModel[0].SalesInvoiceNumber.ToString().Length) + 10) + "Date: " + DateTime.Now.ToString("MM/dd/yyyy HH:mm"), Offset); ;
 
             Offset = Offset + mediuminc;
@@ -185,7 +185,10 @@ namespace RocketPOS.Views
                 InsertItemList(item.FoodMenuName.ToString(), "", Offset, 5);
                 InsertItemList(item.FoodMenuRate.ToString("F"), "", Offset, 60 + (50 - (item.FoodMenuRate.ToString().Length * 4)));
                 InsertItemList(item.FoodMenuQty.ToString("F"), "", Offset, 90 + (50 - (item.FoodMenuQty.ToString().Length * 4)));
-                InsertItemList(item.Price.ToString("F") + " " + item.FoodVat.ToString(), "", Offset, 133 + (50 - (item.Price.ToString().Length * 4)));
+                InsertItemList(item.Price.ToString("F"), "", Offset, 133 + (50 - (item.Price.ToString().Length * 4)));
+
+                // InsertItem(item.FoodMenuName.ToString().PadRight((55- (item.FoodMenuName.ToString().Length)))  + "x " +   item.FoodMenuRate.ToString("F").PadRight((25 - (item.FoodMenuRate.ToString().Length))) + item.Price.ToString("F"), "", Offset);
+
                 Offset = Offset + smallinc;
             }
             Offset = Offset - smallinc;
@@ -197,16 +200,17 @@ namespace RocketPOS.Views
             InsertItem("GROSS TOTAL: ", printReceiptModel[0].GrossAmount.ToString("F").PadLeft(30 - printReceiptModel[0].GrossAmount.ToString().Length), Offset);
 
             Offset = Offset + smallinc;
+            InsertItem("DISCOUNT : ", printReceiptModel[0].Discount.ToString("F").PadLeft(30 - printReceiptModel[0].Discount.ToString().Length), Offset);
+
+            Offset = Offset + smallinc;
             InsertItem("VATABLE: ", printReceiptModel[0].VatableAmount.ToString("F").PadLeft(30 - printReceiptModel[0].VatableAmount.ToString().Length), Offset);
-            
+
             Offset = Offset + smallinc;
-            InsertItem("DISCOUNT: ", printReceiptModel[0].Discount.ToString("F").PadLeft(30 - printReceiptModel[0].Discount.ToString().Length), Offset);
- 
-            Offset = Offset + smallinc;
-            InsertItem("DELIVERY CHARGE: ", printReceiptModel[0].ServiceCharge.ToString("F").PadLeft(30 - printReceiptModel[0].ServiceCharge.ToString().Length), Offset);
+            InsertItem("SER CRH: ", printReceiptModel[0].ServiceCharge.ToString("F").PadLeft(30 - printReceiptModel[0].ServiceCharge.ToString().Length), Offset);
 
             Offset = Offset + smallinc;
             InsertItem("TOTAL: ", printReceiptModel[0].TotalAmount.ToString("F").PadLeft(30 - printReceiptModel[0].TotalAmount.ToString().Length), Offset);
+
 
             underLine = "-------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
@@ -233,6 +237,38 @@ namespace RocketPOS.Views
 
             DrawAtStartCenter(LoginDetail.Footer4, Offset);
             Offset = Offset + mediuminc;
+
+
+            //DrawAtStart(LoginDetail.Footer1, Offset);
+
+            //Offset = Offset + mediuminc;
+            //DrawAtStart(LoginDetail.Footer2, Offset);
+
+            //Offset = Offset + mediuminc;
+            //DrawAtStart(LoginDetail.Footer3, Offset);
+
+            //Offset = Offset + mediuminc;
+            //DrawAtStart(LoginDetail.Footer4, Offset);
+
+            //Offset = Offset + 7;
+            //underLine = "-------------------------------------";
+            //DrawLine(underLine, largefont, Offset, 0);
+
+            //Offset = Offset + mediuminc;
+            //String greetings = "Thanks for visiting us.";
+            //DrawSimpleString(greetings, mediumfont, Offset, 28);
+
+            //Offset = Offset + mediuminc;
+            //underLine = "-------------------------------------";
+            //DrawLine(underLine, largefont, Offset, 0);
+
+            //Offset += (2 * mediuminc);
+            //string tip = "TIP: -----------------------------";
+            //InsertItem(tip, "", Offset);
+
+            //Offset = Offset + largeinc;
+            //string DrawnBy = "Meganos Softwares: 0312-0459491 - OR - 0321-6228321";
+            //DrawSimpleString(DrawnBy, minifont, Offset, 15);
         }
     }
 }

@@ -108,7 +108,7 @@ namespace RocketPOS.Helpers
                     btnCategory.FontSize = 15;
                     btnCategory.Width = 100;
                     btnCategory.Height = 50;
-                    btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFADADAD"));
+                    btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#bcddee"));
                     btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                     btnCategory.Margin = new Thickness(1, 0, 0, 0);
                     btnCategory.Click += GetSubCategory;
@@ -628,10 +628,15 @@ namespace RocketPOS.Helpers
 
             if (insertedId > 0)
             {
-                if (type != "DirectInvoice")
+                if (type == "Hold")
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.PlaceOrderHold, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                }
+                else if (type != "DirectInvoice")
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.PlaceOrderSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
                 }
+
                 ClearCustomerOrderItemControll();
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
             }
@@ -673,7 +678,7 @@ namespace RocketPOS.Helpers
                 foreach (var btn in spFavouriteCategory.Children.OfType<Button>().Where(x => x.Name.StartsWith("btn")))
                     btn.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
 
-                btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFADADAD"));
+                btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#bcddee"));
 
                 var categoryId = btnCategory.Name.Substring(3);//Get the button id
                 GetFoodItems(categoryId);
@@ -961,6 +966,25 @@ namespace RocketPOS.Helpers
                 CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
                 string orderId = string.Empty;
                 int insertedId = 0;
+
+                if (rdbDeliveryOrderType.IsChecked == false && rdbDineInOrderType.IsChecked == false && rdbTakeAwayOrderType.IsChecked == false)
+                {
+                    var messageBoxResult1 = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectOrderType, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    return;
+                }
+                if (dgSaleItem.Items.Count == 0)
+                {
+                    var messageBoxResult2 = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.CartEmpty, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (cmbCustomer.SelectedIndex == -1)
+                {
+                    var messageBoxResult3 = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectCustomer, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    cmbCustomer.Focus();
+                    return;
+                }
+   
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.CancelOrderTitle, StatusMessages.CancelOrder, MessageBoxButton.YesNo, EnumUtility.MessageBoxImage.Question);
                 if (messageBoxResult.ToString() == "Yes")
                 {
@@ -1194,12 +1218,17 @@ namespace RocketPOS.Helpers
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.CartEmpty, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     return;
                 }
-                if (cmbWaiter.SelectedIndex == -1)
+                if (rdbDeliveryOrderType.IsChecked == false && rdbDineInOrderType.IsChecked == false && rdbTakeAwayOrderType.IsChecked == false)
                 {
-                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectWaiter, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
-                    cmbWaiter.Focus();
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectOrderType, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     return;
                 }
+                //if (cmbWaiter.SelectedIndex == -1)
+                //{
+                //    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectWaiter, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                //    cmbWaiter.Focus();
+                //    return;
+                //}
                 if (cmbCustomer.SelectedIndex == -1)
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectCustomer, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
@@ -1593,12 +1622,17 @@ namespace RocketPOS.Helpers
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.CartEmpty, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     return;
                 }
-                if (cmbWaiter.SelectedIndex == -1)
+                if (rdbDeliveryOrderType.IsChecked == false && rdbDineInOrderType.IsChecked == false && rdbTakeAwayOrderType.IsChecked == false)
                 {
-                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectWaiter, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
-                    cmbWaiter.Focus();
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectOrderType, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     return;
                 }
+                //if (cmbWaiter.SelectedIndex == -1)
+                //{
+                //    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectWaiter, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                //    cmbWaiter.Focus();
+                //    return;
+                //}
                 if (cmbCustomer.SelectedIndex == -1)
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectCustomer, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
@@ -1696,7 +1730,7 @@ namespace RocketPOS.Helpers
 
             }
         }
-       
+
         void timer_Tick(object sender, EventArgs e)
         {
             try
@@ -1874,7 +1908,7 @@ namespace RocketPOS.Helpers
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
 
-                
+
                 string settings = LoginDetail.MainWindowSettings;
                 string[] wordsSettings = settings.Split('$');
 
@@ -1906,7 +1940,7 @@ namespace RocketPOS.Helpers
 
                     }
                 }
-               
+
                 //Set Header Marquee Text
                 txtHeaderTitle.Text = LoginDetail.HeaderMarqueeText;
                 canMain.Height = 50;

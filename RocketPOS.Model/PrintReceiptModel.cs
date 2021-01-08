@@ -30,5 +30,6 @@ namespace RocketPOS.Model
         public float FoodMenuQty { get; set; }
         public float FoodMenuRate { get; set; }
         public float Price { get; set; }
+        public string FoodVat { get; set; }
     }
 }
