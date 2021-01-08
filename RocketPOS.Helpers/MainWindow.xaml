@@ -605,10 +605,10 @@
                                         <Label x:Name="lblPPTotalPayment" HorizontalAlignment="Left" Content="Select Payment Method" Foreground="White" FontSize="16" Height="40" Width="177" Grid.Row="2" Grid.Column="0"/>
                                         <ListBox x:Name="lbPPPaymentMethod" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding}" SelectedValuePath="Id" FontSize="20" Margin="5" DisplayMemberPath="PaymentMethodName"/>
                                         <!--Invoice PopUp Row 3-->
-                                        <Label x:Name="lblPPPayAmount" HorizontalAlignment="Left" Content="Customer Pay" Foreground="White" FontSize="16" Height="40" Width="150" Grid.Row="3" Grid.Column="0"/>
+                                        <Label x:Name="lblPPPayAmount" HorizontalAlignment="Left" Content="Paid" Foreground="White" FontSize="16" Height="40" Width="150" Grid.Row="3" Grid.Column="0"/>
                                         <TextBox x:Name="txtPPPayAmount"  FontSize="24" FontWeight="Bold"  HorizontalContentAlignment="Right"   Height="40" Width="165" Grid.Row="3" Grid.Column="1" TextChanged="txtPPPayAmount_TextChanged"/>
                                         <!--Invoice PopUp Row 4-->
-                                        <Label x:Name="lblPPChangeAmount" HorizontalAlignment="Left" Content="Pay back to Customer" Foreground="White" FontSize="16" Height="40" Width="175" Grid.Row="4" Grid.Column="0"/>
+                                        <Label x:Name="lblPPChangeAmount" HorizontalAlignment="Left" Content="Chnage" Foreground="White" FontSize="16" Height="40" Width="175" Grid.Row="4" Grid.Column="0"/>
                                         <Label x:Name="lblPPChangeAmountTotal" HorizontalContentAlignment="Right" FontSize="24" Background="Black" FontWeight="Bold" Foreground="White" Height="40" Width="165" Grid.Row="4" Grid.Column="1"/>
 
                                         <Button x:Name="btnDirectInvoiceSubmit" Content="Save" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Margin="105,5,5,5" Grid.Row="5" Grid.Column="1"  Click="btnDirectInvoiceSubmit_Click" />

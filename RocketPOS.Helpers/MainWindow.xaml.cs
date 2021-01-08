@@ -333,6 +333,7 @@ namespace RocketPOS.Helpers
                 btnEditCustomer.IsEnabled = false;
                 txtPPPayAmount.Text = "";
                 lblPPChangeAmountTotal.Content = "";
+                txtTableNumber.Text = "";
             }
             catch (Exception ex)
             {
@@ -1811,6 +1812,8 @@ namespace RocketPOS.Helpers
                 foodMenus = foodMenuViewModel.GetFoodMenuPopUpList(LoginDetail.OutletId, string.Empty);
                 ppFoodMenuList.IsOpen = true;
                 dgFoodMenuList.ItemsSource = foodMenus;
+                txtSearchFoodMenuList.Text = "";
+                txtSearchFoodMenuList.Focus();
             }
             catch (Exception ex)
             {
@@ -1824,6 +1827,7 @@ namespace RocketPOS.Helpers
             try
             {
                 ppFoodMenuList.IsOpen = false;
+                txtSearchFoodMenuList.Text = "";
             }
             catch (Exception ex)
             {
@@ -1899,6 +1903,7 @@ namespace RocketPOS.Helpers
                     dgSaleItem.Items.Refresh();
                 }
                 ppFoodMenuList.IsOpen = false;
+                txtSearchFoodMenuList.Text = "";
             }
             catch (Exception ex)
             {
@@ -1965,6 +1970,16 @@ namespace RocketPOS.Helpers
                 doubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
                 doubleAnimation.Duration = new Duration(TimeSpan.Parse("0:0:20"));
                 txtHeaderTitle.BeginAnimation(Canvas.RightProperty, doubleAnimation);
+
+                //Hide control
+
+                if (LoginDetail.DeliveryList.Length ==0)
+                {
+                    btnServiceDeliveryPopUp.Visibility = Visibility.Hidden;
+                    txtbTotalDeliveryChargeAmt.Visibility = Visibility.Hidden;
+                    txtbServiceDeliveryCharge.Visibility = Visibility.Hidden;
+                    txtbServiceDeliveryChargeLabel.Visibility = Visibility.Hidden;
+                }
 
             }
             catch (Exception ex)

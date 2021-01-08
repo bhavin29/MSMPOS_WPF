@@ -20,7 +20,7 @@ namespace RocketPOS.ViewModels
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
                 connection.Open();
-                var query = "SELECT b.CustomerOrderId,b.Id As BillId,CO.SalesInvoiceNumber,B.BillDateTime,O.OutletName,U.Username,C.CustomerName,B.GrossAmount,B.VatableAmount,B.Discount,B.ServiceCharge,B.TotalAmount,PM.PaymentMethodName,BD.BillAmount FROM Bill B " +
+                var query = "SELECT b.CustomerOrderId,b.Id As BillId,CO.SalesInvoiceNumber,B.BillDateTime,O.OutletName,U.Username,C.CustomerName,B.GrossAmount,B.TaxAmount,B.VatableAmount,(B.GrossAmount - (B.VatableAmount + B.TaxAmount))  as NonVATAmount, B.Discount,B.ServiceCharge,B.TotalAmount,PM.PaymentMethodName,BD.BillAmount FROM Bill B " +
                             "  INNER JOIN CustomerOrder CO ON B.CustomerOrderId = CO.Id " +
                             "  INNER JOIN BillDetail BD ON B.Id = BD.BillId " +
                             "  INNER JOIN Outlet O ON O.Id = B.OutletId " +
@@ -43,7 +43,7 @@ namespace RocketPOS.ViewModels
                 connection.Open();
 
                 var query = " SELECT FM.FoodMenuName,COI.FoodMenuQty,COI.FoodMenuRate,COI.Price, " +
-                            " (SELECT CASE WHEN ISNULL(COI.FOODMENUVAT,0) <> 0 OR ISNULL(COI.FOODMenuCess,0) <> 0 THEN 'V' ELSE '' END) AS FOODVAT " +
+                            " (select case when foodmenutaxtype = 1 then 'V' when foodmenutaxtype = 2 then 'E' when foodmenutaxtype = 3 then 'Z' ELSE '' end) AS FOODVAT " + 
                             " FROM CustomerOrderItem  COI " +
                             " INNER JOIN FoodMenu FM ON FM.ID = COI.FoodMenuId " +
                             " WHERE CustomerOrderId = " + billId.ToString();

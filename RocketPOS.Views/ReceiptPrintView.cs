@@ -56,7 +56,7 @@ namespace RocketPOS.Views
                      new SolidBrush(Color.Black), startX + 5, startY + Offset);
         }
         //NEW
-        void DrawAtStartCenter(string text, int Offset,int OffsetX)
+        void DrawAtStartCenter(string text, int Offset, int OffsetX)
         {
             //  int intPadding = 
             int startX = OffsetX + 25 + ((pageWidthHeader - text.Length) / 2) * 4;
@@ -172,26 +172,22 @@ namespace RocketPOS.Views
 
             Offset = Offset + Offset;
 
-            //Name
-            int intPadding = 10 + ((pageWidthHeader - LoginDetail.ClientName.Length) / 2) * 4;
-
- 
             graphics.DrawString(LoginDetail.ClientName, smallfont, new SolidBrush(Color.Black), intClientName, Offset);//50 + 22
 
             Offset = Offset + mediuminc;
-            DrawAtStartCenter(LoginDetail.Header, Offset,intHeader);
+            DrawAtStartCenter(LoginDetail.Header, Offset, intHeader);
 
             Offset = Offset + mediuminc;
-            DrawAtStartCenter(LoginDetail.Address1, Offset,intAddress1);
+            DrawAtStartCenter(LoginDetail.Address1, Offset, intAddress1);
 
             Offset = Offset + mediuminc;
-            DrawAtStartCenter(LoginDetail.Address2, Offset,intAddress2);
+            DrawAtStartCenter(LoginDetail.Address2, Offset, intAddress2);
 
             Offset = Offset + mediuminc;
-            DrawAtStartCenter("Email : " + LoginDetail.Email, Offset,intEmail);
+            DrawAtStartCenter("Email : " + LoginDetail.Email, Offset, intEmail);
 
             Offset = Offset + mediuminc;
-            DrawAtStartCenter("Phone : " + LoginDetail.Phone, Offset,intPhone);
+            DrawAtStartCenter("Phone : " + LoginDetail.Phone, Offset, intPhone);
 
             String underLine = "-------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
@@ -207,15 +203,15 @@ namespace RocketPOS.Views
 
             Offset = Offset + largeinc;
 
-            InsertHeaderStyleItem("ITEM".PadRight(intItemHeader) +  "RATE     QTY    AMOUNT ", "", Offset);
+            InsertHeaderStyleItem("ITEM".PadRight(intItemHeader) + "QTY    RATE    AMOUNT ", "", Offset);
 
             Offset = Offset + largeinc;
 
             foreach (var item in printReceiptItemModel)
             {
                 InsertItemList(item.FoodMenuName.ToString(), "", Offset, intItemFoodMenuName);
-                InsertItemList(item.FoodMenuRate.ToString("F"), "", Offset, intItemFoodMenuRate + (50 - (item.FoodMenuRate.ToString().Length * 4)));
                 InsertItemList(item.FoodMenuQty.ToString("F"), "", Offset, intItemFoodMenuQty + (50 - (item.FoodMenuQty.ToString().Length * 4)));
+                InsertItemList(item.FoodMenuRate.ToString("F"), "", Offset, intItemFoodMenuRate + (50 - (item.FoodMenuRate.ToString().Length * 4)));
                 InsertItemList(item.Price.ToString("F") + " " + item.FoodVat.ToString(), "", Offset, intItemPrice + (50 - (item.Price.ToString().Length * 4)));
                 Offset = Offset + smallinc;
             }
@@ -229,12 +225,24 @@ namespace RocketPOS.Views
 
             Offset = Offset + smallinc;
             InsertItem("VATABLE: ", printReceiptModel[0].VatableAmount.ToString("F").PadLeft(intVATABLE - printReceiptModel[0].VatableAmount.ToString().Length), Offset);
-            
+
             Offset = Offset + smallinc;
-            InsertItem("DISCOUNT: ", printReceiptModel[0].Discount.ToString("F").PadLeft(intDISCOUNT - printReceiptModel[0].Discount.ToString().Length), Offset);
- 
+            InsertItem("VAT: ", printReceiptModel[0].TaxAmount.ToString("F").PadLeft(intVATABLE - printReceiptModel[0].TaxAmount.ToString().Length), Offset);
+
             Offset = Offset + smallinc;
-            InsertItem("DELIVERY CHARGE: ", printReceiptModel[0].ServiceCharge.ToString("F").PadLeft(intDELIVERYCharge - printReceiptModel[0].ServiceCharge.ToString().Length), Offset);
+            InsertItem("Non VAT: ", printReceiptModel[0].NonVATAmount.ToString("F").PadLeft(intVATABLE - printReceiptModel[0].NonVATAmount.ToString().Length), Offset);
+
+            if (printReceiptModel[0].Discount.ToString("F") != "0.00")
+            {
+                Offset = Offset + smallinc;
+                InsertItem("DISCOUNT: ", printReceiptModel[0].Discount.ToString("F").PadLeft(intDISCOUNT - printReceiptModel[0].Discount.ToString().Length), Offset);
+            }
+
+            if (printReceiptModel[0].ServiceCharge.ToString("F") != "0.00")
+            {
+                Offset = Offset + smallinc;
+                InsertItem("DELIVERY CHARGE: ", printReceiptModel[0].ServiceCharge.ToString("F").PadLeft(intDELIVERYCharge - printReceiptModel[0].ServiceCharge.ToString().Length), Offset);
+            }
 
             Offset = Offset + smallinc;
             InsertItem("TOTAL: ", printReceiptModel[0].TotalAmount.ToString("F").PadLeft(intTOTAL - printReceiptModel[0].TotalAmount.ToString().Length), Offset);
@@ -242,27 +250,31 @@ namespace RocketPOS.Views
             underLine = "-------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
-            Offset = Offset + largeinc;
-            InsertItem("Paid: ", printReceiptModel[0].PaymentMethodName.ToString().PadRight(2) + " " + printReceiptModel[0].BillAmount.ToString("F").PadLeft(intPaid), Offset);
+            //       InsertItem("Paid: ", printReceiptModel[0].PaymentMethodName.ToString().PadRight(2) + " " + printReceiptModel[0].BillAmount.ToString("F").PadLeft(intPaid), Offset);
 
             Offset = Offset + largeinc;
+            foreach (PrintReceiptModel payment in printReceiptModel)
+            {
+                InsertItem(payment.PaymentMethodName, payment.BillAmount.ToString("F").PadLeft(intPaid), Offset);
+                Offset = Offset + smallinc;
+            }
+            Offset = Offset + largeinc;
             Offset = Offset + largeinc;
 
-            intPadding = 10 + ((pageWidthHeader - LoginDetail.ClientName.Length) / 2) * 3;
             graphics.DrawString(LoginDetail.Footer, smallfont, new SolidBrush(Color.Black), intFooter, Offset);//50 + 22
 
             Offset = Offset + largeinc;
 
-            DrawAtStartCenter(LoginDetail.Footer1, Offset,intFooter1);
+            DrawAtStartCenter(LoginDetail.Footer1, Offset, intFooter1);
             Offset = Offset + mediuminc;
 
-            DrawAtStartCenter(LoginDetail.Footer2, Offset,intFooter2);
+            DrawAtStartCenter(LoginDetail.Footer2, Offset, intFooter2);
             Offset = Offset + mediuminc;
 
-            DrawAtStartCenter(LoginDetail.Footer3, Offset,intFooter3);
+            DrawAtStartCenter(LoginDetail.Footer3, Offset, intFooter3);
             Offset = Offset + mediuminc;
 
-            DrawAtStartCenter(LoginDetail.Footer4, Offset,intFooter4);
+            DrawAtStartCenter(LoginDetail.Footer4, Offset, intFooter4);
             Offset = Offset + mediuminc;
         }
     }

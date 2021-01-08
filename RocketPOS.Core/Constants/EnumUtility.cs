@@ -68,5 +68,13 @@ namespace RocketPOS.Core.Constants
             [Display(Name = "Waiter")]
             Waiter = 4,
         }
+
+        public enum TaxType
+        {
+            Vat = 1,
+            Exempted = 2,
+            Zero = 3,
+        }
+
     }
 }
