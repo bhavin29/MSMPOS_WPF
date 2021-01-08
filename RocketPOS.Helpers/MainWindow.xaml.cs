@@ -106,11 +106,12 @@ namespace RocketPOS.Helpers
                     btnCategory.Content = "All";
                     btnCategory.Name = "btnAll";
                     btnCategory.FontSize = 15;
-                    btnCategory.Width = 100;
+                    btnCategory.Width = 102;
                     btnCategory.Height = 50;
+                    btnCategory.BorderThickness = new Thickness(1);
                     btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#bcddee"));
                     btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                    btnCategory.Margin = new Thickness(1, 0, 0, 0);
+                    btnCategory.Margin = new Thickness(0, 0, 0, 0);
                     btnCategory.Click += GetSubCategory;
                     spCategory.Children.Add(btnCategory);
                 }
@@ -123,11 +124,12 @@ namespace RocketPOS.Helpers
                         btnCategory.Content = foodCategory.FoodCategory;
                         btnCategory.Name = "btn" + foodCategory.Id;
                         btnCategory.FontSize = 15;
-                        btnCategory.Width = 100;
+                        btnCategory.Width = 102;
                         btnCategory.Height = 50;
+                        btnCategory.BorderThickness = new Thickness(1);
                         btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                         btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                        btnCategory.Margin = new Thickness(1, 0, 0, 0);
+                        btnCategory.Margin = new Thickness(0, 0, 0, 0);
                         btnCategory.Click += GetSubCategory;
                         spCategory.Children.Add(btnCategory);
                     }
@@ -137,11 +139,12 @@ namespace RocketPOS.Helpers
                         btnCategory.Content = foodCategory.FoodCategory;
                         btnCategory.Name = "btn" + foodCategory.Id;
                         btnCategory.FontSize = 15;
-                        btnCategory.Width = 100;
+                        btnCategory.Width = 102;
                         btnCategory.Height = 50;
+                        btnCategory.BorderThickness = new Thickness(1);
                         btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                         btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                        btnCategory.Margin = new Thickness(1, 0, 0, 0);
+                        btnCategory.Margin = new Thickness(0, 0, 0, 0);
                         btnCategory.Click += GetSubCategory;
                         spFavouriteCategory.Children.Add(btnCategory);
                     }
@@ -1913,7 +1916,8 @@ namespace RocketPOS.Helpers
             try
             {
                 CustomerOrderHistoryList customerOrderHistoryList = new CustomerOrderHistoryList();
-                customerOrderHistoryList.Show();
+                customerOrderHistoryList.Owner = this;
+                customerOrderHistoryList.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -2089,7 +2093,7 @@ namespace RocketPOS.Helpers
                 double height = 50;// canMain.ActualHeight - txtHeaderTitle.ActualHeight;
                 txtHeaderTitle.Margin = new Thickness(1);// new Thickness(0, height / 2, 0, 0);
                 DoubleAnimation doubleAnimation = new DoubleAnimation();
-                doubleAnimation.From = -200;// txtHeaderTitle.ActualWidth;
+                doubleAnimation.From =-600;// txtHeaderTitle.ActualWidth;
                 doubleAnimation.To = 1200;// canMain.ActualWidth;
                 doubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
                 doubleAnimation.Duration = new Duration(TimeSpan.Parse("0:0:20"));
@@ -2131,7 +2135,7 @@ namespace RocketPOS.Helpers
             try
             {
                 DineInTables dineInTables = new DineInTables();
-                dineInTables.Show();
+                dineInTables.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -2244,8 +2248,17 @@ namespace RocketPOS.Helpers
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Login frmLogin = new Login();
+
+            loginViewModel.UpdateLoginLogout("logout");
+            loginViewModel.LoginHistory(2);
+            frmLogin.Show();
+            this.Hide();
         }
     }
 }

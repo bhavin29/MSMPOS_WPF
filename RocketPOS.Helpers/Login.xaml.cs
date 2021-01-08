@@ -64,7 +64,7 @@ namespace RocketPOS.Helpers
 
                     MainWindow mainWin = new MainWindow();
                     mainWin.Show();
-                    this.Close();
+                    this.Hide();
                 }
                 else
                 {
@@ -114,6 +114,7 @@ namespace RocketPOS.Helpers
             LoginDetail.HeaderMarqueeText = loginModel[0].HeaderMarqueeText;
             LoginDetail.DeliveryList = loginModel[0].DeliveryList;
             LoginDetail.DiscountList = loginModel[0].DiscountList;
+            LoginDetail.Powerby = loginModel[0].Powerby;
         }
 
         private void CenterWindowOnScreen()
@@ -131,6 +132,11 @@ namespace RocketPOS.Helpers
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            App.Current.Shutdown();
         }
     }
 }

@@ -6,41 +6,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d"
-        Title="RocketPOS Login"
-        Width="1280" Height="800" >
+        Title="" Closing="Window_Closing"
+        Width="1280" Height="500" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
 
-    <!--ShowInTaskbar="True" Topmost="true" WindowStyle="None" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">-->
+    <!--ShowInTaskbar="True" Topmost="true" WindowStyle="None" >-->
 
-    <Grid Width="1280" Height="800" Background="#00265B">
+    <Grid  Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200"/>
-            <RowDefinition Height="550"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="275"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-
-        <ProgressBar Name="MyProgressBar" HorizontalAlignment="Left" Margin="75,100,0,0" Height="20" VerticalAlignment="Top" Width="150"/>
-        <TextBlock Margin="25,-42,0,0" Name="MyProgressLabel" Text="{Binding ElementName=MyProgressBar, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-
-
         <Grid Grid.Row="0" Margin="20" >
             <StackPanel x:Name="Header1Panel" Orientation="Vertical" HorizontalAlignment="Right">
-                <Button Name="btnLogout" Background="White" FontSize="10pt" FontFamily="Century Gothic" FontWeight="Bold" Foreground="RoyalBlue" Content="Logout"  Height="50" Width="50" Click="btnLogout_Click"/>
+                <Button Name="btnLogout" Background="White" Visibility="Hidden" FontSize="10pt" FontFamily="Century Gothic" FontWeight="Bold" Foreground="RoyalBlue" Content="Logout"  Height="50" Width="50" Click="btnLogout_Click"/>
             </StackPanel>
             <StackPanel x:Name="HeaderPanel" Orientation="Vertical"  >
-                
-                <Label Content="ROCKET  POS" HorizontalAlignment="Left" Width="400" FontSize="30" Foreground="White" FontFamily="Cooper Black, 24pt" />
-                <Label Content="We Create, We Design, We Develop" HorizontalAlignment="Left" Width="400" FontSize="18" Foreground="White" FontFamily="Monotype Corsiva" FontWeight="UltraBlack" />
+                <Image Source="images/RocketPOS Left24 Full.bmp"  Margin="0,0,3,0" Width="264" Height="65" VerticalAlignment="Top" HorizontalAlignment="Left"></Image>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" >
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="500"/>
+                    <ColumnDefinition Width="475"/>
+                    <ColumnDefinition Width="95"/>
+                    <ColumnDefinition Width="350"/>
                     <ColumnDefinition Width="300"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -48,28 +41,28 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Grid.Column="1">
                     <StackPanel x:Name="MiddlePanel" Orientation="Vertical" Margin="5" >
-                        <Label Content="Enter a Username" Foreground="White" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <Label Content="Enter a Password" Foreground="White" FontSize="16" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Username" Foreground="#5928b1" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Label Content="Password" Foreground="#5928b1" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top"/>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="0" Grid.Column="2">
                     <StackPanel x:Name="MiddlePanel1" Orientation="Vertical" Margin="5" >
-                        <TextBox Name="txtUsername"   FontSize="12" HorizontalAlignment="Left" Margin="0,0,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" Height="41"/>
-                        <PasswordBox Name="txtPassword"  FontSize="12" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="245" Height="41"/>
-                        <Button Name="btnLogin" Background="White" FontSize="14pt" FontFamily="Century Gothic" FontWeight="Bold" Foreground="RoyalBlue" Content="LOGIN" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Height="56" Width="245" Click="btnLogin_Click"/>
+                        <TextBox Name="txtUsername"  Foreground="#5928b1" FontWeight="Bold" FontSize="22" HorizontalAlignment="Left"  Margin="0,0,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="245" Height="35"/>
+                        <PasswordBox Name="txtPassword" Foreground="#5928b1" FontWeight="Bold" FontSize="22" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Center" Width="245" Height="35"/>
+                        <Button Name="btnLogin"  Background="#5928b1" FontSize="14pt" FontFamily="Century Gothic" FontWeight="Bold" Foreground="White" Content="LOGIN" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Height="56" Width="245" Click="btnLogin_Click"/>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="0" Grid.Column="3">
                     <StackPanel >
-                        <Image Source="images/rocket_pos_logo.jpg" Height="200" Width="200" >
-                        </Image>
+                        <!--<Image Source="images/LoginIcon.jpeg" Height="200" Width="200" >
+                        </Image>-->
                     </StackPanel>
                 </Grid>
             </Grid>
         </Grid>
         <Grid Grid.Row="2" >
             <StackPanel x:Name="FooterPanel" Orientation="Horizontal" Margin="5" >
-                <Label Name="lblFooter" Content="Copyrights 2021. All rights reserved By @RocketPOS" Foreground="White" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top"/>
+                <Label Name="lblFooter" Content="Copyrights 2021. All rights reserved By @RocketPOS" Foreground="#5928b1" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top"/>
             </StackPanel>
         </Grid>
     </Grid>

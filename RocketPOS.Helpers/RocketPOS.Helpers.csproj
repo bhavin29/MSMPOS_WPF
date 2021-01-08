@@ -4,13 +4,15 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>rocket_pos.ico</ApplicationIcon>
+    <ApplicationIcon>RocketPOS48.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="images\Error.jpg" />
     <None Remove="images\Information.jpg" />
+    <None Remove="images\LoginIcon.jpeg" />
     <None Remove="images\logo.png" />
+    <None Remove="images\Mainwindow_Logo.bmp" />
     <None Remove="images\Question.png" />
     <None Remove="images\RocketPOS Left24 Full.bmp" />
     <None Remove="images\RocketPOS Left24.bmp" />
@@ -41,7 +43,13 @@
     <Resource Include="images\Information.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="images\LoginIcon.jpeg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="images\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\Mainwindow_Logo.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\Question.png">

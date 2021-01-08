@@ -40,5 +40,6 @@ namespace RocketPOS.Core.Constants
         public static string HeaderMarqueeText = "";
         public static string DeliveryList = "";
         public static string DiscountList = "";
+        public static string Powerby = "";
     }
 }
