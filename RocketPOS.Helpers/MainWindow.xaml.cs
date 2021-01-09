@@ -111,6 +111,7 @@ namespace RocketPOS.Helpers
                     btnCategory.Content = "All";
                     btnCategory.Name = "btnAll";
                     btnCategory.FontSize = 15;
+                    btnCategory.FontWeight = FontWeights.Bold;
                     btnCategory.Width = 102;
                     btnCategory.Height = 50;
                     btnCategory.BorderThickness = new Thickness(1);
@@ -129,6 +130,7 @@ namespace RocketPOS.Helpers
                         btnCategory.Content = foodCategory.FoodCategory;
                         btnCategory.Name = "btn" + foodCategory.Id;
                         btnCategory.FontSize = 15;
+                        btnCategory.FontWeight = FontWeights.Bold;
                         btnCategory.Width = 102;
                         btnCategory.Height = 50;
                         btnCategory.BorderThickness = new Thickness(1);
@@ -144,6 +146,7 @@ namespace RocketPOS.Helpers
                         btnCategory.Content = foodCategory.FoodCategory;
                         btnCategory.Name = "btn" + foodCategory.Id;
                         btnCategory.FontSize = 15;
+                        btnCategory.FontWeight = FontWeights.Bold;
                         btnCategory.Width = 102;
                         btnCategory.Height = 50;
                         btnCategory.BorderThickness = new Thickness(1);
@@ -279,7 +282,7 @@ namespace RocketPOS.Helpers
                 TextBlock txtFoodMenuId = new TextBlock();
                 txtFoodMenuId.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtFoodMenuId.Text = itemSubCat.FoodMenuId.ToString();
-                txtFoodMenuId.FontSize = 2;
+                txtFoodMenuId.FontSize = 1;
                 txtFoodMenuId.Name = "txtFoodMenuId" + itemSubCat.FoodMenuId;
                 txtFoodMenuId.Visibility = Visibility.Hidden;
                 menuListPanel.Children.Add(txtFoodMenuId);
@@ -287,7 +290,7 @@ namespace RocketPOS.Helpers
                 TextBlock txtFoodVat = new TextBlock();
                 txtFoodVat.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtFoodVat.Text = Convert.ToDecimal(itemSubCat.FoodVat).ToString("0.00");
-                txtFoodVat.FontSize = 1;
+                txtFoodVat.FontSize = 0.5;
                 txtFoodVat.Name = "txtFoodVat" + itemSubCat.FoodCategoryId;
                 txtFoodVat.Visibility = Visibility.Hidden;
                 menuListPanel.Children.Add(txtFoodVat);
@@ -295,7 +298,7 @@ namespace RocketPOS.Helpers
                 TextBlock txtFoodcess = new TextBlock();
                 txtFoodcess.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtFoodcess.Text = Convert.ToDecimal(itemSubCat.Foodcess).ToString("0.00");
-                txtFoodcess.FontSize = 1;
+                txtFoodcess.FontSize = 0.5;
                 txtFoodcess.Name = "txtFoodcess" + itemSubCat.FoodCategoryId;
                 txtFoodcess.Visibility = Visibility.Hidden;
                 menuListPanel.Children.Add(txtFoodcess);
@@ -303,7 +306,7 @@ namespace RocketPOS.Helpers
                 TextBlock txtTaxPercentage = new TextBlock();
                 txtTaxPercentage.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtTaxPercentage.Text = Convert.ToDecimal(itemSubCat.TaxPercentage).ToString("0.00");
-                txtTaxPercentage.FontSize = 1;
+                txtTaxPercentage.FontSize = 0.5;
                 txtTaxPercentage.Name = "txtTaxPercentage" + itemSubCat.FoodCategoryId;
                 txtTaxPercentage.Visibility = Visibility.Hidden;
                 menuListPanel.Children.Add(txtTaxPercentage);
@@ -311,7 +314,7 @@ namespace RocketPOS.Helpers
                 TextBlock txtIsVatable = new TextBlock();
                 txtIsVatable.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                 txtIsVatable.Text = Convert.ToInt32(itemSubCat.IsVatable).ToString();
-                txtIsVatable.FontSize = 1;
+                txtIsVatable.FontSize = 0.5;
                 txtIsVatable.Name = "txtIsVatable" + itemSubCat.FoodCategoryId;
                 txtIsVatable.Visibility = Visibility.Hidden;
                 menuListPanel.Children.Add(txtIsVatable);
@@ -407,7 +410,7 @@ namespace RocketPOS.Helpers
                     txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(Convert.ToDecimal(salePrice.Text), Convert.ToDecimal(taxPercentage.Text))).ToString("0.00");
                     if (Convert.ToInt32(isVatable.Text) == 1)
                     {
-                        txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(salePrice.Text)- GetPercentageAmount(Convert.ToDecimal(salePrice.Text), Convert.ToDecimal(taxPercentage.Text)))).ToString("0.00");
+                        txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(salePrice.Text) - GetPercentageAmount(Convert.ToDecimal(salePrice.Text), Convert.ToDecimal(taxPercentage.Text)))).ToString("0.00");
                     }
                     else
                     {
@@ -1925,7 +1928,7 @@ namespace RocketPOS.Helpers
             try
             {
                 CustomerOrderHistoryList customerOrderHistoryList = new CustomerOrderHistoryList();
-                customerOrderHistoryList.Owner = this;
+                customerOrderHistoryList.Owner = Application.Current.MainWindow;
                 customerOrderHistoryList.ShowDialog();
             }
             catch (Exception ex)
@@ -2285,6 +2288,23 @@ namespace RocketPOS.Helpers
                 }
             }
             txtPPPayAmount.Text = totalAmount.ToString();
+
+            if (string.IsNullOrEmpty(txtPPPayAmount.Text))
+            {
+                txtPPPayAmount.Text = "";
+                lblPPChangeAmountTotal.Content = "";
+            }
+            else
+            {
+                if ((Convert.ToDecimal(txtPPPayAmount.Text) - Convert.ToDecimal(lblPPTotalPayableAmount.Content)) >= 0)
+                {
+                    lblPPChangeAmountTotal.Content = (Convert.ToDecimal(txtPPPayAmount.Text) - Convert.ToDecimal(lblPPTotalPayableAmount.Content)).ToString();
+                }
+                else
+                {
+                    lblPPChangeAmountTotal.Content = "";
+                }
+            }
         }
         private string RemoveSpecialCharacters(string str)
         {

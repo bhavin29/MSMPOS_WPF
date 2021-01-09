@@ -189,7 +189,7 @@ namespace RocketPOS.Views
             Offset = Offset + mediuminc;
             DrawAtStartCenter("PHONE : " + LoginDetail.Phone, Offset, intPhone);
 
-            String underLine = "-------------------------------------";
+            String underLine = "------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + mediuminc + 6;
@@ -198,7 +198,7 @@ namespace RocketPOS.Views
             Offset = Offset + mediuminc;
             DrawAtStart("CUSTOMER: " + printReceiptModel[0].CustomerName, Offset);
 
-            underLine = "-------------------------------------";
+            underLine = "------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + largeinc;
@@ -217,7 +217,7 @@ namespace RocketPOS.Views
             }
             Offset = Offset - smallinc;
 
-            underLine = "-------------------------------------";
+            underLine = "------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + largeinc;
@@ -252,7 +252,7 @@ namespace RocketPOS.Views
             InsertItem("TOTAL: ","", Offset);
             InsertItem(printReceiptModel[0].TotalAmount.ToString("F").PadLeft(intTOTAL - printReceiptModel[0].TotalAmount.ToString("F").Length), "",Offset);
 
-            underLine = "-------------------------------------";
+            underLine = "------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
 
@@ -263,7 +263,7 @@ namespace RocketPOS.Views
             InsertItem("CATERING LEVY: ", "", Offset);
             InsertItem(dcLevy.ToString("F").PadLeft(intTOTAL - dcLevy.ToString("F").Length), "", Offset);
 
-            underLine = "-------------------------------------";
+            underLine = "------------------------------------";
             DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + largeinc;

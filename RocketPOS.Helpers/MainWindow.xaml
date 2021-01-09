@@ -10,8 +10,8 @@
         Title="RocketPOS" 
         Width="1280" Height="800" Closing="Window_Closing" WindowStyle="None"
         Background="#956eeb" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" >
-
-    <Grid >
+    
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1280"/>
         </Grid.ColumnDefinitions>
@@ -47,7 +47,7 @@
                         <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Reports" Width="101" Margin ="1,1,0,0"/>
 
                         <Button x:Name="btnBack" Style="{StaticResource btnOrange}" Content="Settings" Width="101" />
-                        <Button x:Name="btnLogOut" Style="{StaticResource btnLightRed}" Content="LogOut" Width="98" Margin="1,0,0,0" Click="btnLogOut_Click"  />
+                        <Button x:Name="btnLogOut" Style="{StaticResource btnGray}" Content="LogOut" Width="98" Margin="2,0,0,0" Click="btnLogOut_Click"  />
                     </StackPanel>
                     <Popup Name="ppFoodMenuList" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                         <Border BorderBrush="Black" BorderThickness="5,5,5,5">
@@ -121,21 +121,21 @@
                             <TextBox x:Name="txtSearchModifyOrder" Style="{StaticResource TextBoxBaseStyle}"   Width="250" Margin="0,-1,-1,0" TextChanged="searchSalesOrder"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                                <RadioButton x:Name="rdbPendingSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="125" Margin="0" Grid.Row="0" Grid.Column="0" Checked="searchSalesOrder">Pending Sales</RadioButton>
-                            <RadioButton x:Name="rdbHoldSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}"  Height="50" Width="127" Margin="0"  Grid.Row="0" Grid.Column="1" Checked="searchSalesOrder">Hold Sales</RadioButton>
+                                <RadioButton x:Name="rdbPendingSales"  Background="#D9BA41" Foreground="White" FontSize="15" FontWeight="Bold" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="125" Margin="0" Grid.Row="0" Grid.Column="0" Checked="searchSalesOrder">Pending Sales</RadioButton>
+                            <RadioButton x:Name="rdbHoldSales" Background="#D9BA41" Foreground="White" FontSize="15"  FontWeight="Bold" Style="{StaticResource {x:Type ToggleButton}}"  Height="50" Width="127" Margin="0"  Grid.Row="0" Grid.Column="1" Checked="searchSalesOrder">Hold Sales</RadioButton>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-                            <RadioButton x:Name="rdbAllSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder">All</RadioButton>
-                            <RadioButton x:Name="rdbDineInSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder">Dine-IN</RadioButton>
-                            <RadioButton x:Name="rdbTakeAwaySales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder">Take</RadioButton>
-                            <RadioButton x:Name="rdbDeliverySales" Background="#D9BA41" Foreground="White" FontSize="15"  Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder" >Delivery</RadioButton>
+                            <RadioButton x:Name="rdbAllSales" Background="#D9BA41" Foreground="White"  FontWeight="Bold" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder">All</RadioButton>
+                            <RadioButton x:Name="rdbDineInSales" Background="#D9BA41" Foreground="White"  FontWeight="Bold" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder">Dine-IN</RadioButton>
+                            <RadioButton x:Name="rdbTakeAwaySales" Background="#D9BA41" Foreground="White"  FontWeight="Bold" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder">Take</RadioButton>
+                            <RadioButton x:Name="rdbDeliverySales" Background="#D9BA41" Foreground="White"  FontWeight="Bold" FontSize="15"  Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder" >Delivery</RadioButton>
                         </StackPanel>
                     </Grid>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Width="250" Height="413" Background="White" >
-                        <ListBox x:Name="lbCustomerOrderList" HorizontalAlignment="Left" Width="250" >
+                        <ListBox x:Name="lbCustomerOrderList" HorizontalAlignment="Left" Width="250"  >
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Margin="0,5,0,5">
+                                    <Grid Margin="0,5,0,5" >
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
@@ -144,11 +144,10 @@
                                         </Grid.RowDefinitions>
                                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" >
 
-                                            <TextBlock Text="{Binding CustomerOrderNo}"/>
-                                            <TextBlock Text="  "/>
-                                            <TextBlock Text="[ "/>
-                                            <TextBlock Text="{Binding CustomerName}"/>
-                                            <TextBlock Text=" ]"/>
+                                            <TextBlock Text="{Binding CustomerOrderNo}" FontSize="18"   Foreground="Black"/>
+                                            <TextBlock Text="  [ " FontSize="18"   Foreground="Black"/>
+                                            <TextBlock Text="{Binding CustomerName}" FontSize="18"  Foreground="Black"/>
+                                            <TextBlock Text=" ]" FontSize="18"  Foreground="Black"/>
                                         </StackPanel>
                                         <!--</Expander>-->
                                     </Grid>
@@ -188,9 +187,9 @@
                         <StackPanel  Orientation="Horizontal">
                             <!--Row 0 Column 0-->
                             <TextBlock x:Name="txtbDineInTableId" Text="NULL" Visibility="Hidden" Margin="-35,0,0,0" />
-                            <RadioButton x:Name="rdbDineInOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="134" Margin="1,0,0,00" Click="rdbDineInOrderType_Click">Dine In</RadioButton>
-                            <RadioButton x:Name="rdbTakeAwayOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="133.5" Margin="0,0,0,0">Take Away</RadioButton>
-                            <RadioButton x:Name="rdbDeliveryOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="139" Margin="0,0,0,0">Delivery</RadioButton>
+                            <RadioButton x:Name="rdbDineInOrderType" Background="#D9BA41" Foreground="White" FontSize="15" FontWeight="Bold" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="134" Margin="1,0,0,00" Click="rdbDineInOrderType_Click">Dine In</RadioButton>
+                            <RadioButton x:Name="rdbTakeAwayOrderType" Background="#D9BA41" Foreground="White" FontSize="15"  FontWeight="Bold" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="133.5" Margin="0,0,0,0">Take Away</RadioButton>
+                            <RadioButton x:Name="rdbDeliveryOrderType" Background="#D9BA41" Foreground="White" FontSize="15"  FontWeight="Bold" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="139" Margin="0,0,0,0">Delivery</RadioButton>
                         </StackPanel>
 
                         <Popup Name="ppDineInTables" Placement="Center" AllowsTransparency="False" StaysOpen="False">
@@ -672,7 +671,7 @@
                                         <Label x:Name="lblPPChangeAmountTotal" HorizontalContentAlignment="Right" FontSize="24" Background="Black" FontWeight="Bold" Foreground="White" Height="40" Width="165" Grid.Row="4" Grid.Column="1"/>
 
                                     <Button x:Name="btnDirectInvoiceSubmit" Content="Save" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Margin="105,5,5,5" Grid.Row="5" Grid.Column="1"  Click="btnDirectInvoiceSubmit_Click" />
-                                    <Label x:Name="lbl" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Content="Note: Kindly check all inforation correctly " Foreground="White" FontSize="16" Height="30" Width="300" />
+                                    <Label x:Name="lbl" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Content="Note: Kindly check all information correctly " Foreground="White" FontSize="16" Height="30" Width="300" />
                                     <Label x:Name="lbl1" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Content="          before SAVE!!!" Foreground="White" FontSize="16" Height="30" Width="300" />
                                 </Grid>
                             </Border>
