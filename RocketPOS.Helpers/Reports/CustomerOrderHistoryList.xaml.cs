@@ -75,12 +75,13 @@ namespace RocketPOS.Helpers.Reports
 
         private void btnSalesExcelExport_Click(object sender, RoutedEventArgs e)
         {
+            this.Close();
             CommonMethods commonMethods = new CommonMethods();
-            string path = string.Empty;
+            string path = string.Empty,firstLine = string.Empty;
             List<CustomerOrderHistoryModel> customerOrderHistoryModel = new List<CustomerOrderHistoryModel>();
             
             customerOrderHistoryModel = (List<CustomerOrderHistoryModel>)dgOrderList.ItemsSource;
-            
+
             string fileName = "SalesReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
             var saveFileDialog = new SaveFileDialog
             {
@@ -93,7 +94,12 @@ namespace RocketPOS.Helpers.Reports
             {
                 path = saveFileDialog.FileName;
             }
-            commonMethods.WriteExcelFile(commonMethods.ConvertToDataTable(customerOrderHistoryModel), path);
+
+            DataTable table = new DataTable();
+            table = commonMethods.ConvertToDataTable(customerOrderHistoryModel);
+            table.Columns.Remove("Id");
+            firstLine = "Sale List for " + dpFromDate.SelectedDate.Value.ToString("dd/MM/yyyy") + " to " + dpToDate.SelectedDate.Value.ToString("dd/MM/yyyy");
+            commonMethods.WriteExcelFile(table, path, firstLine);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace RocketPOS.Helpers.Reports
             AppSettings appSettings = new AppSettings();
             try
             {
-                string path = string.Empty;
+                string path = string.Empty, firstLine = string.Empty;
                 string strUri = appSettings.GetWebAppUri();
                 strUri += "Report/OutletRegister?outletRegisterId=" + LoginDetail.OutletRegisterId;
 
@@ -53,7 +53,8 @@ namespace RocketPOS.Helpers.Reports
                 {
                     path = saveFileDialog.FileName;
                 }
-                commonMethods.WriteExcelFile(commonMethods.ConvertToDataTable(outletUserRegister), path);
+                firstLine = "Close Register for " + LoginDetail.Username + " at " + System.DateTime.Now;
+                commonMethods.WriteExcelFile(commonMethods.ConvertToDataTable(outletUserRegister), path, firstLine);
             }
             catch (Exception ex)
             {

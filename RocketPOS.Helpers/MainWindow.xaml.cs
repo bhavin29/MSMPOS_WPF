@@ -23,6 +23,7 @@ using NLog.Fluent;
 using System.Windows.Media.Animation;
 using Microsoft.Win32;
 using System.Text;
+using System.Windows.Controls.Primitives;
 
 namespace RocketPOS.Helpers
 {
@@ -2060,6 +2061,7 @@ namespace RocketPOS.Helpers
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
 
+                
                 string settings = LoginDetail.MainWindowSettings;
                 string[] wordsSettings = settings.Split('$');
 
@@ -2091,6 +2093,7 @@ namespace RocketPOS.Helpers
 
                     }
                 }
+                
 
                 //Set Header Marquee Text
                 txtHeaderTitle.Text = LoginDetail.HeaderMarqueeText;
@@ -2296,6 +2299,32 @@ namespace RocketPOS.Helpers
                 }
             }
             return sb.ToString();
+        }
+
+        private void dgPaymentMethod_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                var uiElement = e.OriginalSource as UIElement;
+                if (e.Key == Key.Enter && uiElement != null)
+                {
+                    e.Handled = true;
+                    uiElement.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            btnFoodMenuList_Click(sender, e);
+        }
+
+        private void CommandBinding_Executed_1(object sender, ExecutedRoutedEventArgs e)
+        {
+            btnPlaceOrder_Click(sender, e);
         }
     }
 }
