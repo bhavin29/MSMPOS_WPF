@@ -666,11 +666,11 @@
 
                                     <DataGrid x:Name="dgPaymentMethod" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="false" ItemsSource="{Binding PaymentMethodModel}" HorizontalScrollBarVisibility="Disabled" PreviewKeyDown="dgPaymentMethod_PreviewKeyDown">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Payment Type" IsReadOnly="True"  Width="140" Binding="{Binding PaymentMethodName}"></DataGridTextColumn>
+                                            <DataGridTextColumn Header="Payment Type" IsReadOnly="True" FontSize="18" FontWeight="Bold" Width="140" Binding="{Binding PaymentMethodName}"></DataGridTextColumn>
                                             <DataGridTemplateColumn Width="175" IsReadOnly="True">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <TextBox x:Name="txtPaymentAmount" Text="" TextChanged="txtPaymentAmount_TextChanged" />
+                                                        <TextBox x:Name="txtPaymentAmount" Text="" Height="30" FontSize="18" FontWeight="Bold" TextChanged="txtPaymentAmount_TextChanged" />
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
