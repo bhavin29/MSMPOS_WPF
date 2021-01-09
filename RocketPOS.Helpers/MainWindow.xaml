@@ -172,8 +172,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
-                        <RowDefinition Height="353"/>
-                        <RowDefinition Height="182"/>
+                        <RowDefinition Height="415"/>
+                        <RowDefinition Height="115"/>
                         <RowDefinition Height="50"/>
 
                     </Grid.RowDefinitions>
@@ -395,9 +395,10 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="25"/>
-                            <RowDefinition Height="35"/>
-                            <RowDefinition Height="35"/>
-                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="0"/>
+                            <RowDefinition Height="0"/>
+                            <RowDefinition Height="0"/>
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
@@ -443,7 +444,19 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="2"  Grid.Column="0" Grid.ColumnSpan="2">
+                        <Grid Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                                <TextBlock x:Name="txtTaxAmount1" Style="{StaticResource txtBlock}" Text="Tax Amount : "   />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="2" Grid.Column="3" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
+                                <TextBlock x:Name="txtTaxAmountDisplay" Style="{StaticResource txtBlock}" Text="0.00"  />
+                            </StackPanel>
+                        </Grid>
+                        
+                       <Grid Grid.Row="3"  Grid.Column="0" Grid.ColumnSpan="2">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 0 0 0">
                                 <Button x:Name="btnDicountPopUp" Style="{StaticResource btnOrangeLng}" Content="Dist. %"  Width="70" Height="35" Click="btnDicountPopUp_Click"/>
 
@@ -498,35 +511,35 @@
                             </Popup>
                         </Grid>
 
-                        <Grid Grid.Row="2"  Grid.Column="2" VerticalAlignment="Center">
+                        <Grid Grid.Row="3"  Grid.Column="2" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                 <TextBlock x:Name="txtbDiscount" Style="{StaticResource txtBlock}" Text="Discount (%) : "  />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="2"  Grid.Column="3" VerticalAlignment="Center">
+                        <Grid Grid.Row="3"  Grid.Column="3" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtbtxtDiscount" Style="{StaticResource txtBlock}" HorizontalAlignment="Right" Text="0.00"  />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left">
+                        <Grid Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left">
                             <TextBox x:Name="txtSubTotalDiscountAmount"  Width="70" Height="30" LostFocus="txtSubTotalDiscountAmount_LostFocus" Margin="5,0,0,0" />
                         </Grid>
 
-                        <Grid Grid.Row="3"  Grid.Column="2" VerticalAlignment="Center">
+                        <Grid Grid.Row="4"  Grid.Column="2" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
                                 <TextBlock x:Name="txtbTotalDiscount" Style="{StaticResource txtBlock}" Text="Discount Amount : "  />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="3"  Grid.Column="3" VerticalAlignment="Center">
+                        <Grid Grid.Row="4"  Grid.Column="3" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtbTotalDiscountAmount" Style="{StaticResource txtBlock}" Text="0.00" HorizontalAlignment="Right"  />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="4"  Grid.Column="0" HorizontalAlignment="Left" Margin="5 0 0 0">
+                        <Grid Grid.Row="5"  Grid.Column="0" HorizontalAlignment="Left" Margin="5 0 0 0">
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="btnServiceDeliveryPopUp" Content="Charges"  Style="{StaticResource btnOrangeLng}" Width="70" Height="30" Click="btnServiceDeliveryPopUp_Click"/>
                             </StackPanel>
@@ -556,20 +569,20 @@
                             </Popup>
                         </Grid>
 
-                        <Grid Grid.Row="4"  Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Grid Grid.Row="5"  Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock x:Name="txtbTotalDeliveryChargeAmt" Visibility="Hidden" Text="0.00"/>
                                 <TextBlock x:Name="txtbServiceDeliveryCharge" Style="{StaticResource txtBlock}" Text=" Delivery Charges :" />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="4"  Grid.Column="3" VerticalAlignment="Center" >
+                        <Grid Grid.Row="5"  Grid.Column="3" VerticalAlignment="Center" >
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtbServiceDeliveryChargeLabel" Style="{StaticResource txtBlock}" Text="0.00" HorizontalAlignment="Right" />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Grid.ColumnSpan="2">
+                        <Grid Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Grid.ColumnSpan="2">
 
                             <!--<Button x:Name="btnKitchenStatus" Visibility="Hidden"  Style="{StaticResource btnOrangeLng}" Content="Kitchen Status" Width="150" Height="25"  />-->
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
@@ -578,13 +591,13 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="5"  Grid.Column="2" HorizontalAlignment="Right" Margin=" 0 0 3 0">
+                        <Grid Grid.Row="6"  Grid.Column="2" HorizontalAlignment="Right" Margin=" 0 0 3 0">
                             <StackPanel Orientation="Horizontal" >
                                 <TextBlock x:Name="txtbTotalPayable" Style="{StaticResource txtBlock}"  Text="Payable :"  />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Row="5"  Grid.Column="3" VerticalAlignment="Center" >
+                        <Grid Grid.Row="6"  Grid.Column="3" VerticalAlignment="Center" >
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <TextBlock x:Name="txtbTotalPayableAmount" Style="{StaticResource txtBlock}"  Text="0.00" HorizontalAlignment="Right" />
                             </StackPanel>

@@ -34,7 +34,6 @@ namespace RocketPOS.Helpers.Tables
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-                throw;
             }
         }
 
@@ -143,7 +142,6 @@ namespace RocketPOS.Helpers.Tables
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-                throw;
             }
         }
         private void PerformTableOperation(object sender, MouseButtonEventArgs e)
@@ -179,7 +177,6 @@ namespace RocketPOS.Helpers.Tables
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-                throw;
             }
         }
 
@@ -197,7 +194,6 @@ namespace RocketPOS.Helpers.Tables
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-                throw;
             }
         }
 
