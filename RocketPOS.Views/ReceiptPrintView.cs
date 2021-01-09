@@ -230,7 +230,7 @@ namespace RocketPOS.Views
             InsertItem("VAT: ", printReceiptModel[0].TaxAmount.ToString("F").PadLeft(intVATABLE - printReceiptModel[0].TaxAmount.ToString().Length), Offset);
 
             Offset = Offset + smallinc;
-            InsertItem("Non VAT: ", printReceiptModel[0].NonVATAmount.ToString("F").PadLeft(intVATABLE - printReceiptModel[0].NonVATAmount.ToString().Length), Offset);
+            InsertItem("Non VAT: ", printReceiptModel[0].NonVatableAmount.ToString("F").PadLeft(intVATABLE - printReceiptModel[0].NonVatableAmount.ToString().Length), Offset);
 
             if (printReceiptModel[0].Discount.ToString("F") != "0.00")
             {
@@ -255,7 +255,7 @@ namespace RocketPOS.Views
             Offset = Offset + largeinc;
             foreach (PrintReceiptModel payment in printReceiptModel)
             {
-                InsertItem(payment.PaymentMethodName, payment.BillAmount.ToString("F").PadLeft(intPaid), Offset);
+                InsertItem(payment.PaymentMethodName, payment.BillAmount.ToString("F").PadLeft(intPaid - payment.BillAmount.ToString().Length), Offset);
                 Offset = Offset + smallinc;
             }
             Offset = Offset + largeinc;
