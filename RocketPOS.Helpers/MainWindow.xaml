@@ -10,10 +10,6 @@
         Title="RocketPOS" 
         Width="1280" Height="800" Closing="Window_Closing" WindowStyle="None"
         Background="#956eeb" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" >
-    
-    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        Width="1280" Height="840" Closing="Window_Closing"
-        Background="#5928b1" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
 
     <Window.Resources>
         <RoutedUICommand x:Key="MenuList"/>
@@ -28,7 +24,7 @@
         <KeyBinding Gesture="Ctrl+O" Command="{StaticResource PlaceOrder}"/>
     </Window.InputBindings>
     
-    <Grid >
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1280"/>
         </Grid.ColumnDefinitions>
