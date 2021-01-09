@@ -15,4 +15,10 @@ namespace RocketPOS.Model
         public DateTime CloseDate { get; set; }
 
     }
+
+    public class OutletUserRegister
+    {
+        public string RegisterTitle { get; set; }
+        public string RegisterValue { get; set; }
+    }
 }

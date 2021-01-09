@@ -49,7 +49,7 @@
                         <Button x:Name="btnBack" Style="{StaticResource btnOrange}" Content="Settings" Width="101" />
                         <Button x:Name="btnLogOut" Style="{StaticResource btnLightRed}" Content="LogOut" Width="98" Margin="1,0,0,0" Click="btnLogOut_Click"  />
                     </StackPanel>
-                    <Popup Name="ppFoodMenuList" Placement="Center" AllowsTransparency="False">
+                    <Popup Name="ppFoodMenuList" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                         <Border BorderBrush="Black" BorderThickness="5,5,5,5">
                             <Grid Width="600" Height="600" Background="#86A09E">
                                 <Grid.ColumnDefinitions>
@@ -193,7 +193,7 @@
                             <RadioButton x:Name="rdbDeliveryOrderType" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="139" Margin="0,0,0,0">Delivery</RadioButton>
                         </StackPanel>
 
-                        <Popup Name="ppDineInTables" Placement="Center" AllowsTransparency="False" >
+                        <Popup Name="ppDineInTables" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                             <Border BorderBrush="Black" BorderThickness="5,5,5,5">
                                 <Grid Width="250" Height="550" Background="#86A09E">
                                     <Grid.ColumnDefinitions>
@@ -238,7 +238,7 @@
                             <Button x:Name="btnAddCustomer" Style="{StaticResource btnOrange}" Width="70" Content="Add" Click="btnAddCustomer_Click"   />
                         </StackPanel>
 
-                        <Popup Name="ppCustomerAdd" Placement="Center" AllowsTransparency="False" Grid.ColumnSpan="2">
+                        <Popup Name="ppCustomerAdd" Placement="Center" AllowsTransparency="False" Grid.ColumnSpan="2" StaysOpen="False">
                             <Border BorderBrush="Black" BorderThickness="5,5,5,5">
                                 <Grid Width="300" Height="375" Background="#86A09E">
                                     <Grid.ColumnDefinitions>
@@ -341,7 +341,7 @@
 
                         </StackPanel>
 
-                        <Popup Name="EditSaleItemPopUp" Placement="Center" AllowsTransparency="False">
+                        <Popup Name="EditSaleItemPopUp" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                             <Border BorderBrush="Black" BorderThickness="5,5,5,5">
                                 <Grid Width="250" Height="250" Background="LightBlue">
                                     <Grid.ColumnDefinitions>
@@ -485,7 +485,7 @@
                                     </Grid>
                                 </Border>
                             </Popup>
-                            <Popup Name="ppDiscountPopUp" Placement="Center" AllowsTransparency="False">
+                            <Popup Name="ppDiscountPopUp" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                                 <Border BorderBrush="Black" BorderThickness="5,5,5,5">
                                     <Grid Width="250" Height="500" Background="#86A09E">
                                         <Grid.ColumnDefinitions>
@@ -543,7 +543,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="btnServiceDeliveryPopUp" Content="Charges"  Style="{StaticResource btnOrangeLng}" Width="70" Height="30" Click="btnServiceDeliveryPopUp_Click"/>
                             </StackPanel>
-                            <Popup Name="ppDeliveryServicePopUp" Placement="Center" AllowsTransparency="False">
+                            <Popup Name="ppDeliveryServicePopUp" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                                 <Border BorderBrush="Black" BorderThickness="5,5,5,5">
                                     <Grid Width="300" Height="500" Background="#86A09E">
                                         <Grid.ColumnDefinitions>
@@ -612,7 +612,7 @@
                             <Button x:Name="btnDirectInvoice" Style="{StaticResource btnMarun}" Content="Payment" Click="btnDirectInvoice_Click"/>
                             <Button x:Name="btnPlaceOrder" Style="{StaticResource btnMarun}" Content="Place Order" Click="btnPlaceOrder_Click"/>
                         </StackPanel>
-                        <Popup Name="ppDirectInvoice" Placement="Center" AllowsTransparency="False" >
+                        <Popup Name="ppDirectInvoice" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                             <Border BorderBrush="Black" BorderThickness="5,5,5,5">
                                 <Grid Width="350" Height="575" Background="#86A09E">
                                     <Grid.ColumnDefinitions>

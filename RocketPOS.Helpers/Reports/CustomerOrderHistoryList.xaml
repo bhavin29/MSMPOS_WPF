@@ -25,14 +25,15 @@
                 <DatePicker Name="dpToDate"  Width="100" VerticalAlignment="Center" />
                 
                 <Button x:Name="btnSearchOrderList" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Search" Height="40" Click="btnSearchOrderList_Click"/>
-   
+
+                <Button x:Name="btnSalesExcelExport" Content="Excel Export" Margin="40,0,0,0" Style="{StaticResource btnOrange}"  Height="40" Click="btnSalesExcelExport_Click"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" >
             <StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment='Center'>
                 <DataGrid x:Name="dgOrderList" ItemsSource="{Binding SaleItemModel}" ScrollViewer.CanContentScroll="True" 
       ScrollViewer.VerticalScrollBarVisibility="Auto"
-      ScrollViewer.HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+      ScrollViewer.HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False" ClipboardCopyMode="IncludeHeader">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Invoice#"  IsReadOnly="True" Width="80" Binding="{Binding SalesInvoiceNumber}" >
                             <DataGridTextColumn.ElementStyle>
