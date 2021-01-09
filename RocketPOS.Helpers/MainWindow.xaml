@@ -10,6 +10,19 @@
         Title="RocketPOS" 
         Width="1280" Height="800" Closing="Window_Closing" WindowStyle="None"
         Background="#956eeb" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" >
+
+    <Window.Resources>
+        <RoutedUICommand x:Key="MenuList"/>
+        <RoutedUICommand x:Key="PlaceOrder"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource MenuList}" Executed="CommandBinding_Executed"/>
+        <CommandBinding Command="{StaticResource PlaceOrder}" Executed="CommandBinding_Executed_1"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+M" Command="{StaticResource MenuList}"/>
+        <KeyBinding Gesture="Ctrl+O" Command="{StaticResource PlaceOrder}"/>
+    </Window.InputBindings>
     
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.ColumnDefinitions>
@@ -651,13 +664,13 @@
                                     <!--<ListBox x:Name="lbPPPaymentMethod" Grid.Row="2" Visibility="Hidden" Grid.Column="0" FontSize="20" Margin="5" ItemsSource="{Binding}">
                                     </ListBox>-->
 
-                                    <DataGrid x:Name="dgPaymentMethod" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="false" ItemsSource="{Binding PaymentMethodModel}"  >
+                                    <DataGrid x:Name="dgPaymentMethod" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="false" ItemsSource="{Binding PaymentMethodModel}" HorizontalScrollBarVisibility="Disabled" PreviewKeyDown="dgPaymentMethod_PreviewKeyDown">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Payment Type" IsReadOnly="True"  Width="100" Binding="{Binding PaymentMethodName}"></DataGridTextColumn>
-                                            <DataGridTemplateColumn Width="100" IsReadOnly="True">
+                                            <DataGridTextColumn Header="Payment Type" IsReadOnly="True"  Width="140" Binding="{Binding PaymentMethodName}"></DataGridTextColumn>
+                                            <DataGridTemplateColumn Width="175" IsReadOnly="True">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <TextBox x:Name="txtPaymentAmount" Text="{Binding Amount}" TextChanged="txtPaymentAmount_TextChanged" />
+                                                        <TextBox x:Name="txtPaymentAmount" Text="" TextChanged="txtPaymentAmount_TextChanged" />
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
