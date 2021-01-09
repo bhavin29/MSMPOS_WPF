@@ -22,6 +22,7 @@ using System.Diagnostics;
 using NLog.Fluent;
 using System.Windows.Media.Animation;
 using Microsoft.Win32;
+using System.Text;
 
 namespace RocketPOS.Helpers
 {
@@ -46,6 +47,10 @@ namespace RocketPOS.Helpers
                 txtbTotalPayableAmount.Text = "0.00";
                 rdbPendingSales.IsChecked = true;
                 rdbAllSales.IsChecked = true;
+                if (LoginDetail.RoleTypeId==(int)EnumUtility.RoleTypeId.Admin)
+                {
+                    dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
+                }
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
             }
             catch (Exception ex)
@@ -1403,11 +1408,14 @@ namespace RocketPOS.Helpers
                     ContentPresenter myCp = dgPaymentMethod.Columns[j].GetCellContent(paymentMethod) as ContentPresenter;
                     var myTemplate = myCp.ContentTemplate;
                     TextBox mytxtbox = myTemplate.FindName("txtPaymentAmount", myCp) as TextBox;
-                    paidAmount = Convert.ToDecimal(mytxtbox.Text);
-                    totalAmount = totalAmount + paidAmount;
-                    if (paidAmount > 0)
+                    if (!string.IsNullOrEmpty(mytxtbox.Text))
                     {
-                        multipleBillPayment.Rows.Add(paymentMethod.Id, paidAmount);
+                        paidAmount = Convert.ToDecimal(mytxtbox.Text);
+                        totalAmount = totalAmount + paidAmount;
+                        if (paidAmount > 0)
+                        {
+                            multipleBillPayment.Rows.Add(paymentMethod.Id, paidAmount);
+                        }
                     }
                 }
 
@@ -2093,7 +2101,7 @@ namespace RocketPOS.Helpers
                 double height = 50;// canMain.ActualHeight - txtHeaderTitle.ActualHeight;
                 txtHeaderTitle.Margin = new Thickness(1);// new Thickness(0, height / 2, 0, 0);
                 DoubleAnimation doubleAnimation = new DoubleAnimation();
-                doubleAnimation.From =-600;// txtHeaderTitle.ActualWidth;
+                doubleAnimation.From = -600;// txtHeaderTitle.ActualWidth;
                 doubleAnimation.To = 1200;// canMain.ActualWidth;
                 doubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
                 doubleAnimation.Duration = new Duration(TimeSpan.Parse("0:0:20"));
@@ -2162,32 +2170,32 @@ namespace RocketPOS.Helpers
             }
         }
 
-        private void txtPPPayAmount_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(txtPPPayAmount.Text))
-                {
-                    txtPPPayAmount.Text = "";
-                    lblPPChangeAmountTotal.Content = "";
-                }
-                else
-                {
-                    if ((Convert.ToDecimal(txtPPPayAmount.Text) - Convert.ToDecimal(lblPPTotalPayableAmount.Content)) >= 0)
-                    {
-                        lblPPChangeAmountTotal.Content = (Convert.ToDecimal(txtPPPayAmount.Text) - Convert.ToDecimal(lblPPTotalPayableAmount.Content)).ToString();
-                    }
-                    else
-                    {
-                        lblPPChangeAmountTotal.Content = "";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                SystemError.Register(ex);
-            }
-        }
+        //private void txtPPPayAmount_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(txtPPPayAmount.Text))
+        //        {
+        //            txtPPPayAmount.Text = "";
+        //            lblPPChangeAmountTotal.Content = "";
+        //        }
+        //        else
+        //        {
+        //            if ((Convert.ToDecimal(txtPPPayAmount.Text) - Convert.ToDecimal(lblPPTotalPayableAmount.Content)) >= 0)
+        //            {
+        //                lblPPChangeAmountTotal.Content = (Convert.ToDecimal(txtPPPayAmount.Text) - Convert.ToDecimal(lblPPTotalPayableAmount.Content)).ToString();
+        //            }
+        //            else
+        //            {
+        //                lblPPChangeAmountTotal.Content = "";
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        SystemError.Register(ex);
+        //    }
+        //}
 
         private void btnUploadFoodImage_Click(object sender, RoutedEventArgs e)
         {
@@ -2210,6 +2218,7 @@ namespace RocketPOS.Helpers
                 {
                     source = openFileDialog.FileName;
                     newFileName = foodMenu.SmallName.Replace(" ", "") + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
+                    newFileName = RemoveSpecialCharacters(newFileName);
                     fileExtension = Path.GetExtension(source).ToString();
 
                     if (fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png")
@@ -2250,7 +2259,6 @@ namespace RocketPOS.Helpers
                 SystemError.Register(ex);
             }
         }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Login frmLogin = new Login();
@@ -2259,6 +2267,36 @@ namespace RocketPOS.Helpers
             loginViewModel.LoginHistory(2);
             frmLogin.Show();
             this.Hide();
+        }
+        private void txtPaymentAmount_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            decimal paidAmount = 0m;
+            decimal totalAmount = 0;
+            for (int i = 0; i < dgPaymentMethod.Items.Count; i++)
+            {
+                var paymentMethod = (PaymentMethodModel)dgPaymentMethod.Items[i];
+                ContentPresenter myCp = dgPaymentMethod.Columns[1].GetCellContent(paymentMethod) as ContentPresenter;
+                var myTemplate = myCp.ContentTemplate;
+                TextBox mytxtbox = myTemplate.FindName("txtPaymentAmount", myCp) as TextBox;
+                if (!string.IsNullOrEmpty(mytxtbox.Text))
+                {
+                    paidAmount = Convert.ToDecimal(mytxtbox.Text);
+                    totalAmount = totalAmount + paidAmount;
+                }
+            }
+            txtPPPayAmount.Text = totalAmount.ToString();
+        }
+        private string RemoveSpecialCharacters(string str)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in str)
+            {
+                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_')
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
         }
     }
 }
