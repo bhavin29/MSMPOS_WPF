@@ -398,14 +398,14 @@ namespace RocketPOS.Helpers
                     txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
                     txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
                     //txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + Convert.ToDecimal(foodVat.Text) + Convert.ToDecimal(foodCess.Text)).ToString();
-                    txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(Convert.ToDecimal(salePrice.Text), Convert.ToDecimal(taxPercentage.Text))).ToString();
+                    txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(Convert.ToDecimal(salePrice.Text), Convert.ToDecimal(taxPercentage.Text))).ToString("0.00");
                     if (Convert.ToInt32(isVatable.Text) == 1)
                     {
-                        txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(salePrice.Text)- GetPercentageAmount(Convert.ToDecimal(salePrice.Text), Convert.ToDecimal(taxPercentage.Text)))).ToString();
+                        txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(salePrice.Text)- GetPercentageAmount(Convert.ToDecimal(salePrice.Text), Convert.ToDecimal(taxPercentage.Text)))).ToString("0.00");
                     }
                     else
                     {
-                        txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
+                        txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString("0.00");
                     }
                 }
 
@@ -417,14 +417,14 @@ namespace RocketPOS.Helpers
                     txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(foodMenuItem.SalesPrice)).ToString();
                     txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
                     //txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + Convert.ToDecimal(foodMenuItem.FoodVat) + Convert.ToDecimal(foodMenuItem.Foodcess)).ToString();
-                    txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(Convert.ToDecimal(foodMenuItem.SalesPrice), Convert.ToDecimal(foodMenuItem.TaxPercentage))).ToString();
+                    txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(Convert.ToDecimal(foodMenuItem.SalesPrice), Convert.ToDecimal(foodMenuItem.TaxPercentage))).ToString("0.00");
                     if (Convert.ToInt32(foodMenuItem.IsVatable) == 1)
                     {
-                        txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(foodMenuItem.SalesPrice) - GetPercentageAmount(Convert.ToDecimal(foodMenuItem.SalesPrice), Convert.ToDecimal(foodMenuItem.TaxPercentage)))).ToString();
+                        txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(foodMenuItem.SalesPrice) - GetPercentageAmount(Convert.ToDecimal(foodMenuItem.SalesPrice), Convert.ToDecimal(foodMenuItem.TaxPercentage)))).ToString("0.00");
                     }
                     else
                     {
-                        txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) + Convert.ToDecimal(foodMenuItem.SalesPrice)).ToString();
+                        txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) + Convert.ToDecimal(foodMenuItem.SalesPrice)).ToString("0.00");
                     }
                 }
 
@@ -451,7 +451,7 @@ namespace RocketPOS.Helpers
                 if (string.IsNullOrEmpty(txtSubTotalDiscountAmount.Text))
                     txtbTotalDiscountAmount.Text = "0.00";
 
-                txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text) + Convert.ToDecimal(txtTaxAmount.Text)).ToString();
+                txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
             }
             catch (Exception ex)
             {
@@ -847,14 +847,14 @@ namespace RocketPOS.Helpers
                 txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
                 //txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess)).ToString();
 
-                txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage))).ToString();
+                txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage))).ToString("0.00");
                 if (Convert.ToInt32(saleItem[0].IsVatable) == 1)
                 {
-                    txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) - GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage)))).ToString();
+                    txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) - GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage)))).ToString("0.00");
                 }
                 else
                 {
-                    txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) + Convert.ToDecimal(saleItem[0].Price)).ToString();
+                    txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) + Convert.ToDecimal(saleItem[0].Price)).ToString("0.00");
                 }
                 CommonOrderCalculation(null, string.Empty);
                 dgSaleItem.Items.Refresh();
@@ -878,14 +878,14 @@ namespace RocketPOS.Helpers
                 txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) - Convert.ToDecimal(saleItem[0].Price) - (Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess))).ToString();
                 txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) - 1).ToString();
                 //txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) - (Convert.ToDecimal(saleItem[0].FoodVat) + Convert.ToDecimal(saleItem[0].Foodcess))).ToString();
-                txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) - GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage))).ToString();
+                txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) - GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage))).ToString("0.00");
                 if (Convert.ToInt32(saleItem[0].IsVatable) == 1)
                 {
-                    txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) - GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage)))).ToString();
+                    txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) - GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage)))).ToString("0.00");
                 }
                 else
                 {
-                    txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) - Convert.ToDecimal(saleItem[0].Price)).ToString();
+                    txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) - Convert.ToDecimal(saleItem[0].Price)).ToString("0.00");
                 }
 
                 if (saleItem[0].Qty == 0)

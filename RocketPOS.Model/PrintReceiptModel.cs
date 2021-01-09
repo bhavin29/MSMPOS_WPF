@@ -16,7 +16,7 @@ namespace RocketPOS.Model
         public float GrossAmount { get; set; }
         public float TaxAmount {get; set;}
         public float VatableAmount { get; set; }
-        public float NonVATAmount { get; set; }
+        public float NonVatableAmount { get; set; }
         public float Discount { get; set; }
         public float ServiceCharge { get; set; }
         public float TotalAmount { get; set; }

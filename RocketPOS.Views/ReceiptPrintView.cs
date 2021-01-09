@@ -230,7 +230,7 @@ namespace RocketPOS.Views
             InsertItem("VAT: ", printReceiptModel[0].TaxAmount.ToString("F").PadLeft(intVATABLE - printReceiptModel[0].TaxAmount.ToString().Length), Offset);
 
             Offset = Offset + smallinc;
-            InsertItem("Non VAT: ", printReceiptModel[0].NonVATAmount.ToString("F").PadLeft(intVATABLE - printReceiptModel[0].NonVATAmount.ToString().Length), Offset);
+            InsertItem("Non VAT: ", printReceiptModel[0].NonVatableAmount.ToString("F").PadLeft(intVATABLE - printReceiptModel[0].NonVatableAmount.ToString().Length), Offset);
 
             if (printReceiptModel[0].Discount.ToString("F") != "0.00")
             {
