@@ -47,6 +47,10 @@ namespace RocketPOS.Helpers
                 txtbTotalPayableAmount.Text = "0.00";
                 rdbPendingSales.IsChecked = true;
                 rdbAllSales.IsChecked = true;
+                if (LoginDetail.RoleTypeId==(int)EnumUtility.RoleTypeId.Admin)
+                {
+                    dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
+                }
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
             }
             catch (Exception ex)
@@ -2056,7 +2060,7 @@ namespace RocketPOS.Helpers
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
 
-                /*
+                
                 string settings = LoginDetail.MainWindowSettings;
                 string[] wordsSettings = settings.Split('$');
 
@@ -2087,7 +2091,7 @@ namespace RocketPOS.Helpers
                             this.ResizeMode = ResizeMode.NoResize;
 
                     }
-                }*/
+                }
 
                 //Set Header Marquee Text
                 txtHeaderTitle.Text = LoginDetail.HeaderMarqueeText;

@@ -64,7 +64,7 @@
                                     <TextBox x:Name="txtSearchFoodMenuList"  Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBoxBaseStyle}" Width="480" Margin="0,5,0,5" TextChanged="txtSearchFoodMenuList_TextChanged"/>
                                     <Button x:Name="btnPPFoodListCancel" Margin="15,0,0,0" Width="100" Height="40" FontSize="16" Background="#00265B" Foreground="White" Grid.Row="0" Grid.Column="0" Content="Close" Click="btnPPFoodListCancel_Click"/>
                                 </StackPanel>
-                                <DataGrid x:Name="dgFoodMenuList" Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding FoodMenu}" MouseDoubleClick="dgFoodMenuList_MouseDoubleClick">
+                                <DataGrid x:Name="dgFoodMenuList" Grid.Row="1" Grid.Column="0" CanUserAddRows="false" AutoGenerateColumns="False" ItemsSource="{Binding FoodMenu}" MouseDoubleClick="dgFoodMenuList_MouseDoubleClick">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Category" IsReadOnly="True"  Width="150" Binding="{Binding FoodCategory}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="Name" IsReadOnly="True"  Width="230" Binding="{Binding SmallName}"></DataGridTextColumn>
@@ -75,7 +75,7 @@
                                                 </Style>
                                             </DataGridTextColumn.ElementStyle>
                                         </DataGridTextColumn>
-                                        <DataGridTemplateColumn Width="70" IsReadOnly="True" Header="Picture">
+                                        <DataGridTemplateColumn Width="70" IsReadOnly="True" Header="Picture" Visibility="Hidden">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <Button Content="Upload" x:Name="btnUploadFoodImage" Style="{StaticResource btnOrange}" Width="70" Margin="0" VerticalAlignment="Center" Click="btnUploadFoodImage_Click"/>
