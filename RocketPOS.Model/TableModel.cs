@@ -14,5 +14,6 @@ namespace RocketPOS.Model
         public string Status { get; set; }
 
         public string StatusDescription { get; set; }
+        public int AllocatedPerson { get; set; }        
     }
 }

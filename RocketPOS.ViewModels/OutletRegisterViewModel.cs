@@ -3,6 +3,8 @@ using RocketPOS.Core.Configuration;
 using RocketPOS.Model;
 using System.Data.SqlClient;
 using RocketPOS.Core.Constants;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RocketPOS.ViewModels
 {
@@ -58,6 +60,17 @@ namespace RocketPOS.ViewModels
                 }
             }
             return result;
+        }
+
+        public List<OutletUserRegister> GetUserRegisterReport()
+        {
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                List<OutletUserRegister> outletUserRegister = new List<OutletUserRegister>();
+                var query = "EXEC rptUserRegister " + LoginDetail.OutletId;
+                outletUserRegister = connection.Query<OutletUserRegister>(query).ToList();
+                return outletUserRegister;
+            }
         }
     }
 }
