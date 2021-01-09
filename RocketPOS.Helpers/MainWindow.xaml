@@ -8,8 +8,8 @@
         xmlns:local="clr-namespace:RocketPOS.Helpers"
         mc:Ignorable="d" 
         Title="RocketPOS" 
-        Width="1280" Height="840" Closing="Window_Closing"
-        Background="#5928b1" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+        Width="1280" Height="800" Closing="Window_Closing" WindowStyle="None"
+        Background="#956eeb" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" >
 
     <Grid >
         <Grid.ColumnDefinitions>
@@ -30,10 +30,10 @@
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <Image Source="images/ShayonaLogo.jpg" Margin="1,1,0,0"  Width="249" Grid.RowSpan="2"  Stretch="UniformToFill" HorizontalAlignment="Left"></Image>
+                <Image Source="images/ShayonaLogo.jpg" Margin="2,1,0,0"  Width="247" Grid.RowSpan="2"  Stretch="UniformToFill" HorizontalAlignment="Left"></Image>
                 <Grid Grid.Row="0" Grid.Column="2" Margin="255,0,0,0">
                     <Canvas ClipToBounds="True" Name="canMain" Canvas.Left="200"  Canvas.Top="100"  Grid.Row="0" Height="35"  >
-                        <TextBlock x:Name="txtHeaderTitle" HorizontalAlignment="Left" Foreground="White" FontSize="25" FontWeight="Bold"  />
+                        <TextBlock x:Name="txtHeaderTitle"  HorizontalAlignment="Left" Foreground="White" FontSize="25" FontWeight="Bold"  />
                     </Canvas>
                 </Grid>
                 <Grid Grid.Row="1" >
@@ -43,7 +43,7 @@
                         <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator" Width="138"   Click="btnCalculator_Click"/>
                         <Button x:Name="btnFoodMenuList" Style="{StaticResource btnOrange}" Content="Menu List" Width="99" Click="btnFoodMenuList_Click" />
                         <Button x:Name="btnLastSale" Style="{StaticResource btnOrange}"  Content="Sales List" Width="101" Margin ="1,1,0,0" Click="btnLastSale_Click" />
-                        <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Close Register"  Width="101" Margin ="1,1,0,0" Click="btnRegister_Click" />
+                        <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Register"  Width="101" Margin ="1,1,0,0" Click="btnRegister_Click" />
                         <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Reports" Width="101" Margin ="1,1,0,0"/>
 
                         <Button x:Name="btnBack" Style="{StaticResource btnOrange}" Content="Settings" Width="101" />
@@ -118,7 +118,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                            <TextBox x:Name="txtSearchModifyOrder"  Style="{StaticResource TextBoxBaseStyle}"   Width="250" Margin="0,-1,-1,0" TextChanged="searchSalesOrder"/>
+                            <TextBox x:Name="txtSearchModifyOrder" Style="{StaticResource TextBoxBaseStyle}"   Width="250" Margin="0,-1,-1,0" TextChanged="searchSalesOrder"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                                 <RadioButton x:Name="rdbPendingSales" Background="#D9BA41" Foreground="White" FontSize="15" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="125" Margin="0" Grid.Row="0" Grid.Column="0" Checked="searchSalesOrder">Pending Sales</RadioButton>
@@ -156,7 +156,7 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </ScrollViewer>
-                    <Button x:Name="btnModifyOrder"  Style="{StaticResource btnOrangeLng}"  Content="Alter Order/Add Item/Change Table" Click="btnModifyOrder_Click" />
+                    <Button x:Name="btnModifyOrder"  Style="{StaticResource btnOrangeLng}"  Content="Alter Order" Click="btnModifyOrder_Click" />
                     <!--<Button x:Name="btnPrintKot" Style="{StaticResource btnOrangeLng}" Content="Print KOT"  />-->
                     <Image Source="images/Mainwindow_Logo.bmp" Margin="1" Width="250" Height="61"  Stretch="UniformToFill" VerticalAlignment="Top" HorizontalAlignment="Left"></Image>
 
@@ -172,9 +172,9 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
-                        <RowDefinition Height="400"/>
-                        <RowDefinition Height="130"/>
-                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="386"/>
+                        <RowDefinition Height="129"/>
+                        <RowDefinition Height="65"/>
 
                     </Grid.RowDefinitions>
 
@@ -457,7 +457,7 @@
 
                         <Grid Grid.Row="3" Grid.Column="2" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
-                                <TextBlock x:Name="txttxtNonVatableAmountTitle" Style="{StaticResource txtBlock}" Text="Non Vatable : "   />
+                                <TextBlock x:Name="txttxtNonVatableAmountTitle" Style="{StaticResource txtBlock}" Text="Non VAT : "   />
                             </StackPanel>
                         </Grid>
 
@@ -618,10 +618,10 @@
 
                     <Grid Grid.Row="4">
                         <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" >
-                            <Button x:Name="btnCancel" Style="{StaticResource btnMarun}" Content="Order Cancel"  Click="btnCancel_Click"/>
-                            <Button x:Name="btnHold" Style="{StaticResource btnMarun}" Content="Order Hold" Click="btnHold_Click"/>
-                            <Button x:Name="btnDirectInvoice" Style="{StaticResource btnMarun}" Content="Payment" Click="btnDirectInvoice_Click"/>
-                            <Button x:Name="btnPlaceOrder" Style="{StaticResource btnMarun}" Content="Place Order" Click="btnPlaceOrder_Click"/>
+                            <Button x:Name="btnCancel" Height="61" Style="{StaticResource btnMarun}" Content="Order Cancel"  Click="btnCancel_Click"/>
+                            <Button x:Name="btnHold" Height="61" Style="{StaticResource btnMarun}" Content="Order Hold" Click="btnHold_Click"/>
+                            <Button x:Name="btnDirectInvoice" Height="61" Style="{StaticResource btnMarun}" Content="Payment" Click="btnDirectInvoice_Click"/>
+                            <Button x:Name="btnPlaceOrder" Height="61" Style="{StaticResource btnMarun}" Content="Place Order" Click="btnPlaceOrder_Click"/>
                         </StackPanel>
                         <Popup Name="ppDirectInvoice" Placement="Center" AllowsTransparency="False" >
                             <Border BorderBrush="Black" BorderThickness="5,5,5,5">

@@ -234,6 +234,7 @@ namespace RocketPOS.Helpers
                 txtSmallName.Text = itemSubCat.SmallName;
                 txtSmallName.TextWrapping = TextWrapping.Wrap;
                 txtSmallName.ToolTip = itemSubCat.SmallName;
+                txtSmallName.FontWeight = FontWeights.Bold;
                 txtSmallName.Name = "txtSmallName" + itemSubCat.FoodCategoryId;
                 menuName.Children.Add(txtSmallName);
 
