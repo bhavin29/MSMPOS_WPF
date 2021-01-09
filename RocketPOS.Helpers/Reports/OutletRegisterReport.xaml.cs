@@ -1,16 +1,13 @@
 ﻿using RocketPOS.Core.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using RocketPOS.Core.Constants;
+using RocketPOS.ViewModels;
+using RocketPOS.Model;
+using Microsoft.Win32;
+
 namespace RocketPOS.Helpers.Reports
 {
     /// <summary>
@@ -21,10 +18,12 @@ namespace RocketPOS.Helpers.Reports
         public OutletRegisterReport()
         {
             InitializeComponent();
-
+            CommonMethods commonMethods = new CommonMethods();
+            OutletRegisterViewModel outletRegisterViewModel = new OutletRegisterViewModel();
             AppSettings appSettings = new AppSettings();
             try
             {
+                string path = string.Empty;
                 string strUri = appSettings.GetWebAppUri();
                 strUri += "Report/OutletRegister?outletRegisterId=" + LoginDetail.OutletRegisterId;
 
@@ -37,13 +36,30 @@ namespace RocketPOS.Helpers.Reports
                 {
                     printDialog.PrintVisual(print, "OutletRegisterReport");
                 }
+
+                //Download To Export User Register Report
+                List<OutletUserRegister> outletUserRegister = new List<OutletUserRegister>();
+                outletUserRegister = outletRegisterViewModel.GetUserRegisterReport();
+                
+                string fileName = "UserRegisterReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
+                var saveFileDialog = new SaveFileDialog
+                {
+                    FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
+                    DefaultExt = ".xlsx",
+                    Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    path = saveFileDialog.FileName;
+                }
+                commonMethods.WriteExcelFile(commonMethods.ConvertToDataTable(outletUserRegister), path);
             }
             catch (Exception ex)
             {
                 SystemError.Register(ex);
             }
         }
-
-
+        
     }
 }

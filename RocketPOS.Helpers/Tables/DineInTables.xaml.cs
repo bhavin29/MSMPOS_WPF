@@ -118,7 +118,7 @@ namespace RocketPOS.Helpers.Tables
 
                         //Table Capacity
                         TextBlock txtbTableCapacity = new TextBlock();
-                        txtbTableCapacity.Text = "Capacity : " + table.PersonCapacity.ToString();
+                        txtbTableCapacity.Text = "Capacity : " + table.AllocatedPerson.ToString()+"/"+table.PersonCapacity.ToString();
                         txtbTableCapacity.Name = "txtbTableCapacity" + table.Id;
                         txtbTableCapacity.FontSize = 16;
                         txtbTableCapacity.FontWeight = FontWeights.Bold;
@@ -196,6 +196,5 @@ namespace RocketPOS.Helpers.Tables
                 SystemError.Register(ex);
             }
         }
-
     }
 }

@@ -47,7 +47,7 @@ namespace RocketPOS.Helpers
                 txtbTotalPayableAmount.Text = "0.00";
                 rdbPendingSales.IsChecked = true;
                 rdbAllSales.IsChecked = true;
-                if (LoginDetail.RoleTypeId==(int)EnumUtility.RoleTypeId.Admin)
+                if (LoginDetail.RoleTypeId == (int)EnumUtility.RoleTypeId.Admin)
                 {
                     dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
                 }
@@ -2060,7 +2060,6 @@ namespace RocketPOS.Helpers
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
 
-                
                 string settings = LoginDetail.MainWindowSettings;
                 string[] wordsSettings = settings.Split('$');
 
