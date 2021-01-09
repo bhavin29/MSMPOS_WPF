@@ -32,6 +32,8 @@ namespace RocketPOS.Helpers.Reports
         {
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
             InitializeComponent();
+            CenterWindowOnScreen();
+
             dpFromDate.SelectedDate = System.DateTime.Now;
             dpToDate.SelectedDate = System.DateTime.Now;
             customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString("yyyy/MM/dd"), dpToDate.SelectedDate.Value.ToString("yyyy/MM/dd"));
@@ -100,6 +102,23 @@ namespace RocketPOS.Helpers.Reports
             table.Columns.Remove("Id");
             firstLine = "Sale List for " + dpFromDate.SelectedDate.Value.ToString("dd/MM/yyyy") + " to " + dpToDate.SelectedDate.Value.ToString("dd/MM/yyyy");
             commonMethods.WriteExcelFile(table, path, firstLine);
+        }
+
+        private void CenterWindowOnScreen()
+        {
+            try
+            {
+                double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+                double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+                double windowWidth = this.Width;
+                double windowHeight = this.Height;
+                this.Left = (screenWidth / 2) - (windowWidth / 2);
+                this.Top = ((screenHeight / 2) - (windowHeight / 2));
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
         }
     }
 }

@@ -6,61 +6,7 @@
   mc:Ignorable="d">
 
 
-   
-    
-    <Style TargetType="{x:Type Button}" x:Key="BtlLogin">
-        <Setter Property="Background" Value="#5928b1"/>
-        <Setter  Property="Foreground"  Value="White"/>
-        <Setter  Property="FontSize"  Value="14"/>
-        
-        <Setter  Property="Margin"  Value="5"/> <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="1">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Red"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    
-    <!--<Style TargetType="Popup" x:Key="ppControl">
-        <Setter  Property="Background"  Value="#D9BA41"/>
-        <Setter  Property="Foreground"  Value="#fff"/>
-        <Setter  Property="FontSize"  Value="15"/>
-        <Setter  Property="Margin"  Value="1"/>
-        <Setter  Property="Width"  Value="250"/>
-        <Setter  Property="Height"  Value="40"/>
-
-        <Setter  Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border  Background="{TemplateBinding  Background}"
-                                 CornerRadius="0"
-                                 BorderThickness="0"
-                                 Padding="1"
-                                 BorderBrush="#000">
-                        <ContentPresenter  HorizontalAlignment="Center"  VerticalAlignment="Center">
-
-                        </ContentPresenter>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger  Property="IsMouseOver"  Value="True">
-                <Setter  Property="Background"  Value="#fff"/>
-                <Setter  Property="Foreground"  Value="#fff"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>-->
-
-
+  
     <Style TargetType="ToggleButton" x:Key="btnToggleButton">
         <Setter Property="Template">
             <Setter.Value>
@@ -91,7 +37,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 
     <Style TargetType="Button" x:Key="MessageBoxButtonStyle">
         <Setter Property="Background" 
@@ -207,7 +152,8 @@
     <Style TargetType="Button" x:Key="btnMarun">
         <Setter  Property="Background"  Value="#7D001A"/>
         <Setter  Property="Foreground"  Value="#fff"/>
-        <Setter  Property="FontSize"  Value="15"/>
+        <Setter  Property="FontSize"  Value="16"/>
+        <Setter  Property="FontWeight"  Value="Bold"/>
         <Setter  Property="Margin"  Value="1"/>
         <Setter  Property="Width"  Value="100"/>
         <Setter  Property="Height"  Value="50"/>
@@ -301,7 +247,8 @@
     <Style TargetType="Button" x:Key="btnOrange">
         <Setter  Property="Background"  Value="#D9BA41"/>
         <Setter  Property="Foreground"  Value="#fff"/>
-        <Setter  Property="FontSize"  Value="15"/>
+        <Setter  Property="FontSize"  Value="16"/>
+        <Setter  Property="FontWeight"  Value="Bold"/>
         <Setter  Property="Margin"  Value="1,1,0,0"/>
         <Setter  Property="Width"  Value="100"/>
         <Setter  Property="Height"  Value="50"/>
@@ -332,7 +279,8 @@
     <Style TargetType="Button" x:Key="btnOrangeLng">
         <Setter  Property="Background"  Value="#D9BA41"/>
         <Setter  Property="Foreground"  Value="White"/>
-        <Setter  Property="FontSize"  Value="15"/>
+        <Setter  Property="FontSize"  Value="16"/>
+        <Setter  Property="FontWeight"  Value="Bold"/>
         <Setter  Property="Margin"  Value="1"/>
         <Setter  Property="Width"  Value="250"/>
         <Setter  Property="Height"  Value="50"/>
@@ -388,38 +336,45 @@
 
     </Style>
 
-    <SolidColorBrush x:Key="OutsideFontColor" Color="#FF000000" />
 
+    <!--NOT IN USE-->
+    
     <LinearGradientBrush x:Key="NormalBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-        <!--<GradientStop Color="#FFFFFFFF" Offset="0" />-->
-        <!--<GradientStop Color="#FF8AAEDA" Offset="0.521" />
-        <GradientStop Color="#FFC6D6EC" Offset="0.194" />
-        <GradientStop Color="#FFB4C9E5" Offset="0.811" />
-        <GradientStop Color="#FFB7C8E0" Offset="0.507" />-->
         <GradientStop Color="#D9BA41" Offset="1" />
     </LinearGradientBrush>
-    <LinearGradientBrush x:Key="NormalBorderBrush" EndPoint="0.5,0" StartPoint="0.5,1">
-        <GradientStop Color="#FFA500" />
-        <GradientStop Color="#FFADC7DE" Offset="1" />
-    </LinearGradientBrush>
     <SolidColorBrush x:Key="NormalHighlightBrush" Color="#FFFFFFFF"/>
-    <LinearGradientBrush x:Key="MouseOverBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-        <!--<GradientStop Color="#FFFFFFFF" Offset="0" />
-        <GradientStop Color="#FFFEF3B5" Offset="0.318" />
-        <GradientStop Color="#FFFFEB70" Offset="0.488" />
-        <GradientStop Color="#FFFFD02E" Offset="0.502" />
-        <GradientStop Color="#FFFFD932" Offset="0.834" />-->
-        <GradientStop Color="#FFA500" Offset="1" />
-    </LinearGradientBrush>
     <LinearGradientBrush x:Key="MouseOverBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
         <GradientStop Color="#FFEEE8CF" Offset="0" />
         <GradientStop Color="#FFC4AF8C" Offset="0.536" />
         <GradientStop Color="#FFDCD1BF" Offset="1" />
     </LinearGradientBrush>
+    <LinearGradientBrush x:Key="PressedHighlightBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFFFFFFF" Offset="0.665" />
+        <GradientStop Color="#FFC3BCAE" Offset="0" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#A5FFFFFF"/>
+    <SolidColorBrush x:Key="DisabledBorderBrush" Color="#66FFFFFF"/>
+    <SolidColorBrush x:Key="ControlBorderBrush" Color="#FFB1703C"/>
+
+    <SolidColorBrush x:Key="GlyphBrush" Color="#FF527DB5"/>
+
+      <SolidColorBrush x:Key="OutsideFontColor" Color="#FF000000" />
+
+    <LinearGradientBrush x:Key="NormalBorderBrush" EndPoint="0.5,0" StartPoint="0.5,1">
+        <GradientStop Color="#FFA500" />
+        <GradientStop Color="#FFADC7DE" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="MouseOverBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFA500" Offset="1" />
+    </LinearGradientBrush>
+    
     <LinearGradientBrush x:Key="MouseOverHighlightBrush" EndPoint="0.5,1" StartPoint="0.5,0">
         <GradientStop Color="#FFFFFFFB" Offset="0" />
         <GradientStop Color="#FFFEF3B5" Offset="1" />
     </LinearGradientBrush>
+    
     <LinearGradientBrush x:Key="PressedBrush" EndPoint="0.5,1" StartPoint="0.5,0">
         <GradientStop Color="#FFC3BCAE" Offset="0" />
         <GradientStop Color="#FFFDCE9D" Offset="0.046" />
@@ -428,26 +383,20 @@
         <GradientStop Color="#FFFF9F30" Offset="0.724" />
         <GradientStop Color="#FFFFC472" Offset="1" />
     </LinearGradientBrush>
+    
     <LinearGradientBrush x:Key="PressedBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
         <GradientStop Color="#FF8E8165" Offset="0" />
         <GradientStop Color="#FFC3BCAE" Offset="1" />
     </LinearGradientBrush>
-    <LinearGradientBrush x:Key="PressedHighlightBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FFFFFFFF" Offset="0.665" />
-        <GradientStop Color="#FFC3BCAE" Offset="0" />
-    </LinearGradientBrush>
-    <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#A5FFFFFF"/>
-    <SolidColorBrush x:Key="DisabledBorderBrush" Color="#66FFFFFF"/>
+    
     <SolidColorBrush x:Key="FocusBrush" Color="#FFE99862"/>
 
     <LinearGradientBrush x:Key="ControlBackgroundBrush" EndPoint="1.204,0.5" StartPoint="0.056,0.5">
         <GradientStop Color="#FFFFFFFF" Offset="0" />
         <GradientStop Color="#FFD4D7DB" Offset="1" />
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="ControlBorderBrush" Color="#FFB1703C"/>
-
-    <SolidColorBrush x:Key="GlyphBrush" Color="#FF527DB5"/>
-
+    
+ 
 
     <SolidColorBrush x:Key="AlternateBackgroundBrush" Color="#FFFFFFFF"/>
     <SolidColorBrush x:Key="ControlContentBrush" Color="#FFE0EAF6"/>
@@ -610,7 +559,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGrid}">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" CornerRadius="5" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" CornerRadius="0" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
                         <ScrollViewer x:Name="DG_ScrollViewer" Focusable="false">
                             <ScrollViewer.Template>
                                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
