@@ -760,7 +760,7 @@
                 <Grid Grid.Column="2">
                     <StackPanel x:Name="footerPanel3" Orientation="Horizontal" Margin="5,5,5,5"  >
                         <TextBlock x:Name="txtWebsite"  Style="{StaticResource txtBlock}"   />
-                        <TextBlock x:Name="txtSystemDate"  Style="{StaticResource txtBlock}" Margin="200,0,0,0"/>
+                        <TextBlock x:Name="txtSystemDate"  Style="{StaticResource txtBlock}" Margin="186,0,0,0"/>
                         <TextBlock x:Name="txtDatetime"  Style="{StaticResource txtBlock}" Margin="3,0,0,0"/>
                     </StackPanel>
                 </Grid>

@@ -26,8 +26,8 @@ namespace RocketPOS.Helpers
             {
                 InitializeComponent();
 
-                txtUsername.Text = "Admin";
-                txtPassword.Password = "Admin";
+                //txtUsername.Text = "Admin";
+                //txtPassword.Password = "Admin";
 
                 CenterWindowOnScreen();
             }

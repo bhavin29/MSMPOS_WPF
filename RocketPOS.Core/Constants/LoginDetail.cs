@@ -7,7 +7,7 @@ namespace RocketPOS.Core.Constants
     public  static class LoginDetail
     {
         //Created application run time
-        public static string AppVersion = "0.01";
+        public static string AppVersion = "1.1";
         //from login database
         public static int UserId = 0;
         public static string Username = "";
