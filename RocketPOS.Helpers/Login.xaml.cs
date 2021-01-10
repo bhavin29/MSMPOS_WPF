@@ -46,31 +46,38 @@ namespace RocketPOS.Helpers
                 {
                     LoginMerge(loginModel);
 
-                    if (loginModel[0].OutletRegisterStatus == 1)
-                    {
-                        DateTime dt = new DateTime();
+                    loginViewModel.UpdateLoginLogout("login");
+                    loginViewModel.LoginHistory(1);
 
-                        string v = DateTime.Now.ToShortDateString();
-                        dt = DateTime.Parse(v);
+                    MainWindow mainWin = new MainWindow();
+                    mainWin.Show();
+                    this.Hide();
 
-                        int result = DateTime.Compare(loginModel[0].SystemDate, dt);
+                    //if (loginModel[0].OutletRegisterStatus == 1)
+                    //{
+                    //    DateTime dt = new DateTime();
 
-                        if (result < 0)
-                        {
-                            var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "You are running with past date,please close your register and start new register with current date", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
-                        }
+                    //    string v = DateTime.Now.ToShortDateString();
+                    //    dt = DateTime.Parse(v);
 
-                        loginViewModel.UpdateLoginLogout("login");
-                        loginViewModel.LoginHistory(1);
+                    //    int result = DateTime.Compare(loginModel[0].SystemDate, dt);
 
-                        MainWindow mainWin = new MainWindow();
-                        mainWin.Show();
-                        this.Hide();
-                    }
-                    else
-                    {
-                        var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Please contact admin to open your register.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
-                    }
+                    //    if (result < 0)
+                    //    {
+                    //        var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "You are running with past date,please close your register and start new register with current date", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+                    //    }
+
+                    //    //loginViewModel.UpdateLoginLogout("login");
+                    //    //loginViewModel.LoginHistory(1);
+
+                    //    //MainWindow mainWin = new MainWindow();
+                    //    //mainWin.Show();
+                    //    //this.Hide();
+                    //}
+                    //else
+                    //{
+                    //    var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Please contact admin to open your register.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    //}
                 }
                 else
                 {

@@ -89,6 +89,7 @@ namespace RocketPOS.Helpers
                 spCategory.Children.Clear();
                 spFavouriteCategory.Children.Clear();
                 spSubCategory.Children.Clear();
+
                 Application.Current.Resources["FoodList"] = null;
                 AppSettings appSettings = new AppSettings();
                 string rootPath = string.Empty;
@@ -228,6 +229,7 @@ namespace RocketPOS.Helpers
             {
                 StackPanel menuListPanel = new StackPanel();
                 menuListPanel.Orientation = Orientation.Vertical;
+                menuListPanel.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#808080")); 
 
                 StackPanel menuName = new StackPanel();
                 menuName.Height = 33;
