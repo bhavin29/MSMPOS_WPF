@@ -381,7 +381,8 @@ namespace RocketPOS.Helpers
             {
                 if (percent != 0)
                 {
-                    return ((amount * percent) / 100);
+                    // return ((amount * percent) / 100);
+                    return (amount - ((amount / (100 + percent)) * 100));
                 }
                 else
                 {
