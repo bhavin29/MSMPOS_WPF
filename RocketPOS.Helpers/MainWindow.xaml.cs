@@ -76,8 +76,8 @@ namespace RocketPOS.Helpers
                 cmbCustomer.DisplayMemberPath = "CustomerName";
 
                 if (cmbCustomer.Items.Count >= 1)
-                { 
-                    cmbCustomer.SelectedIndex = 1; 
+                {
+                    cmbCustomer.SelectedIndex = 1;
                 }
                 else
                 {
@@ -397,8 +397,14 @@ namespace RocketPOS.Helpers
             {
                 if (percent != 0)
                 {
-                    // return ((amount * percent) / 100);
-                    return (amount - ((amount / (100 + percent)) * 100));
+                    if (LoginDetail.TaxInclusive == 1)
+                    {
+                        return (amount - ((amount / (100 + percent)) * 100));
+                    }
+                    else
+                    {
+                        return ((amount * percent) / 100);
+                    }
                 }
                 else
                 {
@@ -937,15 +943,20 @@ namespace RocketPOS.Helpers
                 List<SaleItemModel> saleItem = new List<SaleItemModel>();
                 object foodItem = dgSaleItem.SelectedItem;
                 saleItem = (List<SaleItemModel>)foodItem;
-                txtbPopUpItemOriginalTotal.Text = saleItem[0].Price.ToString();
-                txtbPopUpOriginalQtyCount.Text = saleItem[0].Qty.ToString();
-                txtbPopUpItemOriginalSubTotalAmount.Text = saleItem[0].Price.ToString();
-                txtbPopUpItemName.Text = saleItem[0].Product;
-                txtbPopUpQtyCount.Text = saleItem[0].Qty.ToString();
-                txtbPopUpItemTotal.Text = saleItem[0].Total.ToString();
-                txtPopUpDiscount.Text = saleItem[0].Discount.ToString();
-                txtbPopUpItemSubTotalAmount.Text = Convert.ToDecimal(saleItem[0].Total).ToString();
-                EditSaleItemPopUp.IsOpen = true;
+                txtbPopUpProductName.Text = saleItem[0].Product;
+                txtPPPrice.Text = saleItem[0].Price.ToString();
+                txtPPOriginalPrice.Text = saleItem[0].Price.ToString();
+                ppEditPrice.IsOpen = true;
+
+                //txtbPopUpItemOriginalTotal.Text = saleItem[0].Price.ToString();
+                //txtbPopUpOriginalQtyCount.Text = saleItem[0].Qty.ToString();
+                //txtbPopUpItemOriginalSubTotalAmount.Text = saleItem[0].Price.ToString();
+                //txtbPopUpItemName.Text = saleItem[0].Product;
+                //txtbPopUpQtyCount.Text = saleItem[0].Qty.ToString();
+                //txtbPopUpItemTotal.Text = saleItem[0].Total.ToString();
+                //txtPopUpDiscount.Text = saleItem[0].Discount.ToString();
+                //txtbPopUpItemSubTotalAmount.Text = Convert.ToDecimal(saleItem[0].Total).ToString();
+                //EditSaleItemPopUp.IsOpen = true;
             }
             catch (Exception ex)
             {
@@ -1120,12 +1131,12 @@ namespace RocketPOS.Helpers
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.CancelOrderTitle, StatusMessages.CancelOrder, MessageBoxButton.YesNo, EnumUtility.MessageBoxImage.Question);
                 if (messageBoxResult.ToString() == "Yes")
                 {
-                    tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Open);
+                    //tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Open);
                     orderId = txtbOrderId.Text;
                     if (!string.IsNullOrEmpty(orderId) && orderId != "0")
                     {
 
-                        insertedId = customerOrderViewModel.UpdateOrderStatus(orderId, (int)EnumUtility.OrderPaidStatus.Cancelled);
+                        insertedId = customerOrderViewModel.CancelOrder(orderId);
                         if (insertedId > 0)
                         {
                             var messageBoxSuccessResult = WpfMessageBox.Show(StatusMessages.CancelOrderTitle, StatusMessages.CancelOrderSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
@@ -1477,7 +1488,7 @@ namespace RocketPOS.Helpers
                 customerBillModel.ServiceCharge = customerOrderModel.DeliveryCharges;
                 customerBillModel.VatableAmount = customerOrderModel.VatableAmount;
                 customerBillModel.TaxAmount = customerOrderModel.TaxAmount;
-                customerBillModel.TotalAmount = Convert.ToDecimal(lblPPTotalPayableAmount.Content);
+                customerBillModel.TotalAmount = customerOrderModel.TotalPayable;
                 customerBillModel.BillStatus = (int)EnumUtility.OrderPaidStatus.FullPaid;
                 customerBillModel.UserId = LoginDetail.UserId;
                 //customerBillModel.PaymentMethodId = Convert.ToInt32(lbPPPaymentMethod.SelectedValue);
@@ -1931,7 +1942,8 @@ namespace RocketPOS.Helpers
                 txtClientName.Text = LoginDetail.ClientName + "  |  ";
                 txbOutletName.Text = LoginDetail.OutletName + "  |  Ver: " + LoginDetail.AppVersion;
                 txtbUserName.Text = "User: " + LoginDetail.Username;
-                txtWebsite.Text = LoginDetail.WebSite;
+                //txtWebsite.Text = LoginDetail.WebSite;
+                btnWebsite.Content = LoginDetail.WebSite;
                 txtSystemDate.Text = LoginDetail.SystemDate.ToShortDateString();
             }
             catch (Exception ex)
@@ -2082,7 +2094,7 @@ namespace RocketPOS.Helpers
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
 
-
+                /*
                 string settings = LoginDetail.MainWindowSettings;
                 string[] wordsSettings = settings.Split('$');
 
@@ -2114,7 +2126,7 @@ namespace RocketPOS.Helpers
 
                     }
                 }
-
+                */
 
                 //Set Header Marquee Text
                 txtHeaderTitle.Text = LoginDetail.HeaderMarqueeText;
@@ -2363,6 +2375,84 @@ namespace RocketPOS.Helpers
         private void CommandBinding_Executed_1(object sender, ExecutedRoutedEventArgs e)
         {
             btnPlaceOrder_Click(sender, e);
+        }
+
+        private void btnWebsite_Click(object sender, RoutedEventArgs e)
+        {
+            var psi = new ProcessStartInfo
+            {
+                FileName = btnWebsite.Content.ToString(),
+                UseShellExecute = true
+            };
+            Process.Start(psi);
+        }
+
+        private void btnPaymentMethod_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                PaymentMethodModel paymentMethodModel = (PaymentMethodModel)dgPaymentMethod.SelectedItem;
+                if (paymentMethodModel != null)
+                {
+                    for (int i = 0; i < dgPaymentMethod.Items.Count; i++)
+                    {
+                        var paymentMethod = (PaymentMethodModel)dgPaymentMethod.Items[i];
+                        ContentPresenter myCpresenter = dgPaymentMethod.Columns[1].GetCellContent(paymentMethod) as ContentPresenter;
+                        if (myCpresenter != null)
+                        {
+                            var myTemplate = myCpresenter.ContentTemplate;
+                            TextBox mytxtbox = myTemplate.FindName("txtPaymentAmount", myCpresenter) as TextBox;
+                            if (paymentMethodModel.Id == paymentMethod.Id)
+                            {
+                                mytxtbox.Text = lblPPTotalPayableAmount.Content.ToString();
+                            }
+                            else
+                            {
+                                mytxtbox.Text = string.Empty;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
+        }
+
+        private void btnPricePopUpCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ppEditPrice.IsOpen = false;
+        }
+
+        private void btnPricePopUpAddToCart_Click(object sender, RoutedEventArgs e)
+        {
+            ppEditPrice.IsOpen = false;
+            try
+            {
+                decimal originalPrice = 0,increasedPrice=0, changedPrice = 0;
+                List<SaleItemModel> saleItem = new List<SaleItemModel>();
+                object foodItem = dgSaleItem.SelectedItem;
+                saleItem = (List<SaleItemModel>)foodItem;
+                saleItem[0].Price = Convert.ToDecimal(txtPPPrice.Text);
+                originalPrice = Convert.ToDecimal(txtPPOriginalPrice.Text);
+                increasedPrice = Convert.ToDecimal(txtPPPrice.Text);
+                
+                originalPrice = originalPrice * saleItem[0].Qty;
+                increasedPrice = increasedPrice * saleItem[0].Qty;
+                changedPrice = increasedPrice - originalPrice;
+
+                txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + changedPrice + GetPercentageAmount(changedPrice, saleItem[0].TaxPercentage)).ToString();
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + changedPrice + GetPercentageAmount(changedPrice, saleItem[0].TaxPercentage)).ToString();
+                
+                ppEditPrice.IsOpen = false;
+                dgSaleItem.Items.Refresh();
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+
+            }
         }
     }
 }

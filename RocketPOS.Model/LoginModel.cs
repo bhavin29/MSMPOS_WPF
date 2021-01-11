@@ -48,5 +48,7 @@ namespace RocketPOS.Model
         public string DeliveryList { get; set; }
         public string DiscountList { get; set; }
         public string Powerby { get; set; }
+        public int TaxInclusive { get; set; }
+        
     }
 }
