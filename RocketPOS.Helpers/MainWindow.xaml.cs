@@ -239,22 +239,7 @@ namespace RocketPOS.Helpers
                 menuListPanel.Orientation = Orientation.Vertical;
                 menuListPanel.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#808080"));
 
-                StackPanel menuName = new StackPanel();
-                menuName.Height = 33;
-                menuName.Width = 96;
-
-                TextBlock txtSmallName = new TextBlock();
-                txtSmallName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                txtSmallName.Text = itemSubCat.SmallName;
-                txtSmallName.TextWrapping = TextWrapping.Wrap;
-                txtSmallName.ToolTip = itemSubCat.SmallName;
-                txtSmallName.FontWeight = FontWeights.Bold;
-                txtSmallName.Name = "txtSmallName" + itemSubCat.FoodCategoryId;
-                menuName.Children.Add(txtSmallName);
-
-                menuListPanel.Children.Add(menuName);
-
-                Image imgFood = new Image();
+                 Image imgFood = new Image();
                 try
                 {
                     if (!string.IsNullOrEmpty(itemSubCat.SmallThumb))
@@ -282,6 +267,21 @@ namespace RocketPOS.Helpers
                 imgFood.Stretch = Stretch.UniformToFill;
                 imgFood.Name = "imgFood" + itemSubCat.FoodCategoryId;
                 menuListPanel.Children.Add(imgFood);
+
+                StackPanel menuName = new StackPanel();
+                menuName.Height = 33;
+                menuName.Width = 96;
+
+                TextBlock txtSmallName = new TextBlock();
+                txtSmallName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                txtSmallName.Text = itemSubCat.SmallName;
+                txtSmallName.TextWrapping = TextWrapping.Wrap;
+                txtSmallName.ToolTip = itemSubCat.SmallName;
+                txtSmallName.FontWeight = FontWeights.Bold;
+                txtSmallName.Name = "txtSmallName" + itemSubCat.FoodCategoryId;
+                menuName.Children.Add(txtSmallName);
+
+                menuListPanel.Children.Add(menuName);
 
                 TextBlock txtSalePrice = new TextBlock();
                 txtSalePrice.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
@@ -800,7 +800,7 @@ namespace RocketPOS.Helpers
             {
                 var menuListPanel = sender as StackPanel;
 
-                var menuNamePanel = menuListPanel.Children[0] as StackPanel;
+                var menuNamePanel = menuListPanel.Children[1] as StackPanel;
                 var itemName = menuNamePanel.Children[0] as TextBlock;
 
                 var salePrice = menuListPanel.Children[2] as TextBlock;
@@ -811,7 +811,6 @@ namespace RocketPOS.Helpers
                 var isVatable = menuListPanel.Children[7] as TextBlock;
 
                 CommonOrderCalculation(sender, "FoodMenu");
-
 
                 List<SaleItemModel> saleItems = new List<SaleItemModel>();
                 saleItems.Add(new SaleItemModel()
