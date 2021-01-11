@@ -54,7 +54,15 @@
                         <Button x:Name="btnNewOrder" Style="{StaticResource btnOrange}" Margin="252,0,0,-1" Content="New Order" Width="132.5" Click="btnNewOrder_Click" />
                         <Button x:Name="btnDineTableView" Style="{StaticResource btnOrange}" Content="Table View" Width="133" Click="btnDineTableView_Click" />
                         <Button x:Name="btnCalculator"  Style="{StaticResource btnOrange}" Content="Calculator" Width="138"   Click="btnCalculator_Click"/>
-                        <Button x:Name="btnFoodMenuList" Style="{StaticResource btnOrange}" Content="Menu List" Width="99" Click="btnFoodMenuList_Click" />
+
+                        <Button x:Name="btnFoodMenuList" Style="{StaticResource btnOrange}"  Width="99" Click="btnFoodMenuList_Click" >
+                            <StackPanel HorizontalAlignment="Left">
+                            <Image Source="images/Search.png" Height="18"/>
+                            <TextBlock Text="Menu List"/>
+                            </StackPanel>
+                        </Button>
+                       
+                        
                         <Button x:Name="btnLastSale" Style="{StaticResource btnOrange}"  Content="Sales List" Width="101" Margin ="1,1,0,0" Click="btnLastSale_Click" />
                         <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Register"  Width="101" Margin ="1,1,0,0" Click="btnRegister_Click" />
                         <Button x:Name="btnReadBeforeBegin" Style="{StaticResource btnOrange}" Content="Reports" Width="101" Margin ="1,1,0,0"/>
@@ -79,7 +87,6 @@
                                 </StackPanel>
                                 <DataGrid x:Name="dgFoodMenuList" Grid.Row="1" Grid.Column="0" CanUserAddRows="false" AutoGenerateColumns="False" ItemsSource="{Binding FoodMenu}" MouseDoubleClick="dgFoodMenuList_MouseDoubleClick">
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Category" IsReadOnly="True"  Width="150" Binding="{Binding FoodCategory}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="Name" IsReadOnly="True"  Width="230" Binding="{Binding SmallName}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="Price" IsReadOnly="True"  Width="100" Binding="{Binding SalesPrice}">
                                             <DataGridTextColumn.ElementStyle>
@@ -88,6 +95,7 @@
                                                 </Style>
                                             </DataGridTextColumn.ElementStyle>
                                         </DataGridTextColumn>
+                                        <DataGridTextColumn Header="Category" IsReadOnly="True"  Width="150" Binding="{Binding FoodCategory}"></DataGridTextColumn>
                                         <DataGridTemplateColumn Width="70" IsReadOnly="True" Header="Picture" Visibility="Hidden">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>

@@ -164,13 +164,13 @@ namespace RocketPOS.Helpers.Tables
                     }
                 }
 
-                if (Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Open)
+                if (Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Open || Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Occupied)
                 {
                     MainWindow mainWin = new MainWindow();
                     mainWin.rdbDineInOrderType.IsChecked = true;
                     mainWin.txtbDineInTableId.Text = txtbTableId.Text.ToString();
                     tableViewModel.UpdateTableStatus(txtbTableId.Text, (int)EnumUtility.TableStatus.Occupied);
-                    mainWin.Show();
+            //        mainWin.Show();
                     this.Close();
                 }
             }

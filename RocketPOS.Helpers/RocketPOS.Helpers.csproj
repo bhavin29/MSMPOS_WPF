@@ -18,6 +18,7 @@
     <None Remove="images\RocketPOS Left24.bmp" />
     <None Remove="images\RocketPOS24bitTop.bmp" />
     <None Remove="images\rocket_pos_logo.jpg" />
+    <None Remove="images\Search.png" />
     <None Remove="images\ShayonaLogo.jpg" />
     <None Remove="images\Warning.png" />
   </ItemGroup>
@@ -66,6 +67,9 @@
     </Resource>
     <Resource Include="images\rocket_pos_logo.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\Search.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\ShayonaLogo.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

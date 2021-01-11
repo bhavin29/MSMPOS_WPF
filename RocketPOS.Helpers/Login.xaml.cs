@@ -8,6 +8,10 @@ using NLog;
 using System;
 using NLog.Fluent;
 using System.Diagnostics;
+using System.IO;
+using System.Windows.Input;
+using RocketPOS.Core.Configuration;
+using RocketPOS.Views;
 
 namespace RocketPOS.Helpers
 {
@@ -25,11 +29,17 @@ namespace RocketPOS.Helpers
             try
             {
                 InitializeComponent();
-
-                //txtUsername.Text = "Admin";
-                //txtPassword.Password = "Admin";
-
-                CenterWindowOnScreen();
+                if (!Appcheck())
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Opps, Somthing went wrong.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    App.Current.Shutdown();
+                }
+                else
+                {
+                    //txtUsername.Text = "Admin";
+                    //txtPassword.Password = "Admin";
+                    CenterWindowOnScreen();
+                }
             }
             catch (Exception ex)
             {
@@ -41,6 +51,11 @@ namespace RocketPOS.Helpers
         {
             try
             {
+
+              //  ReceiptPrintA4View printReceipt = new ReceiptPrintA4View();
+              //  printReceipt.Print("Microsoft Print to PDF", null);
+
+
                 loginModel = loginViewModel.GetUserLogin(txtUsername.Text, txtPassword.Password);
                 if (loginModel.Count > 0)
                 {
@@ -128,6 +143,8 @@ namespace RocketPOS.Helpers
             LoginDetail.DeliveryList = loginModel[0].DeliveryList;
             LoginDetail.DiscountList = loginModel[0].DiscountList;
             LoginDetail.Powerby = loginModel[0].Powerby;
+            LoginDetail.Lastname = loginModel[0].Lastname;
+            LoginDetail.Firstname = loginModel[0].Firstname;
         }
 
         private void CenterWindowOnScreen()
@@ -150,6 +167,29 @@ namespace RocketPOS.Helpers
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             App.Current.Shutdown();
+        }
+
+        private bool Appcheck()
+        {
+
+            string directory = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            string filePath = Path.Combine(directory, "windows");
+            bool result = false;
+
+            if (File.Exists(filePath))
+            {
+                result = true;
+            }
+            return result;
+        }
+
+        private void txtPassword_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                btnLogin_Click(sender, e);
+            }
+
         }
     }
 }

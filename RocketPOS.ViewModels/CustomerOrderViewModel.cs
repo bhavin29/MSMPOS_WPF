@@ -139,7 +139,7 @@ namespace RocketPOS.ViewModels
                             " FROM CustomerOrder CO  " +
                             " INNER JOIN Customer C ON C.ID = CO.CustomerId  " +
                             " WHERE OutletId =" + LoginDetail.OutletId +
-                            " AND convert(varchar(10),Orderdate,126) between '" + fromDate + "' AND '" + toDate + "'" +
+                         //   " AND convert(varchar(10),Orderdate,101) between '" + fromDate + "' AND '" + toDate + "'" +
                             " ORDER BY CO.Orderdate desc;";
 
                 customerOrderHistoryModels = db.Query<CustomerOrderHistoryModel>(query).ToList();

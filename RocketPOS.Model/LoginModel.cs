@@ -34,6 +34,10 @@ namespace RocketPOS.Model
         public string Footer3 { get; set; }
         public string Footer4 { get; set; }
 
+        public string Lastname { get; set; }
+        public string Firstname { get; set; }
+
+
         [DataType(DataType.Date)]
         public DateTime SystemDate { get; set; }
 

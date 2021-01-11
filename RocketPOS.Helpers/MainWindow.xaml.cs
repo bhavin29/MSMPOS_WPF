@@ -74,7 +74,15 @@ namespace RocketPOS.Helpers
                 cmbCustomer.IsReadOnly = true;
                 cmbCustomer.SelectedValuePath = "Id";
                 cmbCustomer.DisplayMemberPath = "CustomerName";
-                cmbCustomer.SelectedIndex = -1;
+
+                if (cmbCustomer.Items.Count >= 1)
+                { 
+                    cmbCustomer.SelectedIndex = 1; 
+                }
+                else
+                {
+                    cmbCustomer.SelectedIndex = -1;
+                }
             }
             catch (Exception ex)
             {
@@ -229,7 +237,7 @@ namespace RocketPOS.Helpers
             {
                 StackPanel menuListPanel = new StackPanel();
                 menuListPanel.Orientation = Orientation.Vertical;
-                menuListPanel.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#808080")); 
+                menuListPanel.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#808080"));
 
                 StackPanel menuName = new StackPanel();
                 menuName.Height = 33;
@@ -245,13 +253,6 @@ namespace RocketPOS.Helpers
                 menuName.Children.Add(txtSmallName);
 
                 menuListPanel.Children.Add(menuName);
-
-                TextBlock txtSalePrice = new TextBlock();
-                txtSalePrice.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                txtSalePrice.Text = Convert.ToDecimal(itemSubCat.SalesPrice).ToString("0.00");
-                txtSalePrice.Name = "txtSalePrice" + itemSubCat.FoodCategoryId;
-                txtSalePrice.FontWeight = FontWeights.Bold;
-                menuListPanel.Children.Add(txtSalePrice);
 
                 Image imgFood = new Image();
                 try
@@ -281,6 +282,13 @@ namespace RocketPOS.Helpers
                 imgFood.Stretch = Stretch.UniformToFill;
                 imgFood.Name = "imgFood" + itemSubCat.FoodCategoryId;
                 menuListPanel.Children.Add(imgFood);
+
+                TextBlock txtSalePrice = new TextBlock();
+                txtSalePrice.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                txtSalePrice.Text = Convert.ToDecimal(itemSubCat.SalesPrice).ToString("0.00");
+                txtSalePrice.Name = "txtSalePrice" + itemSubCat.FoodCategoryId;
+                txtSalePrice.FontWeight = FontWeights.Bold;
+                menuListPanel.Children.Add(txtSalePrice);
 
                 TextBlock txtFoodMenuId = new TextBlock();
                 txtFoodMenuId.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
@@ -340,7 +348,15 @@ namespace RocketPOS.Helpers
                 cmbWaiter.Text = "Select Waiter";
                 cmbWaiter.SelectedIndex = -1;
                 cmbCustomer.Text = "Select Customer";
-                cmbCustomer.SelectedIndex = -1;
+
+                if (cmbCustomer.Items.Count > 0)
+                {
+                    cmbCustomer.SelectedIndex = 1;
+                }
+                else
+                {
+                    cmbCustomer.SelectedIndex = -1;
+                }
                 txtbTotalPayableAmount.Text = "0.00";
                 txtbSubTotalAmount.Text = "0.00";
                 txtbTotalItemCount.Text = "0.00";
@@ -402,7 +418,7 @@ namespace RocketPOS.Helpers
                 if (type == "FoodMenu")
                 {
                     var menuListPanel = sender as StackPanel;
-                    var salePrice = menuListPanel.Children[1] as TextBlock;
+                    var salePrice = menuListPanel.Children[2] as TextBlock;
                     var foodVat = menuListPanel.Children[4] as TextBlock;
                     var foodCess = menuListPanel.Children[5] as TextBlock;
                     var taxPercentage = menuListPanel.Children[6] as TextBlock;
@@ -787,7 +803,7 @@ namespace RocketPOS.Helpers
                 var menuNamePanel = menuListPanel.Children[0] as StackPanel;
                 var itemName = menuNamePanel.Children[0] as TextBlock;
 
-                var salePrice = menuListPanel.Children[1] as TextBlock;
+                var salePrice = menuListPanel.Children[2] as TextBlock;
                 var foodMenuId = menuListPanel.Children[3] as TextBlock;
                 var foodVat = menuListPanel.Children[4] as TextBlock;
                 var foodcess = menuListPanel.Children[5] as TextBlock;
@@ -1802,12 +1818,10 @@ namespace RocketPOS.Helpers
         {
             try
             {
-                Login frmLogin = new Login();
-
                 loginViewModel.UpdateLoginLogout("logout");
                 loginViewModel.LoginHistory(2);
-                frmLogin.Show();
-                this.Close();
+
+                App.Current.Shutdown();
             }
             catch (Exception ex)
             {
@@ -2068,7 +2082,7 @@ namespace RocketPOS.Helpers
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
 
-                
+
                 string settings = LoginDetail.MainWindowSettings;
                 string[] wordsSettings = settings.Split('$');
 
@@ -2100,7 +2114,7 @@ namespace RocketPOS.Helpers
 
                     }
                 }
-                
+
 
                 //Set Header Marquee Text
                 txtHeaderTitle.Text = LoginDetail.HeaderMarqueeText;

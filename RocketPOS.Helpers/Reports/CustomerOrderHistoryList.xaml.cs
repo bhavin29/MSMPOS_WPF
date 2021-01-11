@@ -28,6 +28,7 @@ namespace RocketPOS.Helpers.Reports
     public partial class CustomerOrderHistoryList : Window
     {
         List<CustomerOrderHistoryModel> customerOrderHistoryModel = new List<CustomerOrderHistoryModel>();
+        string DatetimeFormat= "dd/MM/yyyy";
         public CustomerOrderHistoryList()
         {
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
@@ -36,7 +37,7 @@ namespace RocketPOS.Helpers.Reports
 
             dpFromDate.SelectedDate = System.DateTime.Now;
             dpToDate.SelectedDate = System.DateTime.Now;
-            customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString("yyyy/MM/dd"), dpToDate.SelectedDate.Value.ToString("yyyy/MM/dd"));
+            customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString(DatetimeFormat), dpToDate.SelectedDate.Value.ToString(DatetimeFormat));
             this.dgOrderList.ItemsSource = customerOrderHistoryModel;
         }
 
@@ -51,7 +52,7 @@ namespace RocketPOS.Helpers.Reports
             {
                 List<CustomerOrderHistoryModel> customerOrderHistoryModel = new List<CustomerOrderHistoryModel>();
                 CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
-                customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString("yyyy/MM/dd"), dpToDate.SelectedDate.Value.ToString("yyyy/MM/dd"));
+                customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString(DatetimeFormat), dpToDate.SelectedDate.Value.ToString(DatetimeFormat));
                 this.dgOrderList.ItemsSource = customerOrderHistoryModel;
             }
             catch (Exception ex)
@@ -100,7 +101,7 @@ namespace RocketPOS.Helpers.Reports
             DataTable table = new DataTable();
             table = commonMethods.ConvertToDataTable(customerOrderHistoryModel);
             table.Columns.Remove("Id");
-            firstLine = "Sale List for " + dpFromDate.SelectedDate.Value.ToString("dd/MM/yyyy") + " to " + dpToDate.SelectedDate.Value.ToString("dd/MM/yyyy");
+            firstLine = "Sale List for " + dpFromDate.SelectedDate.Value.ToString(DatetimeFormat) + " to " + dpToDate.SelectedDate.Value.ToString(DatetimeFormat);
             commonMethods.WriteExcelFile(table, path, firstLine);
         }
 
