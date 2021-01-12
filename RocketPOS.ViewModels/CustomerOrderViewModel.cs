@@ -139,7 +139,7 @@ namespace RocketPOS.ViewModels
                             " FROM CustomerOrder CO  " +
                             " INNER JOIN Customer C ON C.ID = CO.CustomerId  " +
                             " WHERE OutletId =" + LoginDetail.OutletId +
-                         //   " AND convert(varchar(10),Orderdate,101) between '" + fromDate + "' AND '" + toDate + "'" +
+                            " AND FORMAT(CO.Orderdate,'dd/MM/yyyy') between '" + fromDate + "' AND '" + toDate + "'" +
                             " ORDER BY CO.Orderdate desc;";
 
                 customerOrderHistoryModels = db.Query<CustomerOrderHistoryModel>(query).ToList();
@@ -148,22 +148,17 @@ namespace RocketPOS.ViewModels
             }
         }
 
-        public int UpdateOrderStatus(string orderId, int orderStatus)
+        public int CancelOrder(string orderId)
         {
             int insertedId = 0;
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
-                string query = string.Empty;
-                query = @" Update CustomerOrder Set OrderStatus=@OrderStatus ,UserIdUpdated=@UserId,DateUpdated=@DateUpdated Where Id=@Id;
-                               SELECT CAST(@Id as int)";
+                var dynamicParameters = new DynamicParameters();
+                dynamicParameters.Add("@orderId", orderId);
 
-                insertedId = connection.Query<int>(query, new
-                {
-                    Id = orderId,
-                    OrderStatus = orderStatus,
-                    UserId = LoginDetail.UserId,
-                    DateUpdated = System.DateTime.Now
-                }).Single();
+                insertedId = connection.Query<int>
+                        (StoredProcedure.CANCEL_ORDER, dynamicParameters, commandType: CommandType.StoredProcedure, commandTimeout: 0).FirstOrDefault();
+                return insertedId;
             }
             return insertedId;
         }

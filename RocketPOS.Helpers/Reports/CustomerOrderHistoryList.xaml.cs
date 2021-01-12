@@ -28,7 +28,6 @@ namespace RocketPOS.Helpers.Reports
     public partial class CustomerOrderHistoryList : Window
     {
         List<CustomerOrderHistoryModel> customerOrderHistoryModel = new List<CustomerOrderHistoryModel>();
-        string DatetimeFormat= "dd/MM/yyyy";
         public CustomerOrderHistoryList()
         {
             CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
@@ -37,7 +36,7 @@ namespace RocketPOS.Helpers.Reports
 
             dpFromDate.SelectedDate = System.DateTime.Now;
             dpToDate.SelectedDate = System.DateTime.Now;
-            customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString(DatetimeFormat), dpToDate.SelectedDate.Value.ToString(DatetimeFormat));
+            customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat));
             this.dgOrderList.ItemsSource = customerOrderHistoryModel;
         }
 
@@ -52,7 +51,7 @@ namespace RocketPOS.Helpers.Reports
             {
                 List<CustomerOrderHistoryModel> customerOrderHistoryModel = new List<CustomerOrderHistoryModel>();
                 CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
-                customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString(DatetimeFormat), dpToDate.SelectedDate.Value.ToString(DatetimeFormat));
+                customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat));
                 this.dgOrderList.ItemsSource = customerOrderHistoryModel;
             }
             catch (Exception ex)
@@ -101,7 +100,7 @@ namespace RocketPOS.Helpers.Reports
             DataTable table = new DataTable();
             table = commonMethods.ConvertToDataTable(customerOrderHistoryModel);
             table.Columns.Remove("Id");
-            firstLine = "Sale List for " + dpFromDate.SelectedDate.Value.ToString(DatetimeFormat) + " to " + dpToDate.SelectedDate.Value.ToString(DatetimeFormat);
+            firstLine = "Sale List for " + dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat) + " to " + dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat);
             commonMethods.WriteExcelFile(table, path, firstLine);
         }
 
