@@ -63,10 +63,20 @@ namespace RocketPOS.ViewModels
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
             {
                 string query = string.Empty;
-                query = "SELECT CO.Id,CO.CustomerOrderNo,CustomerId,C.CustomerName,CO.CustomerId, CO.WaiterEmployeeId,E.FirstName+' '+E.LastName AS WaiterName,OrderType,TableId,AllocatedPerson " +
+                query = "SELECT CO.Id,CO.CustomerOrderNo,CustomerId," +
+                        "  CASE WHEN LEN(CUSTOMERNAME) >10 THEN " +
+                        " (SELECT substring(customername, 0, 10) + '...' from customer where id = CO.CustomerId) " +
+                        " ELSE " +
+                        " (SELECT substring(customername, 0, 10) + RIGHT(SPACE(10 - LEN(customername)), 10 - LEN(customername)) + '   ' from customer where id = CO.CustomerId) " +
+                        " END as CustomerName, " +
+                        " CO.CustomerId, CO.WaiterEmployeeId,E.FirstName+' '+E.LastName AS WaiterName,OrderType," +
+                        "  CASE WHEN CO.OrderType = 1 THEN 'DI' " +
+                                      "  WHEN CO.OrderType = 2 THEN 'TA' " +
+                                      "  WHEN CO.OrderType = 3 THEN 'DY' END as OrderTypeValue,  " +
+                        "TableId,' #' + T.Tablename as Tablename,AllocatedPerson " +
                                                                     " FROM CustomerOrder CO" +
-                                                                    " INNER JOIN Customer C" +
-                                                                    " ON CO.CustomerId = C.Id" +
+                                                                    " INNER JOIN Customer C ON CO.CustomerId = C.Id" +
+                                                                    " LEFT JOIN Tables T ON T.Id = CO.TableId " +
                                                                     " LEFT JOIN Employee E" +
                                                                     " ON CO.WaiterEmployeeId = E.Id" +
                                                                     " Where CO.OrderStatus= " + orderStatus;
@@ -139,7 +149,8 @@ namespace RocketPOS.ViewModels
                             " FROM CustomerOrder CO  " +
                             " INNER JOIN Customer C ON C.ID = CO.CustomerId  " +
                             " WHERE OutletId =" + LoginDetail.OutletId +
-                            " AND FORMAT(CO.Orderdate,'dd/MM/yyyy') between '" + fromDate + "' AND '" + toDate + "'" +
+                            //  " AND FORMAT(CO.Orderdate,'dd/MM/yyyy') between '" + fromDate + "' AND '" + toDate + "'" +
+                            " AND convert(varchar(10),CO.Orderdate,103) between '" + fromDate + "' AND '" + toDate + "'" +
                             " ORDER BY CO.Orderdate desc;";
 
                 customerOrderHistoryModels = db.Query<CustomerOrderHistoryModel>(query).ToList();

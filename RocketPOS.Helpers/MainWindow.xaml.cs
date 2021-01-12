@@ -432,7 +432,6 @@ namespace RocketPOS.Helpers
 
                     txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(salePrice.Text)).ToString();
                     txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + 1).ToString();
-                    //txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + Convert.ToDecimal(foodVat.Text) + Convert.ToDecimal(foodCess.Text)).ToString();
                     txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(Convert.ToDecimal(salePrice.Text), Convert.ToDecimal(taxPercentage.Text))).ToString("0.00");
                     if (Convert.ToInt32(isVatable.Text) == 1)
                     {
@@ -915,7 +914,7 @@ namespace RocketPOS.Helpers
                 txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) - GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage))).ToString("0.00");
                 if (Convert.ToInt32(saleItem[0].IsVatable) == 1)
                 {
-                    txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(saleItem[0].Price) - GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage)))).ToString("0.00");
+                    txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) - (Convert.ToDecimal(saleItem[0].Price) - GetPercentageAmount(Convert.ToDecimal(saleItem[0].Price), Convert.ToDecimal(saleItem[0].TaxPercentage)))).ToString("0.00");
                 }
                 else
                 {
@@ -943,7 +942,7 @@ namespace RocketPOS.Helpers
                 object foodItem = dgSaleItem.SelectedItem;
                 saleItem = (List<SaleItemModel>)foodItem;
                 txtbPopUpProductName.Text = saleItem[0].Product;
-                txtPPPrice.Text = saleItem[0].Price.ToString();
+                txtPPPrice.Text = "";// saleItem[0].Price.ToString();
                 txtPPOriginalPrice.Text = saleItem[0].Price.ToString();
                 ppEditPrice.IsOpen = true;
 
@@ -2431,6 +2430,7 @@ namespace RocketPOS.Helpers
             {
                 decimal originalPrice = 0,increasedPrice=0, changedPrice = 0;
                 List<SaleItemModel> saleItem = new List<SaleItemModel>();
+               
                 object foodItem = dgSaleItem.SelectedItem;
                 saleItem = (List<SaleItemModel>)foodItem;
                 saleItem[0].Price = Convert.ToDecimal(txtPPPrice.Text);
@@ -2441,9 +2441,20 @@ namespace RocketPOS.Helpers
                 increasedPrice = increasedPrice * saleItem[0].Qty;
                 changedPrice = increasedPrice - originalPrice;
 
-                txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + changedPrice + GetPercentageAmount(changedPrice, saleItem[0].TaxPercentage)).ToString();
-                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + changedPrice + GetPercentageAmount(changedPrice, saleItem[0].TaxPercentage)).ToString();
-                
+                saleItem[0].Total = increasedPrice;
+
+                txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + changedPrice).ToString("0.00");
+                txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(changedPrice, saleItem[0].TaxPercentage)).ToString("0.00");
+                if (Convert.ToInt32(saleItem[0].TaxPercentage) >0)
+                {
+                    txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(changedPrice) - GetPercentageAmount(Convert.ToDecimal(changedPrice), Convert.ToDecimal(saleItem[0].TaxPercentage)))).ToString("0.00");
+                }
+                else
+                {
+                    txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) + Convert.ToDecimal(changedPrice)).ToString("0.00");
+                }
+                txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
+  
                 ppEditPrice.IsOpen = false;
                 dgSaleItem.Items.Refresh();
             }

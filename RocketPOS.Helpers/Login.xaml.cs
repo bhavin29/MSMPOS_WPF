@@ -48,8 +48,8 @@ namespace RocketPOS.Helpers
             try
             {
 
-                ReceiptPrintA4View printReceipt = new ReceiptPrintA4View();
-                printReceipt.Print("Microsoft Print to PDF", 0);
+                //ReceiptPrintA4View printReceipt = new ReceiptPrintA4View();
+                //printReceipt.Print("Microsoft Print to PDF", 0);
 
 
                 loginModel = loginViewModel.GetUserLogin(txtUsername.Text, txtPassword.Password);

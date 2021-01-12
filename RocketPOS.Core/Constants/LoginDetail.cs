@@ -43,6 +43,6 @@ namespace RocketPOS.Core.Constants
         public static string Powerby = "";
         public static string Lastname = "";
         public static string Firstname = "";
-        public static int TaxInclusive = 0;
+        public static int TaxInclusive = 1;
     }
 }

@@ -15,6 +15,7 @@
         <RoutedUICommand x:Key="MenuList"/>
         <RoutedUICommand x:Key="PlaceOrder"/>
     </Window.Resources>
+    
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource MenuList}" Executed="CommandBinding_Executed"/>
         <CommandBinding Command="{StaticResource PlaceOrder}" Executed="CommandBinding_Executed_1"/>
@@ -138,9 +139,14 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                            <TextBox x:Name="txtSearchModifyOrder" Style="{StaticResource TextBoxBaseStyle}"   Width="250" Margin="0,-1,-1,0" TextChanged="searchSalesOrder"/>
-                        </StackPanel>
+                        <Grid Grid.Row="0" Grid.ColumnSpan="2" Width="250"  Background="{StaticResource brushWatermarkBackground}" Style="{StaticResource EntryFieldStyle}" >
+                            <TextBlock Margin="5,10,0,0" FontSize="22" Height="39" Width="250"  Text="Type to search order..." Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=txtSearchModifyOrder, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                            <TextBox x:Name="txtSearchModifyOrder" Margin="5,10,0,0" FontSize="22" Width="250"  Height="39" TextChanged="searchSalesOrder" Background="Transparent" BorderThickness="0" BorderBrush="{StaticResource brushWatermarkBorder}" />
+                            <Image Source="images/search.png" Height="25" Width="25" Margin="5" HorizontalAlignment="Right" />
+                        </Grid>
+                        
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                                 <RadioButton x:Name="rdbPendingSales"  Background="#D9BA41" Foreground="White" FontSize="15" FontWeight="Bold" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="125" Margin="0" Grid.Row="0" Grid.Column="0" Checked="searchSalesOrder">Pending Sales</RadioButton>
                             <RadioButton x:Name="rdbHoldSales" Background="#D9BA41" Foreground="White" FontSize="15"  FontWeight="Bold" Style="{StaticResource {x:Type ToggleButton}}"  Height="50" Width="127" Margin="0"  Grid.Row="0" Grid.Column="1" Checked="searchSalesOrder">Hold Sales</RadioButton>
@@ -164,11 +170,13 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" >
-
-                                            <TextBlock Text="{Binding CustomerOrderNo}" FontSize="18"   Foreground="Black"/>
-                                            <TextBlock Text="  [ " FontSize="18"   Foreground="Black"/>
-                                            <TextBlock Text="{Binding CustomerName}" FontSize="18"  Foreground="Black"/>
-                                            <TextBlock Text=" ]" FontSize="18"  Foreground="Black"/>
+                                            <TextBlock Text="{Binding CustomerOrderNo}" FontSize="16"   Foreground="Black"/>
+                                            <TextBlock Text=" - " FontSize="16"   Foreground="Black"/>
+                                            <TextBlock Text="{Binding CustomerName}" FontSize="16"  Foreground="Black"/>
+                                            <TextBlock Text=" : " FontSize="16"  Foreground="Black"/>
+                                            <TextBlock Text="{Binding OrderTypeValue}" FontSize="16"   Foreground="Black"/>
+                                            <TextBlock Text=" " FontSize="16"   Foreground="Black"/>
+                                            <TextBlock Text="{Binding TableName}" FontSize="16"   Foreground="Black"/>
                                         </StackPanel>
                                         <!--</Expander>-->
                                     </Grid>
@@ -313,12 +321,12 @@
                                     <DataGridTemplateColumn Header="" Width="35" >
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Content="Edit" Visibility="Visible" x:Name="btnEditSaleItem" Style="{StaticResource btnOrange}" Width="35" VerticalAlignment="Center" Margin="0" Click="btnEditSaleItem_Click"/>
+                                                <Button Content="Edit" Visibility="Visible" x:Name="btnEditSaleItem" Style="{StaticResource btnOrange}" Width="35" VerticalAlignment="Center" FontWeight="Normal" FontSize="14" Margin="0" Click="btnEditSaleItem_Click"/>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                     <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding CustomerOrderItemId}"/>
-                                    <DataGridTextColumn Header="Product" IsReadOnly="True"  Binding="{Binding Product}" Width="160"/>
+                                    <DataGridTextColumn Header="Product" IsReadOnly="True"  Binding="{Binding Product}" Width="130"/>
                                     <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding FoodMenuId}"/>
                                     <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Price}" Width="60">
                                         <DataGridTextColumn.ElementStyle>
@@ -363,25 +371,29 @@
 
                         <Popup Name="ppEditPrice" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                             <Border BorderBrush="Black" BorderThickness="5,5,5,5">
-                                <Grid Width="300" Height="175" Background="#86A09E">
+                                <Grid Width="350" Height="300" Background="#86A09E">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="150"/>
-                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="175"/>
+                                        <ColumnDefinition Width="175"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="70"/>
                                         <RowDefinition Height="25"/>
-                                        <RowDefinition Height="75"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="60"/>
                                         <RowDefinition Height="50"/>
-                                        <RowDefinition Height="25"/>
                                     </Grid.RowDefinitions>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" >
-                                        <TextBlock x:Name="txtbPopUpProductName" Text=""  Margin="5,5,5,5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
-                                    </StackPanel>
-                                    <Label x:Name="lblPPPrice" Content="Price : " Foreground="White" FontSize="16" Height="40" Width="80" Grid.Row="1" Grid.Column="0" />
-                                    <TextBox x:Name="txtPPPrice"  Text=""  Height="40" Width="100" Grid.Row="1" Grid.Column="1"/>
-                                    <TextBlock x:Name="txtPPOriginalPrice"  Visibility="Hidden" Text="" Grid.Row="1" Grid.Column="1"/>
-                                    <Button x:Name="btnPricePopUpCancel" Content="Cancel" Margin="5,5,5,5" Grid.Row="2" Grid.Column="0"  Click="btnPricePopUpCancel_Click"/>
-                                    <Button x:Name="btnPricePopUpAddToCart" Content="Add To Cart" Margin="5,5,5,5" Grid.Row="2" Grid.Column="1" Click="btnPricePopUpAddToCart_Click"/>
+                                    <Button x:Name="btnPricePopUpCancel" HorizontalAlignment="Right" Content="Cancel" Margin="5,5,5,5" Grid.Row="0" Grid.Column="1"  Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Click="btnPricePopUpCancel_Click"/>
+                                   
+                                    <TextBlock x:Name="txtbPopUpProductName" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Text="" Margin="15,0,0,0"   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+                                    <TextBlock x:Name="txtPPOriginalPrice"   FontSize="18" FontWeight="Bold" Foreground="White" Text="" Margin="15,0,0,0" Grid.Row="2" Grid.Column="0"/>
+
+                                    <Label x:Name="lblPPPrice" Content="New Price : " FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Margin="15,0,0,0" Height="40" Width="120" Grid.Row="4" Grid.Column="0" />
+                                    <TextBox x:Name="txtPPPrice" HorizontalAlignment="Left" Text="" FontSize="18" FontWeight="Bold"  Height="40" Width="100" Grid.Row="4" Grid.Column="1"/>
+                                    <Button x:Name="btnPricePopUpAddToCart" HorizontalAlignment="Right" Content="Save" Margin="5,5,5,5" Grid.Row="6" Grid.Column="1" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Click="btnPricePopUpAddToCart_Click"/>
                                 </Grid>
                             </Border>
                         </Popup>
@@ -704,15 +716,15 @@
                                             <DataGridTemplateColumn Header="Payment Type" Width="175" IsReadOnly="True">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                        <Button x:Name="btnPaymentMethod" Content="{Binding PaymentMethodName}" Click="btnPaymentMethod_Click" Height="30" FontSize="18" FontWeight="Bold" />
+                                                        <Button x:Name="btnPaymentMethod" Content="{Binding PaymentMethodName}" Click="btnPaymentMethod_Click" Height="26" Width="172" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
                                             <!--</DataGridTextColumn>-->
-                                            <DataGridTemplateColumn Width="175" IsReadOnly="True">
+                                            <DataGridTemplateColumn Width="145" IsReadOnly="True">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <TextBox x:Name="txtPaymentAmount" Text="" Height="30" FontSize="18" FontWeight="Bold" TextChanged="txtPaymentAmount_TextChanged" />
+                                                        <TextBox x:Name="txtPaymentAmount" Text="" Height="30" FontSize="18" Width="145" FontWeight="Bold" TextChanged="txtPaymentAmount_TextChanged"  />
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
@@ -802,8 +814,8 @@
                 <Grid Grid.Column="2">
                     <StackPanel x:Name="footerPanel3" Orientation="Horizontal" Margin="5,5,5,5"  >
                         <!--<TextBlock x:Name="txtWebsite"  Style="{StaticResource txtBlock}"  />-->
-                        <Button x:Name="btnWebsite" Click="btnWebsite_Click"/>
-                        <TextBlock x:Name="txtSystemDate"  Style="{StaticResource txtBlock}" Margin="186,0,0,0"/>
+                        <Button x:Name="btnWebsite" Click="btnWebsite_Click" FontSize="18"   VerticalAlignment="Top" Margin="-5,-12,0,0" Height="45" Width="250"  BorderThickness="0" Background="#956eeb" Foreground="White"/>
+                        <TextBlock x:Name="txtSystemDate"  Style="{StaticResource txtBlock}" Margin="85,0,0,0"/>
                         <TextBlock x:Name="txtDatetime"  Style="{StaticResource txtBlock}" Margin="3,0,0,0"/>
                     </StackPanel>
                 </Grid>

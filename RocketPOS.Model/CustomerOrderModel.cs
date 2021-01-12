@@ -15,11 +15,12 @@ namespace RocketPOS.Model
         public string WaiterEmployeeId { get; set; }
         public string WaiterName { get; set; }
         public int OrderType { get; set; }
+
         public DateTime OrderDate { get; set; }
         public string TableId { get; set; }
         public string AllocatedPerson { get; set; }
         public string TableName { get; set; }
-        
+
         public string TockenNumber { get; set; }
         public decimal GrossAmount { get; set; }
         public decimal DiscountPercentage { get; set; }
@@ -38,9 +39,13 @@ namespace RocketPOS.Model
         public DateTime DateInserted { get; set; }
 
         public List<CustomerOrderItemModel> CustomerOrderItemModels = new List<CustomerOrderItemModel>();
+
+        public string OrderTypeValue { get; set; }
+
+
     }
 
-    public class OrderDetailModel  : CustomerOrderModel 
+    public class OrderDetailModel : CustomerOrderModel
     {
 
     }
