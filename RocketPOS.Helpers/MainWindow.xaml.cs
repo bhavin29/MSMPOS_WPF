@@ -1023,6 +1023,22 @@ namespace RocketPOS.Helpers
                     return;
                 }
 
+                string tableId=null;
+                if (lbTablesList.SelectedIndex != -1)
+                {
+                    tableId = lbTablesList.SelectedValue.ToString();
+                }
+                else if (!String.IsNullOrEmpty(txtbDineInTableId.Text.ToString()))
+                {
+                    tableId = txtbDineInTableId.Text;
+                }
+
+                if (rdbDineInOrderType.IsChecked == true && String.IsNullOrEmpty(tableId))
+                {
+                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.TableNumberNoSelected, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    return;
+                }
+
                 //if (cmbWaiter.SelectedIndex == -1)
                 //{
                 //    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectWaiter, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
@@ -1375,6 +1391,23 @@ namespace RocketPOS.Helpers
                 //    cmbWaiter.Focus();
                 //    return;
                 //}
+ 
+                string tableId = null;
+                if (lbTablesList.SelectedIndex != -1)
+                {
+                    tableId = lbTablesList.SelectedValue.ToString();
+                }
+                else if (!String.IsNullOrEmpty(txtbDineInTableId.Text.ToString()))
+                {
+                    tableId = txtbDineInTableId.Text;
+                }
+
+                if (rdbDineInOrderType.IsChecked == true && String.IsNullOrEmpty(tableId))
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.TableNumberNoSelected, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    return;
+                }
+
                 if (cmbCustomer.SelectedIndex == -1)
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectCustomer, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
@@ -1803,6 +1836,23 @@ namespace RocketPOS.Helpers
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectOrderType, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     return;
                 }
+
+                string tableId = null;
+                if (lbTablesList.SelectedIndex != -1)
+                {
+                    tableId = lbTablesList.SelectedValue.ToString();
+                }
+                else if (!String.IsNullOrEmpty(txtbDineInTableId.Text.ToString()))
+                {
+                    tableId = txtbDineInTableId.Text;
+                }
+
+                if (rdbDineInOrderType.IsChecked == true && String.IsNullOrEmpty(tableId))
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.TableNumberNoSelected, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    return;
+                }
+                
                 //if (cmbWaiter.SelectedIndex == -1)
                 //{
                 //    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectWaiter, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);

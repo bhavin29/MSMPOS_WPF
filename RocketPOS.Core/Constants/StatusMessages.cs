@@ -32,6 +32,7 @@
         public const string FoodImageUploadFailed = "Picture uploaded failed.";
         public const string AddTotalPerson = "Please enter total person detail.";
         public const string AddMinimumPerson = "Please enter below or equalt to : ";
+        public const string TableNumberNoSelected = "Please select the table number";
 
         #region MessageBox Title
         public const string PlaceOrderTitle = "Place Order";

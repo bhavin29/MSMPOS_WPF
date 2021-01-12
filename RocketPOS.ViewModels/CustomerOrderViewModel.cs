@@ -88,7 +88,7 @@ namespace RocketPOS.ViewModels
 
                 if (!string.IsNullOrEmpty(searchKey))
                 {
-                    query += " And CO.Id Like '%" + searchKey + "%'";
+                    query += " And CO.CustomerOrderNo Like '%" + searchKey + "%'";
                 }
 
                 customerOrderList = db.Query<CustomerOrderModel>(query).ToList();
