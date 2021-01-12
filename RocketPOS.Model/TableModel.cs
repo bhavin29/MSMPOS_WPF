@@ -7,6 +7,8 @@ namespace RocketPOS.Model
     public class TableModel
     {
         public int Id { get; set; }
+        public int OrderId { get; set; }
+        
         public int OutletId { get; set; }
         public string TableName { get; set; }
         public int PersonCapacity { get; set; }

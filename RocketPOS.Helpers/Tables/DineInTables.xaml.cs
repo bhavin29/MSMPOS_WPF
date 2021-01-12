@@ -36,7 +36,6 @@ namespace RocketPOS.Helpers.Tables
                 SystemError.Register(ex);
             }
         }
-
         private void GetDineInTableList()
         {
             try
@@ -132,6 +131,12 @@ namespace RocketPOS.Helpers.Tables
                         txtbTableStatusId.Visibility = Visibility.Hidden;
                         tableListPanel.Children.Add(txtbTableStatusId);
 
+                        //Table Order Id
+                        TextBlock txtbTableOrderId = new TextBlock();
+                        txtbTableOrderId.Text = table.OrderId.ToString();
+                        txtbTableOrderId.Visibility = Visibility.Hidden;
+                        tableListPanel.Children.Add(txtbTableOrderId);
+
                         tableListPanel.Name = "tableListPanel" + table.Id.ToString();
                         tableListPanel.MouseDown += PerformTableOperation;
                         //Add to panel
@@ -153,6 +158,7 @@ namespace RocketPOS.Helpers.Tables
                 var txtbTableId = tableListPanel.Children[0] as TextBlock;
                 var txtbTableName = tableListPanel.Children[1] as TextBlock;
                 var txtbTableStatusId = tableListPanel.Children[5] as TextBlock;
+                var txtbTableOrderId = tableListPanel.Children[6] as TextBlock;
 
                 if (Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Clean)
                 {
@@ -164,15 +170,26 @@ namespace RocketPOS.Helpers.Tables
                     }
                 }
 
-                if (Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Open || Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Occupied)
+                if (Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Open)
                 {
+                    
                     MainWindow mainWin = new MainWindow();
                     mainWin.rdbDineInOrderType.IsChecked = true;
                     mainWin.txtbDineInTableId.Text = txtbTableId.Text.ToString();
                     //tableViewModel.UpdateTableStatus(txtbTableId.Text, (int)EnumUtility.TableStatus.Occupied);
                     //mainWin.Show();
                     this.Close();
-                    
+
+                }
+
+                if (Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Occupied)
+                {
+                    if (!string.IsNullOrEmpty(txtbTableOrderId.Text))
+                    {
+                        DineTable.OrderId = Convert.ToInt32(txtbTableOrderId.Text);
+                        DineTable.TableId= Convert.ToInt32(txtbTableId.Text);
+                        this.Close();
+                    }
                 }
             }
             catch (Exception ex)
