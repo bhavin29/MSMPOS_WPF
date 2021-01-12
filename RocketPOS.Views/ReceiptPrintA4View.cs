@@ -125,28 +125,79 @@ namespace RocketPOS.Views
             Font mediumfont = new Font("Arial", 14);
             Font largefont = new Font("Arial", 16);
 
-            int pageWidth = 420, pageHeight = 594;
+            int pageWidth = 820, pageHeight = 594;
 
             int Offset = 10;
             int smallinc = 10, mediuminc = 12, largeinc = 17;
 
-            string underLine = "_________________________________________________________________________________________________________";
 
-            DrawLine(underLine, largefont, Offset, 0);
-            Offset = Offset + smallinc;
+            // Create the parent FlowDocument...
+     
 
-            InsertItem("INVOICE", "", Offset);
-            Offset = Offset + smallinc;
+            //string underLine = "____________________________________________________________________________________________________";
 
-            DrawLine(underLine, largefont, Offset, 0);
+            //DrawLine(underLine, largefont, Offset, 0);
+            //Offset = Offset + smallinc;
 
-            graphics.FillRectangle(new SolidBrush(Color.Black), 0, 0, pageWidth, 20);
-            graphics.FillRectangle(new SolidBrush(Color.Black), 0, 21, pageWidth, 80);
-            graphics.FillRectangle(new SolidBrush(Color.Black), 0, 81, pageWidth, 100);
-            graphics.FillRectangle(new SolidBrush(Color.Black), 0, 101, pageWidth, 500);
-            graphics.FillRectangle(new SolidBrush(Color.Black), 0, 501, pageWidth, 560);
-            graphics.FillRectangle(new SolidBrush(Color.Black), 0,561, pageWidth, 600);
-            graphics.FillRectangle(new SolidBrush(Color.Black), 0, 601, pageWidth, 700);
+            //InsertItem("INVOICE", "", Offset);
+            //Offset = Offset + smallinc;
+
+            //DrawLine(underLine, largefont, Offset, 0);
+            //Offset = Offset + smallinc;
+
+            //DrawLine(underLine, largefont, Offset, 0);
+
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //InsertItem("BUYER", "", Offset);
+
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+
+            //DrawLine(underLine, largefont, Offset, 0);
+            //Offset = Offset + smallinc;
+            //InsertItem("INVOICE:3", "", Offset);
+
+            //Offset = Offset + smallinc;
+            //DrawLine(underLine, largefont, Offset, 0);
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //DrawLine(underLine, largefont, Offset, 0);
+            //Offset = Offset + smallinc;
+            //InsertItem("PARTICULAR", "", Offset);
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //DrawLine(underLine, largefont, Offset, 0);
+            //InsertItem("RENARKS", "", Offset);
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //DrawLine(underLine, largefont, Offset, 0);
+            //InsertItem("TERMS CONDITIONS", "", Offset);
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //Offset = Offset + smallinc;
+            //DrawLine(underLine, largefont, Offset, 0);
+            //InsertItem("USERS", "", Offset);
+
+
+            //graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, pageWidth-20, 20);
+            //    graphics.FillRectangle(new SolidBrush(Color.Black), 0, 21, pageWidth-20, 80);
+            //graphics.FillRectangle(new SolidBrush(Color.Black), 0, 81, pageWidth, 100);
+            //graphics.FillRectangle(new SolidBrush(Color.Black), 0, 101, pageWidth, 500);
+            //graphics.FillRectangle(new SolidBrush(Color.Black), 0, 501, pageWidth, 560);
+            //graphics.FillRectangle(new SolidBrush(Color.Black), 0,561, pageWidth, 600);
+            //graphics.FillRectangle(new SolidBrush(Color.Black), 0, 601, pageWidth, 700);
 
 
             //Getting Receipt data 

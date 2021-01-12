@@ -4,13 +4,9 @@ using RocketPOS.Model;
 using RocketPOS.ViewModels;
 using RocketPOS.Core.Constants;
 using RocketPOS.Helpers.RMessageBox;
-using NLog;
 using System;
-using NLog.Fluent;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
-using RocketPOS.Core.Configuration;
 using RocketPOS.Views;
 
 namespace RocketPOS.Helpers
@@ -52,8 +48,8 @@ namespace RocketPOS.Helpers
             try
             {
 
-              //  ReceiptPrintA4View printReceipt = new ReceiptPrintA4View();
-              //  printReceipt.Print("Microsoft Print to PDF", null);
+                ReceiptPrintA4View printReceipt = new ReceiptPrintA4View();
+                printReceipt.Print("Microsoft Print to PDF", 0);
 
 
                 loginModel = loginViewModel.GetUserLogin(txtUsername.Text, txtPassword.Password);
@@ -191,5 +187,6 @@ namespace RocketPOS.Helpers
             }
 
         }
+
     }
 }
