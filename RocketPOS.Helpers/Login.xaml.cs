@@ -141,6 +141,7 @@ namespace RocketPOS.Helpers
             LoginDetail.Powerby = loginModel[0].Powerby;
             LoginDetail.Lastname = loginModel[0].Lastname;
             LoginDetail.Firstname = loginModel[0].Firstname;
+            LoginDetail.TaxInclusive = loginModel[0].TaxInclusive;
         }
 
         private void CenterWindowOnScreen()

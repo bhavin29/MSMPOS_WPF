@@ -276,5 +276,6 @@ namespace RocketPOS.Core.Constants
             return ss;
         }
 
+        public static readonly string DateFormat = "dd/MM/yyyy";
     }
 }

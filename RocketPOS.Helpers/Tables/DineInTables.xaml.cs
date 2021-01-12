@@ -169,9 +169,10 @@ namespace RocketPOS.Helpers.Tables
                     MainWindow mainWin = new MainWindow();
                     mainWin.rdbDineInOrderType.IsChecked = true;
                     mainWin.txtbDineInTableId.Text = txtbTableId.Text.ToString();
-                    tableViewModel.UpdateTableStatus(txtbTableId.Text, (int)EnumUtility.TableStatus.Occupied);
-            //        mainWin.Show();
+                    //tableViewModel.UpdateTableStatus(txtbTableId.Text, (int)EnumUtility.TableStatus.Occupied);
+                    //mainWin.Show();
                     this.Close();
+                    
                 }
             }
             catch (Exception ex)
