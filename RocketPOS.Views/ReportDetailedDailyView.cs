@@ -43,6 +43,9 @@ namespace RocketPOS.Views
             FromDate = fromDate;
             Todate = toDate;
 
+           
+
+
             PrintDocument = new PrintDocument();
 
             PrintDocument.PrinterSettings.PrinterName = printername;

@@ -48,7 +48,7 @@ namespace RocketPOS.Helpers.Reports
                 dtFrom = (DateTime) dpDetailedDailyFromDate.Value;
                 dtTo = (DateTime)dpDetailedDailyToDate.Value;
 
-                reportDetailedDailyView.Print(appSettings.GetPrinterName(), dtFrom.ToString("yyyy-MM-dd hh:mi:ss"), dtTo.ToString("yyyy-MM-dd hh:mi:ss"));
+                reportDetailedDailyView.Print(appSettings.GetPrinterName(), dtFrom.ToString("yyyy-MM-dd HH:mi:ss"), dtTo.ToString("yyyy-MM-dd HH:mi:ss"));
             }
             catch (Exception ex)
             {
