@@ -16,11 +16,11 @@ namespace RocketPOS.ViewModels
         AppSettings appSettings = new AppSettings();
 
         List<DetailedDailyReportModel> detailedDailyReportModels = new List<DetailedDailyReportModel>();
-        public List<DetailedDailyReportModel> GetDetailedDailyByDate(string Fromdate)
+        public List<DetailedDailyReportModel> GetDetailedDailyByDate(string Fromdate, string Todate)
         {
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
-                  var query = "Exec rptTodaySummary " + LoginDetail.OutletId + ",'"+ Fromdate +"'; ";
+                  var query = "Exec rptTodaySummary " + LoginDetail.OutletId + ",'"+ Fromdate +"','" + Todate + "'; ";
 
                 detailedDailyReportModels = connection.Query<DetailedDailyReportModel>(query).ToList();
             }

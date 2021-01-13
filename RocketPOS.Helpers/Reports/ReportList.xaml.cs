@@ -25,7 +25,13 @@ namespace RocketPOS.Helpers.Reports
         {
             InitializeComponent();
 
-            dpDetailedDailyFromDate.SelectedDate = DateTime.Now;
+            DateTime dt = new DateTime();
+            dt = DateTime.Now;
+
+            DateTime dtWithTime = new DateTime(dt.Year,dt.Month,dt.Day,0,0,0);
+  
+            dpDetailedDailyFromDate.Value = dtWithTime;
+            dpDetailedDailyToDate.Value = DateTime.Now;
         }
 
         private void btnDetailedDailyReport_Click(object sender, RoutedEventArgs e)
@@ -36,7 +42,13 @@ namespace RocketPOS.Helpers.Reports
                 AppSettings appSettings = new AppSettings();
     
                 ReportDetailedDailyView reportDetailedDailyView = new ReportDetailedDailyView();
-                reportDetailedDailyView.Print(appSettings.GetPrinterName(), dpDetailedDailyFromDate.Text.ToString());
+                DateTime dtFrom = new DateTime();
+                DateTime dtTo = new DateTime();
+
+                dtFrom = (DateTime) dpDetailedDailyFromDate.Value;
+                dtTo = (DateTime)dpDetailedDailyToDate.Value;
+
+                reportDetailedDailyView.Print(appSettings.GetPrinterName(), dtFrom.ToString("yyyy-MM-dd hh:mi:ss"), dtTo.ToString("yyyy-MM-dd hh:mi:ss"));
             }
             catch (Exception ex)
             {

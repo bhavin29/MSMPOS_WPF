@@ -19,7 +19,7 @@ namespace RocketPOS.Views
         private PrintDocument PrintDocument;
         private Graphics graphics;
         private int InitialHeight = 360;
-        private string FromDate ;
+        private string FromDate,Todate ;
         int pageWidthHeader = 50;
 
         public ReportDetailedDailyView()
@@ -38,9 +38,11 @@ namespace RocketPOS.Views
             InitialHeight += capacity;
         }
 
-        public void Print(string printername, string fromDate)
+        public void Print(string printername, string fromDate, string toDate)
         {
             FromDate = fromDate;
+            Todate = toDate;
+
             PrintDocument = new PrintDocument();
 
             PrintDocument.PrinterSettings.PrinterName = printername;
@@ -140,7 +142,7 @@ namespace RocketPOS.Views
    
             ReportViewModel reportViewModel = new ReportViewModel();
 
-            detailedDailyReportModels = reportViewModel.GetDetailedDailyByDate(FromDate);
+            detailedDailyReportModels = reportViewModel.GetDetailedDailyByDate(FromDate,Todate);
 
             Offset = Offset + Offset;
             graphics.DrawString(LoginDetail.ClientName, smallfont, new SolidBrush(Color.Black), 14, Offset);

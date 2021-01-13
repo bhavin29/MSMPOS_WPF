@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RocketPOS.Helpers.Reports"
+        xmlns:local="clr-namespace:RocketPOS.Helpers.Reports" xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="ReportList" Height="450" Width="800">
+      ShowInTaskbar="True"  Topmost="true"  WindowStartupLocation="CenterOwner"  ResizeMode="NoResize"
+        Title="Reports" Height="800" Width="1280" Background="#956eeb">
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -26,8 +27,10 @@
             </Grid>
             <Grid Grid.Row="1" Background="AliceBlue"  >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="25,0,0,0">
-                      <Label Content="Report Date" Width="100" VerticalAlignment="Center"/>
-                    <DatePicker Name="dpDetailedDailyFromDate" Width="100" VerticalAlignment="Center"/>
+                      <Label Content="Report FRom Date" Width="100" VerticalAlignment="Center"/>
+                    <wpfx:DateTimePicker Name="dpDetailedDailyFromDate" Height="30" FormatString="dd/MM/yyyy hh:mm"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0"   />
+                    <Label Content="To Date" Width="100" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                    <wpfx:DateTimePicker Name="dpDetailedDailyToDate" Height="30" FormatString="dd/MM/yyyy hh:mm"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0"   />
 
                     <Button x:Name="btnDetailedDailyReport" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Print" Height="40" Click="btnDetailedDailyReport_Click" />
                 </StackPanel>
@@ -40,6 +43,7 @@
             <Grid Grid.Row="3" Background="AliceBlue"  >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="25,0,0,0">
                     <Label Content="Report Date" Width="100" VerticalAlignment="Center"/>
+
                     <DatePicker Name="dpProductWiseDate" Width="100" VerticalAlignment="Center"/>
 
                     <Button x:Name="btnProductWiseReport" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Print" Height="40" Click="btnProductWiseReport_Click"/>
