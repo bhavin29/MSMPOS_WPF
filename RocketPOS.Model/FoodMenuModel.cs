@@ -26,6 +26,7 @@ namespace RocketPOS.Model
         public decimal Foodcess { get; set; }
         public decimal TaxPercentage { get; set; }
         public int IsVatable { get; set; }
+        public bool IsPriceChange { get; set; }
     }
 
     public class FoodMenu
@@ -42,5 +43,6 @@ namespace RocketPOS.Model
         public decimal Foodcess { get; set; }
         public decimal TaxPercentage { get; set; }
         public int IsVatable { get; set; }
+        public bool IsPriceChange { get; set; }
     }
 }
