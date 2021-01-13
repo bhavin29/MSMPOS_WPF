@@ -34,6 +34,7 @@
         public const string AddMinimumPerson = "Please enter below or equalt to : ";
         public const string PaymentMethodModifyNotAllow = "Payment modify not allowed!";
         public const string ReceiptNotReady = "Receipt not generated!";
+        public const string TableNumberNoSelected = "Please select the table number";
 
         #region MessageBox Title
         public const string PlaceOrderTitle = "Place Order";
