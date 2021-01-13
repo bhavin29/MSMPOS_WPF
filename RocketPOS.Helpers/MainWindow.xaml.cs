@@ -1,4 +1,5 @@
 ﻿using System;
+using RocketPOS.Helpers.Reports;
 using RocketPOS.Helpers.RMessageBox;
 using System.Collections.Generic;
 using System.IO;
@@ -2513,6 +2514,22 @@ namespace RocketPOS.Helpers
                 SystemError.Register(ex);
 
             }
+        }
+
+        private void btnReports_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportList reportList = new ReportList();
+                reportList.Owner= Application.Current.MainWindow;
+                reportList.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+
+            }
+
         }
     }
 }
