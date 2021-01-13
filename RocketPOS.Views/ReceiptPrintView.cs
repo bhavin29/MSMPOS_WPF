@@ -197,7 +197,7 @@ namespace RocketPOS.Views
             DrawLine(underLine, largefont, Offset, 0);
 
             Offset = Offset + mediuminc + 6;
-            DrawAtStart("RECEIPT NO: " + printReceiptModel[0].SalesInvoiceNumber.ToString().PadRight((intDate - printReceiptModel[0].SalesInvoiceNumber.ToString().Length) + 8) + "DATE: " + printReceiptModel[0].BillDateTime.ToString("MM/dd/yyyy HH:mm"), Offset); ;
+            DrawAtStart("RECEIPT NO: " + printReceiptModel[0].SalesInvoiceNumber.ToString().PadRight((intDate - printReceiptModel[0].SalesInvoiceNumber.ToString().Length) + 8) + "DATE: " + printReceiptModel[0].BillDateTime.ToString("dd/MM/yyyy HH:mm"), Offset); ;
 
             Offset = Offset + mediuminc;
             DrawAtStart("CUSTOMER: " + printReceiptModel[0].CustomerName, Offset);

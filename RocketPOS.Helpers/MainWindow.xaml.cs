@@ -25,6 +25,8 @@ using System.Windows.Media.Animation;
 using Microsoft.Win32;
 using System.Text;
 using System.Windows.Controls.Primitives;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace RocketPOS.Helpers
 {
@@ -49,15 +51,19 @@ namespace RocketPOS.Helpers
                 txtbTotalPayableAmount.Text = "0.00";
                 rdbPendingSales.IsChecked = true;
                 rdbAllSales.IsChecked = true;
-                if (LoginDetail.RoleTypeId == (int)EnumUtility.RoleTypeId.Admin)
-                {
-                    dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
-                    dgSaleItem.Columns[0].Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    dgSaleItem.Columns[2].Width = 165;
-                }    
+
+                dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
+                dgSaleItem.Columns[0].Visibility = Visibility.Visible;
+
+                //if (LoginDetail.RoleTypeId == (int)EnumUtility.RoleTypeId.Admin)
+                //{
+                //    dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
+                //    dgSaleItem.Columns[0].Visibility = Visibility.Visible;
+                //}
+                //else
+                //{
+                //    dgSaleItem.Columns[2].Width = 165;
+                //}
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
             }
             catch (Exception ex)
@@ -68,7 +74,7 @@ namespace RocketPOS.Helpers
 
         private void CheckDineInSelect()
         {
-            if (DineTable.OrderId!=0)
+            if (DineTable.OrderId != 0)
             {
                 rdbDineInOrderType.IsChecked = true;
                 txtbDineInTableId.Text = DineTable.TableId.ToString();
@@ -253,7 +259,7 @@ namespace RocketPOS.Helpers
                 menuListPanel.Orientation = Orientation.Vertical;
                 menuListPanel.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#808080"));
 
-                 Image imgFood = new Image();
+                Image imgFood = new Image();
                 try
                 {
                     if (!string.IsNullOrEmpty(itemSubCat.SmallThumb))
@@ -754,10 +760,16 @@ namespace RocketPOS.Helpers
                 if (type == "Hold")
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.PlaceOrderHold, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+
                 }
                 else if (type != "DirectInvoice")
                 {
-                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.PlaceOrderSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                    //var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.PlaceOrderSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+
+                    SplashScreen splash = new SplashScreen("Images/PlaceOrder.PNG");
+                    splash.Show(true);
+
+                    Thread.Sleep(2000);
                 }
 
                 ClearCustomerOrderItemControll();
@@ -1037,7 +1049,7 @@ namespace RocketPOS.Helpers
                     return;
                 }
 
-                string tableId=null;
+                string tableId = null;
                 if (lbTablesList.SelectedIndex != -1)
                 {
                     tableId = lbTablesList.SelectedValue.ToString();
@@ -1049,7 +1061,7 @@ namespace RocketPOS.Helpers
 
                 if (rdbDineInOrderType.IsChecked == true && String.IsNullOrEmpty(tableId))
                 {
-                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.TableNumberNoSelected, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.TableNumberNoSelected, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     return;
                 }
 
@@ -1405,7 +1417,7 @@ namespace RocketPOS.Helpers
                 //    cmbWaiter.Focus();
                 //    return;
                 //}
- 
+
                 string tableId = null;
                 if (lbTablesList.SelectedIndex != -1)
                 {
@@ -1543,7 +1555,14 @@ namespace RocketPOS.Helpers
                 ppDirectInvoice.IsOpen = false;
                 if (insertedId > 0)
                 {
-                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, StatusMessages.BillDetailSaveSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    //Comment this start 
+                    // var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, StatusMessages.BillDetailSaveSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    SplashScreen splash = new SplashScreen("Images/InvoiceOrder.PNG");
+                    splash.Show(true);
+
+                    Thread.Sleep(2000);
+                    //Comment this end 
+
                     GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
                 }
                 else
@@ -1866,7 +1885,7 @@ namespace RocketPOS.Helpers
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.TableNumberNoSelected, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     return;
                 }
-                
+
                 //if (cmbWaiter.SelectedIndex == -1)
                 //{
                 //    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectWaiter, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
@@ -2156,7 +2175,7 @@ namespace RocketPOS.Helpers
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
 
-                
+
                 string settings = LoginDetail.MainWindowSettings;
                 string[] wordsSettings = settings.Split('$');
 
@@ -2188,7 +2207,7 @@ namespace RocketPOS.Helpers
 
                     }
                 }
-                
+
 
                 //Set Header Marquee Text
                 txtHeaderTitle.Text = LoginDetail.HeaderMarqueeText;
@@ -2492,15 +2511,15 @@ namespace RocketPOS.Helpers
             ppEditPrice.IsOpen = false;
             try
             {
-                decimal originalPrice = 0,increasedPrice=0, changedPrice = 0;
+                decimal originalPrice = 0, increasedPrice = 0, changedPrice = 0;
                 List<SaleItemModel> saleItem = new List<SaleItemModel>();
-               
+
                 object foodItem = dgSaleItem.SelectedItem;
                 saleItem = (List<SaleItemModel>)foodItem;
                 saleItem[0].Price = Convert.ToDecimal(txtPPPrice.Text);
                 originalPrice = Convert.ToDecimal(txtPPOriginalPrice.Text);
                 increasedPrice = Convert.ToDecimal(txtPPPrice.Text);
-                
+
                 originalPrice = originalPrice * saleItem[0].Qty;
                 increasedPrice = increasedPrice * saleItem[0].Qty;
                 changedPrice = increasedPrice - originalPrice;
@@ -2509,7 +2528,7 @@ namespace RocketPOS.Helpers
 
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + changedPrice).ToString("0.00");
                 txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(changedPrice, saleItem[0].TaxPercentage)).ToString("0.00");
-                if (Convert.ToInt32(saleItem[0].TaxPercentage) >0)
+                if (Convert.ToInt32(saleItem[0].TaxPercentage) > 0)
                 {
                     txtVatableAmount.Text = (Convert.ToDecimal(txtVatableAmount.Text) + (Convert.ToDecimal(changedPrice) - GetPercentageAmount(Convert.ToDecimal(changedPrice), Convert.ToDecimal(saleItem[0].TaxPercentage)))).ToString("0.00");
                 }
@@ -2518,7 +2537,7 @@ namespace RocketPOS.Helpers
                     txtNonVatableAmount.Text = (Convert.ToDecimal(txtNonVatableAmount.Text) + Convert.ToDecimal(changedPrice)).ToString("0.00");
                 }
                 txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
-  
+
                 ppEditPrice.IsOpen = false;
                 dgSaleItem.Items.Refresh();
             }
@@ -2534,7 +2553,7 @@ namespace RocketPOS.Helpers
             try
             {
                 ReportList reportList = new ReportList();
-                reportList.Owner= Application.Current.MainWindow;
+                reportList.Owner = Application.Current.MainWindow;
                 reportList.ShowDialog();
             }
             catch (Exception ex)
