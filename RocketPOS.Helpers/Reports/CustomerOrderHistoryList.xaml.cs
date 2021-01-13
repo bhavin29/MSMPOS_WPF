@@ -20,14 +20,21 @@ namespace RocketPOS.Helpers.Reports
         List<CustomerOrderHistoryModel> customerOrderHistoryModel = new List<CustomerOrderHistoryModel>();
         public CustomerOrderHistoryList()
         {
-            CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
-            InitializeComponent();
-            CenterWindowOnScreen();
+            try
+            {
+                CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
+                InitializeComponent();
+                CenterWindowOnScreen();
 
-            dpFromDate.SelectedDate = System.DateTime.Now;
-            dpToDate.SelectedDate = System.DateTime.Now;
-            customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat));
-            this.dgOrderList.ItemsSource = customerOrderHistoryModel;
+                dpFromDate.SelectedDate = System.DateTime.Now;
+                dpToDate.SelectedDate = System.DateTime.Now;
+                customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat));
+                this.dgOrderList.ItemsSource = customerOrderHistoryModel;
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
         }
 
         private void dgOrderList_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
@@ -72,30 +79,37 @@ namespace RocketPOS.Helpers.Reports
 
         private void btnSalesExcelExport_Click(object sender, RoutedEventArgs e)
         {
-            CommonMethods commonMethods = new CommonMethods();
-            string path = string.Empty,firstLine = string.Empty;
-            List<CustomerOrderHistoryModel> customerOrderHistoryModel = new List<CustomerOrderHistoryModel>();
-            
-            customerOrderHistoryModel = (List<CustomerOrderHistoryModel>)dgOrderList.ItemsSource;
-
-            string fileName = "SalesReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
-            var saveFileDialog = new SaveFileDialog
+            try
             {
-                FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
-                DefaultExt = ".xlsx",
-                Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
-            };
+                CommonMethods commonMethods = new CommonMethods();
+                string path = string.Empty, firstLine = string.Empty;
+                List<CustomerOrderHistoryModel> customerOrderHistoryModel = new List<CustomerOrderHistoryModel>();
 
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                path = saveFileDialog.FileName;
+                customerOrderHistoryModel = (List<CustomerOrderHistoryModel>)dgOrderList.ItemsSource;
+
+                string fileName = "SalesReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
+                var saveFileDialog = new SaveFileDialog
+                {
+                    FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
+                    DefaultExt = ".xlsx",
+                    Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    path = saveFileDialog.FileName;
+                }
+
+                DataTable table = new DataTable();
+                table = commonMethods.ConvertToDataTable(customerOrderHistoryModel);
+                table.Columns.Remove("Id");
+                firstLine = "Sale List for " + dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat) + " to " + dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat);
+                commonMethods.WriteExcelFile(table, path, firstLine);
             }
-
-            DataTable table = new DataTable();
-            table = commonMethods.ConvertToDataTable(customerOrderHistoryModel);
-            table.Columns.Remove("Id");
-            firstLine = "Sale List for " + dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat) + " to " + dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat);
-            commonMethods.WriteExcelFile(table, path, firstLine);
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
         }
 
         private void CenterWindowOnScreen()
@@ -117,17 +131,24 @@ namespace RocketPOS.Helpers.Reports
 
         private void btnPPPaymentMethodApply_Click(object sender, RoutedEventArgs e)
         {
-            CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
-            var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
-            if (cmbSelectPaymentMethod.SelectedIndex==-1)
+            try
             {
-                var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerOrderHistory, StatusMessages.PaymentMethodSelect, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
-                cmbSelectPaymentMethod.Focus();
-                return;
+                CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
+                var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
+                if (cmbSelectPaymentMethod.SelectedIndex == -1)
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerOrderHistory, StatusMessages.PaymentMethodSelect, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    cmbSelectPaymentMethod.Focus();
+                    return;
+                }
+                customerOrderViewModel.UpdateBillDetailPaymentMethod(order.Id.ToString(), Convert.ToInt32(cmbSelectPaymentMethod.SelectedValue));
+                ppChangePaymentMethod.IsOpen = false;
+                btnSearchOrderList_Click(null, null);
             }
-            customerOrderViewModel.UpdateBillDetailPaymentMethod(order.Id.ToString(), Convert.ToInt32(cmbSelectPaymentMethod.SelectedValue));
-            ppChangePaymentMethod.IsOpen = false;
-            btnSearchOrderList_Click(null, null);
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
         }
 
         private void btnPPChangePaymentCancel_Click(object sender, RoutedEventArgs e)
@@ -137,32 +158,46 @@ namespace RocketPOS.Helpers.Reports
 
         private void btnChangePaymentMethod_Click(object sender, RoutedEventArgs e)
         {
-            var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
-            if (string.IsNullOrEmpty(order.Payment) || order.Payment.Contains(","))
+            try
             {
-                var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerOrderHistory, StatusMessages.PaymentMethodModifyNotAllow, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
-                cmbSelectPaymentMethod.Focus();
-                return;
+                var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
+                if (string.IsNullOrEmpty(order.Payment) || order.Payment.Contains(","))
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerOrderHistory, StatusMessages.PaymentMethodModifyNotAllow, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    cmbSelectPaymentMethod.Focus();
+                    return;
+                }
+                ppChangePaymentMethod.IsOpen = true;
+                CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
+                List<PaymentMethodModel> paymentMethodModels = new List<PaymentMethodModel>();
+                paymentMethodModels = customerOrderViewModel.GetPaymentMethod();
+                cmbSelectPaymentMethod.ItemsSource = paymentMethodModels;
+                cmbSelectPaymentMethod.Text = "Select Payment";
+                cmbSelectPaymentMethod.IsEditable = true;
+                cmbSelectPaymentMethod.IsReadOnly = true;
+                cmbSelectPaymentMethod.SelectedValuePath = "Id";
+                cmbSelectPaymentMethod.DisplayMemberPath = "PaymentMethodName";
             }
-            ppChangePaymentMethod.IsOpen = true;
-            CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
-            List<PaymentMethodModel> paymentMethodModels = new List<PaymentMethodModel>();
-            paymentMethodModels = customerOrderViewModel.GetPaymentMethod();
-            cmbSelectPaymentMethod.ItemsSource = paymentMethodModels;
-            cmbSelectPaymentMethod.Text = "Select Payment";
-            cmbSelectPaymentMethod.IsEditable = true;
-            cmbSelectPaymentMethod.IsReadOnly = true;
-            cmbSelectPaymentMethod.SelectedValuePath = "Id";
-            cmbSelectPaymentMethod.DisplayMemberPath = "PaymentMethodName";
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
         }
 
         private void btnReceiptA4Print_Click(object sender, RoutedEventArgs e)
         {
-            var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
-            if (string.IsNullOrEmpty(order.SalesInvoiceNumber))
+            try
             {
-                var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerOrderHistory, StatusMessages.ReceiptNotReady, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
-                return;
+                var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
+                if (string.IsNullOrEmpty(order.SalesInvoiceNumber))
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerOrderHistory, StatusMessages.ReceiptNotReady, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
             }
         }
     }

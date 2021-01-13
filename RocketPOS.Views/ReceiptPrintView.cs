@@ -38,13 +38,13 @@ namespace RocketPOS.Views
         }
         public void Print(string printername, int id)
         {
-            billId = id;
-            PrintDocument = new PrintDocument();
+                billId = id;
+                PrintDocument = new PrintDocument();
 
-            PrintDocument.PrinterSettings.PrinterName = printername;
+                PrintDocument.PrinterSettings.PrinterName = printername;
 
-            PrintDocument.PrintPage += new PrintPageEventHandler(FormatPage);
-            PrintDocument.Print();
+                PrintDocument.PrintPage += new PrintPageEventHandler(FormatPage);
+                PrintDocument.Print();
         }
         void DrawAtStart(string text, int Offset)
         {
