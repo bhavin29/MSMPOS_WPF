@@ -5,6 +5,7 @@ using System.Windows;
 using Microsoft.Win32;
 using RocketPOS.Core.Configuration;
 using RocketPOS.Core.Constants;
+using RocketPOS.Helpers.RMessageBox;
 using RocketPOS.Model;
 using RocketPOS.ViewModels;
 using RocketPOS.Views;
@@ -53,9 +54,14 @@ namespace RocketPOS.Helpers.Reports
         {
             try
             {
+                var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
+                if (string.IsNullOrEmpty(order.SalesInvoiceNumber))
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerOrderHistory, StatusMessages.ReceiptNotReady, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    return;
+                }
                 ReceiptPrintView printReceipt = new ReceiptPrintView();
                 AppSettings appSettings = new AppSettings();
-                var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
                 printReceipt.Print(appSettings.GetPrinterName(), order.Id);
             }
             catch (Exception ex)
@@ -106,6 +112,57 @@ namespace RocketPOS.Helpers.Reports
             catch (Exception ex)
             {
                 SystemError.Register(ex);
+            }
+        }
+
+        private void btnPPPaymentMethodApply_Click(object sender, RoutedEventArgs e)
+        {
+            CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
+            var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
+            if (cmbSelectPaymentMethod.SelectedIndex==-1)
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerOrderHistory, StatusMessages.PaymentMethodSelect, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                cmbSelectPaymentMethod.Focus();
+                return;
+            }
+            customerOrderViewModel.UpdateBillDetailPaymentMethod(order.Id.ToString(), Convert.ToInt32(cmbSelectPaymentMethod.SelectedValue));
+            ppChangePaymentMethod.IsOpen = false;
+            btnSearchOrderList_Click(null, null);
+        }
+
+        private void btnPPChangePaymentCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ppChangePaymentMethod.IsOpen = false;
+        }
+
+        private void btnChangePaymentMethod_Click(object sender, RoutedEventArgs e)
+        {
+            var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
+            if (string.IsNullOrEmpty(order.Payment) || order.Payment.Contains(","))
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerOrderHistory, StatusMessages.PaymentMethodModifyNotAllow, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                cmbSelectPaymentMethod.Focus();
+                return;
+            }
+            ppChangePaymentMethod.IsOpen = true;
+            CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
+            List<PaymentMethodModel> paymentMethodModels = new List<PaymentMethodModel>();
+            paymentMethodModels = customerOrderViewModel.GetPaymentMethod();
+            cmbSelectPaymentMethod.ItemsSource = paymentMethodModels;
+            cmbSelectPaymentMethod.Text = "Select Payment";
+            cmbSelectPaymentMethod.IsEditable = true;
+            cmbSelectPaymentMethod.IsReadOnly = true;
+            cmbSelectPaymentMethod.SelectedValuePath = "Id";
+            cmbSelectPaymentMethod.DisplayMemberPath = "PaymentMethodName";
+        }
+
+        private void btnReceiptA4Print_Click(object sender, RoutedEventArgs e)
+        {
+            var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
+            if (string.IsNullOrEmpty(order.SalesInvoiceNumber))
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerOrderHistory, StatusMessages.ReceiptNotReady, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                return;
             }
         }
     }
