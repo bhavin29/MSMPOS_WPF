@@ -52,7 +52,12 @@ namespace RocketPOS.Helpers
                 if (LoginDetail.RoleTypeId == (int)EnumUtility.RoleTypeId.Admin)
                 {
                     dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
+                    dgSaleItem.Columns[0].Visibility = Visibility.Visible;
                 }
+                else
+                {
+                    dgSaleItem.Columns[2].Width = 165;
+                }    
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
             }
             catch (Exception ex)
@@ -61,6 +66,14 @@ namespace RocketPOS.Helpers
             }
         }
 
+        private void CheckDineInSelect()
+        {
+            if (DineTable.OrderId!=0)
+            {
+                rdbDineInOrderType.IsChecked = true;
+                txtbDineInTableId.Text = DineTable.TableId.ToString();
+            }
+        }
         #region Methods
         private void GetCustomerList()
         {
@@ -824,7 +837,7 @@ namespace RocketPOS.Helpers
                     FoodMenuId = foodMenuId.Text,
                     Product = itemName.Text,
                     Price = Convert.ToDecimal(salePrice.Text),
-                    Qty = 1,
+                    Qty = 1.0m,
                     Discount = 0,
                     Total = Convert.ToDecimal(salePrice.Text) * 1,
                     CustomerOrderItemId = 0,
@@ -2086,7 +2099,7 @@ namespace RocketPOS.Helpers
                     FoodMenuId = foodMenuItem.FoodMenuId.ToString(),
                     Product = foodMenuItem.SmallName,
                     Price = Convert.ToDecimal(foodMenuItem.SalesPrice),
-                    Qty = 1,
+                    Qty = 1.0m,
                     Discount = 0,
                     Total = Convert.ToDecimal(foodMenuItem.SalesPrice) * 1,
                     CustomerOrderItemId = 0,
@@ -2143,7 +2156,7 @@ namespace RocketPOS.Helpers
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
 
-                /*
+                
                 string settings = LoginDetail.MainWindowSettings;
                 string[] wordsSettings = settings.Split('$');
 
@@ -2175,7 +2188,7 @@ namespace RocketPOS.Helpers
 
                     }
                 }
-                */
+                
 
                 //Set Header Marquee Text
                 txtHeaderTitle.Text = LoginDetail.HeaderMarqueeText;

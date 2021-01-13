@@ -145,7 +145,15 @@ namespace RocketPOS.ViewModels
                                       "  WHEN CO.OrderStatus = 3 THEN 'Partial Paid'  " +
                                       "  WHEN CO.OrderStatus = 4 THEN 'Paid' " +
                                       "  WHEN CO.OrderStatus = 5 THEN 'Cancelled' " +
-                                      "  END as OrderStatus  " +
+                                      "  END as OrderStatus,  " +
+                                      " (SELECT Stuff( " +
+                                       "  (" +
+                                       "      SELECT ', ' + PaymentMethodName " +
+                                       "      FROM PaymentMethod Where Id In(Select BD.PaymentMethodId From Bill B " +
+                                       "      Left Join BillDetail BD On BD.BillId = B.Id " +
+                                       "      Left Join PaymentMethod PM On PM.Id = BD.PaymentMethodId Where B.CustomerOrderId = CO.Id) " +
+                                       "     FOR XML PATH('') " +
+                                       "  ), 1, 2, '')) AS Payment " +
                             " FROM CustomerOrder CO  " +
                             " INNER JOIN Customer C ON C.ID = CO.CustomerId  " +
                             " WHERE OutletId =" + LoginDetail.OutletId +
@@ -174,5 +182,17 @@ namespace RocketPOS.ViewModels
             return insertedId;
         }
 
+        public void UpdateBillDetailPaymentMethod(string orderId,int paymentMethodId)
+        {
+            int billId = 0;
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "select Id from Bill where CustomerOrderId="+ orderId;
+                billId = connection.Query<int>(query).FirstOrDefault();
+
+                var updaeQuery = "Update BillDetail Set PaymentMethodId="+ paymentMethodId + " Where BillId=" + billId;
+                connection.Query<bool>(updaeQuery).FirstOrDefault();
+            }
+        }
     }
 }
