@@ -24,6 +24,16 @@ namespace RocketPOS.ViewModels
             }
         }
 
+        public List<TableModel> GetPendingTables(int outletId)
+        {
+            List<TableModel> tables = new List<TableModel>();
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "Select Id,OutletId,TableName,PersonCapacity,Status from dbo.Tables Where Status=1 And OutletId = "+ outletId + " And IsDeleted = 0 ";
+                tables = connection.Query<TableModel>(query).ToList();
+                return tables;
+            }
+        }
         public void UpdateTableStatus(string tableId,int tableStatus)
         {
             if (!string.IsNullOrEmpty(tableId))

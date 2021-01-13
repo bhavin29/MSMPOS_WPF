@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RocketPOS.Helpers.Reports" xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-      ShowInTaskbar="True"  Topmost="true"  WindowStartupLocation="CenterOwner"  ResizeMode="NoResize"
+      ShowInTaskbar="True"  Topmost="true"  WindowStartupLocation="CenterOwner" ResizeMode="NoResize"  
         Title="Reports" Height="800" Width="1280" Background="#956eeb">
     <Grid>
         <Grid>
@@ -13,6 +13,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="40"/>
@@ -47,6 +49,21 @@
                     <DatePicker Name="dpProductWiseDate" Width="100" VerticalAlignment="Center"/>
 
                     <Button x:Name="btnProductWiseReport" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Print" Height="40" Click="btnProductWiseReport_Click"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="4" Background="AliceBlue">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="25,0,0,0" Height="40">
+                    <Label Content="3. Cess Report"  FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="5" Background="AliceBlue"  >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="25,0,0,0">
+                    <Label Content="Report From Date" Width="100" VerticalAlignment="Center"/>
+                    <DatePicker Name="dpFromDate" Width="100" VerticalAlignment="Center"/>
+                    <Label Content="To Date" Width="100" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                    <DatePicker Name="dpToDate"  Width="100" VerticalAlignment="Center" />
+
+                    <Button x:Name="btnCessReportExport" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Cess Export" Height="40" Click="btnCessReportExport_Click"/>
                 </StackPanel>
             </Grid>
 
