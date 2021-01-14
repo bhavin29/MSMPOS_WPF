@@ -55,7 +55,7 @@ namespace RocketPOS.Helpers
                 rdbAllSales.IsChecked = true;
                 dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
                 dgSaleItem.Columns[0].Visibility = Visibility.Visible;
-                
+
                 //if (LoginDetail.RoleTypeId == (int)EnumUtility.RoleTypeId.Admin)
                 //{
                 //    dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
@@ -401,6 +401,7 @@ namespace RocketPOS.Helpers
                 txtPPPayAmount.Text = "";
                 lblPPChangeAmountTotal.Content = "";
                 txtTableNumber.Text = "";
+                txtbDineInTableId.Text = "";
                 txtVatableAmount.Text = "0.00";
                 txtNonVatableAmount.Text = "0.00";
             }
@@ -760,6 +761,11 @@ namespace RocketPOS.Helpers
             {
                 customerOrderModel.OrderStatus = (int)EnumUtility.OrderPaidStatus.FullPaid;
                 customerOrderModel.KotStatus = (int)EnumUtility.KOTStatus.Completed;
+                if (rdbDineInOrderType.IsChecked == true)
+                {
+                    TableViewModel tableViewModel = new TableViewModel();
+                    tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Clean);
+                }
             }
             else if (type == "Hold")
             {
@@ -770,7 +776,14 @@ namespace RocketPOS.Helpers
             {
                 customerOrderModel.OrderStatus = (int)EnumUtility.OrderPaidStatus.Pending;
                 customerOrderModel.KotStatus = (int)EnumUtility.KOTStatus.Pending;
+                if (rdbDineInOrderType.IsChecked == true)
+                {
+                    TableViewModel tableViewModel = new TableViewModel();
+                    tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Occupied);
+                }
+
             }
+
 
             insertedId = customerOrderViewModel.InsertCustomerOrder(customerOrderModel, customerOrderItem);
             txtbOrderId.Text = insertedId.ToString();
@@ -779,7 +792,11 @@ namespace RocketPOS.Helpers
             {
                 if (type == "Hold")
                 {
-                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.PlaceOrderHold, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                    //var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.PlaceOrderHold, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                    SplashScreen splash = new SplashScreen("Images/OrderHold.PNG");
+                    splash.Show(true);
+
+                    Thread.Sleep(2000);
 
                 }
                 else if (type != "DirectInvoice")
@@ -791,6 +808,7 @@ namespace RocketPOS.Helpers
 
                     Thread.Sleep(2000);
                 }
+
 
                 ClearCustomerOrderItemControll();
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
@@ -953,7 +971,7 @@ namespace RocketPOS.Helpers
                 object foodItem = dgSaleItem.SelectedItem;
                 saleItem = (List<SaleItemModel>)foodItem;
                 saleItem[0].Qty -= 1;
-              //  if (saleItem[0].Qty < 0) saleItem[0].Qty = 0;
+                //  if (saleItem[0].Qty < 0) saleItem[0].Qty = 0;
 
                 saleItem[0].Total -= saleItem[0].Price * 1;
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(saleItem[0].Price)).ToString();
@@ -977,7 +995,7 @@ namespace RocketPOS.Helpers
 
 
                 if (Convert.ToDecimal(txtbSubTotalAmount.Text) <= 0)
-                     txtbSubTotalAmount.Text = "0.00";
+                    txtbSubTotalAmount.Text = "0.00";
                 if (Convert.ToDecimal(txtVatableAmount.Text) <= 0)
                     txtVatableAmount.Text = "0.00";
                 if (Convert.ToDecimal(txtNonVatableAmount.Text) <= 0)
@@ -1213,7 +1231,12 @@ namespace RocketPOS.Helpers
                         insertedId = customerOrderViewModel.CancelOrder(orderId);
                         if (insertedId > 0)
                         {
-                            var messageBoxSuccessResult = WpfMessageBox.Show(StatusMessages.CancelOrderTitle, StatusMessages.CancelOrderSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                            //var messageBoxSuccessResult = WpfMessageBox.Show(StatusMessages.CancelOrderTitle, StatusMessages.CancelOrderSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                            SplashScreen splash = new SplashScreen("Images/OrderCancel.PNG");
+                            splash.Show(true);
+
+                            Thread.Sleep(2000);
+
                             ClearCustomerOrderItemControll();
                             GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
                         }
@@ -1979,22 +2002,25 @@ namespace RocketPOS.Helpers
                     if (string.IsNullOrEmpty(txtAllocatedPerson.Text))
                     {
                         var messageBoxResult = WpfMessageBox.Show(StatusMessages.DineInSelect, StatusMessages.AddTotalPerson, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                        ppDineInTables.IsOpen = true;
                         return;
                     }
                     else if (Convert.ToInt32(txtAllocatedPerson.Text) > tableModel.PersonCapacity)
                     {
                         var messageBoxResult = WpfMessageBox.Show(StatusMessages.DineInSelect, StatusMessages.AddMinimumPerson + tableModel.PersonCapacity, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                        ppDineInTables.IsOpen = true;
                         return;
                     }
                     else
                     {
                         txtbDineInTableId.Text = lbTablesList.SelectedValue.ToString();
-                        tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Occupied);
+                        //tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Occupied);
                     }
                 }
                 else
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.DineInSelect, StatusMessages.DineInSelect, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    ppDineInTables.IsOpen = true;
                     return;
                 }
                 ppDineInTables.IsOpen = false;
@@ -2161,11 +2187,11 @@ namespace RocketPOS.Helpers
 
                     txtQtyPopUpProductName.Text = saleItemsFoodMenu.Product;
                     txtChnageQty.Text = saleItemsFoodMenu.Qty.ToString();
-   
+
                     ppFoodMenuList.IsOpen = false;
-                    
+
                     ppEditQty.IsOpen = true;
-                    
+
                     return;
                 }
 
@@ -2628,7 +2654,7 @@ namespace RocketPOS.Helpers
             try
             {
 
-                if (String.IsNullOrEmpty(txtEditQty.Text) || Convert.ToDecimal(txtEditQty.Text.ToString()) <=0)
+                if (String.IsNullOrEmpty(txtEditQty.Text) || Convert.ToDecimal(txtEditQty.Text.ToString()) <= 0)
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Pleae enter change qty.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
                     return;

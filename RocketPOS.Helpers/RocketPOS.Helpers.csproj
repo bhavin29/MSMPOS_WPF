@@ -14,6 +14,8 @@
     <None Remove="images\LoginIcon.jpeg" />
     <None Remove="images\logo.png" />
     <None Remove="images\Mainwindow_Logo.bmp" />
+    <None Remove="images\OrderCancel.PNG" />
+    <None Remove="images\OrderHold.PNG" />
     <None Remove="images\PlaceOrder.PNG" />
     <None Remove="images\Question.png" />
     <None Remove="images\RocketPOS Left24 Full.bmp" />
@@ -57,6 +59,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\Mainwindow_Logo.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\OrderCancel.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\OrderHold.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\PlaceOrder.PNG">

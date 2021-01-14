@@ -16,9 +16,9 @@ namespace RocketPOS.ViewModels
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
                 //var query = "SELECT Id,OutletId,TableName,PersonCapacity,TableIcon,Status,case when Status=1 then 'Open' When Status=2 then 'Occupied' When Status=3 then 'Clean' Else 'Unknown' End as StatusDescription FROM dbo.Tables Where OutletId=" + outletId + " And IsDeleted=0";
-                var query = "SELECT CO.Id As OrderId,TA.Id,TA.OutletId,TA.TableName,TA.PersonCapacity,sum(CO.AllocatedPerson) As AllocatedPerson,TA.TableIcon,TA.Status,case when TA.Status=1 then 'Open' When TA.Status=2 then 'Occupied' When TA.Status=3 then 'Clean' Else 'Unknown' End as StatusDescription " +
+                var query = "SELECT TA.position,CO.Id As OrderId,TA.Id,TA.OutletId,TA.TableName,TA.PersonCapacity,sum(CO.AllocatedPerson) As AllocatedPerson,TA.TableIcon,TA.Status,case when TA.Status=1 then 'Open' When TA.Status=2 then 'Occupied' When TA.Status=3 then 'Clean' Else 'Unknown' End as StatusDescription " +
                             "FROM dbo.Tables TA LEFT JOIN CustomerOrder CO ON CO.TableId = TA.Id AND TA.Status = 2 AND CO.OrderStatus = 1 " +
-                            "Where TA.OutletId ="+ outletId + " And TA.IsDeleted = 0 Group By CO.Id,TA.Id,TA.OutletId,TA.TableName,TA.PersonCapacity,TA.TableIcon,TA.Status ";
+                            "Where TA.OutletId ="+ outletId + " And TA.IsDeleted = 0 Group By TA.position,CO.Id,TA.Id,TA.OutletId,TA.TableName,TA.PersonCapacity,TA.TableIcon,TA.Status order by ta.position ";
                     tables = connection.Query<TableModel>(query).ToList();
                 return tables;
             }
@@ -29,7 +29,7 @@ namespace RocketPOS.ViewModels
             List<TableModel> tables = new List<TableModel>();
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
-                var query = "Select Id,OutletId,TableName,PersonCapacity,Status from dbo.Tables Where Status=1 And OutletId = "+ outletId + " And IsDeleted = 0 ";
+                var query = "Select Id,OutletId,TableName,PersonCapacity,Status from dbo.Tables Where Status=1 And OutletId = "+ outletId + " And IsDeleted = 0 Order by Position";
                 tables = connection.Query<TableModel>(query).ToList();
                 return tables;
             }
