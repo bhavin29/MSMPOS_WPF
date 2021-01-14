@@ -194,5 +194,32 @@ namespace RocketPOS.ViewModels
                 connection.Query<bool>(updaeQuery).FirstOrDefault();
             }
         }
+
+        public CessReportModel GetCessReport(string fromDate,string toDate)
+        {
+            CessReportModel cessReport = new CessReportModel();
+            using (var db = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                string cessSummaryQuery = string.Empty;
+                string cessDetailQuery = string.Empty;
+
+                cessSummaryQuery = "SELECT convert(varchar(10), B.BillDateTime,103) AS BillDate,SUM(B.VatableAmount+CO.NonVatableAmount) AS NetSales, SUM(B.VatableAmount) AS Vatable,SUM(CO.NonVatableAmount) AS NonVatable, SUM(B.TaxAmount) AS TotalTax, SUM(B.TotalAmount) AS GrandTotal FROM BILL B " +
+                                  "INNER JOIN CustomerOrder CO ON CO.ID = B.CustomerOrderId " +
+                                  "Where convert(varchar(10), B.BillDateTime,103) Between '" + fromDate + "' And '" + toDate + "' And B.BillStatus = 4 AND CO.OutletId = "+LoginDetail.OutletId +
+                                  "GROUP BY convert(varchar(10), B.BillDateTime, 103) " +
+                                  "ORDER BY BillDate";
+
+                cessDetailQuery = "SELECT convert(varchar(10), B.BillDateTime, 103) AS BillDate, CO.SalesInvoiceNumber AS InvoiceNumber,(B.VatableAmount + CO.NonVatableAmount) AS NetSales, B.VatableAmount AS Vatable,CO.NonVatableAmount AS NonVatable, B.TaxAmount AS TotalTax, B.TotalAmount AS GrandTotal FROM BILL B " +
+                                   "INNER JOIN CustomerOrder CO ON CO.ID = B.CustomerOrderId " +
+                                   "Where convert(varchar(10), B.BillDateTime,103) Between '" + fromDate + "' And '" + toDate + "' And B.BillStatus = 4 AND CO.OutletId = " + LoginDetail.OutletId +
+                                   "ORDER BY BillDate";
+
+
+                cessReport.CessSummaryList = db.Query<CessSummaryModel>(cessSummaryQuery).ToList();
+                cessReport.CessDetailList = db.Query<CessDetailModel>(cessDetailQuery).ToList();
+
+                return cessReport;
+            }
+        }
     }
 }

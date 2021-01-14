@@ -55,7 +55,7 @@ namespace RocketPOS.Helpers
                 rdbAllSales.IsChecked = true;
                 dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
                 dgSaleItem.Columns[0].Visibility = Visibility.Visible;
-
+                
                 //if (LoginDetail.RoleTypeId == (int)EnumUtility.RoleTypeId.Admin)
                 //{
                 //    dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
@@ -72,7 +72,6 @@ namespace RocketPOS.Helpers
                 SystemError.Register(ex);
             }
         }
-
         private void CheckDineInSelect()
         {
             if (DineTable.OrderId != 0)
@@ -2013,7 +2012,7 @@ namespace RocketPOS.Helpers
                 TableViewModel tableViewModel = new TableViewModel();
                 List<TableModel> tables = new List<TableModel>();
                 ppDineInTables.IsOpen = true;
-                tables = tableViewModel.GetTables(LoginDetail.OutletId);//outletId
+                tables = tableViewModel.GetPendingTables(LoginDetail.OutletId);//outletId
                 lbTablesList.ItemsSource = tables;
             }
             catch (Exception ex)
@@ -2237,7 +2236,6 @@ namespace RocketPOS.Helpers
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
 
-
                 string settings = LoginDetail.MainWindowSettings;
                 string[] wordsSettings = settings.Split('$');
 
@@ -2269,7 +2267,6 @@ namespace RocketPOS.Helpers
 
                     }
                 }
-
 
                 //Set Header Marquee Text
                 txtHeaderTitle.Text = LoginDetail.HeaderMarqueeText;
