@@ -29,7 +29,7 @@
             </Grid>
             <Grid Grid.Row="1" Background="AliceBlue"  >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="25,0,0,0">
-                      <Label Content="Report FRom Date" Width="100" VerticalAlignment="Center"/>
+                      <Label Content="Report From Date" Width="130" VerticalAlignment="Center"/>
                     <wpfx:DateTimePicker Name="dpDetailedDailyFromDate" Height="30" FormatString="dd/MM/yyyy hh:mm"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0"   />
                     <Label Content="To Date" Width="100" VerticalAlignment="Center" Margin="25,0,0,0"/>
                     <wpfx:DateTimePicker Name="dpDetailedDailyToDate" Height="30" FormatString="dd/MM/yyyy hh:mm"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0"   />
@@ -44,7 +44,7 @@
             </Grid>
             <Grid Grid.Row="3" Background="AliceBlue"  >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="25,0,0,0">
-                    <Label Content="Report Date" Width="100" VerticalAlignment="Center"/>
+                    <Label Content="Report Date" Width="160" VerticalAlignment="Center"/>
 
                     <DatePicker Name="dpProductWiseDate" Width="100" VerticalAlignment="Center"/>
 
@@ -53,12 +53,12 @@
             </Grid>
             <Grid Grid.Row="4" Background="AliceBlue">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="25,0,0,0" Height="40">
-                    <Label Content="3. Cess Report"  FontWeight="Bold" VerticalAlignment="Center"/>
+                    <Label Content="3. CESS Report"  FontWeight="Bold" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="5" Background="AliceBlue"  >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="25,0,0,0">
-                    <Label Content="Report From Date" Width="100" VerticalAlignment="Center"/>
+                    <Label Content="Report From Date" Width="160" VerticalAlignment="Center"/>
                     <DatePicker Name="dpFromDate" Width="100" VerticalAlignment="Center"/>
                     <Label Content="To Date" Width="100" VerticalAlignment="Center" Margin="25,0,0,0"/>
                     <DatePicker Name="dpToDate"  Width="100" VerticalAlignment="Center" />

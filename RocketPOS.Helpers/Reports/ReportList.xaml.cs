@@ -108,9 +108,9 @@ namespace RocketPOS.Helpers.Reports
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     path = saveFileDialog.FileName;
+                    firstLine = LoginDetail.ClientName;
+                    commonMethods.WriteCessExcelFile(commonMethods.ConvertToDataTable(cessReportModel.CessSummaryList), commonMethods.ConvertToDataTable(cessReportModel.CessDetailList), path, firstLine);
                 }
-                firstLine = LoginDetail.ClientName;
-                commonMethods.WriteCessExcelFile(commonMethods.ConvertToDataTable(cessReportModel.CessSummaryList), commonMethods.ConvertToDataTable(cessReportModel.CessDetailList), path, firstLine);
 
             }
             catch (Exception ex)
