@@ -18,5 +18,10 @@ namespace RocketPOS.Model
         public decimal TotalPayable { get; set; }
         public string OrderStatus { get; set; }
         public string Payment { get; set; }
+        public string InvoiceTotal { get; set; }
+        public string InvoiceCount { get; set; }
+
+
+
     }
 }

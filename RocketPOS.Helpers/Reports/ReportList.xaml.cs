@@ -6,6 +6,7 @@ using RocketPOS.ViewModels;
 using RocketPOS.Views;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -117,6 +118,50 @@ namespace RocketPOS.Helpers.Reports
             {
                 SystemError.Register(ex);
             }
+        }
+
+        private void btnDetailedDailyExcel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DateTime dtFrom = new DateTime();
+                DateTime dtTo = new DateTime();
+
+                dtFrom = (DateTime)dpDetailedDailyFromDate.Value;
+                dtTo = (DateTime)dpDetailedDailyToDate.Value;
+
+
+                List<DetailedDailyReportModel> detailedDailyReportModels = new List<DetailedDailyReportModel>();
+                ReportViewModel reportViewModel = new ReportViewModel();
+
+                detailedDailyReportModels = reportViewModel.GetDetailedDailyByDate(dtFrom.ToString("yyyy-MM-dd HH:mi:ss"), dtTo.ToString("yyyy-MM-dd HH:mi:ss"));
+ 
+                CommonMethods commonMethods = new CommonMethods();
+                string path = string.Empty, firstLine = string.Empty;
+
+                string fileName = "DetailedDailyReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
+                var saveFileDialog = new SaveFileDialog
+                {
+                    FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
+                    DefaultExt = ".xlsx",
+                    Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    path = saveFileDialog.FileName;
+                    DataTable table = new DataTable();
+ 
+                     table = commonMethods.ConvertToDataTable(detailedDailyReportModels);
+                    firstLine = "Detailed Daily List for " + dtFrom.ToString("yyyy-MM-dd HH:mi:ss") + " to " + dtTo.ToString("yyyy-MM-dd HH:mi:ss");
+                    commonMethods.WriteExcelDetailDailySalesFile(table, path, firstLine);
+                }
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
+
         }
     }
 }

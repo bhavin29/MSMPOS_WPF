@@ -153,11 +153,12 @@ namespace RocketPOS.ViewModels
                                        "      Left Join BillDetail BD On BD.BillId = B.Id " +
                                        "      Left Join PaymentMethod PM On PM.Id = BD.PaymentMethodId Where B.CustomerOrderId = CO.Id) " +
                                        "     FOR XML PATH('') " +
-                                       "  ), 1, 2, '')) AS Payment " +
+                                       "  ), 1, 2, '')) AS Payment, " +
+                            "(select Sum(TotalPayable) from CustomerOrder where convert(varchar(10), Orderdate, 103) between '"+ fromDate + "' AND '" + toDate +"' ) As InvoiceTotal, " +
+                              "(select count(*) from CustomerOrder where convert(varchar(10), Orderdate, 103) between  '" + fromDate + "' AND '" + toDate + "' ) As InvoiceCount " +
                             " FROM CustomerOrder CO  " +
                             " INNER JOIN Customer C ON C.ID = CO.CustomerId  " +
                             " WHERE OutletId =" + LoginDetail.OutletId +
-                            //  " AND FORMAT(CO.Orderdate,'dd/MM/yyyy') between '" + fromDate + "' AND '" + toDate + "'" +
                             " AND convert(varchar(10),CO.Orderdate,103) between '" + fromDate + "' AND '" + toDate + "'" +
                             " ORDER BY CO.Orderdate desc;";
 

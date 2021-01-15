@@ -29,6 +29,17 @@ namespace RocketPOS.Helpers.Reports
                 dpFromDate.SelectedDate = System.DateTime.Now;
                 dpToDate.SelectedDate = System.DateTime.Now;
                 customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat));
+
+                if (customerOrderHistoryModel.Count > 0)
+                {
+                    lblInvoiceCount.Content = customerOrderHistoryModel[0].InvoiceCount;
+                    lblInvoiceTotal.Content = customerOrderHistoryModel[0].InvoiceTotal;
+                }
+                else
+                {
+                    lblInvoiceCount.Content = "0";
+                    lblInvoiceTotal.Content = "0.00";
+                }
                 this.dgOrderList.ItemsSource = customerOrderHistoryModel;
             }
             catch (Exception ex)
@@ -50,6 +61,17 @@ namespace RocketPOS.Helpers.Reports
                 CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
                 customerOrderHistoryModel = customerOrderViewModel.GetCustomerOrderHistoryList(dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat));
                 this.dgOrderList.ItemsSource = customerOrderHistoryModel;
+
+                if (customerOrderHistoryModel.Count > 0)
+                {
+                    lblInvoiceCount.Content = customerOrderHistoryModel[0].InvoiceCount;
+                    lblInvoiceTotal.Content = customerOrderHistoryModel[0].InvoiceTotal;
+                }
+                else
+                {
+                    lblInvoiceCount.Content = "0";
+                    lblInvoiceTotal.Content = "0.00";
+                }
             }
             catch (Exception ex)
             {
@@ -87,6 +109,7 @@ namespace RocketPOS.Helpers.Reports
 
                 customerOrderHistoryModel = (List<CustomerOrderHistoryModel>)dgOrderList.ItemsSource;
 
+  
                 string fileName = "SalesReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
                 var saveFileDialog = new SaveFileDialog
                 {
@@ -98,13 +121,16 @@ namespace RocketPOS.Helpers.Reports
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     path = saveFileDialog.FileName;
-                }
 
-                DataTable table = new DataTable();
-                table = commonMethods.ConvertToDataTable(customerOrderHistoryModel);
-                table.Columns.Remove("Id");
-                firstLine = "Sale List for " + dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat) + " to " + dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat);
-                commonMethods.WriteExcelFile(table, path, firstLine);
+
+                    DataTable table = new DataTable();
+                    table = commonMethods.ConvertToDataTable(customerOrderHistoryModel);
+                    table.Columns.Remove("Id");
+                    table.Columns.Remove("InvoiceTotal");
+                    table.Columns.Remove("InvoiceCount");
+                    firstLine = "Sale List for " + dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat) + " to " + dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat);
+                    commonMethods.WriteExcelFile(table, path, firstLine);
+                }
             }
             catch (Exception ex)
             {

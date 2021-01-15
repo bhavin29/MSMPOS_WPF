@@ -67,6 +67,7 @@ namespace RocketPOS.Core.Constants
                 dataCell.DataType = CellValues.String;
                 CellValue cellValue = new CellValue();
                 cellValue.Text = firstLine;
+                
                 dataCell.Append(cellValue);
 
                 firstRow.AppendChild(dataCell);
@@ -94,7 +95,9 @@ namespace RocketPOS.Core.Constants
 
                 Row headerRow = new Row();
                 List<String> columns = new List<string>();
-                foreach (System.Data.DataColumn column in table.Columns)
+             
+                //skip//
+                    foreach (System.Data.DataColumn column in table.Columns)
                 {
                     columns.Add(column.ColumnName);
                     Cell cell = new Cell();
@@ -422,5 +425,104 @@ namespace RocketPOS.Core.Constants
                 workbookpart.Workbook.Save();
             }
         }
+
+        public void WriteExcelDetailDailySalesFile(DataTable table, string path, string firstLine)
+        {
+            using (SpreadsheetDocument document = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook))
+            {
+                WorkbookPart workbookpart = document.AddWorkbookPart();
+                workbookpart.Workbook = new Workbook();
+
+                // Add a WorksheetPart to the WorkbookPart.
+                WorksheetPart worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
+                WorkbookStylesPart stylesPart = workbookpart.AddNewPart<WorkbookStylesPart>();
+                stylesPart.Stylesheet = GenerateStyleSheet();
+                stylesPart.Stylesheet.Save();
+
+                SheetData sheetData = new SheetData();
+
+                //add a row
+                Row firstRow = new Row();
+                //firstRow.RowIndex = (UInt32)1;
+
+                //create a cell in C1 (the upper left most cell of the merged cells)
+
+                //Cell dataCell = new Cell();
+                //dataCell.CellReference = "A1";
+                //dataCell.DataType = CellValues.String;
+                //CellValue cellValue = new CellValue();
+                //cellValue.Text = firstLine;
+
+                //dataCell.Append(cellValue);
+
+                //firstRow.AppendChild(dataCell);
+
+                //sheetData.AppendChild(firstRow);
+               
+                // Add a WorkbookPart to the document.
+                worksheetPart.Worksheet = new Worksheet(sheetData);
+
+                //create a MergeCells class to hold each MergeCell
+                //MergeCells mergeCells = new MergeCells();
+
+                //append a MergeCell to the mergeCells for each set of merged cells
+                //mergeCells.Append(new MergeCell() { Reference = new StringValue("A1:J1") });
+
+                //worksheetPart.Worksheet.InsertAfter(mergeCells, worksheetPart.Worksheet.Elements<SheetData>().First());
+
+                //this is the part that was missing from your code
+                Sheets sheets = document.WorkbookPart.Workbook.AppendChild(new Sheets());
+             
+                sheets.AppendChild(new Sheet()
+                {
+                    Id = document.WorkbookPart.GetIdOfPart(document.WorkbookPart.WorksheetParts.First()),
+                    SheetId = 1,
+                    Name = "Datailed Daily Report"
+                });
+
+                Row headerRow = new Row();
+                List<String> columns = new List<string>();
+
+                //Hide Coulumn name//
+                foreach (System.Data.DataColumn column in table.Columns)
+                {
+                    columns.Add(column.ColumnName);
+                    Cell cell = new Cell();
+                    cell.DataType = CellValues.String;
+                    cell.CellValue = new CellValue(null);// (column.ColumnName);
+                    headerRow.AppendChild(cell);
+                }
+
+                //sheetData.AppendChild(headerRow);
+
+                foreach (DataRow dsrow in table.Rows)
+                {
+                    if (!dsrow[0].ToString().Contains("=="))
+                    {
+                        Row newRow = new Row();
+                        foreach (String col in columns)
+                        {
+                            Cell cell = new Cell();
+                            if (col == "GrossAmount" || col == "DiscountAmount" || col == "DeliveryCharges" || col == "TaxAmount" || col == "TotalPayable" || col == "RegisterValue")
+                            {
+                                cell.DataType = CellValues.Number;
+                                cell.StyleIndex = 3;
+                            }
+                            else
+                            {
+                                cell.DataType = CellValues.String;
+                            }
+                            cell.CellValue = new CellValue(dsrow[col].ToString());
+
+                            newRow.AppendChild(cell);
+                        }
+
+                        sheetData.AppendChild(newRow);
+                    }
+                }
+                workbookpart.Workbook.Save();
+            }
+        }
+
     }
 }
