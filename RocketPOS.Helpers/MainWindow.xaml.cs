@@ -940,7 +940,7 @@ namespace RocketPOS.Helpers
                 var isVatable = menuListPanel.Children[7] as TextBlock;
                 var txtIsPriceChange = menuListPanel.Children[8] as TextBlock;
 
-                if (Convert.ToInt32(txtIsPriceChange.Text) == 1)
+                if (Convert.ToInt32(txtIsPriceChange.Text) == 2)
                 {
                     txtEditQty.Text = string.Empty;
                     saleItemsFoodMenu.FoodMenuId = foodMenuId.Text.ToString();
