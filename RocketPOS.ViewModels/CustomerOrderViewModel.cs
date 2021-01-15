@@ -204,16 +204,20 @@ namespace RocketPOS.ViewModels
                 string cessSummaryQuery = string.Empty;
                 string cessDetailQuery = string.Empty;
 
-                cessSummaryQuery = "SELECT convert(varchar(10), B.BillDateTime,103) AS BillDate,SUM(B.VatableAmount+CO.NonVatableAmount) AS NetSales, SUM(B.VatableAmount) AS Vatable,SUM(CO.NonVatableAmount) AS NonVatable, SUM(B.TaxAmount) AS TotalTax, SUM(B.TotalAmount) AS GrandTotal FROM BILL B " +
+                cessSummaryQuery = "SELECT convert(varchar(10), B.BillDateTime,103) AS BillDate,SUM(isnull(B.VatableAmount,0.00)+isnull(CO.NonVatableAmount,0.00)) AS NetSales, SUM(isnull(B.VatableAmount,0.00)) AS Vatable,SUM(isnull(CO.NonVatableAmount,0.00)) AS NonVatable, SUM(isnull(B.TaxAmount,0.00)) AS TotalTax, SUM(ISNULL(B.TotalAmount,0.00)) AS GrandTotal " +
+                                   ", convert(numeric(18,2),round(((SUM(isnull(B.VatableAmount,0)+isnull(CO.NonVatableAmount,0)))*2)/100,2)) As CateringLevy " +
+                                   "FROM BILL B " +
                                   "INNER JOIN CustomerOrder CO ON CO.ID = B.CustomerOrderId " +
                                   "Where convert(varchar(10), B.BillDateTime,103) Between '" + fromDate + "' And '" + toDate + "' And B.BillStatus = 4 AND CO.OutletId = "+LoginDetail.OutletId +
                                   "GROUP BY convert(varchar(10), B.BillDateTime, 103) " +
                                   "ORDER BY BillDate";
 
-                cessDetailQuery = "SELECT convert(varchar(10), B.BillDateTime, 103) AS BillDate, CO.SalesInvoiceNumber AS InvoiceNumber,(B.VatableAmount + CO.NonVatableAmount) AS NetSales, B.VatableAmount AS Vatable,CO.NonVatableAmount AS NonVatable, B.TaxAmount AS TotalTax, B.TotalAmount AS GrandTotal FROM BILL B " +
-                                   "INNER JOIN CustomerOrder CO ON CO.ID = B.CustomerOrderId " +
-                                   "Where convert(varchar(10), B.BillDateTime,103) Between '" + fromDate + "' And '" + toDate + "' And B.BillStatus = 4 AND CO.OutletId = " + LoginDetail.OutletId +
-                                   "ORDER BY BillDate";
+                cessDetailQuery =  " SELECT convert(varchar(10), B.BillDateTime, 103) AS BillDate, CO.SalesInvoiceNumber AS InvoiceNumber,(ISNULL(B.VatableAmount, 0.00) + ISNULL(CO.NonVatableAmount, 0.00)) AS NetSales, ISNULL(B.VatableAmount, 0.00) AS Vatable, ISNULL(CO.NonVatableAmount, 0.00) AS NonVatable, ISNULL(B.TaxAmount, 0.00) AS TotalTax, ISNULL(B.TotalAmount, 0.00) AS GrandTotal " +
+                                   ", convert(numeric(18, 2), round(((isnull(B.VatableAmount, 0.00) + isnull(CO.NonVatableAmount, 0.00)) * 2) / 100, 2)) As  CateringLevy" +
+                                   "  FROM BILL B " +
+                                   " INNER JOIN CustomerOrder CO ON CO.ID = B.CustomerOrderId " +
+                                   " Where convert(varchar(10), B.BillDateTime,103) Between '" + fromDate + "' And '" + toDate + "' And B.BillStatus = 4 AND CO.OutletId = " + LoginDetail.OutletId +
+                                   " ORDER BY BillDate";
 
 
                 cessReport.CessSummaryList = db.Query<CessSummaryModel>(cessSummaryQuery).ToList();

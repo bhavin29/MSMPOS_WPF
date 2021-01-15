@@ -20,6 +20,7 @@ namespace RocketPOS.Model
         public decimal NonVatable { get; set; }
         public decimal TotalTax { get; set; }
         public decimal GrandTotal { get; set; }
+        public Decimal CateringLevy { get; set; }
     }
 
     public class CessSummaryModel
@@ -30,5 +31,6 @@ namespace RocketPOS.Model
         public decimal NonVatable { get; set; }
         public decimal TotalTax { get; set; }
         public decimal GrandTotal { get; set; }
+        public Decimal CateringLevy { get; set; }
     }
 }

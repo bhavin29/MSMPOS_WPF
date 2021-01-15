@@ -334,7 +334,7 @@ namespace RocketPOS.Core.Constants
                     foreach (String col in columns1)
                     {
                         Cell cell = new Cell();
-                        if (col == "NetSales" || col == "Vatable" || col == "NonVatable" || col == "TotalTax" || col == "GrandTotal")
+                        if (col == "NetSales" || col == "Vatable" || col == "NonVatable" || col == "TotalTax" || col == "GrandTotal" || col == "CateringLevy")
                         {
                             cell.DataType = CellValues.Number;
                             cell.StyleIndex = 3;
@@ -399,7 +399,7 @@ namespace RocketPOS.Core.Constants
                     foreach (String col in columns2)
                     {
                         Cell cell = new Cell();
-                        if (col == "NetSales" || col == "Vatable" || col == "NonVatable" || col == "TotalTax" || col == "GrandTotal")
+                        if (col == "NetSales" || col == "Vatable" || col == "NonVatable" || col == "TotalTax" || col == "GrandTotal" || col== "CateringLevy")
                         {
                             cell.DataType = CellValues.Number;
                             cell.StyleIndex = 3;

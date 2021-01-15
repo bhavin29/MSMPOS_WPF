@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RocketPOS.Helpers.Reports" xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-      ShowInTaskbar="True"  Topmost="true"  WindowStartupLocation="CenterOwner" ResizeMode="NoResize"  
+      ShowInTaskbar="True" 
         Title="Reports" Height="800" Width="1280" Background="#956eeb">
+    <!--Topmost="true"  WindowStartupLocation="CenterOwner" ResizeMode="NoResize"-->
+
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
