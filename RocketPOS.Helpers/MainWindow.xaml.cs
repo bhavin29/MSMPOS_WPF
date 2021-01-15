@@ -350,6 +350,14 @@ namespace RocketPOS.Helpers
                 txtIsVatable.Visibility = Visibility.Hidden;
                 menuListPanel.Children.Add(txtIsVatable);
 
+                TextBlock txtIsPriceChange = new TextBlock();
+                txtIsPriceChange.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                txtIsPriceChange.Text = Convert.ToInt32(itemSubCat.IsPriceChange).ToString();
+                txtIsPriceChange.FontSize = 0.5;
+                txtIsPriceChange.Name = "txtIsPriceChange" + itemSubCat.FoodCategoryId;
+                txtIsPriceChange.Visibility = Visibility.Hidden;
+                menuListPanel.Children.Add(txtIsPriceChange);
+
                 menuListPanel.Name = "childPanel" + itemSubCat.FoodCategoryId;
                 menuListPanel.MouseDown += GetPrice_MouseDown;
                 spSubCategory.Children.Add(menuListPanel);
@@ -879,6 +887,29 @@ namespace RocketPOS.Helpers
                 var foodcess = menuListPanel.Children[5] as TextBlock;
                 var taxPercentage = menuListPanel.Children[6] as TextBlock;
                 var isVatable = menuListPanel.Children[7] as TextBlock;
+                var txtIsPriceChange = menuListPanel.Children[8] as TextBlock;
+
+                if (Convert.ToInt32(txtIsPriceChange.Text) == 1)
+                {
+                    txtEditQty.Text = string.Empty;
+                    saleItemsFoodMenu.FoodMenuId = foodMenuId.Text.ToString();
+                    saleItemsFoodMenu.Product = itemName.Text;
+                    saleItemsFoodMenu.Price = Convert.ToDecimal(salePrice.Text);
+                    saleItemsFoodMenu.Qty = 1.0m;
+                    saleItemsFoodMenu.Discount = 0;
+                    saleItemsFoodMenu.Total = Convert.ToDecimal(salePrice.Text) * 1;
+                    saleItemsFoodMenu.CustomerOrderItemId = 0;
+                    saleItemsFoodMenu.Foodcess = Convert.ToDecimal(foodcess.Text);
+                    saleItemsFoodMenu.FoodVat = Convert.ToDecimal(foodVat.Text);
+                    saleItemsFoodMenu.TaxPercentage = Convert.ToDecimal(taxPercentage.Text);
+                    saleItemsFoodMenu.IsVatable = Convert.ToInt32(isVatable.Text);
+
+                    txtQtyPopUpProductName.Text = saleItemsFoodMenu.Product;
+                    txtChnageQty.Text = saleItemsFoodMenu.Qty.ToString();
+
+                    ppEditQty.IsOpen = true;
+                    return;
+                }
 
                 CommonOrderCalculation(sender, "FoodMenu");
 
@@ -921,6 +952,7 @@ namespace RocketPOS.Helpers
                 {
                     dgSaleItem.Items.Refresh();
                 }
+
             }
             catch (Exception ex)
             {
@@ -2262,6 +2294,7 @@ namespace RocketPOS.Helpers
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
 
+                /*
                 string settings = LoginDetail.MainWindowSettings;
                 string[] wordsSettings = settings.Split('$');
 
@@ -2293,7 +2326,7 @@ namespace RocketPOS.Helpers
 
                     }
                 }
-
+                */
                 //Set Header Marquee Text
                 txtHeaderTitle.Text = LoginDetail.HeaderMarqueeText;
                 canMain.Height = 50;
@@ -2653,7 +2686,6 @@ namespace RocketPOS.Helpers
         {
             try
             {
-
                 if (String.IsNullOrEmpty(txtEditQty.Text) || Convert.ToDecimal(txtEditQty.Text.ToString()) <= 0)
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Pleae enter change qty.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
