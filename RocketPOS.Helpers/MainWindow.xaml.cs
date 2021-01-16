@@ -39,6 +39,7 @@ namespace RocketPOS.Helpers
         DispatcherTimer timer;
         LoginViewModel loginViewModel = new LoginViewModel();
         SaleItemModel saleItemsFoodMenu = new SaleItemModel();
+
         public MainWindow()
         {
             try
@@ -80,6 +81,12 @@ namespace RocketPOS.Helpers
                 txtbDineInTableId.Text = DineTable.TableId.ToString();
             }
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+        }
+
+
         #region Methods
         private void GetCustomerList()
         {
@@ -154,13 +161,21 @@ namespace RocketPOS.Helpers
 
                 foreach (var foodCategory in foodMenu.FoodList)
                 {
-                    if (foodCategory.IsFavourite == 0)
+                    // if (foodCategory.IsFavourite == 0)
                     {
+                        TextBlock txBlock = new TextBlock();
+
+                        txBlock.Text = foodCategory.FoodCategory;
+                        txBlock.TextWrapping = TextWrapping.Wrap;
+                        txBlock.FontSize = 15;
+                        txBlock.FontWeight = FontWeights.Bold;
+                        txBlock.Width = 96;
+                        txBlock.TextAlignment = TextAlignment.Center;
+
                         Button btnCategory = new Button();
-                        btnCategory.Content = foodCategory.FoodCategory;
+                        //btnCategory.Content = foodCategory.FoodCategory;
+                        btnCategory.Content = txBlock;
                         btnCategory.Name = "btn" + foodCategory.Id;
-                        btnCategory.FontSize = 15;
-                        btnCategory.FontWeight = FontWeights.Bold;
                         btnCategory.Width = 102;
                         btnCategory.Height = 50;
                         btnCategory.BorderThickness = new Thickness(1);
@@ -170,22 +185,29 @@ namespace RocketPOS.Helpers
                         btnCategory.Click += GetSubCategory;
                         spCategory.Children.Add(btnCategory);
                     }
-                    else
-                    {
-                        Button btnCategory = new Button();
-                        btnCategory.Content = foodCategory.FoodCategory;
-                        btnCategory.Name = "btn" + foodCategory.Id;
-                        btnCategory.FontSize = 15;
-                        btnCategory.FontWeight = FontWeights.Bold;
-                        btnCategory.Width = 102;
-                        btnCategory.Height = 50;
-                        btnCategory.BorderThickness = new Thickness(1);
-                        btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
-                        btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                        btnCategory.Margin = new Thickness(0, 0, 0, 0);
-                        btnCategory.Click += GetSubCategory;
-                        spFavouriteCategory.Children.Add(btnCategory);
-                    }
+                    //else
+                    //{
+                    //    TextBlock txBlock = new TextBlock();
+
+                    //    txBlock.Text = foodCategory.FoodCategory;
+                    //    txBlock.TextWrapping = TextWrapping.Wrap;
+                    //    txBlock.FontSize = 15;
+                    //    txBlock.FontWeight = FontWeights.Bold;
+                    //    txBlock.Width = 100;
+
+                    //    Button btnCategory = new Button();
+                    //    // btnCategory.Content = foodCategory.FoodCategory;
+                    //    btnCategory.Content = txBlock;
+                    //    btnCategory.Name = "btn" + foodCategory.Id;
+                    //    btnCategory.Width = 102;
+                    //    btnCategory.Height = 50;
+                    //    btnCategory.BorderThickness = new Thickness(1);
+                    //    btnCategory.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
+                    //    btnCategory.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                    //    btnCategory.Margin = new Thickness(0, 0, 0, 0);
+                    //    btnCategory.Click += GetSubCategory;
+                    //   spFavouriteCategory.Children.Add(btnCategory);
+                    //}
                 }
 
                 if (foodMenu.FoodList.Count > 0)
@@ -474,7 +496,7 @@ namespace RocketPOS.Helpers
                 }
                 if (type == "FoodMenuGridListQty")
                 {
-                    decimal oldTotal=0,oldVatable=0,OldNonVatable = 0,OldTaxPercentage=0,oldTaxAmount=0,oldPrice=0,oldQty=0;
+                    decimal oldTotal = 0, oldVatable = 0, OldNonVatable = 0, OldTaxPercentage = 0, oldTaxAmount = 0, oldPrice = 0, oldQty = 0;
                     bool isFound = false;
                     if (dgSaleItem != null)
                     {
@@ -512,9 +534,9 @@ namespace RocketPOS.Helpers
                     }
                     else
                     {
-                        txtbTotalItemCount.Text = ((Convert.ToDecimal(txtbTotalItemCount.Text) - oldQty ) + Convert.ToDecimal(txtEditQty.Text)).ToString();
+                        txtbTotalItemCount.Text = ((Convert.ToDecimal(txtbTotalItemCount.Text) - oldQty) + Convert.ToDecimal(txtEditQty.Text)).ToString();
                     }
- 
+
                     if (!isFound)
                     {
                         //dgSaleItem.Items.Add(saleItems);
@@ -531,7 +553,7 @@ namespace RocketPOS.Helpers
                     var taxPercentage = saleItemsFoodMenu.TaxPercentage;
                     var isVatable = saleItemsFoodMenu.IsVatable;
 
-                    txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - oldTotal  + Convert.ToDecimal(salePrice)).ToString("0.00");
+                    txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - oldTotal + Convert.ToDecimal(salePrice)).ToString("0.00");
                     txtTaxAmount.Text = ((Convert.ToDecimal(txtTaxAmount.Text) - oldTaxAmount) + GetPercentageAmount(Convert.ToDecimal(salePrice), Convert.ToDecimal(taxPercentage))).ToString("0.00");
                     if (Convert.ToInt32(isVatable) == 1)
                     {
@@ -940,27 +962,27 @@ namespace RocketPOS.Helpers
                 var isVatable = menuListPanel.Children[7] as TextBlock;
                 var txtIsPriceChange = menuListPanel.Children[8] as TextBlock;
 
-                if (Convert.ToInt32(txtIsPriceChange.Text) == 2)
-                {
-                    txtEditQty.Text = string.Empty;
-                    saleItemsFoodMenu.FoodMenuId = foodMenuId.Text.ToString();
-                    saleItemsFoodMenu.Product = itemName.Text;
-                    saleItemsFoodMenu.Price = Convert.ToDecimal(salePrice.Text);
-                    saleItemsFoodMenu.Qty = 1.0m;
-                    saleItemsFoodMenu.Discount = 0;
-                    saleItemsFoodMenu.Total = Convert.ToDecimal(salePrice.Text) * 1;
-                    saleItemsFoodMenu.CustomerOrderItemId = 0;
-                    saleItemsFoodMenu.Foodcess = Convert.ToDecimal(foodcess.Text);
-                    saleItemsFoodMenu.FoodVat = Convert.ToDecimal(foodVat.Text);
-                    saleItemsFoodMenu.TaxPercentage = Convert.ToDecimal(taxPercentage.Text);
-                    saleItemsFoodMenu.IsVatable = Convert.ToInt32(isVatable.Text);
+                //if (Convert.ToInt32(txtIsPriceChange.Text) == 2)
+                //{
+                txtEditQty.Text = "1";
+                saleItemsFoodMenu.FoodMenuId = foodMenuId.Text.ToString();
+                saleItemsFoodMenu.Product = itemName.Text;
+                saleItemsFoodMenu.Price = Convert.ToDecimal(salePrice.Text);
+                saleItemsFoodMenu.Qty = 1.0m;
+                saleItemsFoodMenu.Discount = 0;
+                saleItemsFoodMenu.Total = Convert.ToDecimal(salePrice.Text) * 1;
+                saleItemsFoodMenu.CustomerOrderItemId = 0;
+                saleItemsFoodMenu.Foodcess = Convert.ToDecimal(foodcess.Text);
+                saleItemsFoodMenu.FoodVat = Convert.ToDecimal(foodVat.Text);
+                saleItemsFoodMenu.TaxPercentage = Convert.ToDecimal(taxPercentage.Text);
+                saleItemsFoodMenu.IsVatable = Convert.ToInt32(isVatable.Text);
 
-                    txtQtyPopUpProductName.Text = saleItemsFoodMenu.Product;
-                    txtChnageQty.Text = saleItemsFoodMenu.Qty.ToString();
+                txtQtyPopUpProductName.Text = saleItemsFoodMenu.Product;
+                txtChnageQty.Text = saleItemsFoodMenu.Qty.ToString();
 
-                    ppEditQty.IsOpen = true;
-                    return;
-                }
+                ppEditQty.IsOpen = true;
+                return;
+                // }
 
                 CommonOrderCalculation(sender, "FoodMenu");
 
@@ -1376,6 +1398,12 @@ namespace RocketPOS.Helpers
 
                 // outletRegisterViewModel.InsertOutletRegister(outletRegisterModel);
 
+                if (lbCustomerOrderList.Items.Count > 0)
+                {
+                    var messageBoxResultCount = WpfMessageBox.Show(StatusMessages.AppTitle, "Clear the open order before closing register.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+                    return;
+                }
+
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Are you sure to close register? ", MessageBoxButton.YesNo, EnumUtility.MessageBoxImage.Warning);
 
                 if (messageBoxResult == MessageBoxResult.Yes)
@@ -1657,6 +1685,7 @@ namespace RocketPOS.Helpers
                 if (totalAmount < Convert.ToDecimal(lblPPTotalPayableAmount.Content))
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.BillPaymentTitle, StatusMessages.PaymentMustBeHigher, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    ppDirectInvoice.IsOpen = true;
                     return;
                 }
 
@@ -2431,6 +2460,7 @@ namespace RocketPOS.Helpers
             try
             {
                 DineInTables dineInTables = new DineInTables();
+                dineInTables.Owner = this;
                 dineInTables.ShowDialog();
             }
             catch (Exception ex)
@@ -2549,12 +2579,11 @@ namespace RocketPOS.Helpers
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Login frmLogin = new Login();
-
             loginViewModel.UpdateLoginLogout("logout");
             loginViewModel.LoginHistory(2);
-            frmLogin.Show();
-            this.Hide();
+
+            App.Current.Shutdown();
+
         }
         private void txtPaymentAmount_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -2808,6 +2837,118 @@ namespace RocketPOS.Helpers
             try
             {
                 ppEditQty.IsOpen = false;
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+
+            }
+
+        }
+
+        public void OrderCall(int orderId, int TableStatus, int TableId)
+        {
+            // MessageBox.Show(orderId.ToString());
+            try
+            {
+                //if (lbCustomerOrderList.SelectedItem == null)
+                //{
+                //    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectOrder, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                //    return;
+                //}
+
+                ClearCustomerOrderItemControll();
+                txtbKitchenStatus.Visibility = Visibility.Visible;
+                txtbKitchenStatusTitle.Visibility = Visibility.Visible;
+                //var st = (CustomerOrderModel)lbCustomerOrderList.SelectedItem;
+                if (TableStatus == 1)
+                {
+                    ClearCustomerOrderItemControll();
+                    rdbDineInOrderType.IsChecked = true;
+                    txtbDineInTableId.Text = TableId.ToString();//.Text.ToString();
+                    lbTablesList.SelectedValue = TableId;
+
+                }
+                else if (TableStatus == 2)
+                {
+                    CustomerOrderModel customerOrderModel = new CustomerOrderModel();
+                    CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
+                    customerOrderModel = customerOrderViewModel.GetCustomerOrderByOrderId(orderId);
+
+                    txtbSubTotalAmount.Text = Convert.ToDecimal(customerOrderModel.GrossAmount).ToString("0.00");
+                    txtbTotalPayableAmount.Text = customerOrderModel.TotalPayable.ToString();
+                    txtbOrderId.Text = customerOrderModel.Id.ToString();
+                    cmbCustomer.SelectedValue = customerOrderModel.CustomerId;
+                    cmbWaiter.SelectedValue = customerOrderModel.WaiterEmployeeId;
+                    txtbDineInTableId.Text = customerOrderModel.TableId;
+                    txtAllocatedPerson.Text = customerOrderModel.AllocatedPerson;
+                    txtSubTotalDiscountAmount.Text = Convert.ToDecimal(customerOrderModel.DiscountAmount).ToString("0.00");
+                    txtbTotalDiscountAmount.Text = Convert.ToDecimal(customerOrderModel.DiscountAmount).ToString("0.00");
+                    txtbTotalDeliveryChargeAmt.Text = Convert.ToDecimal(customerOrderModel.DeliveryCharges).ToString("0.00");
+                    txtTaxAmount.Text = Convert.ToDecimal(customerOrderModel.TaxAmount).ToString("0.00");
+                    txtVatableAmount.Text = Convert.ToDecimal(customerOrderModel.VatableAmount).ToString("0.00");
+                    txtNonVatableAmount.Text = Convert.ToDecimal(customerOrderModel.NonVatableAmount).ToString("0.00");
+
+                    if (customerOrderModel.OrderType == (int)EnumUtility.OrderType.DineIN)
+                    {
+                        if (!string.IsNullOrEmpty(customerOrderModel.TableName))
+                        {
+                            txtTableNumber.Text = " #" + customerOrderModel.TableName.ToString();
+                        }
+                    }
+                    else
+                    {
+                        txtTableNumber.Text = "";
+                    }
+                    if (customerOrderModel.KotStatus == 1)
+                    {
+                        txtbKitchenStatus.Text = "Pending";
+                    }
+                    else if (customerOrderModel.KotStatus == 2)
+                    {
+                        txtbKitchenStatus.Text = "Cooking";
+                    }
+                    else
+                    {
+                        txtbKitchenStatus.Text = "Completed";
+                    }
+
+                    if (customerOrderModel.OrderType == 1)
+                    {
+                        rdbDineInOrderType.IsChecked = true;
+                        txtbDineInTableId.Text = customerOrderModel.TableId;
+                    }
+                    else if (customerOrderModel.OrderType == 2)
+                    {
+                        rdbTakeAwayOrderType.IsChecked = true;
+                    }
+                    else if (customerOrderModel.OrderType == 3)
+                    {
+                        rdbDeliveryOrderType.IsChecked = true;
+                    }
+
+                    List<SaleItemModel> saleItems = new List<SaleItemModel>();
+                    foreach (var orderItem in customerOrderModel.CustomerOrderItemModels)
+                    {
+                        saleItems = new List<SaleItemModel>();
+                        saleItems.Add(new SaleItemModel()
+                        {
+                            FoodMenuId = orderItem.FoodMenuId.ToString(),
+                            Product = orderItem.FoodMenuName,
+                            Price = Convert.ToDecimal(orderItem.FoodMenuRate),
+                            Qty = orderItem.FoodMenuQty,
+                            Discount = orderItem.Discount,
+                            Total = Convert.ToDecimal(orderItem.Price),
+                            CustomerOrderItemId = orderItem.CustomerOrderItemId,
+                            FoodVat = orderItem.FoodVat,
+                            Foodcess = orderItem.Foodcess,
+                            TaxPercentage = orderItem.TaxPercentage,
+                            IsVatable = orderItem.IsVatable
+                        });
+                        dgSaleItem.Items.Add(saleItems);
+                        txtbTotalItemCount.Text = (Convert.ToDecimal(txtbTotalItemCount.Text) + orderItem.FoodMenuQty).ToString();
+                    }
+                }
             }
             catch (Exception ex)
             {

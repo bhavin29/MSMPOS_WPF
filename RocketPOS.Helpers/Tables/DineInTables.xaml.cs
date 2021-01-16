@@ -107,7 +107,7 @@ namespace RocketPOS.Helpers.Tables
 
                         //Table Status
                         TextBlock txtbTableStatus = new TextBlock();
-                        txtbTableStatus.Text =  table.StatusDescription;
+                        txtbTableStatus.Text = table.StatusDescription;
                         txtbTableStatus.Name = "txtbTableStatus" + table.Id;
                         txtbTableStatus.FontSize = 18;
                         txtbTableStatus.FontWeight = FontWeights.Bold;
@@ -117,7 +117,7 @@ namespace RocketPOS.Helpers.Tables
 
                         //Table Capacity
                         TextBlock txtbTableCapacity = new TextBlock();
-                        txtbTableCapacity.Text = "Capacity : " + table.AllocatedPerson.ToString()+"/"+table.PersonCapacity.ToString();
+                        txtbTableCapacity.Text = "Capacity : " + table.AllocatedPerson.ToString() + "/" + table.PersonCapacity.ToString();
                         txtbTableCapacity.Name = "txtbTableCapacity" + table.Id;
                         txtbTableCapacity.FontSize = 16;
                         txtbTableCapacity.FontWeight = FontWeights.Bold;
@@ -153,6 +153,7 @@ namespace RocketPOS.Helpers.Tables
         {
             try
             {
+
                 TableViewModel tableViewModel = new TableViewModel();
                 var tableListPanel = sender as StackPanel;
                 var txtbTableId = tableListPanel.Children[0] as TextBlock;
@@ -172,12 +173,8 @@ namespace RocketPOS.Helpers.Tables
 
                 if (Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Open)
                 {
-                    
-                    MainWindow mainWin = new MainWindow();
-                    mainWin.rdbDineInOrderType.IsChecked = true;
-                    mainWin.txtbDineInTableId.Text = txtbTableId.Text.ToString();
-                    //tableViewModel.UpdateTableStatus(txtbTableId.Text, (int)EnumUtility.TableStatus.Occupied);
-                    //mainWin.Show();
+                    DineTable.TableId = Convert.ToInt32(txtbTableId.Text);
+                    ((MainWindow)this.Owner).OrderCall(Convert.ToInt32(txtbTableId.Text), (int)EnumUtility.TableStatus.Open, Convert.ToInt32(txtbTableId.Text));
                     this.Close();
 
                 }
@@ -187,7 +184,10 @@ namespace RocketPOS.Helpers.Tables
                     if (!string.IsNullOrEmpty(txtbTableOrderId.Text))
                     {
                         DineTable.OrderId = Convert.ToInt32(txtbTableOrderId.Text);
-                        DineTable.TableId= Convert.ToInt32(txtbTableId.Text);
+                        DineTable.TableId = Convert.ToInt32(txtbTableId.Text);
+
+                        ((MainWindow)this.Owner).OrderCall(Convert.ToInt32(txtbTableOrderId.Text), (int)EnumUtility.TableStatus.Occupied, Convert.ToInt32(txtbTableId.Text));
+
                         this.Close();
                     }
                 }
