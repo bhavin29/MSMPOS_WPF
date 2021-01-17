@@ -325,20 +325,21 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
+                                    <DataGridTextColumn  IsReadOnly="True" Width="20" Visibility="Hidden" Header="Sr." Binding="{Binding RowId}"/>
                                     <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding CustomerOrderItemId}"/>
-                                    <DataGridTextColumn Header="Product" IsReadOnly="True"  Binding="{Binding Product}" Width="130"/>
+                                    <DataGridTextColumn Header="Product" IsReadOnly="True"  Binding="{Binding Product}" Width="140"/>
                                     <DataGridTextColumn Visibility="Hidden" IsReadOnly="True" Binding="{Binding FoodMenuId}"/>
-                                    <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Price}" Width="60">
+                                    <DataGridTextColumn Header="Price" IsReadOnly="True"  Binding="{Binding Price}" Width="45">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="{x:Type TextBlock}">
                                                 <Setter Property="HorizontalAlignment" Value="Right" />
                                             </Style>
                                         </DataGridTextColumn.ElementStyle>
                                     </DataGridTextColumn>
-                                    <DataGridTemplateColumn Width="25" >
+                                    <DataGridTemplateColumn  >
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Content="-" x:Name="btnMinusQty" Style="{StaticResource btnOrange}" Width="25" Margin="0" VerticalAlignment="Center" Click="btnMinusQty_Click"/>
+                                                <Button Content="-" x:Name="btnMinusQty" Style="{StaticResource btnOrange}" Height="25" Width="25" FontSize="14" Margin="0" VerticalAlignment="Center" Click="btnMinusQty_Click"/>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -352,7 +353,7 @@
                                     <DataGridTemplateColumn Width="25">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Content="+" x:Name="btnPlusQty" Click="btnPlusQty_Click" Style="{StaticResource btnOrange}"  Width="25" Margin="0" VerticalAlignment="Center"/>
+                                                <Button Content="+" x:Name="btnPlusQty" Click="btnPlusQty_Click"  Height="20" Style="{StaticResource btnOrange}"  Width="25" Margin="0" VerticalAlignment="Center"/>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
