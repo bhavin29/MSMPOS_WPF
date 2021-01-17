@@ -2792,45 +2792,41 @@ namespace RocketPOS.Helpers
                     IsVatable = Convert.ToInt32(saleItemsFoodMenu.IsVatable)
                 });
 
-                bool IsItemOverright = false;
+
+                
+                bool IsItemOverright = LoginDetail.IsItemOverright;
+                bool isFound = false;
+
                 if (IsItemOverright)
                 {
                     CommonOrderCalculation(sender, "FoodMenuGridListQty");
+
+                    if (dgSaleItem != null)
+                    {
+                        for (int i = 0; i < dgSaleItem.Items.Count; i++)
+                        {
+                            var gridSaleitem = (List<SaleItemModel>)dgSaleItem.Items[i];
+                            if (saleItems[0].FoodMenuId.Equals(gridSaleitem[0].FoodMenuId))
+                            {
+                                isFound = true;
+                                gridSaleitem[0].Qty = Convert.ToDecimal(txtEditQty.Text.ToString());
+                                gridSaleitem[0].Total = gridSaleitem[0].Qty * gridSaleitem[0].Price;
+                            }
+                        }
+
+                        if (!isFound)
+                        {
+                            dgSaleItem.Items.Add(saleItems);
+                        }
+                    }
                 }
                 else
                 {
                     CommonOrderCalculation(sender, "FoodMenuGridList");
-                }
-
-                bool isFound = false;
-                if (dgSaleItem != null)
-                {
-                    for (int i = 0; i < dgSaleItem.Items.Count; i++)
-                    {
-                        var gridSaleitem = (List<SaleItemModel>)dgSaleItem.Items[i];
-                        if (saleItems[0].FoodMenuId.Equals(gridSaleitem[0].FoodMenuId))
-                        {
-                            isFound = true;
-                            gridSaleitem[0].Qty = Convert.ToDecimal(txtEditQty.Text.ToString());
-                            gridSaleitem[0].Total = gridSaleitem[0].Qty * gridSaleitem[0].Price;
-                        }
-                    }
-                }
-
-                if (!IsItemOverright)
-                {
                     dgSaleItem.Items.Add(saleItems);
                 }
 
-
-                //if (!isFound)
-                //{
-                //    dgSaleItem.Items.Add(saleItems);
-                //}
-                //else
-                //{
-                //    dgSaleItem.Items.Refresh();
-                //}
+                dgSaleItem.Items.Refresh();
 
                 ppEditQty.IsOpen = false;
                 txtSearchFoodMenuList.Text = "";

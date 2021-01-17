@@ -142,6 +142,7 @@ namespace RocketPOS.Helpers
             LoginDetail.Lastname = loginModel[0].Lastname;
             LoginDetail.Firstname = loginModel[0].Firstname;
             LoginDetail.TaxInclusive = loginModel[0].TaxInclusive;
+            LoginDetail.IsItemOverright = loginModel[0].IsItemOverright;
         }
 
         private void CenterWindowOnScreen()

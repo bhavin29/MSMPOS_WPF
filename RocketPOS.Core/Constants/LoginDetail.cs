@@ -44,5 +44,6 @@ namespace RocketPOS.Core.Constants
         public static string Lastname = "";
         public static string Firstname = "";
         public static int TaxInclusive = 1;
+        public static bool IsItemOverright = false;
     }
 }

@@ -49,6 +49,8 @@ namespace RocketPOS.Model
         public string DiscountList { get; set; }
         public string Powerby { get; set; }
         public int TaxInclusive { get; set; }
-        
+        public bool IsItemOverright { get; set; }
+
+
     }
 }
