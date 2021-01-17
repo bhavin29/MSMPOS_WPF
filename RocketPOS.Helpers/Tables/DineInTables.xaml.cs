@@ -108,7 +108,7 @@ namespace RocketPOS.Helpers.Tables
                         //Table Status
                         TextBlock txtbTableStatus = new TextBlock();
                         txtbTableStatus.Text = table.StatusDescription;
-                        txtbTableStatus.Name = "txtbTableStatus" + table.Id;
+                        txtbTableStatus.Name = "txtbTableStatus" + table.Status;
                         txtbTableStatus.FontSize = 18;
                         txtbTableStatus.FontWeight = FontWeights.Bold;
                         txtbTableStatus.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#000"));
@@ -158,10 +158,10 @@ namespace RocketPOS.Helpers.Tables
                 var tableListPanel = sender as StackPanel;
                 var txtbTableId = tableListPanel.Children[0] as TextBlock;
                 var txtbTableName = tableListPanel.Children[1] as TextBlock;
-                var txtbTableStatusId = tableListPanel.Children[5] as TextBlock;
+                var txtbTableStatusId = tableListPanel.Children[3] as TextBlock;
                 var txtbTableOrderId = tableListPanel.Children[6] as TextBlock;
 
-                if (Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Clean)
+                 if ((txtbTableStatusId.Text) == EnumUtility.TableStatus.Clean.ToString())
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.DineInTitle, StatusMessages.DineInTableIsClean, MessageBoxButton.YesNo, EnumUtility.MessageBoxImage.Question);
                     if (messageBoxResult.ToString() == "Yes")
@@ -171,7 +171,7 @@ namespace RocketPOS.Helpers.Tables
                     }
                 }
 
-                if (Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Open)
+                if ((txtbTableStatusId.Text) == EnumUtility.TableStatus.Open.ToString())
                 {
                     DineTable.TableId = Convert.ToInt32(txtbTableId.Text);
                     ((MainWindow)this.Owner).OrderCall(Convert.ToInt32(txtbTableId.Text), (int)EnumUtility.TableStatus.Open, Convert.ToInt32(txtbTableId.Text));
@@ -179,7 +179,7 @@ namespace RocketPOS.Helpers.Tables
 
                 }
 
-                if (Convert.ToInt32(txtbTableStatusId.Text) == (int)EnumUtility.TableStatus.Occupied)
+                if ((txtbTableStatusId.Text) == EnumUtility.TableStatus.Occupied.ToString())
                 {
                     if (!string.IsNullOrEmpty(txtbTableOrderId.Text))
                     {
