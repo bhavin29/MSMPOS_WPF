@@ -21,6 +21,8 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="500"/>
             </Grid.RowDefinitions>
             
@@ -67,6 +69,21 @@
                     <DatePicker Name="dpToDate"  Width="100" VerticalAlignment="Center" />
 
                     <Button x:Name="btnCessReportExport" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Excel" Height="40" Click="btnCessReportExport_Click"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="6" Background="AliceBlue">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="25,0,0,0" Height="40">
+                    <Label Content="4. Mode of Payment Report"  FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="7" Background="AliceBlue"  >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="25,0,0,0">
+                    <Label Content="Report From Date" Width="160" VerticalAlignment="Center"/>
+                    <DatePicker Name="dpFromDatePayment" Width="100" VerticalAlignment="Center"/>
+                    <Label Content="To Date" Width="100" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                    <DatePicker Name="dpToDatePayment"  Width="100" VerticalAlignment="Center" />
+
+                    <Button x:Name="btnModeofPaymentReportExport" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Excel" Height="40" Click="btnModeofPaymentReportExport_Click"/>
                 </StackPanel>
             </Grid>
 

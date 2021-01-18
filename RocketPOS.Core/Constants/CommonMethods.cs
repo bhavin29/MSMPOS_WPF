@@ -524,5 +524,211 @@ namespace RocketPOS.Core.Constants
             }
         }
 
+        public void WriteExcelModeOfPaymentFile(DataTable table, string path, string firstLine)
+        {
+            using (SpreadsheetDocument document = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook))
+            {
+                WorkbookPart workbookpart = document.AddWorkbookPart();
+                workbookpart.Workbook = new Workbook();
+
+                // Add a WorksheetPart to the WorkbookPart.
+                WorksheetPart worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
+                WorkbookStylesPart stylesPart = workbookpart.AddNewPart<WorkbookStylesPart>();
+                stylesPart.Stylesheet = GenerateStyleSheet();
+                stylesPart.Stylesheet.Save();
+
+                SheetData sheetData = new SheetData();
+
+                //add a row
+                Row firstRow = new Row();
+                //firstRow.RowIndex = (UInt32)1;
+
+                //create a cell in C1 (the upper left most cell of the merged cells)
+                Cell dataCell = new Cell();
+                dataCell.CellReference = "A1";
+                dataCell.DataType = CellValues.String;
+                CellValue cellValue = new CellValue();
+                cellValue.Text = firstLine;
+
+                dataCell.Append(cellValue);
+
+                firstRow.AppendChild(dataCell);
+
+                sheetData.AppendChild(firstRow);
+                // Add a WorkbookPart to the document.
+                worksheetPart.Worksheet = new Worksheet(sheetData);
+
+                //create a MergeCells class to hold each MergeCell
+                MergeCells mergeCells = new MergeCells();
+
+                //append a MergeCell to the mergeCells for each set of merged cells
+                mergeCells.Append(new MergeCell() { Reference = new StringValue("A1:J1") });
+
+                worksheetPart.Worksheet.InsertAfter(mergeCells, worksheetPart.Worksheet.Elements<SheetData>().First());
+
+                //this is the part that was missing from your code
+                Sheets sheets = document.WorkbookPart.Workbook.AppendChild(new Sheets());
+                sheets.AppendChild(new Sheet()
+                {
+                    Id = document.WorkbookPart.GetIdOfPart(document.WorkbookPart.WorksheetParts.First()),
+                    SheetId = 1,
+                    Name = "Sheet1"
+                });
+
+                Row headerRow = new Row();
+                List<String> columns = new List<string>();
+
+                //skip//
+                foreach (System.Data.DataColumn column in table.Columns)
+                {
+                    columns.Add(column.ColumnName);
+                    Cell cell = new Cell();
+                    cell.DataType = CellValues.String;
+                    cell.CellValue = new CellValue(column.ColumnName);
+                    headerRow.AppendChild(cell);
+                }
+
+                sheetData.AppendChild(headerRow);
+                foreach (DataRow dsrow in table.Rows)
+                {
+                    Row newRow = new Row();
+                    foreach (String col in columns)
+                    {
+                        Cell cell = new Cell();
+                        if (col == " SALES" || col == "CASH" || col == "PAISA-I" || col == "CREDIT CARD" || col == "DEBIT CARD" || col == "CHQEUE")
+                        {
+                            cell.DataType = CellValues.Number;
+                            cell.StyleIndex = 3;
+                        }
+                        else
+                        {
+                            cell.DataType = CellValues.String;
+                        }
+                        cell.CellValue = new CellValue(dsrow[col].ToString());
+                        newRow.AppendChild(cell);
+                    }
+                    sheetData.AppendChild(newRow);
+                }
+                workbookpart.Workbook.Save();
+            }
+        }
+
+        /// <summary>
+        /// Gets a Inverted DataTable
+        /// </summary>
+        /// <param name="table">Provided DataTable</param>
+        /// <param name="columnX">X Axis Column</param>
+        /// <param name="columnY">Y Axis Column</param>
+        /// <param name="columnZ">Z Axis Column (values)</param>
+        /// <param name="columnsToIgnore">Whether to ignore some column, it must be 
+        /// provided here</param>
+        /// <param name="nullValue">null Values to be filled</param> 
+        /// <returns>C# Pivot Table Method  - Felipe Sabino</returns>
+        public DataTable GetInversedDataTable(DataTable table, string columnX,
+             string columnY, string columnZ, string nullValue, bool sumValues)
+        {
+            //Create a DataTable to Return
+            DataTable returnTable = new DataTable();
+
+            if (columnX == "")
+                columnX = table.Columns[0].ColumnName;
+
+            //Add a Column at the beginning of the table
+            returnTable.Columns.Add(columnY);
+
+
+            //Read all DISTINCT values from columnX Column in the provided DataTale
+            List<string> columnXValues = new List<string>();
+
+            foreach (DataRow dr in table.Rows)
+            {
+                string columnXTemp = dr[columnX].ToString();
+                if (!columnXValues.Contains(columnXTemp))
+                {
+                    //Read each row value, if it's different from others provided, add to 
+                    //the list of values and creates a new Column with its value.
+                    columnXValues.Add(columnXTemp);
+                    returnTable.Columns.Add(columnXTemp);
+                }
+            }
+
+            //Verify if Y and Z Axis columns re provided
+            if (columnY != "" && columnZ != "")
+            {
+                //Read DISTINCT Values for Y Axis Column
+                List<string> columnYValues = new List<string>();
+
+                foreach (DataRow dr in table.Rows)
+                {
+                    if (!columnYValues.Contains(dr[columnY].ToString()))
+                        columnYValues.Add(dr[columnY].ToString());
+                }
+
+                //Loop all Column Y Distinct Value
+                foreach (string columnYValue in columnYValues)
+                {
+                    //Creates a new Row
+                    DataRow drReturn = returnTable.NewRow();
+                    drReturn[0] = columnYValue;
+                    //foreach column Y value, The rows are selected distincted
+                    DataRow[] rows = table.Select(columnY + "='" + columnYValue + "'");
+
+                    //Read each row to fill the DataTable
+                    foreach (DataRow dr in rows)
+                    {
+                        string rowColumnTitle = dr[columnX].ToString();
+
+                        //Read each column to fill the DataTable
+                        foreach (DataColumn dc in returnTable.Columns)
+                        {
+                            if (dc.ColumnName == rowColumnTitle)
+                            {
+                                //If Sum of Values is True it try to perform a Sum
+                                //If sum is not possible due to value types, the value 
+                                // displayed is the last one read
+                                if (sumValues)
+                                {
+                                    try
+                                    {
+                                        drReturn[rowColumnTitle] =
+                                             Convert.ToDecimal(drReturn[rowColumnTitle]) +
+                                             Convert.ToDecimal(dr[columnZ]);
+                                    }
+                                    catch
+                                    {
+                                        drReturn[rowColumnTitle] = dr[columnZ];
+                                    }
+                                }
+                                else
+                                {
+                                    drReturn[rowColumnTitle] = dr[columnZ];
+                                }
+                            }
+                        }
+                    }
+                    returnTable.Rows.Add(drReturn);
+                }
+            }
+            else
+            {
+                throw new Exception("The columns to perform inversion are not provided");
+            }
+
+            //if a nullValue is provided, fill the datable with it
+            if (nullValue != "")
+            {
+                foreach (DataRow dr in returnTable.Rows)
+                {
+                    foreach (DataColumn dc in returnTable.Columns)
+                    {
+                        if (dr[dc.ColumnName].ToString() == "")
+                            dr[dc.ColumnName] = nullValue;
+                    }
+                }
+            }
+
+            return returnTable;
+        }
+
     }
 }

@@ -226,5 +226,30 @@ namespace RocketPOS.ViewModels
                 return cessReport;
             }
         }
+
+        public List<ModeofPaymentReportModel> GetModOfPaymentReport(string fromDate, string toDate)
+        {
+            List<ModeofPaymentReportModel> modeofPaymentReportModel = new List<ModeofPaymentReportModel>();
+            using (var db = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                string Query = string.Empty;
+
+                Query = "(select convert(varchar(10), BD.BillDate,103) as BillDate,PaymentMethodName,sum(BillAmount) As BillAmount from Bill B " +
+                                    " INNER JOIN BillDetail BD ON B.ID = BD.BillId " +
+                                    " Inner join PaymentMethod PM ON BD.PaymentMethodId = PM.ID " +
+                                    " Where B.IsDeleted = 0 AND " +
+                                    " convert(varchar(10), BD.BillDate, 103) between '" + fromDate + "' And '" + toDate + "' And B.BillStatus = 4 AND B.OutletId = " + LoginDetail.OutletId +
+                                    " Group by convert(varchar(10), BD.BillDate,103),PaymentMethodName )" +
+                                    "  union all" +
+                                    " (SELECT convert(varchar(10), B.BillDateTime,103) as BillDate, ' SALES' AS PaymentMethodName, SUM(TotalAmount) as Sales from Bill B " +
+                                    " Where B.IsDeleted = 0  and convert(varchar(10), B.BillDateTime, 103) between '" + fromDate + "' And '" + toDate + "' And B.BillStatus = 4 AND B.OutletId = " + LoginDetail.OutletId +
+                                    " group by convert(varchar(10), B.BillDateTime, 103))" +
+                                    " Order by convert(varchar(10), BD.BillDate, 103)";
+
+                modeofPaymentReportModel = db.Query<ModeofPaymentReportModel>(Query).ToList();
+
+                return modeofPaymentReportModel;
+            }
+        }
     }
 }
