@@ -12,134 +12,7 @@ namespace RocketPOS.Core.Constants
     public class TallyXML
     {
         GeneralClass clsGeneral = new GeneralClass();
-        public void xyz()
-        {
-
-
-
-            XmlWriter writer = XmlWriter.Create("d:\\1.xml");
-
-            writer.WriteStartDocument();
-            writer.WriteStartElement("People");
-
-            writer.WriteStartElement("Person");
-            writer.WriteAttributeString("Name", "Nick");
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Person");
-            writer.WriteStartAttribute("Name");
-            writer.WriteValue("Nick");
-            writer.WriteEndAttribute();
-            writer.WriteEndElement();
-
-            writer.WriteEndElement();
-            writer.WriteEndDocument();
-
-            writer.Flush();
-        }
-
-        public void call()
-        {
-            {
-                var clsSalesFields = new SalesFields();
-                clsSalesFields.VoucherType = "Sales";
-                clsSalesFields.VoucherUniqueID = "1";
-                clsSalesFields.VoucherNumber = "BillNo";
-                clsSalesFields.VoucherDate = DateTime.Now; 
-                clsSalesFields.PartyLedgerName = "Cash";
-                clsSalesFields.EffectiveDate = DateTime.Now;
-                clsSalesFields.IsInvoice = "No";
-                clsSalesFields.VoucherNarration = "THIS IS TEST CREATING FROM ROCKETPOS";
-              
-
-                var pcledgerParty = new ALLLedgerEntries();
-                pcledgerParty.LedgerName = "Cash";
-                pcledgerParty.IsDeemedPositive = "Yes";
-                pcledgerParty.LedgerFromItem = "No";
-                pcledgerParty.RemoveZeroEntries = "No";
-                pcledgerParty.IsPartyLedger = "Yes";
-                pcledgerParty.Amount = 13600 * -1;
-                clsSalesFields.SalesAllLedgerEntriesList.Add("Cash", pcledgerParty);
-
-                pcledgerParty = new ALLLedgerEntries();
-                pcledgerParty.LedgerName = "Parkland Exempted Sales";
-                pcledgerParty.IsDeemedPositive = "No";
-                pcledgerParty.LedgerFromItem = "No";
-                pcledgerParty.RemoveZeroEntries = "No";
-                pcledgerParty.IsPartyLedger = "No";
-                pcledgerParty.Amount =2000;
-                clsSalesFields.SalesAllLedgerEntriesList.Add("Parkland Exempted Sales", pcledgerParty);
-
-                pcledgerParty = new ALLLedgerEntries();
-                pcledgerParty.LedgerName = "Output VAT 16%";
-                pcledgerParty.IsDeemedPositive = "No";
-                pcledgerParty.LedgerFromItem = "No";
-                pcledgerParty.RemoveZeroEntries = "No";
-                pcledgerParty.IsPartyLedger = "No";
-                pcledgerParty.Amount = 1600;
-                clsSalesFields.SalesAllLedgerEntriesList.Add("Output VAT 16%", pcledgerParty);
-
-                pcledgerParty = new ALLLedgerEntries();
-                pcledgerParty.LedgerName = "Parkland Cash Sales";
-                pcledgerParty.IsDeemedPositive = "No";
-                pcledgerParty.LedgerFromItem = "No";
-                pcledgerParty.RemoveZeroEntries = "No";
-                pcledgerParty.IsPartyLedger = "No";
-                pcledgerParty.Amount = 10000;
-                clsSalesFields.SalesAllLedgerEntriesList.Add("Parkland Cash Sales", pcledgerParty);
-
-                //var pcBillalloc = new BillAllocation();
-                //pcBillalloc.Name = "AccountID";
-                //pcBillalloc.BillType = "New Ref";
-                //pcBillalloc.Amount = Val("Total") * -1;
-                //pcledgerParty.BillAllocationList.Add("PartyLedger", pcBillalloc);
-                //clsSalesFields.SalesAllLedgerEntriesList.Add("PartyLedger", pcledgerParty);
-
-                
-                    var SalesLedgerCount = new List<string>(new string[] { "Cash","Parkland Cash Sales", "Output VAT 16%", "Parkland Exempted Sales" });
-
-
-
-
-
-                var clsSalesVoucher = new SaleVoucher();
-                XmlDocument xmldoc = clsSalesVoucher.CreateSaleVoucherXML(clsSalesFields, SalesLedgerCount);
-                xmldoc.Save(@"d:\aa.xml");
-
-
-            //    XmlDocument pcReturnXmlDoc = clsGeneral.TR .TransferDataToTally(xmldoc);
-            //    XmlNode chlNode;
-            //    // if if data create
-            //    chlNode = pcReturnXmlDoc.SelectSingleNode("/RESPONSE/CREATED");
-            //    if (chlNode.InnerXml == "1")
-            //    {
-            //        "TallyPosted" = "CREATED";
-            //        chlNode = pcReturnXmlDoc.SelectSingleNode("/RESPONSE/LASTVCHID");
-            //        "TallyID" = chlNode.InnerXml;
-            //    }
-            //    // if if data alter
-            //    chlNode = pcReturnXmlDoc.SelectSingleNode("/RESPONSE/ALTERED");
-            //    if (chlNode.InnerXml == "1")
-            //    {
-            //        "TallyPosted" = "ALTERED";
-            //        chlNode = pcReturnXmlDoc.SelectSingleNode("/RESPONSE/LASTVCHID");
-            //        "TallyID" = chlNode.InnerXml;
-            //    }
-
-            //    // if erro found
-            //    chlNode = pcReturnXmlDoc.SelectSingleNode("/RESPONSE/LINEERROR");
-            //    if (Information.IsNothing(chlNode) == false)
-            //    {
-            //        "TallyError" = chlNode.InnerXml;
-            //        "TallyPosted" = "";
-            //    }
-
-            //    pcReturnXmlDoc.Save(@"c:\bb.xml");
-            //
-            }
-
-        }
-    }
+   }
 
     public class SaleVoucher
     {
@@ -279,7 +152,6 @@ namespace RocketPOS.Core.Constants
             return CreateSaleVoucherXMLRet;
         }
     }
-
 
     public class SalesFields
     {
@@ -1218,7 +1090,6 @@ namespace RocketPOS.Core.Constants
         }
     }
 
-
     public class GeneralClass
     {
         //public XmlDocument TransferDataToTally(XmlDocument xmlData)
@@ -1243,7 +1114,6 @@ namespace RocketPOS.Core.Constants
         //    TransferDataToTallyRet = retunXmlDoc;
         //    return TransferDataToTallyRet;
         //}
-
 
         public string ConvertDateToTallyFormat(DateTime dtDate)
         {
@@ -1280,5 +1150,4 @@ namespace RocketPOS.Core.Constants
             return ReplaceSQLTextRet;
         }
     }
-
 }

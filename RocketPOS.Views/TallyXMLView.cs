@@ -11,31 +11,6 @@ namespace RocketPOS.Views
     public class TallyXMLView
     {
         GeneralClass clsGeneral = new GeneralClass();
-        public void xyz()
-        {
-
-
-
-            XmlWriter writer = XmlWriter.Create("d:\\1.xml");
-
-            writer.WriteStartDocument();
-            writer.WriteStartElement("People");
-
-            writer.WriteStartElement("Person");
-            writer.WriteAttributeString("Name", "Nick");
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Person");
-            writer.WriteStartAttribute("Name");
-            writer.WriteValue("Nick");
-            writer.WriteEndAttribute();
-            writer.WriteEndElement();
-
-            writer.WriteEndElement();
-            writer.WriteEndDocument();
-
-            writer.Flush();
-        }
 
         public void GenerateSalesVoucher(string fromDate, string toDate, string path)
         {
@@ -48,7 +23,6 @@ namespace RocketPOS.Views
             tallySetupModel = tallyViewModel.GetTallySetup();
             tallySalesVoucherModels = tallyViewModel.GetSalesVoucherData(fromDate, toDate);
             int i = 1;
-
 
             foreach (var salesVoucher in tallySalesVoucherModels)
             {
@@ -106,7 +80,6 @@ namespace RocketPOS.Views
                 //pcledgerParty.BillAllocationList.Add("PartyLedger", pcBillalloc);
                 //clsSalesFields.SalesAllLedgerEntriesList.Add("PartyLedger", pcledgerParty);
 
-
                 var SalesLedgerCount = new List<string>(new string[] {
 
                 tallySetupModel.Find(x => x.Keyname.Contains("Cash")).LedgerName,
@@ -125,8 +98,6 @@ namespace RocketPOS.Views
                 xmldoc.Save(newpath);
                 i += 1;
             }
-
-           
         }
     }
 }

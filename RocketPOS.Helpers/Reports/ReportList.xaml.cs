@@ -242,9 +242,7 @@ namespace RocketPOS.Helpers.Reports
                 path = saveFileDialog.FileName;
 
                 tallyXMLView.GenerateSalesVoucher(dpFromDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat), path);
-           
             }
-
         }
     }
 }
