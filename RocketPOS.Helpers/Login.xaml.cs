@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Windows.Input;
 using RocketPOS.Views;
+using RocketPOS.Helpers.Kitchen;
 
 namespace RocketPOS.Helpers
 {
@@ -60,8 +61,12 @@ namespace RocketPOS.Helpers
                     loginViewModel.UpdateLoginLogout("login");
                     loginViewModel.LoginHistory(1);
 
-                    MainWindow mainWin = new MainWindow();
-                    mainWin.Show();
+                    //MainWindow mainWin = new MainWindow();
+                    //mainWin.Show();
+                    //this.Hide();
+
+                    KitchenView kitchenView = new KitchenView();
+                    kitchenView.Show();
                     this.Hide();
 
                     //if (loginModel[0].OutletRegisterStatus == 1)

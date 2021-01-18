@@ -1,0 +1,33 @@
+﻿<Window x:Class="RocketPOS.Helpers.Kitchen.KitchenView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RocketPOS.Helpers.Kitchen"
+        mc:Ignorable="d"
+        	Title="Kitchen View" 
+        ShowInTaskbar="True"  Topmost="true"  WindowStartupLocation="CenterOwner"  Background="#956eeb" 
+        Height="800" Width="1280">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <WrapPanel x:Name="wpKitchenView" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="1000" Height="700">
+                <!--<WrapPanel Width="150" Height="300" x:Name="x1" HorizontalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock Width="70" Text="X3" TextAlignment="Left"/>
+                    <TextBlock Width="80" Text="X2" TextAlignment="Right"/>
+                    <TextBlock Width="50" Text="X5"/>
+                    <WrapPanel Width="150" x:Name="Y1" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock Width="70" Text="Y3" TextAlignment="Left"/>
+                        <TextBlock Width="80" Text="y2" TextAlignment="Right"/>
+                        <TextBlock Width="50" Text="y5"/>
+                    </WrapPanel>
+                </WrapPanel>-->
+            </WrapPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
