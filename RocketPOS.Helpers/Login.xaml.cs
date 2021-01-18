@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Windows.Input;
 using RocketPOS.Views;
+using System.Xml;
 
 namespace RocketPOS.Helpers
 {
@@ -25,6 +26,7 @@ namespace RocketPOS.Helpers
             try
             {
                 InitializeComponent();
+
                 if (!Appcheck())
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Opps, Somthing went wrong.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
