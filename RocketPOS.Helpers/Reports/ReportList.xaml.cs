@@ -46,7 +46,7 @@ namespace RocketPOS.Helpers.Reports
             dpFromDatePayment.SelectedDate = thisMonthStart;
             dpToDatePayment.SelectedDate = today;
  
-            dpFromDateSales.SelectedDate = today;
+            dpFromDateSales.SelectedDate = thisMonthStart;
             dpToDateSales.SelectedDate = today;
         }
 

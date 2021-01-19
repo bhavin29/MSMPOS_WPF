@@ -5,6 +5,8 @@ using RocketPOS.Core.Constants;
 using System.Xml;
 using RocketPOS.Model;
 using RocketPOS.ViewModels;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace RocketPOS.Views
 {
@@ -18,7 +20,7 @@ namespace RocketPOS.Views
             List<TallySalesVoucherModel> tallySalesVoucherModels = new List<TallySalesVoucherModel>();
             TallyViewModel tallyViewModel = new TallyViewModel();
             XmlDocument xmldoc = new XmlDocument();
-            xmldoc.CreateElement("Root");
+            List<XmlDocument> xmldocVoucher = new List<XmlDocument>();
 
             tallySetupModel = tallyViewModel.GetTallySetup();
             tallySalesVoucherModels = tallyViewModel.GetSalesVoucherData(fromDate, toDate);
@@ -26,11 +28,10 @@ namespace RocketPOS.Views
 
             foreach (var salesVoucher in tallySalesVoucherModels)
             {
-
                 var clsSalesFields = new SalesFields();
                 clsSalesFields.VoucherType = "Sales";
                 clsSalesFields.VoucherUniqueID = salesVoucher.BillDate.Replace("/", "");
-                clsSalesFields.VoucherNumber = "BillNo";
+                clsSalesFields.VoucherNumber = tallySetupModel.Find(x => x.Keyname.Contains("BillPrefix")).LedgerName + salesVoucher.BillDate.Replace("/", "");
                 clsSalesFields.VoucherDate = Convert.ToDateTime(salesVoucher.BillDate);
                 clsSalesFields.PartyLedgerName = tallySetupModel.Find(x => x.Keyname.Contains("Cash")).LedgerName;
                 clsSalesFields.EffectiveDate = Convert.ToDateTime(salesVoucher.BillDate);
@@ -46,6 +47,15 @@ namespace RocketPOS.Views
                 pcledgerParty.Amount = Convert.ToDouble(salesVoucher.Cash) * -1;
                 clsSalesFields.SalesAllLedgerEntriesList.Add(tallySetupModel.Find(x => x.Keyname.Contains("Cash")).LedgerName, pcledgerParty);
 
+                pcledgerParty = new ALLLedgerEntries();
+                pcledgerParty.LedgerName = tallySetupModel.Find(x => x.Keyname.Contains("CashSales")).LedgerName;
+                pcledgerParty.IsDeemedPositive = "No";
+                pcledgerParty.LedgerFromItem = "No";
+                pcledgerParty.RemoveZeroEntries = "No";
+                pcledgerParty.IsPartyLedger = "No";
+                pcledgerParty.Amount = Convert.ToDouble(salesVoucher.CashSales);
+                clsSalesFields.SalesAllLedgerEntriesList.Add(tallySetupModel.Find(x => x.Keyname.Contains("CashSales")).LedgerName, pcledgerParty);
+                
                 pcledgerParty = new ALLLedgerEntries();
                 pcledgerParty.LedgerName = tallySetupModel.Find(x => x.Keyname.Contains("ExemptedSales")).LedgerName;
                 pcledgerParty.IsDeemedPositive = "No";
@@ -63,16 +73,7 @@ namespace RocketPOS.Views
                 pcledgerParty.IsPartyLedger = "No";
                 pcledgerParty.Amount = Convert.ToDouble(salesVoucher.OutputVAT);
                 clsSalesFields.SalesAllLedgerEntriesList.Add(tallySetupModel.Find(x => x.Keyname.Contains("OutputVAT")).LedgerName, pcledgerParty);
-
-                pcledgerParty = new ALLLedgerEntries();
-                pcledgerParty.LedgerName = tallySetupModel.Find(x => x.Keyname.Contains("CashSales")).LedgerName;
-                pcledgerParty.IsDeemedPositive = "No";
-                pcledgerParty.LedgerFromItem = "No";
-                pcledgerParty.RemoveZeroEntries = "No";
-                pcledgerParty.IsPartyLedger = "No";
-                pcledgerParty.Amount = Convert.ToDouble(salesVoucher.CashSales);
-                clsSalesFields.SalesAllLedgerEntriesList.Add(tallySetupModel.Find(x => x.Keyname.Contains("CashSales")).LedgerName, pcledgerParty);
-
+ 
                 //var pcBillalloc = new BillAllocation();
                 //pcBillalloc.Name = "AccountID";
                 //pcBillalloc.BillType = "New Ref";
@@ -83,20 +84,26 @@ namespace RocketPOS.Views
                 var SalesLedgerCount = new List<string>(new string[] {
 
                 tallySetupModel.Find(x => x.Keyname.Contains("Cash")).LedgerName,
+                tallySetupModel.Find(x => x.Keyname.Contains("CashSales")).LedgerName,
                 tallySetupModel.Find(x => x.Keyname.Contains("ExemptedSales")).LedgerName,
-                tallySetupModel.Find(x => x.Keyname.Contains("OutputVAT ")).LedgerName,
-                tallySetupModel.Find(x => x.Keyname.Contains("CashSales")).LedgerName
+                tallySetupModel.Find(x => x.Keyname.Contains("OutputVAT ")).LedgerName
                  });
 
                 var clsSalesVoucher = new SaleVoucher();
-                xmldoc = clsSalesVoucher.CreateSaleVoucherXML(clsSalesFields, SalesLedgerCount);
+                xmldocVoucher.Add(clsSalesVoucher.CreateSaleVoucherXML(clsSalesFields, SalesLedgerCount, tallySetupModel.Find(x => x.Keyname.Contains("CompanyName")).LedgerName));
 
-                string newpath;
-                newpath = path;
-                newpath = newpath.Replace(".XML", i.ToString() + ".XML");
-
-                xmldoc.Save(newpath);
                 i += 1;
+            }
+            SerializeToXml(xmldocVoucher, path);
+        }
+
+        public static void SerializeToXml<T>(T anyobject, string xmlFilePath)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(anyobject.GetType());
+
+            using (StreamWriter writer = new StreamWriter(xmlFilePath))
+            {
+                xmlSerializer.Serialize(writer, anyobject);
             }
         }
     }

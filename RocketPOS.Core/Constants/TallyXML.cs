@@ -17,7 +17,7 @@ namespace RocketPOS.Core.Constants
     public class SaleVoucher
     {
         GeneralClass clsGeneral = new GeneralClass();
-        public XmlDocument CreateSaleVoucherXML(SalesFields SalesFieldData, List<string> SalesLedgerCount)
+        public XmlDocument CreateSaleVoucherXML(SalesFields SalesFieldData, List<string> SalesLedgerCount, string CompanyName)
         {
             XmlDocument CreateSaleVoucherXMLRet = default;
             XmlAttribute xmlAttr;
@@ -41,9 +41,15 @@ namespace RocketPOS.Core.Constants
             xmlRequestDesc.AppendChild(xmlReportName);
             var xmlStaticVariables = xmldoc.CreateElement("STATICVARIABLES");
             xmlRequestDesc.AppendChild(xmlStaticVariables);
+ 
             var xmlSvExportFormat = xmldoc.CreateElement("SVEXPORTFORMAT");
             xmlSvExportFormat.InnerText = "$$Sysname:XML";
             xmlStaticVariables.AppendChild(xmlSvExportFormat);
+            var xmlSvCurrentCompany = xmldoc.CreateElement("SVCURRENTCOMPANY");
+            xmlSvCurrentCompany.InnerText = CompanyName;
+            xmlStaticVariables.AppendChild(xmlSvCurrentCompany);
+
+
             var xmlRequestData = xmldoc.CreateElement("REQUESTDATA");
             xmlImportData.AppendChild(xmlRequestData);
             ndTallyMsg = xmldoc.CreateElement("TALLYMESSAGE");
