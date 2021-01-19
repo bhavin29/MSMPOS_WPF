@@ -28,33 +28,34 @@ namespace RocketPOS.Views
 
             foreach (var salesVoucher in tallySalesVoucherModels)
             {
+
                 var clsSalesFields = new SalesFields();
                 clsSalesFields.VoucherType = "Sales";
                 clsSalesFields.VoucherUniqueID = salesVoucher.BillDate.Replace("/", "");
-                clsSalesFields.VoucherNumber = tallySetupModel.Find(x => x.Keyname.Contains("BillPrefix")).LedgerName + salesVoucher.BillDate.Replace("/", "");
+                clsSalesFields.VoucherNumber = tallySetupModel.Find(x => x.Keyname.Contains("BillPrefix")).LedgerName + salesVoucher.BillDate.Replace("/", "") + salesVoucher.TallyBillPostfix;
                 clsSalesFields.VoucherDate = Convert.ToDateTime(salesVoucher.BillDate);
-                clsSalesFields.PartyLedgerName = tallySetupModel.Find(x => x.Keyname.Contains("Cash")).LedgerName;
+                clsSalesFields.PartyLedgerName = salesVoucher.TallyLedgerName;
                 clsSalesFields.EffectiveDate = Convert.ToDateTime(salesVoucher.BillDate);
                 clsSalesFields.IsInvoice = "No";
                 clsSalesFields.VoucherNarration = "";
 
                 var pcledgerParty = new ALLLedgerEntries();
-                pcledgerParty.LedgerName = tallySetupModel.Find(x => x.Keyname.Contains("Cash")).LedgerName;
+                pcledgerParty.LedgerName = salesVoucher.TallyLedgerName;
                 pcledgerParty.IsDeemedPositive = "Yes";
                 pcledgerParty.LedgerFromItem = "No";
                 pcledgerParty.RemoveZeroEntries = "No";
                 pcledgerParty.IsPartyLedger = "Yes";
-                pcledgerParty.Amount = Convert.ToDouble(salesVoucher.Cash) * -1;
-                clsSalesFields.SalesAllLedgerEntriesList.Add(tallySetupModel.Find(x => x.Keyname.Contains("Cash")).LedgerName, pcledgerParty);
+                pcledgerParty.Amount = Convert.ToDouble(salesVoucher.Sales) * -1;
+                clsSalesFields.SalesAllLedgerEntriesList.Add(salesVoucher.TallyLedgerName, pcledgerParty);
 
                 pcledgerParty = new ALLLedgerEntries();
-                pcledgerParty.LedgerName = tallySetupModel.Find(x => x.Keyname.Contains("CashSales")).LedgerName;
+                pcledgerParty.LedgerName = salesVoucher.TallyLedgerNamePark; ;
                 pcledgerParty.IsDeemedPositive = "No";
                 pcledgerParty.LedgerFromItem = "No";
                 pcledgerParty.RemoveZeroEntries = "No";
                 pcledgerParty.IsPartyLedger = "No";
                 pcledgerParty.Amount = Convert.ToDouble(salesVoucher.CashSales);
-                clsSalesFields.SalesAllLedgerEntriesList.Add(tallySetupModel.Find(x => x.Keyname.Contains("CashSales")).LedgerName, pcledgerParty);
+                clsSalesFields.SalesAllLedgerEntriesList.Add(salesVoucher.TallyLedgerNamePark, pcledgerParty);
                 
                 pcledgerParty = new ALLLedgerEntries();
                 pcledgerParty.LedgerName = tallySetupModel.Find(x => x.Keyname.Contains("ExemptedSales")).LedgerName;
@@ -83,8 +84,8 @@ namespace RocketPOS.Views
 
                 var SalesLedgerCount = new List<string>(new string[] {
 
-                tallySetupModel.Find(x => x.Keyname.Contains("Cash")).LedgerName,
-                tallySetupModel.Find(x => x.Keyname.Contains("CashSales")).LedgerName,
+                salesVoucher.TallyLedgerName,
+                salesVoucher.TallyLedgerNamePark,
                 tallySetupModel.Find(x => x.Keyname.Contains("ExemptedSales")).LedgerName,
                 tallySetupModel.Find(x => x.Keyname.Contains("OutputVAT ")).LedgerName
                  });

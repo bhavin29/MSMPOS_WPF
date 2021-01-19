@@ -13,7 +13,12 @@ namespace RocketPOS.Model
     public class TallySalesVoucherModel
     {
         public string BillDate { get; set; }
-        public decimal Cash { get; set; }
+        public string TallyLedgerName { get; set; }
+        public string TallyLedgerNamePark { get; set; }
+        
+        public string TallyBillPostfix { get; set; }
+
+        public decimal Sales { get; set; }
         public decimal ExemptedSales { get; set; }
         public decimal OutputVAT { get; set; }
         public decimal CashSales { get; set; }
