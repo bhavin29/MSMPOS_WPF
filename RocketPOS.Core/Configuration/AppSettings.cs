@@ -22,5 +22,9 @@ namespace RocketPOS.Core.Configuration
         {
             return ConfigurationSettings.AppSettings["WebAppUri"];
         }
+        public string GetKotTimerLimit()
+        {
+            return ConfigurationSettings.AppSettings["KotTimerLimit"];
+        }
     }
 }

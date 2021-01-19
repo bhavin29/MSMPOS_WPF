@@ -11,6 +11,7 @@ namespace RocketPOS.Model
     public class KOTStatusList
     {
         public int OrderId { get; set; }
+        public string CustomerOrderNo { get; set; }
         public int TableId { get; set; }
         public string TableName { get; set; }
         public string KOTNumber { get; set; }
@@ -27,6 +28,7 @@ namespace RocketPOS.Model
     public class KitchenStatusDetail
     {
         public int OrderId { get; set; }
+        public string CustomerOrderNo { get; set; }
         public int TableId { get; set; }
         public string TableName { get; set; }
         public string KOTNumber { get; set; }
