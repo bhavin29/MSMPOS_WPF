@@ -45,6 +45,9 @@ namespace RocketPOS.Helpers.Reports
 
             dpFromDatePayment.SelectedDate = thisMonthStart;
             dpToDatePayment.SelectedDate = today;
+ 
+            dpFromDateSales.SelectedDate = thisMonthStart;
+            dpToDateSales.SelectedDate = today;
         }
 
         private void btnDetailedDailyReport_Click(object sender, RoutedEventArgs e)
@@ -215,6 +218,31 @@ namespace RocketPOS.Helpers.Reports
                 SystemError.Register(ex);
             }
 
+        }
+
+        private void btnSalesVoucherExport_Click(object sender, RoutedEventArgs e)
+        {
+            CommonMethods commonMethods = new CommonMethods();
+            string path = string.Empty, firstLine = string.Empty;
+
+            TallyXMLView tallyXMLView = new TallyXMLView();
+
+            List<ModeofPaymentReportModel> modeofPaymentReportModel = new List<ModeofPaymentReportModel>();
+
+            string fileName = LoginDetail.OutletName.Trim().ToString() + "_TallySalesVoucher_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
+            var saveFileDialog = new SaveFileDialog
+            {
+                FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
+                DefaultExt = ".XML",
+                Filter = "Common Seprated Documents (.XML)|*.XML"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                path = saveFileDialog.FileName;
+
+                tallyXMLView.GenerateSalesVoucher(dpFromDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat), path);
+            }
         }
     }
 }

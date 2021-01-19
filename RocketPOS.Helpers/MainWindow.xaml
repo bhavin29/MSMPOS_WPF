@@ -392,7 +392,7 @@
                                     <TextBlock x:Name="txtQtyPopUpProductName" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Text="" Margin="15,0,0,0"   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
                                     <TextBlock x:Name="txtChnageQty"   FontSize="18" FontWeight="Bold" Foreground="White" Text="1" Margin="15,0,0,0" Grid.Row="2" Grid.Column="0"/>
 
-                                    <Label x:Name="lblPPQtyPrice" Content="Chnage Qty : " FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Margin="15,0,0,0" Height="40" Width="120" Grid.Row="4" Grid.Column="0" />
+                                    <Label x:Name="lblPPQtyPrice" Content="Change Qty : " FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Margin="15,0,0,0" Height="40" Width="120" Grid.Row="4" Grid.Column="0" />
                                     <TextBox x:Name="txtEditQty"  HorizontalAlignment="Left" Text="1" FontSize="18" FontWeight="Bold"  Height="40" Width="100" Grid.Row="4" Grid.Column="1"/>
                                     <Button x:Name="btnQtyPricePopUpAddToCart" HorizontalAlignment="Right" Content="Save" Margin="5,5,5,5" Grid.Row="6" Grid.Column="1" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Click="btnQtyPricePopUpAddToCart_Click"/>
                                 </Grid>

@@ -595,7 +595,7 @@ namespace RocketPOS.Core.Constants
                     foreach (String col in columns)
                     {
                         Cell cell = new Cell();
-                        if (col == " SALES" || col == "CASH" || col == "PAISA-I" || col == "CREDIT CARD" || col == "DEBIT CARD" || col == "CHQEUE")
+                        if (col == " SALES" || col == "CASH" || col == "M-PESA" || col == "CREDIT CARD" || col == "DEBIT CARD" || col == "CHQEUE")
                         {
                             cell.DataType = CellValues.Number;
                             cell.StyleIndex = 3;
