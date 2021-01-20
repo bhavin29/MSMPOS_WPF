@@ -1446,8 +1446,8 @@ namespace RocketPOS.Helpers
                     return;
                 }
                 ClearCustomerOrderItemControll();
-                txtbKitchenStatus.Visibility = Visibility.Visible;
-                txtbKitchenStatusTitle.Visibility = Visibility.Visible;
+                //txtbKitchenStatus.Visibility = Visibility.Visible;
+                //txtbKitchenStatusTitle.Visibility = Visibility.Visible;
                 var st = (CustomerOrderModel)lbCustomerOrderList.SelectedItem;
 
                 CustomerOrderModel customerOrderModel = new CustomerOrderModel();
@@ -2879,8 +2879,8 @@ namespace RocketPOS.Helpers
                 //}
 
                 ClearCustomerOrderItemControll();
-                txtbKitchenStatus.Visibility = Visibility.Visible;
-                txtbKitchenStatusTitle.Visibility = Visibility.Visible;
+                //txtbKitchenStatus.Visibility = Visibility.Visible;
+                //txtbKitchenStatusTitle.Visibility = Visibility.Visible;
                 //var st = (CustomerOrderModel)lbCustomerOrderList.SelectedItem;
                 if (TableStatus == 1)
                 {
@@ -2923,15 +2923,15 @@ namespace RocketPOS.Helpers
                     }
                     if (customerOrderModel.KotStatus == 1)
                     {
-                        txtbKitchenStatus.Text = "Pending";
+                        //txtbKitchenStatus.Text = "Pending";
                     }
                     else if (customerOrderModel.KotStatus == 2)
                     {
-                        txtbKitchenStatus.Text = "Cooking";
+                        //txtbKitchenStatus.Text = "Cooking";
                     }
                     else
                     {
-                        txtbKitchenStatus.Text = "Completed";
+                        //txtbKitchenStatus.Text = "Completed";
                     }
 
                     if (customerOrderModel.OrderType == 1)

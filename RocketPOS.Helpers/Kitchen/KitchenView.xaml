@@ -1,0 +1,26 @@
+﻿<Window x:Class="RocketPOS.Helpers.Kitchen.KitchenView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RocketPOS.Helpers.Kitchen"
+        mc:Ignorable="d"
+        	Title="Kitchen View" 
+        ShowInTaskbar="True"  Topmost="true"  WindowStartupLocation="CenterOwner"  Background="#956eeb" 
+        Height="800" Width="1280">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="btnRefreshAll" Style="{StaticResource btnOrange}" Grid.Row="0" Grid.Column="0" Content="Refresh" Width="100" Height="50" HorizontalAlignment="Left" Click="btnRefreshAll_Click"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.Column="0">
+            <WrapPanel x:Name="wpKitchenView"  Orientation="Horizontal" Width="1000" Height="700">
+
+            </WrapPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

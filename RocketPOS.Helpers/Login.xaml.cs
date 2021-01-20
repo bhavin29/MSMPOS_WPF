@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows.Input;
 using RocketPOS.Views;
 using System.Xml;
+using RocketPOS.Helpers.Kitchen;
 
 namespace RocketPOS.Helpers
 {
@@ -65,6 +66,13 @@ namespace RocketPOS.Helpers
                     MainWindow mainWin = new MainWindow();
                     mainWin.Show();
                     this.Hide();
+
+                    //Kitchen View
+                    /*
+                    KitchenView kitchenView = new KitchenView();
+                    kitchenView.Show();
+                    this.Hide();
+                    */
 
                     //if (loginModel[0].OutletRegisterStatus == 1)
                     //{
