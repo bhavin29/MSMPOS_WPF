@@ -18,10 +18,11 @@ namespace RocketPOS.ViewModels
 
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
             {
-                foodMenus = db.Query<FoodMenu>("SELECT FMC.Id,FM.Id AS FoodMenuId,FMC.IsFavourite, FMC.FoodMenuCategoryName As FoodCategory,FM.FoodCategoryId,FM.FoodMenuName As SmallName,FM.FoodMenuCode,FM.SmallThumb,FM.SalesPrice,ISNULL(FM.FoodVat,0) AS FoodVat ,ISNULL(FM.Foodcess,0) AS Foodcess,ISNULL(FM.IsPriceChange,0) AS IsPriceChange,ISNULL(T.TaxPercentage,0) As TaxPercentage,Case When ISNULL(T.TaxPercentage,0)>0 Then 1 Else 0 End AS IsVatable FROM [dbo].[FoodMenuCategory] FMC " +
-                                                "Inner Join[dbo].[FoodMenu] FM " +
-                                                "ON FMC.Id = FM.FoodCategoryId Left Join Tax T On T.Id=FM.FoodVatTaxId Where (',' + FM.OutletId + ',') LIKE '%," + outLetId + 
-                                                ",%' And FM.IsActive=1 And FMC.IsActive=1 AND FMC.ISDeleted=0 AND FM.ISDeleted=0 order by FMC.position,FM.position").ToList();
+                foodMenus = db.Query<FoodMenu>("SELECT FMC.Id,FM.Id AS FoodMenuId,FMC.IsFavourite, FMC.FoodMenuCategoryName As FoodCategory,FM.FoodCategoryId,FM.FoodMenuName As SmallName,FM.FoodMenuCode,FM.SmallThumb,FMR.SalesPrice,ISNULL(FMR.FoodVat,0) AS FoodVat ,ISNULL(FMR.Foodcess,0) AS Foodcess,ISNULL(FM.IsPriceChange,0) AS IsPriceChange,ISNULL(T.TaxPercentage,0) As TaxPercentage,Case When ISNULL(T.TaxPercentage,0)>0 Then 1 Else 0 End AS IsVatable FROM [dbo].[FoodMenuCategory] FMC " +
+                                                " Inner Join[dbo].[FoodMenu] FM ON FMC.Id = FM.FoodCategoryId " +
+                                                " INNER JOIN  FoodMenuRate FMR ON FM.Id = FMR.FoodMenuId " +
+                                                " Left Join Tax T On T.Id=FMR.FoodVatTaxId Where FMR.OutletId =" + outLetId + 
+                                                " And FMR.IsActive=1 And FMC.IsActive=1 AND FMC.ISDeleted=0 AND FM.ISDeleted=0 order by FMC.position,FM.position").ToList();
 
                 foodMenuModel.FoodList = foodMenus.GroupBy(menuCat => new { menuCat.Id, menuCat.FoodCategory, menuCat.IsFavourite }, (menuCategory, mainElements) => new FoodList
                 {
@@ -51,9 +52,10 @@ namespace RocketPOS.ViewModels
             List<FoodMenu> foodMenus = new List<FoodMenu>();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
             {
-                var query = "SELECT FMC.Id,FM.Id AS FoodMenuId,FMC.IsFavourite, FMC.FoodMenuCategoryName As FoodCategory,FM.FoodCategoryId,FM.FoodMenuName As SmallName,FM.FoodMenuCode,FM.SmallThumb,FM.SalesPrice,ISNULL(FM.FoodVat,0) AS FoodVat ,ISNULL(FM.Foodcess,0) AS Foodcess,ISNULL(FM.FoodVat,0) AS FoodVat ,ISNULL(FM.Foodcess,0) AS Foodcess,ISNULL(FM.IsPriceChange,0) AS IsPriceChange,ISNULL(T.TaxPercentage,0) As TaxPercentage,Case When ISNULL(T.TaxPercentage,0)>0 Then 1 Else 0 End AS IsVatable FROM [dbo].[FoodMenuCategory] FMC " +
-                                                                 "Inner Join[dbo].[FoodMenu] FM " +
-                                                                 "ON FMC.Id = FM.FoodCategoryId  Left Join Tax T On T.Id=FM.FoodVatTaxId  Where (',' + FM.OutletId + ',') LIKE '%," + outLetId + ",%' And FM.IsActive=1 And FMC.IsActive=1";
+                var query = "SELECT FMC.Id,FM.Id AS FoodMenuId,FMC.IsFavourite, FMC.FoodMenuCategoryName As FoodCategory,FM.FoodCategoryId,FM.FoodMenuName As SmallName,FM.FoodMenuCode,FM.SmallThumb,FMR.SalesPrice,ISNULL(FMR.FoodVat,0) AS FoodVat ,ISNULL(FMR.Foodcess,0) AS Foodcess,ISNULL(FMR.FoodVat,0) AS FoodVat ,ISNULL(FMR.Foodcess,0) AS Foodcess,ISNULL(FM.IsPriceChange,0) AS IsPriceChange,ISNULL(T.TaxPercentage,0) As TaxPercentage,Case When ISNULL(T.TaxPercentage,0)>0 Then 1 Else 0 End AS IsVatable FROM [dbo].[FoodMenuCategory] FMC " +
+                                                                 " Inner Join[dbo].[FoodMenu] FM " +
+                                                                 " INNER JOIN  FoodMenuRate FMR ON FM.Id = FMR.FoodMenuId " +
+                                                                 "ON FMC.Id = FM.FoodCategoryId  Left Join Tax T On T.Id=FMR.FoodVatTaxId  Where FMR.OutletId=" + outLetId + " And FMR.IsActive=1 And FMC.IsActive=1";
 
                 if (!string.IsNullOrEmpty(searchKey))
                 {
