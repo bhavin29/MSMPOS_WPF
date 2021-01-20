@@ -28,6 +28,7 @@ using System.Windows.Controls.Primitives;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Navigation;
+using RocketPOS.Helpers.Kitchen;
 
 namespace RocketPOS.Helpers
 {
@@ -2977,6 +2978,12 @@ namespace RocketPOS.Helpers
 
             }
 
+        }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            KitchenView kitchenView = new KitchenView();
+            kitchenView.Show();
         }
     }
 }

@@ -104,9 +104,13 @@ namespace RocketPOS.ViewModels
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
                 var query = "SELECT CO.Id,CO.CustomerOrderNo,CO.OutletId,CO.SalesInvoiceNumber,CO.CustomerId,CO.WaiterEmployeeId,CO.OrderType,CO.TableId,CO.AllocatedPerson,CO.GrossAmount,CO.DiscountPercentage,CO.DiscountAmount,CO.DeliveryCharges,CO.VatableAmount,CO.NonVatableAmount,CO.TaxAmount,CO.TotalPayable,CO.CustomerNote,CO.OrderStatus, " +
-                            " COI.Id AS CustomerOrderItemId,COI.FoodMenuId,COI.FoodMenuRate,COI.FoodMenuQty,COI.AddonsId,COI.AddonsQty,COI.VarientId,COI.Discount,COI.Price,FM.FoodCategoryId,FM.FoodMenuName,FM.FoodMenuCode,FM.ColourCode,FM.SmallThumb,FM.SalesPrice,ISNULL(FM.FoodVat,0) AS FoodVat,ISNULL(FM.Foodcess,0) AS Foodcess,FM.Notes,T.TableName,ISNULL(Ta.TaxPercentage,0) As TaxPercentage,Case When ISNULL(Ta.TaxPercentage,0)>0 Then 1 Else 0 End AS IsVatable " +
-                            " FROM dbo.CustomerOrder CO  INNER JOIN dbo.CustomerOrderItem COI  ON CO.Id = COI.CustomerOrderId " +
-                            " INNER JOIN dbo.FoodMenu FM  ON FM.Id = COI.FoodMenuId LEFT JOIN dbo.[Tables] T On T.Id=CO.TableId LEFT JOIN Tax Ta On Ta.Id=FM.FoodVatTaxId WHERE CO.Id = " + id;
+                          " COI.Id AS CustomerOrderItemId,COI.FoodMenuId,COI.FoodMenuRate,COI.FoodMenuQty,COI.AddonsId,COI.AddonsQty,COI.VarientId,COI.Discount,COI.Price,FM.FoodCategoryId,FM.FoodMenuName,FM.FoodMenuCode,FM.ColourCode,FM.SmallThumb,FMR.SalesPrice,ISNULL(FMR.FoodVat,0) AS FoodVat,ISNULL(FMR.Foodcess,0) AS Foodcess,FM.Notes,COKOT.KOTStatus,T.TableName,ISNULL(Ta.TaxPercentage,0) As TaxPercentage,Case When ISNULL(Ta.TaxPercentage,0)>0 Then 1 Else 0 End AS IsVatable " +
+                          " FROM dbo.CustomerOrder CO  INNER JOIN dbo.CustomerOrderItem COI  ON CO.Id = COI.CustomerOrderId " +
+                          " INNER JOIN dbo.CustomerOrderKOT COKOT  ON CO.Id = COKOT.CustomerOrderId " +
+                          " INNER JOIN dbo.FoodMenu FM  ON FM.Id = COI.FoodMenuId " +
+                          " INNER JOIN  FoodMenuRate FMR ON FM.Id = FMR.FoodMenuId " +
+                          " LEFT JOIN dbo.[Tables] T On T.Id=CO.TableId LEFT JOIN Tax Ta On Ta.Id=FMR.FoodVatTaxId WHERE CO.Id = " + id;
+
                 orderDetailModel = connection.Query<OrderDetailModel>(query).ToList();
 
                 customerOrderModel = (from order in orderDetailModel select order).FirstOrDefault();
