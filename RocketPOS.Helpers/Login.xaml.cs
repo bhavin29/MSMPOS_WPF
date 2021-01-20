@@ -63,13 +63,16 @@ namespace RocketPOS.Helpers
                     loginViewModel.UpdateLoginLogout("login");
                     loginViewModel.LoginHistory(1);
 
-                    //MainWindow mainWin = new MainWindow();
-                    //mainWin.Show();
-                    //this.Hide();
+                    MainWindow mainWin = new MainWindow();
+                    mainWin.Show();
+                    this.Hide();
 
+                    //Kitchen View
+                    /*
                     KitchenView kitchenView = new KitchenView();
                     kitchenView.Show();
                     this.Hide();
+                    */
 
                     //if (loginModel[0].OutletRegisterStatus == 1)
                     //{

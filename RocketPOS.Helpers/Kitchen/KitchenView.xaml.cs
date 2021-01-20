@@ -30,7 +30,6 @@ namespace RocketPOS.Helpers.Kitchen
             TimerForKOTStatus();
             GetKitchenPending();
         }
-
         private void GetKitchenPending()
         {
             KitchenViewModel kitchenViewModel = new KitchenViewModel();
@@ -40,10 +39,19 @@ namespace RocketPOS.Helpers.Kitchen
             try
             {
                 wpKitchenView.Children.Clear();
+                
+
                 if (kitchenModel.kotStatusList.Count > 0)
                 {
                     foreach (var kot in kitchenModel.kotStatusList)
                     {
+                        WrapPanel wpKOT = new WrapPanel();
+                        wpKOT.Orientation = Orientation.Vertical;
+                        wpKOT.VerticalAlignment = VerticalAlignment.Top;
+                        wpKOT.Width = 150;
+                        wpKOT.Height = 300;
+                        wpKOT.Margin = new Thickness(5);
+
                         SolidColorBrush solidColorBrush = new SolidColorBrush();
                         solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#dce309"));
 
@@ -171,9 +179,9 @@ namespace RocketPOS.Helpers.Kitchen
                         ToggleButton btnSelectAll = new ToggleButton();
                         btnSelectAll.Content = "Select All";
                         btnSelectAll.Name = "btnSelectAll";
-                        btnSelectAll.FontSize = 15;
+                        btnSelectAll.FontSize = 10;
                         btnSelectAll.FontWeight = FontWeights.Bold;
-                        btnSelectAll.Width = 100;
+                        btnSelectAll.Width = 70;
                         btnSelectAll.Height = 30;
                         btnSelectAll.BorderThickness = new Thickness(1);
                         btnSelectAll.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
@@ -189,7 +197,7 @@ namespace RocketPOS.Helpers.Kitchen
                         btnCooking.Name = "btn" + kot.KOTId.ToString();
                         btnCooking.FontSize = 10;
                         btnCooking.FontWeight = FontWeights.Bold;
-                        btnCooking.Width = 30;
+                        btnCooking.Width = 25;
                         btnCooking.Height = 30;
                         btnCooking.BorderThickness = new Thickness(1);
                         btnCooking.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
@@ -205,7 +213,7 @@ namespace RocketPOS.Helpers.Kitchen
                         btnPending.Name = "btn" + kot.KOTId.ToString();
                         btnPending.FontSize = 10;
                         btnPending.FontWeight = FontWeights.Bold;
-                        btnPending.Width = 30;
+                        btnPending.Width = 25;
                         btnPending.Height = 30;
                         btnPending.BorderThickness = new Thickness(1);
                         btnPending.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
@@ -221,7 +229,7 @@ namespace RocketPOS.Helpers.Kitchen
                         btnCompleted.Name = "btn" + kot.KOTId.ToString();
                         btnCompleted.FontSize = 10;
                         btnCompleted.FontWeight = FontWeights.Bold;
-                        btnCompleted.Width = 30;
+                        btnCompleted.Width = 25;
                         btnCompleted.Height = 30;
                         btnCompleted.BorderThickness = new Thickness(1);
                         btnCompleted.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
@@ -231,10 +239,10 @@ namespace RocketPOS.Helpers.Kitchen
                         btnCompleted.Click += ChangeKOTAllItemStatus;
                         kotButtonPanel.Children.Add(btnCompleted);
 
-                        kotHeaderPanel.Children.Add(kotButtonPanel);
-
-                        wpKitchenView.Children.Add(kotHeaderPanel);
-
+                        wpKOT.Children.Clear();
+                        wpKOT.Children.Add(kotHeaderPanel);
+                        wpKOT.Children.Add(kotButtonPanel);
+                        wpKitchenView.Children.Add(wpKOT);
                     }
                 }
             }

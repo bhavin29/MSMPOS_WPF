@@ -19,16 +19,7 @@
         <Button x:Name="btnRefreshAll" Style="{StaticResource btnOrange}" Grid.Row="0" Grid.Column="0" Content="Refresh" Width="100" Height="50" HorizontalAlignment="Left" Click="btnRefreshAll_Click"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.Column="0">
             <WrapPanel x:Name="wpKitchenView"  Orientation="Horizontal" Width="1000" Height="700">
-                <!--<WrapPanel Width="150" Height="300" x:Name="x1" HorizontalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Width="70" Text="X3" TextAlignment="Left"/>
-                    <TextBlock Width="80" Text="X2" TextAlignment="Right"/>
-                    <TextBlock Width="50" Text="X5"/>
-                    <WrapPanel Width="150" x:Name="Y1" HorizontalAlignment="Center" Orientation="Horizontal">
-                        <TextBlock Width="70" Text="Y3" TextAlignment="Left"/>
-                        <TextBlock Width="80" Text="y2" TextAlignment="Right"/>
-                        <TextBlock Width="50" Text="y5"/>
-                    </WrapPanel>
-                </WrapPanel>-->
+
             </WrapPanel>
         </ScrollViewer>
     </Grid>
