@@ -22,12 +22,15 @@ namespace RocketPOS.ViewModels
 
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
             {
-                kitchenStatusDetail = db.Query<KitchenStatusDetail>("Select CO.Id AS OrderId,Co.CustomerOrderNo, CO.TableId, T.TableName, COKot.KOTNumber, COKot.Id AS KOTId, COKotItem.Id AS KOTItemId, FM.FoodMenuName, COKotItem.FoodMenuQty, " +
-                                                        "Case When COKotItem.KOTStatus = 1 Then 'Pending' When COKotItem.KOTStatus = 2 Then 'Cooking' When COKotItem.KOTStatus = 3 Then 'Completed' Else 'None' End As KOTStatus From CustomerOrder CO " +
-                                                        "Inner Join CustomerOrderKOT COKot On COKot.CustomerOrderId = CO.Id " +
-                                                        "Inner Join CustomerOrderKOTItem COKotItem On COKotItem.CustomerOrderKOTId = COKot.Id " +
-                                                        "Inner Join FoodMenu FM On FM.Id = COKotItem.FoodMenuId " +
-                                                        "Left Join[Tables] T On T.Id = CO.TableId Where COKot.KOTStatus = 1 And CO.OutletId = " + LoginDetail.OutletId).ToList();
+                var query = "Select CO.Id AS OrderId,Co.CustomerOrderNo, CO.TableId, T.TableName, COKot.KOTNumber, COKot.Id AS KOTId, COKotItem.Id AS KOTItemId, FM.FoodMenuName, COKotItem.FoodMenuQty, " +
+                           " Case When COKotItem.KOTStatus = 1 Then 'Pending' When COKotItem.KOTStatus = 2 Then 'Cooking' When COKotItem.KOTStatus = 3 Then 'Completed' Else 'None' End As KOTStatus " + 
+                           " From CustomerOrder CO " +
+                           " Inner Join CustomerOrderKOT COKot On COKot.CustomerOrderId = CO.Id " +
+                           " Inner Join CustomerOrderKOTItem COKotItem On COKotItem.CustomerOrderKOTId = COKot.Id " +
+                           " Inner Join FoodMenu FM On FM.Id = COKotItem.FoodMenuId " +
+                           " Left Join[Tables] T On T.Id = CO.TableId Where COKot.KOTStatus = 1 AND CO.OrderStatus=1 And CO.OutletId = " + LoginDetail.OutletId;
+
+                kitchenStatusDetail = db.Query<KitchenStatusDetail>(query).ToList();
 
                 kitchenModel.kotStatusList = kitchenStatusDetail.GroupBy(kot => new { kot.OrderId, kot.CustomerOrderNo, kot.TableId, kot.TableName, kot.KOTNumber, kot.KOTId }, (kots, mainElements) => new KOTStatusList
                 {
