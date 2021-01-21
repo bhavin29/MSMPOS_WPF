@@ -16,18 +16,12 @@ using RocketPOS.Views;
 using System.Windows.Media;
 using System.Windows.Threading;
 using RocketPOS.Core.Configuration;
-using RocketPOS.Helpers.Reports;
 using RocketPOS.Helpers.Tables;
-using NLog;
 using System.Diagnostics;
-using NLog.Fluent;
 using System.Windows.Media.Animation;
 using Microsoft.Win32;
 using System.Text;
-using System.Windows.Controls.Primitives;
-using System.Threading.Tasks;
 using System.Threading;
-using System.Windows.Navigation;
 using RocketPOS.Helpers.Kitchen;
 
 namespace RocketPOS.Helpers
@@ -47,11 +41,12 @@ namespace RocketPOS.Helpers
             {
                 InitializeComponent();
                 CenterWindowOnScreen();
-                Timer();
                 HeaderFooter();
                 GenerateDynamicFoodMenu();
                 GetWaiterList();
                 GetCustomerList();
+                Timer();
+ 
                 txtbTotalPayableAmount.Text = "0.00";
                 rdbPendingSales.IsChecked = true;
                 rdbAllSales.IsChecked = true;
@@ -67,6 +62,7 @@ namespace RocketPOS.Helpers
                 //{
                 //    dgSaleItem.Columns[2].Width = 165;
                 //}
+ 
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
             }
             catch (Exception ex)

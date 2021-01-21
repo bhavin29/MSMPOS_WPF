@@ -114,6 +114,7 @@ namespace RocketPOS.ViewModels
                 orderDetailModel = connection.Query<OrderDetailModel>(query).ToList();
 
                 customerOrderModel = (from order in orderDetailModel select order).FirstOrDefault();
+
                 customerOrderModel.CustomerOrderItemModels = (from order in orderDetailModel select order).ToList<CustomerOrderItemModel>();
 
                 return customerOrderModel;
