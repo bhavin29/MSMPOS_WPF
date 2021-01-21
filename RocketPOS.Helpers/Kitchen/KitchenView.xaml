@@ -5,20 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RocketPOS.Helpers.Kitchen"
         mc:Ignorable="d"
-        	Title="Kitchen View" 
-        ShowInTaskbar="True"  Topmost="true"  WindowStartupLocation="CenterOwner"  Background="#956eeb" 
-        Height="800" Width="1280">
+        	Title="RocketPOS - Kitchen View" 
+        ShowInTaskbar="True"  Topmost="true" WindowState="Maximized"  WindowStartupLocation="CenterOwner"  Background="#956eeb" 
+        Height="840" Width="1294">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button x:Name="btnRefreshAll" Style="{StaticResource btnOrange}" Grid.Row="0" Grid.Column="0" Content="Refresh" Width="100" Height="50" HorizontalAlignment="Left" Click="btnRefreshAll_Click"/>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.Column="0">
-            <WrapPanel x:Name="wpKitchenView"  Orientation="Horizontal" Width="1000" Height="700">
+
+        <Button x:Name="btnRefreshAll" Margin="2,2,10,0" Style="{StaticResource btnOrange}" Grid.Row="0" Grid.Column="0"  Width="150" Height="35" HorizontalAlignment="Right" Click="btnRefreshAll_Click">
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <Image Source="../images/Search.png" Height="20"/>
+                <TextBlock Text="Refresh" VerticalAlignment="Center" Margin="15,2,5,5"/>
+            </StackPanel>
+        </Button>
+       
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.Column="0" Margin="1,1,0,0">
+            <WrapPanel x:Name="wpKitchenView"  Orientation="Horizontal"  >
 
             </WrapPanel>
         </ScrollViewer>

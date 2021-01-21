@@ -50,11 +50,6 @@ namespace RocketPOS.Helpers
         {
             try
             {
-
-                //ReceiptPrintA4View printReceipt = new ReceiptPrintA4View();
-                //printReceipt.Print("Microsoft Print to PDF", 0);
-
-
                 loginModel = loginViewModel.GetUserLogin(txtUsername.Text, txtPassword.Password);
                 if (loginModel.Count > 0)
                 {
@@ -66,13 +61,6 @@ namespace RocketPOS.Helpers
                     MainWindow mainWin = new MainWindow();
                     mainWin.Show();
                     this.Hide();
-
-                    //Kitchen View
-                    /*
-                    KitchenView kitchenView = new KitchenView();
-                    kitchenView.Show();
-                    this.Hide();
-                    */
 
                     //if (loginModel[0].OutletRegisterStatus == 1)
                     //{
@@ -179,7 +167,6 @@ namespace RocketPOS.Helpers
 
         private bool Appcheck()
         {
-
             string directory = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
             string filePath = Path.Combine(directory, "windows");
             bool result = false;
@@ -197,7 +184,6 @@ namespace RocketPOS.Helpers
             {
                 btnLogin_Click(sender, e);
             }
-
         }
 
     }

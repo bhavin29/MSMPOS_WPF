@@ -68,7 +68,7 @@
                         <Button x:Name="btnRegister" Style="{StaticResource btnOrange}" Content="Register"  Width="101" Margin ="1,1,0,0" Click="btnRegister_Click" />
                         <Button x:Name="btnReports" Style="{StaticResource btnOrange}" Content="Reports" Width="101" Margin ="1,1,0,0" Click="btnReports_Click"/>
 
-                        <Button x:Name="btnSettings" Style="{StaticResource btnOrange}" Content="Settings" Click="btnSettings_Click" Width="101" />
+                        <Button x:Name="btnSettings" Style="{StaticResource btnOrange}" Content="Kitchen" Click="btnSettings_Click" Width="101" />
                         <Button x:Name="btnLogOut" Style="{StaticResource btnGray}" Content="LogOut" Width="110" Margin="1,0,0,0" Click="btnLogOut_Click"  />
                     </StackPanel>
                     <Popup Name="ppFoodMenuList" Placement="Center" AllowsTransparency="False" StaysOpen="False">

@@ -28,7 +28,8 @@ namespace RocketPOS.ViewModels
                            " Inner Join CustomerOrderKOT COKot On COKot.CustomerOrderId = CO.Id " +
                            " Inner Join CustomerOrderKOTItem COKotItem On COKotItem.CustomerOrderKOTId = COKot.Id " +
                            " Inner Join FoodMenu FM On FM.Id = COKotItem.FoodMenuId " +
-                           " Left Join[Tables] T On T.Id = CO.TableId Where COKot.KOTStatus = 1 AND CO.OrderStatus=1 And CO.OutletId = " + LoginDetail.OutletId;
+                           " Left Join[Tables] T On T.Id = CO.TableId Where COKot.KOTStatus = 1 AND CO.OrderStatus=1 And CO.OutletId = " + LoginDetail.OutletId +
+                           " Order by Co.CustomerOrderNo,COKot.KOTNumber";
 
                 kitchenStatusDetail = db.Query<KitchenStatusDetail>(query).ToList();
 
