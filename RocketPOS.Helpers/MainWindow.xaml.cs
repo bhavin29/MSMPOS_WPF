@@ -46,7 +46,7 @@ namespace RocketPOS.Helpers
                 GetWaiterList();
                 GetCustomerList();
                 Timer();
- 
+
                 txtbTotalPayableAmount.Text = "0.00";
                 rdbPendingSales.IsChecked = true;
                 rdbAllSales.IsChecked = true;
@@ -62,7 +62,7 @@ namespace RocketPOS.Helpers
                 //{
                 //    dgSaleItem.Columns[2].Width = 165;
                 //}
- 
+
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
             }
             catch (Exception ex)
@@ -881,6 +881,12 @@ namespace RocketPOS.Helpers
                     Thread.Sleep(2000);
                 }
 
+                if (rdbDineInOrderType.IsChecked == false && !string.IsNullOrEmpty(txtbDineInTableId.Text))
+                {
+                    TableViewModel tableViewModel = new TableViewModel();
+                    tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Clean);
+                }
+
 
                 ClearCustomerOrderItemControll();
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
@@ -1075,9 +1081,9 @@ namespace RocketPOS.Helpers
                 }
                 else
                 {
-                    saleItem[0].Total = Math.Round((saleItem[0].Qty * saleItem[0].Price),2);
+                    saleItem[0].Total = Math.Round((saleItem[0].Qty * saleItem[0].Price), 2);
                 }
-                
+
                 //saleItem[0].Total -= saleItem[0].Price * 1;
 
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(saleItem[0].Price)).ToString("0.00");
@@ -1259,7 +1265,7 @@ namespace RocketPOS.Helpers
                 object foodItem = dgSaleItem.SelectedItem;
                 saleItem = (List<SaleItemModel>)foodItem;
                 saleItem[0].Qty = Convert.ToDecimal(txtbPopUpQtyCount.Text);
-                saleItem[0].Total = Math.Round(Convert.ToDecimal(txtbPopUpItemSubTotalAmount.Text),2);
+                saleItem[0].Total = Math.Round(Convert.ToDecimal(txtbPopUpItemSubTotalAmount.Text), 2);
                 saleItem[0].Discount = Convert.ToDecimal(txtPopUpDiscount.Text);
                 if (txtbPopUpQtyCount.Text != "1")
                 {
@@ -2731,7 +2737,7 @@ namespace RocketPOS.Helpers
                 increasedPrice = increasedPrice * saleItem[0].Qty;
                 changedPrice = increasedPrice - originalPrice;
 
-                saleItem[0].Total = Math.Round(increasedPrice,2);
+                saleItem[0].Total = Math.Round(increasedPrice, 2);
 
                 txtbSubTotalAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + changedPrice).ToString("0.00");
                 txtTaxAmount.Text = (Convert.ToDecimal(txtTaxAmount.Text) + GetPercentageAmount(changedPrice, saleItem[0].TaxPercentage)).ToString("0.00");
@@ -2781,7 +2787,7 @@ namespace RocketPOS.Helpers
                     return;
                 }
                 saleItemsFoodMenu.Qty = Convert.ToDecimal(txtEditQty.Text.ToString());
-                saleItemsFoodMenu.Total = Math.Round((Convert.ToDecimal(saleItemsFoodMenu.Price) * Convert.ToDecimal(txtEditQty.Text.ToString())),2);
+                saleItemsFoodMenu.Total = Math.Round((Convert.ToDecimal(saleItemsFoodMenu.Price) * Convert.ToDecimal(txtEditQty.Text.ToString())), 2);
 
                 rowId += 1;
                 List<SaleItemModel> saleItems = new List<SaleItemModel>();
@@ -2793,7 +2799,7 @@ namespace RocketPOS.Helpers
                     Price = Convert.ToDecimal(saleItemsFoodMenu.Price),
                     Qty = Convert.ToDecimal(txtEditQty.Text.ToString()),
                     Discount = 0,
-                    Total =Math.Round(( Convert.ToDecimal(saleItemsFoodMenu.Price) * Convert.ToDecimal(txtEditQty.Text.ToString())),2),
+                    Total = Math.Round((Convert.ToDecimal(saleItemsFoodMenu.Price) * Convert.ToDecimal(txtEditQty.Text.ToString())), 2),
                     CustomerOrderItemId = 0,
                     Foodcess = Convert.ToDecimal(saleItemsFoodMenu.Foodcess),
                     FoodVat = Convert.ToDecimal(saleItemsFoodMenu.FoodVat),
@@ -2866,19 +2872,10 @@ namespace RocketPOS.Helpers
 
         public void OrderCall(int orderId, int TableStatus, int TableId)
         {
-            // MessageBox.Show(orderId.ToString());
             try
             {
-                //if (lbCustomerOrderList.SelectedItem == null)
-                //{
-                //    var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.SelectOrder, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
-                //    return;
-                //}
-
                 ClearCustomerOrderItemControll();
-                //txtbKitchenStatus.Visibility = Visibility.Visible;
-                //txtbKitchenStatusTitle.Visibility = Visibility.Visible;
-                //var st = (CustomerOrderModel)lbCustomerOrderList.SelectedItem;
+
                 if (TableStatus == 1)
                 {
                     ClearCustomerOrderItemControll();
@@ -2917,18 +2914,6 @@ namespace RocketPOS.Helpers
                     else
                     {
                         txtTableNumber.Text = "";
-                    }
-                    if (customerOrderModel.KotStatus == 1)
-                    {
-                        //txtbKitchenStatus.Text = "Pending";
-                    }
-                    else if (customerOrderModel.KotStatus == 2)
-                    {
-                        //txtbKitchenStatus.Text = "Cooking";
-                    }
-                    else
-                    {
-                        //txtbKitchenStatus.Text = "Completed";
                     }
 
                     if (customerOrderModel.OrderType == 1)
@@ -2980,6 +2965,50 @@ namespace RocketPOS.Helpers
         {
             KitchenView kitchenView = new KitchenView();
             kitchenView.Show();
+        }
+
+        private void btnChangePrice_Click(object sender, RoutedEventArgs e)
+        {
+            ppChnagePrice.IsOpen = true;
+
+            var foodMenu = (FoodMenu)dgFoodMenuList.SelectedItem;
+            txtbPopUpChangeProductName.Text = foodMenu.SmallName;
+            txtPPOriginalChangePrice.Text = foodMenu.SalesPrice.ToString("0.00");
+
+            txtChnagePPPrice.Text = "";
+        }
+
+        private void btnChangePricePopUpCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ppChnagePrice.IsOpen = false;
+        }
+
+        private void btnChangePricePopUpAddToCart_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                FoodMenuViewModel foodMenuViewModel = new FoodMenuViewModel();
+
+                var foodMenu = (FoodMenu)dgFoodMenuList.SelectedItem;
+
+                if (String.IsNullOrEmpty(txtChnagePPPrice.Text) || Convert.ToDecimal(txtChnagePPPrice.Text.ToString()) <= 0)
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Pleae enter new rate", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                    ppChnagePrice.IsOpen = true;
+                    return;
+                }
+
+                decimal changePrice = Convert.ToDecimal(txtChnagePPPrice.Text.ToString());
+                var newPrice = foodMenuViewModel.ChagePrice(foodMenu.FoodMenuId, changePrice);
+                GenerateDynamicFoodMenu();
+
+                ppFoodMenuList.IsOpen = false;
+                ppChnagePrice.IsOpen = false;
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
         }
     }
 }

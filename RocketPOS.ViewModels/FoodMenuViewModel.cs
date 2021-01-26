@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using Dapper;
 using System.Linq;
 using RocketPOS.Core.Configuration;
-
+using RocketPOS.Core.Constants;
 namespace RocketPOS.ViewModels
 {
     public class FoodMenuViewModel
@@ -74,6 +74,16 @@ namespace RocketPOS.ViewModels
                 var query = "Update FoodMenu Set SmallThumb=@FileName Where Id=@Id";
                 //return connection.Query<int>(query).FirstOrDefault();
                 var count = connection.Execute(query, new { FileName=fileName,Id= foodMenuId });
+                return count > 0;
+            }
+        }
+        public bool ChagePrice(int foodMenuId, decimal newPrice)
+        {
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "Update FoodMenuRate Set SalesPrice=@NewPrice Where FoodMenuId=@FoodMenuId and outletid=" + LoginDetail.OutletId + ";";
+                //return connection.Query<int>(query).FirstOrDefault();
+                var count = connection.Execute(query, new { NewPrice = newPrice, FoodMenuId = foodMenuId });
                 return count > 0;
             }
         }

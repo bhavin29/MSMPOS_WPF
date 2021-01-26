@@ -153,7 +153,6 @@ namespace RocketPOS.Helpers.Tables
         {
             try
             {
-
                 TableViewModel tableViewModel = new TableViewModel();
                 var tableListPanel = sender as StackPanel;
                 var txtbTableId = tableListPanel.Children[0] as TextBlock;
