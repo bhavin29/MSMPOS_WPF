@@ -856,7 +856,6 @@ namespace RocketPOS.Helpers
 
             }
 
-
             insertedId = customerOrderViewModel.InsertCustomerOrder(customerOrderModel, customerOrderItem);
             txtbOrderId.Text = insertedId.ToString();
 
@@ -864,7 +863,6 @@ namespace RocketPOS.Helpers
             {
                 if (type == "Hold")
                 {
-                    //var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.PlaceOrderHold, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
                     SplashScreen splash = new SplashScreen("Images/OrderHold.PNG");
                     splash.Show(true);
 
@@ -873,8 +871,6 @@ namespace RocketPOS.Helpers
                 }
                 else if (type != "DirectInvoice")
                 {
-                    //var messageBoxResult = WpfMessageBox.Show(StatusMessages.PlaceOrderTitle, StatusMessages.PlaceOrderSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
-
                     SplashScreen splash = new SplashScreen("Images/PlaceOrder.PNG");
                     splash.Show(true);
 
@@ -886,7 +882,6 @@ namespace RocketPOS.Helpers
                     TableViewModel tableViewModel = new TableViewModel();
                     tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Clean);
                 }
-
 
                 ClearCustomerOrderItemControll();
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
@@ -1341,7 +1336,6 @@ namespace RocketPOS.Helpers
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.CancelOrderTitle, StatusMessages.CancelOrder, MessageBoxButton.YesNo, EnumUtility.MessageBoxImage.Question);
                 if (messageBoxResult.ToString() == "Yes")
                 {
-                    //tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Open);
                     orderId = txtbOrderId.Text;
                     if (!string.IsNullOrEmpty(orderId) && orderId != "0")
                     {
@@ -1349,7 +1343,6 @@ namespace RocketPOS.Helpers
                         insertedId = customerOrderViewModel.CancelOrder(orderId);
                         if (insertedId > 0)
                         {
-                            //var messageBoxSuccessResult = WpfMessageBox.Show(StatusMessages.CancelOrderTitle, StatusMessages.CancelOrderSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
                             SplashScreen splash = new SplashScreen("Images/OrderCancel.PNG");
                             splash.Show(true);
 
@@ -1699,11 +1692,6 @@ namespace RocketPOS.Helpers
                     return;
                 }
 
-                //if (lbPPPaymentMethod.SelectedIndex == -1)
-                //{
-                //    var messageBoxResult = WpfMessageBox.Show(StatusMessages.BillPaymentTitle, StatusMessages.PaymentMethodSelect, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
-                //    return;
-                //}
                 int orderId = 0;
                 orderId = PlaceOrder("DirectInvoice");
                 TableViewModel tableViewModel = new TableViewModel();
@@ -1737,14 +1725,11 @@ namespace RocketPOS.Helpers
                 ppDirectInvoice.IsOpen = false;
                 if (insertedId > 0)
                 {
-                    //Comment this start 
-                    // var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, StatusMessages.BillDetailSaveSuccess, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     SplashScreen splash = new SplashScreen("Images/InvoiceOrder.PNG");
                     splash.Show(true);
 
                     Thread.Sleep(2000);
-                    //Comment this end 
-
+ 
                     GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
                 }
                 else
@@ -2139,7 +2124,6 @@ namespace RocketPOS.Helpers
                     else
                     {
                         txtbDineInTableId.Text = lbTablesList.SelectedValue.ToString();
-                        //tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Occupied);
                     }
                 }
                 else
@@ -3009,6 +2993,18 @@ namespace RocketPOS.Helpers
             {
                 SystemError.Register(ex);
             }
+        }
+
+        private void rdbTakeAwayOrderType_Click(object sender, RoutedEventArgs e)
+        {
+          //  txtTableNumber.Text = "";
+           // txtbDineInTableId.Text = "";
+        }
+
+        private void rdbDeliveryOrderType_Click(object sender, RoutedEventArgs e)
+        {
+           // txtTableNumber.Text = "";
+           // txtbDineInTableId.Text = "";
         }
     }
 }

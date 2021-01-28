@@ -254,8 +254,8 @@
                             <!--Row 0 Column 0-->
                             <TextBlock x:Name="txtbDineInTableId" Text="NULL" Visibility="Hidden" Margin="-35,0,0,0" />
                             <RadioButton x:Name="rdbDineInOrderType" Background="#D9BA41" Foreground="White" FontSize="15" FontWeight="Bold" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="134" Margin="1,0,0,00" Click="rdbDineInOrderType_Click">Dine In</RadioButton>
-                            <RadioButton x:Name="rdbTakeAwayOrderType" Background="#D9BA41" Foreground="White" FontSize="15"  FontWeight="Bold" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="133.5" Margin="0,0,0,0">Take Away</RadioButton>
-                            <RadioButton x:Name="rdbDeliveryOrderType" Background="#D9BA41" Foreground="White" FontSize="15"  FontWeight="Bold" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="139" Margin="0,0,0,0">Delivery</RadioButton>
+                            <RadioButton x:Name="rdbTakeAwayOrderType" Background="#D9BA41" Foreground="White" FontSize="15"  FontWeight="Bold" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="133.5" Margin="0,0,0,0" Click="rdbTakeAwayOrderType_Click" >Take Away</RadioButton>
+                            <RadioButton x:Name="rdbDeliveryOrderType" Background="#D9BA41" Foreground="White" FontSize="15"  FontWeight="Bold" Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="139" Margin="0,0,0,0" Click="rdbDeliveryOrderType_Click">Delivery</RadioButton>
                         </StackPanel>
 
                         <Popup Name="ppDineInTables" Placement="Center" AllowsTransparency="False" StaysOpen="False">

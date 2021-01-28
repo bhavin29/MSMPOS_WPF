@@ -160,7 +160,7 @@ namespace RocketPOS.Helpers.Tables
                 var txtbTableStatusId = tableListPanel.Children[3] as TextBlock;
                 var txtbTableOrderId = tableListPanel.Children[6] as TextBlock;
 
-                 if ((txtbTableStatusId.Text) == EnumUtility.TableStatus.Clean.ToString())
+                if ((txtbTableStatusId.Text) == EnumUtility.TableStatus.Clean.ToString())
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.DineInTitle, StatusMessages.DineInTableIsClean, MessageBoxButton.YesNo, EnumUtility.MessageBoxImage.Question);
                     if (messageBoxResult.ToString() == "Yes")
@@ -185,8 +185,15 @@ namespace RocketPOS.Helpers.Tables
                         DineTable.OrderId = Convert.ToInt32(txtbTableOrderId.Text);
                         DineTable.TableId = Convert.ToInt32(txtbTableId.Text);
 
-                        ((MainWindow)this.Owner).OrderCall(Convert.ToInt32(txtbTableOrderId.Text), (int)EnumUtility.TableStatus.Occupied, Convert.ToInt32(txtbTableId.Text));
-
+                        if (DineTable.OrderId == 0)
+                        {
+                            //Froce Update Table Status
+                            tableViewModel.UpdateTableStatus(txtbTableId.Text, (int)EnumUtility.TableStatus.Clean);
+                        }
+                        else
+                        {
+                            ((MainWindow)this.Owner).OrderCall(Convert.ToInt32(txtbTableOrderId.Text), (int)EnumUtility.TableStatus.Occupied, Convert.ToInt32(txtbTableId.Text));
+                        }
                         this.Close();
                     }
                 }
