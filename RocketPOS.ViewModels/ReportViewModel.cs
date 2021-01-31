@@ -16,6 +16,7 @@ namespace RocketPOS.ViewModels
         AppSettings appSettings = new AppSettings();
 
         List<DetailedDailyReportModel> detailedDailyReportModels = new List<DetailedDailyReportModel>();
+        List<ProductWiseSalesReportModel> productWiseSalesReportModels = new List<ProductWiseSalesReportModel>();
         public List<DetailedDailyReportModel> GetDetailedDailyByDate(string Fromdate, string Todate)
         {
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
@@ -26,6 +27,17 @@ namespace RocketPOS.ViewModels
             }
 
             return detailedDailyReportModels;
+        }
+        public List<ProductWiseSalesReportModel> GetProductWiseSales(string Fromdate, string Todate, string ReportType)
+        {
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "Exec [rptProductWiseSumary] " + LoginDetail.OutletId + ",'" + Fromdate + "','" + Todate + "','" + ReportType + "'; ";
+
+                productWiseSalesReportModels = connection.Query<ProductWiseSalesReportModel>(query).ToList();
+            }
+
+            return productWiseSalesReportModels;
         }
     }
 }

@@ -33,19 +33,26 @@ namespace RocketPOS.Helpers.Reports
             dt = DateTime.Now;
 
             DateTime dtWithTime = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
-
-            dpDetailedDailyFromDate.Value = dtWithTime;
-            dpDetailedDailyToDate.Value = DateTime.Now;
+            DateTime dtProductWithTime = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
 
             DateTime baseDate = DateTime.Now;
             var today = baseDate;
             var thisMonthStart = baseDate.AddDays(1 - baseDate.Day);
+            var thisMonthProductStart = dtProductWithTime.AddDays(1 - dtProductWithTime.Day);
+
+            dpDetailedDailyFromDate.Value = dtWithTime;
+            dpDetailedDailyToDate.Value = DateTime.Now;
+
+            dpProductwiseFromDate.Value = thisMonthProductStart;
+            dpProductWiseToDate.Value = DateTime.Now;
+
+    
             dpFromDate.SelectedDate = thisMonthStart;
             dpToDate.SelectedDate = today;
 
             dpFromDatePayment.SelectedDate = thisMonthStart;
             dpToDatePayment.SelectedDate = today;
- 
+
             dpFromDateSales.SelectedDate = thisMonthStart;
             dpToDateSales.SelectedDate = today;
         }
@@ -70,12 +77,28 @@ namespace RocketPOS.Helpers.Reports
             {
                 SystemError.Register(ex);
             }
-
         }
 
         private void btnProductWiseReport_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                ProductWiseSalesReportModel detailedDailyReportModel = new ProductWiseSalesReportModel();
+                AppSettings appSettings = new AppSettings();
 
+                ReportProductWiseSalesView reportProductWiseSalesView = new ReportProductWiseSalesView();
+                DateTime dtFrom = new DateTime();
+                DateTime dtTo = new DateTime();
+
+                dtFrom = (DateTime)dpProductwiseFromDate.Value;
+                dtTo = (DateTime)dpProductWiseToDate.Value;
+
+                reportProductWiseSalesView.Print(appSettings.GetPrinterName(), dtFrom.ToString("yyyy-MM-dd HH:mi:ss"), dtTo.ToString("yyyy-MM-dd HH:mi:ss"));
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
         }
 
         private void CenterWindowOnScreen()
@@ -142,7 +165,7 @@ namespace RocketPOS.Helpers.Reports
                 ReportViewModel reportViewModel = new ReportViewModel();
 
                 detailedDailyReportModels = reportViewModel.GetDetailedDailyByDate(dtFrom.ToString("yyyy-MM-dd HH:mi:ss"), dtTo.ToString("yyyy-MM-dd HH:mi:ss"));
- 
+
                 CommonMethods commonMethods = new CommonMethods();
                 string path = string.Empty, firstLine = string.Empty;
 
@@ -158,8 +181,8 @@ namespace RocketPOS.Helpers.Reports
                 {
                     path = saveFileDialog.FileName;
                     DataTable table = new DataTable();
- 
-                     table = commonMethods.ConvertToDataTable(detailedDailyReportModels);
+
+                    table = commonMethods.ConvertToDataTable(detailedDailyReportModels);
                     firstLine = "Detailed Daily List for " + dtFrom.ToString("yyyy-MM-dd HH:mi:ss") + " to " + dtTo.ToString("yyyy-MM-dd HH:mi:ss");
                     commonMethods.WriteExcelDetailDailySalesFile(table, path, firstLine);
                 }
@@ -168,7 +191,6 @@ namespace RocketPOS.Helpers.Reports
             {
                 SystemError.Register(ex);
             }
-
         }
 
         private void btnModeofPaymentReportExport_Click(object sender, RoutedEventArgs e)
@@ -179,7 +201,7 @@ namespace RocketPOS.Helpers.Reports
                 string path = string.Empty, firstLine = string.Empty;
 
                 CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
-  
+
                 List<ModeofPaymentReportModel> modeofPaymentReportModel = new List<ModeofPaymentReportModel>();
                 modeofPaymentReportModel = customerOrderViewModel.GetModOfPaymentReport(dpFromDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat));
 
@@ -207,9 +229,9 @@ namespace RocketPOS.Helpers.Reports
                     //Null value: "-";
                     //Sum of values: true
 
-                    dtDataResult =commonMethods.GetInversedDataTable(dtData, "PaymentMethodName", "BillDate", "BillAmount", " ", true);
+                    dtDataResult = commonMethods.GetInversedDataTable(dtData, "PaymentMethodName", "BillDate", "BillAmount", " ", true);
 
-                    commonMethods.WriteExcelModeOfPaymentFile(dtDataResult,  path, firstLine);
+                    commonMethods.WriteExcelModeOfPaymentFile(dtDataResult, path, firstLine);
                 }
 
             }
@@ -242,6 +264,48 @@ namespace RocketPOS.Helpers.Reports
                 path = saveFileDialog.FileName;
 
                 tallyXMLView.GenerateSalesVoucher(dpFromDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat), path);
+            }
+        }
+
+        private void btnProductWiseExcel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DateTime dtFrom = new DateTime();
+                DateTime dtTo = new DateTime();
+
+                dtFrom = (DateTime)dpProductwiseFromDate.Value;
+                dtTo = (DateTime)dpProductWiseToDate.Value;
+
+                List<ProductWiseSalesReportModel> productWiseSalesReportModels = new List<ProductWiseSalesReportModel>();
+                ReportViewModel reportViewModel = new ReportViewModel();
+
+                productWiseSalesReportModels = reportViewModel.GetProductWiseSales(dtFrom.ToString("yyyy-MM-dd HH:mi:ss"), dtTo.ToString("yyyy-MM-dd HH:mi:ss"),"Excel");
+
+                CommonMethods commonMethods = new CommonMethods();
+                string path = string.Empty, firstLine = string.Empty;
+
+                string fileName = "ProductWiseSalesReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
+                var saveFileDialog = new SaveFileDialog
+                {
+                    FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
+                    DefaultExt = ".xlsx",
+                    Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    path = saveFileDialog.FileName;
+                    DataTable table = new DataTable();
+
+                    table = commonMethods.ConvertToDataTable(productWiseSalesReportModels);
+                    firstLine = "Productwise Sales List for " + dtFrom.ToString("yyyy-MM-dd HH:mi:ss") + " to " + dtTo.ToString("yyyy-MM-dd HH:mi:ss");
+                    commonMethods.WriteExcelProductWiseSaleFile(table, path, firstLine);
+                }
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
             }
         }
     }

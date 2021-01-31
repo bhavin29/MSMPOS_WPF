@@ -109,7 +109,7 @@ namespace RocketPOS.ViewModels
                          // " INNER JOIN dbo.CustomerOrderKOT COKOT  ON CO.Id = COKOT.CustomerOrderId " +
                           " INNER JOIN dbo.FoodMenu FM  ON FM.Id = COI.FoodMenuId " +
                           " INNER JOIN  FoodMenuRate FMR ON FM.Id = FMR.FoodMenuId " +
-                          " LEFT JOIN dbo.[Tables] T On T.Id=CO.TableId LEFT JOIN Tax Ta On Ta.Id=FMR.FoodVatTaxId WHERE CO.Id = " + id;
+                          " LEFT JOIN dbo.[Tables] T On T.Id=CO.TableId LEFT JOIN Tax Ta On Ta.Id=FMR.FoodVatTaxId WHERE FMR.OutletId = CO.OutletId and CO.Id = " + id;
 
                 orderDetailModel = connection.Query<OrderDetailModel>(query).ToList();
 
