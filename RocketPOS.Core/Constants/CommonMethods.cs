@@ -426,6 +426,150 @@ namespace RocketPOS.Core.Constants
             }
         }
 
+        public void WriteCessCategoryExcelFile(DataTable cessSummary, DataTable cessDetail, string path, string firstLine)
+        {
+            using (SpreadsheetDocument document = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook))
+            {
+                WorkbookPart workbookpart = document.AddWorkbookPart();
+                workbookpart.Workbook = new Workbook();
+                Sheets sheets = document.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
+
+                // Begin: Code block for Excel sheet 1  // Cess Summary
+                WorksheetPart worksheetPart1 = workbookpart.AddNewPart<WorksheetPart>();
+                Worksheet workSheet1 = new Worksheet();
+                SheetData sheetData1 = new SheetData();
+
+                WorkbookStylesPart stylesPart1 = workbookpart.AddNewPart<WorkbookStylesPart>();
+                stylesPart1.Stylesheet = GenerateStyleSheet();
+                stylesPart1.Stylesheet.Save();
+
+                // the data for sheet 1 // Cess Summary
+                Row firstRow1 = new Row();
+                Cell dataCell1 = new Cell();
+                dataCell1.CellReference = "A1";
+                dataCell1.DataType = CellValues.String;
+
+                CellValue cellValue1 = new CellValue();
+                cellValue1.Text = firstLine;
+                dataCell1.Append(cellValue1);
+                firstRow1.AppendChild(dataCell1);
+                sheetData1.AppendChild(firstRow1);
+                workSheet1.AppendChild(sheetData1);
+                worksheetPart1.Worksheet = workSheet1;
+
+                MergeCells mergeCells1 = new MergeCells();
+                mergeCells1.Append(new MergeCell() { Reference = new StringValue("A1:H1") });
+                worksheetPart1.Worksheet.InsertAfter(mergeCells1, worksheetPart1.Worksheet.Elements<SheetData>().First());
+
+                Row headerRow1 = new Row();
+                List<String> columns1 = new List<string>();
+                foreach (System.Data.DataColumn column in cessSummary.Columns)
+                {
+                    columns1.Add(column.ColumnName);
+                    Cell cell = new Cell();
+                    cell.DataType = CellValues.String;
+                    cell.CellValue = new CellValue(column.ColumnName);
+                    headerRow1.AppendChild(cell);
+                }
+
+                sheetData1.AppendChild(headerRow1);
+                foreach (DataRow dsrow1 in cessSummary.Rows)
+                {
+                    Row newRow1 = new Row();
+                    foreach (String col in columns1)
+                    {
+                        Cell cell = new Cell();
+                        if (col == "NetSales" || col == "Vatable" || col == "NonVatable" || col == "TotalTax" || col == "GrandTotal" || col == "CateringLevy")
+                        {
+                            cell.DataType = CellValues.Number;
+                            cell.StyleIndex = 3;
+                        }
+                        else
+                        {
+                            cell.DataType = CellValues.String;
+                        }
+                        cell.CellValue = new CellValue(dsrow1[col].ToString());
+                        newRow1.AppendChild(cell);
+                    }
+                    sheetData1.AppendChild(newRow1);
+                }
+
+                Sheet sheets1 = new Sheet()
+                {
+                    Id = document.WorkbookPart.GetIdOfPart(worksheetPart1),
+                    SheetId = 1,
+                    Name = "Summary"
+                };
+                sheets.Append(sheets1);
+                // End: Code block for Excel sheet 1 // Cess Summary
+
+                // Begin: Code block for Excel sheet 2 // Cess Details
+                WorksheetPart worksheetPart2 = workbookpart.AddNewPart<WorksheetPart>();
+                Worksheet workSheet2 = new Worksheet();
+                SheetData sheetData2 = new SheetData();
+
+                // the data for sheet 1 // Cess Details
+                Row firstRow2 = new Row();
+                Cell dataCell2 = new Cell();
+                dataCell2.CellReference = "A1";
+                dataCell2.DataType = CellValues.String;
+
+                CellValue cellValue2 = new CellValue();
+                cellValue2.Text = firstLine;
+                dataCell2.Append(cellValue2);
+                firstRow2.AppendChild(dataCell2);
+                sheetData2.AppendChild(firstRow2);
+                workSheet2.AppendChild(sheetData2);
+                worksheetPart2.Worksheet = workSheet2;
+
+                MergeCells mergeCells2 = new MergeCells();
+                mergeCells2.Append(new MergeCell() { Reference = new StringValue("A1:G1") });
+                worksheetPart2.Worksheet.InsertAfter(mergeCells2, worksheetPart2.Worksheet.Elements<SheetData>().First());
+
+                Row headerRow2 = new Row();
+                List<String> columns2 = new List<string>();
+                foreach (System.Data.DataColumn column in cessDetail.Columns)
+                {
+                    columns2.Add(column.ColumnName);
+                    Cell cell = new Cell();
+                    cell.DataType = CellValues.String;
+                    cell.CellValue = new CellValue(column.ColumnName);
+                    headerRow2.AppendChild(cell);
+                }
+
+                sheetData2.AppendChild(headerRow2);
+                foreach (DataRow dsrow2 in cessDetail.Rows)
+                {
+                    Row newRow2 = new Row();
+                    foreach (String col in columns2)
+                    {
+                        Cell cell = new Cell();
+                        if (col == "NetSales" || col == "Vatable" || col == "NonVatable" || col == "TotalTax" || col == "GrandTotal" || col == "CateringLevy")
+                        {
+                            cell.DataType = CellValues.Number;
+                            cell.StyleIndex = 3;
+                        }
+                        else
+                        {
+                            cell.DataType = CellValues.String;
+                        }
+                        cell.CellValue = new CellValue(dsrow2[col].ToString());
+                        newRow2.AppendChild(cell);
+                    }
+                    sheetData2.AppendChild(newRow2);
+                }
+
+                Sheet sheets2 = new Sheet()
+                {
+                    Id = document.WorkbookPart.GetIdOfPart(worksheetPart2),
+                    SheetId = 2,
+                    Name = "Detail"
+                };
+                sheets.Append(sheets2);
+                // End: Code block for Excel sheet 1 // Cess Details
+                workbookpart.Workbook.Save();
+            }
+        }
         public void WriteExcelDetailDailySalesFile(DataTable table, string path, string firstLine)
         {
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook))

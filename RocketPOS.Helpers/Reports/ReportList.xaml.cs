@@ -126,21 +126,45 @@ namespace RocketPOS.Helpers.Reports
                 string path = string.Empty, firstLine = string.Empty;
                 CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
                 CessReportModel cessReportModel = new CessReportModel();
-                cessReportModel = customerOrderViewModel.GetCessReport(dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat));
-
-                string fileName = "CessReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
-                var saveFileDialog = new SaveFileDialog
+                CessCategoryReportModel cessCategoryReportModel = new CessCategoryReportModel();
+                
+                if (chkCess.IsChecked == false)
                 {
-                    FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
-                    DefaultExt = ".xlsx",
-                    Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
-                };
+                    cessReportModel = customerOrderViewModel.GetCessReport(dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat));
 
-                if (saveFileDialog.ShowDialog() == true)
+                    string fileName = "CessReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
+                    var saveFileDialog = new SaveFileDialog
+                    {
+                        FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
+                        DefaultExt = ".xlsx",
+                        Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
+                    };
+
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        path = saveFileDialog.FileName;
+                        firstLine = LoginDetail.ClientName;
+                        commonMethods.WriteCessExcelFile(commonMethods.ConvertToDataTable(cessReportModel.CessSummaryList), commonMethods.ConvertToDataTable(cessReportModel.CessDetailList), path, firstLine);
+                    }
+                }
+                else
                 {
-                    path = saveFileDialog.FileName;
-                    firstLine = LoginDetail.ClientName;
-                    commonMethods.WriteCessExcelFile(commonMethods.ConvertToDataTable(cessReportModel.CessSummaryList), commonMethods.ConvertToDataTable(cessReportModel.CessDetailList), path, firstLine);
+                    cessCategoryReportModel = customerOrderViewModel.GetCessCategoryReport(dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat));
+
+                    string fileName = "CategoryWiseCessReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
+                    var saveFileDialog = new SaveFileDialog
+                    {
+                        FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
+                        DefaultExt = ".xlsx",
+                        Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
+                    };
+
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        path = saveFileDialog.FileName;
+                        firstLine = LoginDetail.ClientName;
+                        commonMethods.WriteCessCategoryExcelFile(commonMethods.ConvertToDataTable(cessCategoryReportModel.CessSummaryList), commonMethods.ConvertToDataTable(cessCategoryReportModel.CessDetailList), path, firstLine);
+                    }
                 }
 
             }

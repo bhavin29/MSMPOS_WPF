@@ -71,8 +71,8 @@
                     <DatePicker Name="dpFromDate" Width="100" VerticalAlignment="Center"/>
                     <Label Content="To Date" Width="100" VerticalAlignment="Center" Margin="25,0,0,0"/>
                     <DatePicker Name="dpToDate"  Width="100" VerticalAlignment="Center" />
-
-                    <Button x:Name="btnCessReportExport" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Excel" Height="40" Click="btnCessReportExport_Click"/>
+                    <CheckBox Name="chkCess" Content="Category" Margin="65,10,0,0"></CheckBox>
+                    <Button x:Name="btnCessReportExport" Margin="109,0,0,0" Style="{StaticResource btnOrange}" Content="Excel" Height="40" Click="btnCessReportExport_Click"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="6" Background="AliceBlue">
