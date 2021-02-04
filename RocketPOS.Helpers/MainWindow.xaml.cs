@@ -23,7 +23,7 @@ using Microsoft.Win32;
 using System.Text;
 using System.Threading;
 using RocketPOS.Helpers.Kitchen;
-
+using RocketPOS.Helpers.Settings;
 namespace RocketPOS.Helpers
 {
     /// <summary>
@@ -2947,8 +2947,10 @@ namespace RocketPOS.Helpers
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
-            KitchenView kitchenView = new KitchenView();
-            kitchenView.Show();
+             SettingView  settingView= new SettingView();
+            settingView.ShowDialog();
+            //KitchenView kitchenView = new KitchenView();
+            //kitchenView.Show();
         }
 
         private void btnChangePrice_Click(object sender, RoutedEventArgs e)
