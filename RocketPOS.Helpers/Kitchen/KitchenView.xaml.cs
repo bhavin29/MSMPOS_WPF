@@ -23,113 +23,151 @@ namespace RocketPOS.Helpers.Kitchen
     /// </summary>
     public partial class KitchenView : Window
     {
+
         DispatcherTimer timer;
+        int _KotTimerLimit;
+        List<int> KitchenOrder = new List<int>();
         public KitchenView()
         {
             InitializeComponent();
+
+            AppSettings appSettings = new AppSettings();
+            _KotTimerLimit = Convert.ToInt32(appSettings.GetKotTimerLimit());
+            txtTimer.Text = _KotTimerLimit.ToString();
+
             CenterWindowOnScreen();
-            TimerForKOTStatus();
-            GetKitchenPending();
+            TimerForKOTStatus(_KotTimerLimit);
+            GetKitchenPending(KitchenOrder);
         }
-        private void GetKitchenPending()
+        private void GetKitchenPending(List<int> KitchenOrder)
         {
             KitchenViewModel kitchenViewModel = new KitchenViewModel();
-            KitchenModel kitchenModel = new KitchenModel();
-            kitchenModel = kitchenViewModel.GetKitchenStaus();
+            List<KitchenModel> kitchenModel = new List<KitchenModel>();
+            kitchenModel = kitchenViewModel.GetKitchenStaus(KitchenOrder);
 
             try
             {
                 wpKitchenView.Children.Clear();
- 
-                if (kitchenModel.kotStatusList.Count > 0)
+
+                if (kitchenModel.Count > 0)
                 {
-                    foreach (var kot in kitchenModel.kotStatusList)
+                    foreach (var item in kitchenModel)
                     {
                         WrapPanel wpKOT = new WrapPanel();
                         wpKOT.Orientation = Orientation.Vertical;
                         wpKOT.VerticalAlignment = VerticalAlignment.Top;
-                        wpKOT.Width = 250;
-                        wpKOT.Height = 275;
+                        wpKOT.Width = 212;
+                        wpKOT.Height = 375;
                         wpKOT.Margin = new Thickness(1);
 
                         SolidColorBrush solidColorBrush = new SolidColorBrush();
-                        solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#dce309"));
+                        solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#E8E8E8"));
 
                         WrapPanel kotHeaderPanel = new WrapPanel();
                         kotHeaderPanel.Orientation = Orientation.Horizontal;
                         kotHeaderPanel.VerticalAlignment = VerticalAlignment.Top;
-                        kotHeaderPanel.Width = 248;
-                        kotHeaderPanel.Height = 230;
+                        kotHeaderPanel.Width = 211;
+                        kotHeaderPanel.Height = 325;
                         kotHeaderPanel.Background = solidColorBrush;
                         kotHeaderPanel.Margin = new Thickness(1);
 
-                        //Order Id
+                        ////Order Id
                         TextBlock txtbOrderId = new TextBlock();
-                        txtbOrderId.Text = "Order# " + kot.CustomerOrderNo.ToString();
-                        txtbOrderId.Name = "txtbOrderId_" + kot.OrderId.ToString();
+                        txtbOrderId.Text = "Order# " + item.CustomerOrderId.ToString();
+                        txtbOrderId.Name = "txtbOrderId_" + item.CustomerOrderId.ToString();
                         txtbOrderId.FontSize = 1;
                         txtbOrderId.Width = 0;
                         txtbOrderId.Visibility = Visibility.Hidden;
                         txtbOrderId.TextAlignment = TextAlignment.Left;
                         kotHeaderPanel.Children.Add(txtbOrderId);
 
-                        //KOTNumber
-                        TextBlock txtbKOTNumber = new TextBlock();
-                        txtbKOTNumber.Text = "KOT# " + kot.CustomerOrderNo.ToString() + "/" + kot.KOTNumber;
-                        txtbKOTNumber.Name = "txtbKOTNumber_" + kot.KOTNumber;
-                        txtbKOTNumber.FontSize = 20;
-                        txtbKOTNumber.Width = 120;
-                        txtbKOTNumber.TextAlignment = TextAlignment.Left;
-                        kotHeaderPanel.Children.Add(txtbKOTNumber);
-
                         //Table Name
                         TextBlock txtbTableName = new TextBlock();
-                        if (!string.IsNullOrEmpty(kot.TableName))
-                        {
-                            txtbTableName.Text = "Table# " + kot.TableName;
-                        }
-                        else
-                        {
-                            txtbTableName.Text = string.Empty;
-                        }
-                        txtbTableName.Name = "txtbTableName_" + kot.TableId;
+
+                        string strPerson = "";
+                        if (item.AllocatedPerson > 0)
+                            strPerson = " [ " + item.AllocatedPerson + " ]";
+
+                        txtbTableName.Text = "# " + item.TableName + strPerson;
+                        txtbTableName.Name = "txtbTableName_" + item.TableId;
                         txtbTableName.FontSize = 20;
-                        txtbTableName.Width = 110;
-                        txtbTableName.TextAlignment = TextAlignment.Right;
+
+                        txtbTableName.Width = 166;
+                        if (item.CustomerOrderId == 0)
+                        {
+                            txtbTableName.Width = 211;
+                        }
+                        txtbTableName.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#000000"));
+                        txtbTableName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFFFFF"));
+                        txtbTableName.TextAlignment = TextAlignment.Left;
                         kotHeaderPanel.Children.Add(txtbTableName);
 
-                        if (kot.kOTItems.Count > 0)
+                        if (item.CustomerOrderId != 0)
                         {
-                            foreach (var kotItem in kot.kOTItems)
+                            ToggleButton btnAllKOT = new ToggleButton();
+                            btnAllKOT.Content = "...";
+                            btnAllKOT.Name = "btnAllKOT_" + item.TableId;
+                            btnAllKOT.FontSize = 16;
+                            btnAllKOT.FontWeight = FontWeights.Bold;
+                            btnAllKOT.Width = 45;
+                            btnAllKOT.Height = 27;
+                            btnAllKOT.BorderThickness = new Thickness(0);
+                            btnAllKOT.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#000000"));
+                            btnAllKOT.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                            btnAllKOT.Margin = new Thickness(0, 0, 0, 0);
+                            btnAllKOT.Checked += DisplayAllKotItem;
+                            btnAllKOT.Unchecked += DisplayCurrentKotItem;
+
+                            for (var i = 0; i < KitchenOrder.Count; i++)
+                            {
+                                if (KitchenOrder[i] == item.TableId)
+                                {
+                                    btnAllKOT.IsChecked = true;
+                                }
+                            }
+
+
+                            kotHeaderPanel.Children.Add(btnAllKOT);
+                        }
+                        if (item.kotStatusList.Count > 0)
+                        {
+                            foreach (var kotItem in item.kotStatusList)
                             {
                                 if (kotItem.KOTStatus == EnumUtility.KOTStatus.Completed.ToString())
                                 {
-                                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#32a836"));
+                                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#ffffff"));
                                 }
                                 else if (kotItem.KOTStatus == EnumUtility.KOTStatus.Pending.ToString())
                                 {
-                                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#66FFFF"));
+                                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#ff726f"));
                                 }
                                 else if (kotItem.KOTStatus == EnumUtility.KOTStatus.Cooking.ToString())
                                 {
-                                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AF4D4D"));
+                                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#fbff99"));
+                                }
+                                else if (kotItem.KOTStatus == EnumUtility.KOTStatus.Ready.ToString())
+                                {
+                                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#5cff7e"));
+                                }
+                                else if (kotItem.KOTStatus == EnumUtility.KOTStatus.Served.ToString())
+                                {
+                                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#ccd9ff"));
                                 }
 
                                 WrapPanel kotDetailPanel = new WrapPanel();
                                 kotDetailPanel.Orientation = Orientation.Horizontal;
                                 kotDetailPanel.VerticalAlignment = VerticalAlignment.Top;
-                                kotDetailPanel.Width = 250;
+                                kotDetailPanel.Width = 226;
                                 kotDetailPanel.Background = solidColorBrush;
                                 kotDetailPanel.Margin = new Thickness(1);
                                 kotDetailPanel.MouseDown += ChangeKOTStatus;
-
 
                                 //Food Menu Name
                                 TextBlock txtbFoodMenuName = new TextBlock();
                                 txtbFoodMenuName.Text = kotItem.FoodMenuName;
                                 txtbFoodMenuName.Name = "txtbFoodMenuName_" + kotItem.KOTItemId;
                                 txtbFoodMenuName.FontSize = 18;
-                                txtbFoodMenuName.Width = 250;
+                                txtbFoodMenuName.Width = 225;
                                 txtbFoodMenuName.HorizontalAlignment = HorizontalAlignment.Left;
                                 kotDetailPanel.Children.Add(txtbFoodMenuName);
 
@@ -152,8 +190,8 @@ namespace RocketPOS.Helpers.Kitchen
 
                                 //KOT Id
                                 TextBlock txtbKOTId = new TextBlock();
-                                txtbKOTId.Text = kot.KOTId.ToString();
-                                txtbKOTId.Name = "txtbKOTId_" + kot.KOTId;
+                                txtbKOTId.Text = kotItem.KOTId.ToString();
+                                txtbKOTId.Name = "txtbKOTId_" + kotItem.KOTId;
                                 txtbKOTId.Visibility = Visibility.Hidden;
                                 txtbKOTId.Width = 5;
                                 kotDetailPanel.Children.Add(txtbKOTId);
@@ -162,8 +200,8 @@ namespace RocketPOS.Helpers.Kitchen
                                 TextBlock txtbKOTStatus = new TextBlock();
                                 txtbKOTStatus.Text = kotItem.KOTStatus.ToString();
                                 txtbKOTStatus.Name = "txtbKOTStatus_" + kotItem.KOTItemId.ToString();
-                                txtbKOTStatus.FontSize = 18;
-                                txtbKOTStatus.Width = 150;
+                                txtbKOTStatus.FontSize = 1;
+                                txtbKOTStatus.Width = 2;
                                 txtbKOTStatus.TextAlignment = TextAlignment.Right;
                                 kotDetailPanel.Children.Add(txtbKOTStatus);
 
@@ -171,78 +209,82 @@ namespace RocketPOS.Helpers.Kitchen
                             }
                         }
 
-                        WrapPanel kotButtonPanel = new WrapPanel();
-                        kotButtonPanel.Orientation = Orientation.Horizontal;
-                        kotButtonPanel.VerticalAlignment = VerticalAlignment.Top;
-                        kotButtonPanel.Width = 250;
-                        kotButtonPanel.Margin = new Thickness(1);
-
-                        ToggleButton btnSelectAll = new ToggleButton();
-                        btnSelectAll.Content = "Select All";
-                        btnSelectAll.Name = "btnSelectAll";
-                        btnSelectAll.FontSize = 16;
-                        btnSelectAll.FontWeight = FontWeights.Bold;
-                        btnSelectAll.Width = 100;
-                        btnSelectAll.Height = 40;
-                        btnSelectAll.BorderThickness = new Thickness(1);
-                        btnSelectAll.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
-                        btnSelectAll.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                        btnSelectAll.Margin = new Thickness(0, 0, 0, 0);
-                        btnSelectAll.Checked += SelectAllKotItem;
-                        btnSelectAll.Unchecked += DeSelectAllKotItem;
-                        kotButtonPanel.Children.Add(btnSelectAll);
-
-                        //Cooking Button
-                        Button btnCooking = new Button();
-                        btnCooking.Content = "C";
-                        btnCooking.Name = "btn" + kot.KOTId.ToString();
-                        btnCooking.FontSize = 16;
-                        btnCooking.FontWeight = FontWeights.Bold;
-                        btnCooking.Width = 50;
-                        btnCooking.Height = 40;
-                        btnCooking.BorderThickness = new Thickness(1);
-                        btnCooking.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
-                        btnCooking.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                        btnCooking.Margin = new Thickness(0, 0, 0, 0);
-                        btnCooking.Visibility = Visibility.Hidden;
-                        btnCooking.Click += ChangeKOTAllItemStatus;
-                        kotButtonPanel.Children.Add(btnCooking);
-
-                        //Pending Button
-                        Button btnPending = new Button();
-                        btnPending.Content = "P";
-                        btnPending.Name = "btn" + kot.KOTId.ToString();
-                        btnPending.FontSize = 16;
-                        btnPending.FontWeight = FontWeights.Bold;
-                        btnPending.Width = 50;
-                        btnPending.Height = 40;
-                        btnPending.BorderThickness = new Thickness(1);
-                        btnPending.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
-                        btnPending.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                        btnPending.Margin = new Thickness(0, 0, 0, 0);
-                        btnPending.Visibility = Visibility.Hidden;
-                        btnPending.Click += ChangeKOTAllItemStatus;
-                        kotButtonPanel.Children.Add(btnPending);
-
-                        //Completed Button
-                        Button btnCompleted = new Button();
-                        btnCompleted.Content = "D";
-                        btnCompleted.Name = "btn" + kot.KOTId.ToString();
-                        btnCompleted.FontSize = 16;
-                        btnCompleted.FontWeight = FontWeights.Bold;
-                        btnCompleted.Width = 50;
-                        btnCompleted.Height = 40;
-                        btnCompleted.BorderThickness = new Thickness(1);
-                        btnCompleted.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
-                        btnCompleted.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
-                        btnCompleted.Margin = new Thickness(0, 0, 0, 0);
-                        btnCompleted.Visibility = Visibility.Hidden;
-                        btnCompleted.Click += ChangeKOTAllItemStatus;
-                        kotButtonPanel.Children.Add(btnCompleted);
-
                         wpKOT.Children.Clear();
                         wpKOT.Children.Add(kotHeaderPanel);
-                        wpKOT.Children.Add(kotButtonPanel);
+
+                        if (item.kotStatusList.Count > 0)
+                        {
+                            WrapPanel kotButtonPanel = new WrapPanel();
+                            kotButtonPanel.Orientation = Orientation.Horizontal;
+                            kotButtonPanel.VerticalAlignment = VerticalAlignment.Top;
+                            kotButtonPanel.Width = 220;
+                            kotButtonPanel.Margin = new Thickness(1);
+
+                            ToggleButton btnSelectAll = new ToggleButton();
+                            btnSelectAll.Content = "Select All";
+                            btnSelectAll.Name = "btnSelectAll";
+                            btnSelectAll.FontSize = 16;
+                            btnSelectAll.FontWeight = FontWeights.Bold;
+                            btnSelectAll.Width = 90;
+                            btnSelectAll.Height = 40;
+                            btnSelectAll.BorderThickness = new Thickness(1);
+                            btnSelectAll.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
+                            btnSelectAll.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                            btnSelectAll.Margin = new Thickness(0, 0, 0, 0);
+                            btnSelectAll.Checked += SelectAllKotItem;
+                            btnSelectAll.Unchecked += DeSelectAllKotItem;
+                            kotButtonPanel.Children.Add(btnSelectAll);
+
+                            //Cooking Button
+                            Button btnCooking = new Button();
+                            btnCooking.Content = "C";
+                            btnCooking.Name = "btnC" + item.CustomerOrderId.ToString();
+                            btnCooking.FontSize = 16;
+                            btnCooking.FontWeight = FontWeights.Bold;
+                            btnCooking.Width = 40;
+                            btnCooking.Height = 40;
+                            btnCooking.BorderThickness = new Thickness(1);
+                            btnCooking.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
+                            btnCooking.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                            btnCooking.Margin = new Thickness(0, 0, 0, 0);
+                            btnCooking.Visibility = Visibility.Hidden;
+                            btnCooking.Click += ChangeKOTAllItemStatus;
+                            kotButtonPanel.Children.Add(btnCooking);
+
+                            //Pending Button
+                            Button btnPending = new Button();
+                            btnPending.Content = "P";
+                            btnPending.Name = "btnP" + item.CustomerOrderId.ToString();
+                            btnPending.FontSize = 16;
+                            btnPending.FontWeight = FontWeights.Bold;
+                            btnPending.Width = 40;
+                            btnPending.Height = 40;
+                            btnPending.BorderThickness = new Thickness(1);
+                            btnPending.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
+                            btnPending.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                            btnPending.Margin = new Thickness(0, 0, 0, 0);
+                            btnPending.Visibility = Visibility.Hidden;
+                            btnPending.Click += ChangeKOTAllItemStatus;
+                            kotButtonPanel.Children.Add(btnPending);
+
+                            //Completed Button
+                            Button btnCompleted = new Button();
+                            btnCompleted.Content = "D";
+                            btnCompleted.Name = "btnD" + item.CustomerOrderId.ToString();
+                            btnCompleted.FontSize = 16;
+                            btnCompleted.FontWeight = FontWeights.Bold;
+                            btnCompleted.Width = 40;
+                            btnCompleted.Height = 40;
+                            btnCompleted.BorderThickness = new Thickness(1);
+                            btnCompleted.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
+                            btnCompleted.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
+                            btnCompleted.Margin = new Thickness(0, 0, 0, 0);
+                            btnCompleted.Visibility = Visibility.Hidden;
+                            btnCompleted.Click += ChangeKOTAllItemStatus;
+                            kotButtonPanel.Children.Add(btnCompleted);
+                            wpKOT.Children.Add(kotButtonPanel);
+                        }
+
                         wpKitchenView.Children.Add(wpKOT);
                     }
                 }
@@ -251,6 +293,25 @@ namespace RocketPOS.Helpers.Kitchen
             {
                 SystemError.Register(ex);
             }
+        }
+
+
+        private void DisplayAllKotItem(object sender, RoutedEventArgs e)
+        {
+            var btnAllKot = sender as ToggleButton;
+            string tableId = btnAllKot.Name.Substring(10);
+            if (!KitchenOrder.Contains(Convert.ToInt32(tableId)))
+            {
+                KitchenOrder.Add(Convert.ToInt32(tableId));
+                GetKitchenPending(KitchenOrder);
+            }
+        }
+        private void DisplayCurrentKotItem(object sender, RoutedEventArgs e)
+        {
+            var btnAllKot = sender as ToggleButton;
+            string tableId = btnAllKot.Name.Substring(10);
+            KitchenOrder.Remove(Convert.ToInt32(tableId));
+            GetKitchenPending(KitchenOrder);
         }
         private void SelectAllKotItem(object sender, RoutedEventArgs e)
         {
@@ -273,7 +334,6 @@ namespace RocketPOS.Helpers.Kitchen
                 SystemError.Register(ex);
             }
         }
-
         private void DeSelectAllKotItem(object sender, RoutedEventArgs e)
         {
             try
@@ -312,13 +372,21 @@ namespace RocketPOS.Helpers.Kitchen
                 }
                 else if (txtbKOTStatus.Text == EnumUtility.KOTStatus.Cooking.ToString())
                 {
+                    status = (int)EnumUtility.KOTStatus.Ready;
+                }
+                else if (txtbKOTStatus.Text == EnumUtility.KOTStatus.Ready.ToString())
+                {
+                    status = (int)EnumUtility.KOTStatus.Served;
+                }
+                else if (txtbKOTStatus.Text == EnumUtility.KOTStatus.Served.ToString())
+                {
                     status = (int)EnumUtility.KOTStatus.Completed;
                 }
 
                 if (status != 0)
                 {
                     kitchenViewModel.ChangeKOTStatus(txtbKOTItemId.Text, txtbKOTId.Text, status);
-                    GetKitchenPending();
+                    GetKitchenPending(KitchenOrder);
                 }
             }
             catch (Exception ex)
@@ -326,14 +394,13 @@ namespace RocketPOS.Helpers.Kitchen
                 SystemError.Register(ex);
             }
         }
-
         private void ChangeKOTAllItemStatus(object sender, RoutedEventArgs e)
         {
             try
             {
                 KitchenViewModel kitchenViewModel = new KitchenViewModel();
                 var btnChangeStatus = sender as Button;
-                string kotId = btnChangeStatus.Name.Substring(3);
+                string kotId = btnChangeStatus.Name.Substring(4);
 
                 if (btnChangeStatus.Content.ToString() == "C")
                 {
@@ -347,56 +414,55 @@ namespace RocketPOS.Helpers.Kitchen
                 {
                     kitchenViewModel.ChangeAllKOTItemStatus(kotId, (int)EnumUtility.KOTStatus.Completed);
                 }
-                GetKitchenPending();
+                GetKitchenPending(KitchenOrder);
             }
             catch (Exception ex)
             {
                 SystemError.Register(ex);
             }
         }
-
         private void btnRefreshAll_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                GetKitchenPending();
+                _KotTimerLimit = Convert.ToInt32(txtTimer.Text);
+
+                timer.Stop();
+                timer.Interval = TimeSpan.FromMinutes(_KotTimerLimit);
+                timer.Start();
+
+                GetKitchenPending(KitchenOrder);
             }
             catch (Exception ex)
             {
                 SystemError.Register(ex);
             }
         }
-
-        private void TimerForKOTStatus()
+        private void TimerForKOTStatus(int kotTimerLimit)
         {
-            AppSettings appSettings = new AppSettings();
             try
             {
                 timer = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromMinutes(Convert.ToDouble(appSettings.GetKotTimerLimit()));
+                timer.Interval = TimeSpan.FromMinutes(kotTimerLimit);
                 timer.Tick += TimerForKOTStatus_Tick;
                 timer.Start();
             }
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-
             }
         }
-
         void TimerForKOTStatus_Tick(object sender, EventArgs e)
         {
             try
             {
-                GetKitchenPending();
+                GetKitchenPending(KitchenOrder);
             }
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-
             }
         }
-
         private void CenterWindowOnScreen()
         {
             try
@@ -411,7 +477,6 @@ namespace RocketPOS.Helpers.Kitchen
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-
             }
         }
     }

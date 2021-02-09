@@ -28,8 +28,12 @@ namespace RocketPOS.Core.Constants
             Pending = 1,
             [Display(Name = "Cooking")]
             Cooking = 2,
+            [Display(Name = "Ready")]
+            Ready = 3,
+            [Display(Name = "Served")]
+            Served = 4,
             [Display(Name = "Completed")]
-            Completed = 3
+            Completed = 5
         }
         public enum TableStatus
         {
@@ -67,6 +71,8 @@ namespace RocketPOS.Core.Constants
             POS = 3,
             [Display(Name = "Waiter")]
             Waiter = 4,
+            [Display(Name = "KitchenView")]
+            KitchenView = 5,
         }
 
         public enum TaxType

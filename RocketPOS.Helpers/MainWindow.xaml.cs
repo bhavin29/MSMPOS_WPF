@@ -2947,10 +2947,10 @@ namespace RocketPOS.Helpers
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
-             SettingView  settingView= new SettingView();
-            settingView.ShowDialog();
-            //KitchenView kitchenView = new KitchenView();
-            //kitchenView.Show();
+           // SettingView  settingView= new SettingView();
+          //  settingView.ShowDialog();
+            KitchenView kitchenView = new KitchenView();
+            kitchenView.Show();
         }
 
         private void btnChangePrice_Click(object sender, RoutedEventArgs e)

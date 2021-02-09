@@ -69,7 +69,7 @@
                         <Button x:Name="btnReports" Style="{StaticResource btnOrange}" Content="Reports" Width="101" Margin ="1,1,0,0" Click="btnReports_Click"/>
 
                         <Button x:Name="btnSettings" Style="{StaticResource btnOrange}" Content="Settings" Click="btnSettings_Click" Width="101" />
-                        <Button x:Name="btnLogOut" Style="{StaticResource btnGray}" Content="LogOut" Width="110" Margin="1,0,0,0" Click="btnLogOut_Click"  />
+                        <Button x:Name="btnLogOut" Style="{StaticResource btnOrange}" Content="Logout" Width="110" Margin="1,0,0,0" Background="DarkGray" Click="btnLogOut_Click"  />
                     </StackPanel>
                     <Popup Name="ppFoodMenuList" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                         <Border BorderBrush="Black" BorderThickness="5,5,5,5">
@@ -831,7 +831,7 @@
 
                     <Grid Grid.Row="0" Margin="-4,0,0,0">
                         <ScrollViewer  VerticalScrollBarVisibility="Auto">
-                            <WrapPanel x:Name="spCategory" Orientation="Horizontal" >
+                            <WrapPanel x:Name="spCategory" Orientation="Horizontal" Background="#808080" >
                             </WrapPanel>
                         </ScrollViewer>
                     </Grid>

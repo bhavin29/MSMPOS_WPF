@@ -68,7 +68,7 @@
             <Grid Grid.Row="5" Background="AliceBlue"  >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="25,0,0,0">
                     <Label Content="Report From Date" Width="160" VerticalAlignment="Center"/>
-                    <DatePicker Name="dpFromDate" Width="100" VerticalAlignment="Center"/>
+                    <DatePicker Name="dpFromDate" Width="100" VerticalAlignment="Center" SelectedDateChanged="dpFromDate_SelectedDateChanged"/>
                     <Label Content="To Date" Width="100" VerticalAlignment="Center" Margin="25,0,0,0"/>
                     <DatePicker Name="dpToDate"  Width="100" VerticalAlignment="Center" />
                     <CheckBox Name="chkCess" Content="Category" Margin="65,10,0,0"></CheckBox>
@@ -83,7 +83,7 @@
             <Grid Grid.Row="7" Background="AliceBlue"  >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="25,0,0,0">
                     <Label Content="Report From Date" Width="160" VerticalAlignment="Center"/>
-                    <DatePicker Name="dpFromDatePayment" Width="100" VerticalAlignment="Center"/>
+                    <DatePicker Name="dpFromDatePayment" Width="100" VerticalAlignment="Center" SelectedDateChanged="dpFromDatePayment_SelectedDateChanged"/>
                     <Label Content="To Date" Width="100" VerticalAlignment="Center" Margin="25,0,0,0"/>
                     <DatePicker Name="dpToDatePayment"  Width="100" VerticalAlignment="Center" />
 
@@ -98,9 +98,9 @@
             <Grid Grid.Row="9" Background="AliceBlue"  >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="25,0,0,0">
                     <Label Content="Report From Date" Width="160" VerticalAlignment="Center"/>
-                    <DatePicker Name="dpFromDateSales" Width="100" VerticalAlignment="Center"/>
+                    <DatePicker Name="dpFromDateXML" Width="100" VerticalAlignment="Center" SelectedDateChanged="dpFromDateXML_SelectedDateChanged"/>
                     <Label Content="To Date" Width="100" VerticalAlignment="Center" Margin="25,0,0,0"/>
-                    <DatePicker Name="dpToDateSales"  Width="100" VerticalAlignment="Center" />
+                    <DatePicker Name="dpToDateXML"  Width="100" VerticalAlignment="Center" />
 
                     <Button x:Name="btnSalesVoucherExport" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="XML" Height="40" Click="btnSalesVoucherExport_Click"/>
                 </StackPanel>

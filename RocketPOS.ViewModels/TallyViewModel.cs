@@ -33,10 +33,10 @@ namespace RocketPOS.ViewModels
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
             {
                 string query = " select convert(varchar(10), BD.BillDate,103) as BillDate,round(sum(BillAmount), 0) as Sales,TallyLedgerName,TallyLedgerNamePark,TallyBillPostfix, " +
-                                " round(sum(CO.VatableAmount), 0) as CashSales, round(Sum(CO.NonVatableAmount), 0) as ExemptedSales,round(sum(CO.TaxAmount), 0) as OutputVAT " +
+                                " sum(round(CO.VatableAmount, 0)) as CashSales, Sum(round(CO.NonVatableAmount, 0)) as ExemptedSales,sum(round(CO.TaxAmount, 0)) as OutputVAT " +
                                 " from Billdetail BD " +
                                 " INNER join PaymentMethod PM on PM.Id = BD.PaymentMethodId Inner join Bill B on B.ID = BD.BillId inner join CustomerOrder CO on CO.ID = B.CustomerOrderId " +
-                                " Where convert(varchar(10), BD.BillDate, 103) between '" + fromDate + "' And '" + toDate + "' And B.BillStatus = 4 AND B.OutletId = " + LoginDetail.OutletId +
+                                " Where Convert(Date, BD.BillDate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)  And B.BillStatus = 4 AND B.OutletId = " + LoginDetail.OutletId +
                                 " group by convert(varchar(10), BD.BillDate, 103),TallyLedgerName,TallyLedgerNamePark,TallyBillPostfix ";
 
                 tallySalesVouchers = db.Query<TallySalesVoucherModel>(query).ToList();

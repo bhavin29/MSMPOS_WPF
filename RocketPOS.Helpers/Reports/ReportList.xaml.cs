@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using RocketPOS.Core.Configuration;
 using RocketPOS.Core.Constants;
+using RocketPOS.Helpers.RMessageBox;
 using RocketPOS.Model;
 using RocketPOS.ViewModels;
 using RocketPOS.Views;
@@ -46,15 +47,15 @@ namespace RocketPOS.Helpers.Reports
             dpProductwiseFromDate.Value = thisMonthProductStart;
             dpProductWiseToDate.Value = DateTime.Now;
 
-    
+
             dpFromDate.SelectedDate = thisMonthStart;
             dpToDate.SelectedDate = today;
 
             dpFromDatePayment.SelectedDate = thisMonthStart;
             dpToDatePayment.SelectedDate = today;
 
-            dpFromDateSales.SelectedDate = thisMonthStart;
-            dpToDateSales.SelectedDate = today;
+            dpFromDateXML.SelectedDate = thisMonthStart;
+            dpToDateXML.SelectedDate = today;
         }
 
         private void btnDetailedDailyReport_Click(object sender, RoutedEventArgs e)
@@ -122,12 +123,18 @@ namespace RocketPOS.Helpers.Reports
         {
             try
             {
+                if (!DateValidated(dpFromDate, dpToDate))
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Please select FROM DATE grater than or equal to TO DATE", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+
+                    return;
+                }
                 CommonMethods commonMethods = new CommonMethods();
                 string path = string.Empty, firstLine = string.Empty;
                 CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
                 CessReportModel cessReportModel = new CessReportModel();
                 CessCategoryReportModel cessCategoryReportModel = new CessCategoryReportModel();
-                
+
                 if (chkCess.IsChecked == false)
                 {
                     cessReportModel = customerOrderViewModel.GetCessReport(dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat));
@@ -221,6 +228,13 @@ namespace RocketPOS.Helpers.Reports
         {
             try
             {
+                if (!DateValidated(dpFromDatePayment, dpToDatePayment))
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Please select FROM DATE grater than or equal to TO DATE", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+
+                    return;
+                }
+
                 CommonMethods commonMethods = new CommonMethods();
                 string path = string.Empty, firstLine = string.Empty;
 
@@ -268,6 +282,13 @@ namespace RocketPOS.Helpers.Reports
 
         private void btnSalesVoucherExport_Click(object sender, RoutedEventArgs e)
         {
+            if (!DateValidated(dpFromDateXML, dpToDateXML))
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Please select FROM DATE grater than or equal to TO DATE", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+
+                return;
+            }
+
             CommonMethods commonMethods = new CommonMethods();
             string path = string.Empty, firstLine = string.Empty;
 
@@ -287,7 +308,7 @@ namespace RocketPOS.Helpers.Reports
             {
                 path = saveFileDialog.FileName;
 
-                tallyXMLView.GenerateSalesVoucher(dpFromDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat), path);
+                tallyXMLView.GenerateSalesVoucher(dpFromDateXML.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDateXML.SelectedDate.Value.ToString(CommonMethods.DateFormat), path);
             }
         }
 
@@ -304,7 +325,7 @@ namespace RocketPOS.Helpers.Reports
                 List<ProductWiseSalesReportModel> productWiseSalesReportModels = new List<ProductWiseSalesReportModel>();
                 ReportViewModel reportViewModel = new ReportViewModel();
 
-                productWiseSalesReportModels = reportViewModel.GetProductWiseSales(dtFrom.ToString("yyyy-MM-dd HH:mi:ss"), dtTo.ToString("yyyy-MM-dd HH:mi:ss"),"Excel");
+                productWiseSalesReportModels = reportViewModel.GetProductWiseSales(dtFrom.ToString("yyyy-MM-dd HH:mi:ss"), dtTo.ToString("yyyy-MM-dd HH:mi:ss"), "Excel");
 
                 CommonMethods commonMethods = new CommonMethods();
                 string path = string.Empty, firstLine = string.Empty;
@@ -331,6 +352,35 @@ namespace RocketPOS.Helpers.Reports
             {
                 SystemError.Register(ex);
             }
+        }
+        private bool DateValidated(DatePicker fromDate, DatePicker toDate)
+        {
+            DateTime _fromDate = (DateTime)((System.Windows.Controls.DatePicker)(fromDate)).SelectedDate;
+            DateTime _toDate = (DateTime)((System.Windows.Controls.DatePicker)(toDate)).SelectedDate;
+
+            if (_fromDate > _toDate)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private void dpFromDateXML_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dpToDateXML.SelectedDate = dpFromDateXML.SelectedDate;
+        }
+
+        private void dpFromDatePayment_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dpToDatePayment.SelectedDate = dpFromDatePayment.SelectedDate;
+        }
+
+        private void dpFromDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dpToDate.SelectedDate = dpFromDate.SelectedDate;
         }
     }
 }

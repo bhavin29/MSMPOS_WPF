@@ -30,29 +30,41 @@ namespace RocketPOS.Helpers.Settings
         {
             try
             {
-                List<SyncErrorModel> syncErrorModel = new List<SyncErrorModel>();
-
-                SettingsViewModel settingsViewModel = new SettingsViewModel();
-
-                lblWait.Visibility = Visibility.Visible;
-                Thread.Sleep(100);
-                txtOutput.AppendText(DateTime.Now.ToString() + " Process Starting " + "\n");
-                txtOutput.UpdateLayout();
-                syncErrorModel = settingsViewModel.SyncData();
-
-                foreach (var item in syncErrorModel)
-                {
-                    txtOutput.Text = txtOutput.Text + DateTime.Now.ToString() + " " + item.ErrorMessage + "\n";
-                }
-                txtOutput.Text = txtOutput.Text + DateTime.Now.ToString() +  " Process Completed" + "\n";
-                lblWait.Visibility = Visibility.Hidden;
-
+                txtOutput.Text = "";
+                UpdateStatus(DateTime.Now.ToString() + " Process Started " + "\n");
+                var thread = new Thread(LoadDevices);
+                thread.Start();
+                return;
             }
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-                lblWait.Visibility = Visibility.Hidden;
             }
+        }
+        private void UpdateStatus(string status)
+        {
+            txtOutput.AppendText(status);
+        }
+        private void LoadDevices()
+        {
+            List<SyncErrorModel> syncErrorModel = new List<SyncErrorModel>();
+            SettingsViewModel settingsViewModel = new SettingsViewModel();
+            Dispatcher.BeginInvoke((Action)(() => btnStartSync.Visibility=Visibility.Hidden));
+            Dispatcher.BeginInvoke((Action)(() => UpdateStatus("Pleae wait..." + "\n")));
+
+            syncErrorModel = settingsViewModel.SyncData();
+
+            foreach (var item in syncErrorModel)
+            {
+                Dispatcher.BeginInvoke((Action)(() => UpdateStatus(DateTime.Now.ToString() + " " + item.ErrorMessage + "\n")));
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                Dispatcher.BeginInvoke((Action)(() => UpdateStatus(".")));
+                Thread.Sleep(250);
+            }
+            Dispatcher.BeginInvoke((Action)(() => UpdateStatus("\n" + DateTime.Now.ToString() + " Process Completed" + "\n")));
+            Dispatcher.BeginInvoke((Action)(() => btnStartSync.Visibility = Visibility.Visible));
         }
         private void CenterWindowOnScreen()
         {
@@ -65,40 +77,7 @@ namespace RocketPOS.Helpers.Settings
                 this.Left = (screenWidth / 2) - (windowWidth / 2);
                 this.Top = ((screenHeight / 2) - (windowHeight / 2));
 
-                /*
-                string settings = LoginDetail.MainWindowSettings;
-                string[] wordsSettings = settings.Split('$');
 
-                foreach (var word in wordsSettings)
-                {
-                    string[] words = word.Split('=');
-
-                    if (words[0] == "ShowInTaskbar")
-                    {
-
-                        this.ShowInTaskbar = bool.Parse(words[1].ToString());
-
-                    }
-                    else if (words[0] == "Topmost")
-                    {
-                        this.Topmost = bool.Parse(words[1].ToString());
-
-                    }
-                    else if (words[0] == "WindowStyle")
-                    {
-                        if (words[1] == "None")
-                            this.WindowStyle = WindowStyle.None;
-
-                    }
-                    else if (words[0] == "ResizeMode")
-                    {
-                        if (words[1] == "NoResize")
-                            this.ResizeMode = ResizeMode.NoResize;
-
-                    }
-                }
-                */
-  
             }
             catch (Exception ex)
             {

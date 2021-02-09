@@ -10,6 +10,7 @@ using System.Windows.Input;
 using RocketPOS.Views;
 using System.Xml;
 using RocketPOS.Helpers.Kitchen;
+using RocketPOS.Core.Configuration;
 
 namespace RocketPOS.Helpers
 {
@@ -22,6 +23,8 @@ namespace RocketPOS.Helpers
     {
         List<LoginModel> loginModel = new List<LoginModel>();
         LoginViewModel loginViewModel = new LoginViewModel();
+        AppSettings appSettings = new AppSettings();
+
         public Login()
         {
             try
@@ -35,8 +38,6 @@ namespace RocketPOS.Helpers
                 }
                 else
                 {
-                    //txtUsername.Text = "Admin";
-                    //txtPassword.Password = "Admin";
                     CenterWindowOnScreen();
                 }
             }
@@ -58,8 +59,16 @@ namespace RocketPOS.Helpers
                     loginViewModel.UpdateLoginLogout("login");
                     loginViewModel.LoginHistory(1);
 
-                    MainWindow mainWin = new MainWindow();
-                    mainWin.Show();
+                    if (loginModel[0].RoleTypeId == 5)
+                    {
+                        KitchenView kitchenView = new KitchenView();
+                        kitchenView.Show();
+                    }
+                    else
+                    {
+                        MainWindow mainWin = new MainWindow();
+                        mainWin.Show();
+                    }
                     this.Hide();
 
                     //if (loginModel[0].OutletRegisterStatus == 1)
@@ -141,6 +150,7 @@ namespace RocketPOS.Helpers
             LoginDetail.Firstname = loginModel[0].Firstname;
             LoginDetail.TaxInclusive = loginModel[0].TaxInclusive;
             LoginDetail.IsItemOverright = loginModel[0].IsItemOverright;
+            LoginDetail.ConnectionString = appSettings.GetConnectionString();
         }
 
         private void CenterWindowOnScreen()
