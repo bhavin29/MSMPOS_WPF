@@ -13,6 +13,8 @@
     <None Remove="images\InvoiceOrder.PNG" />
     <None Remove="images\LoginIcon.jpeg" />
     <None Remove="images\logo.png" />
+    <None Remove="images\logout-icon.jpg" />
+    <None Remove="images\Logout.png" />
     <None Remove="images\Mainwindow_Logo.bmp" />
     <None Remove="images\OrderCancel.PNG" />
     <None Remove="images\OrderHold.PNG" />
@@ -56,6 +58,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\logout-icon.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\Logout.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\Mainwindow_Logo.bmp">

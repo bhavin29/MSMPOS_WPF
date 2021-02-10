@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:RocketPOS.Helpers.Kitchen"
         mc:Ignorable="d"
         	Title="RocketPOS - Kitchen View" 
-        ShowInTaskbar="True"  Topmost="true" WindowState="Maximized"  WindowStartupLocation="CenterOwner"  Background="#0033cc" 
-        Height="840" Width="1294">
+        ShowInTaskbar="True" Topmost="true"  ResizeMode="CanResize" WindowStartupLocation="CenterOwner" WindowStyle="ThreeDBorderWindow"  Background="#0033cc" 
+        Height="830" Width="1540" Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -35,7 +35,8 @@
             <TextBlock FontSize="22" Foreground="Black" Text="Served" Margin="530,5,10,10"></TextBlock>
             <TextBlock FontSize="22" Foreground="Black" Text="Completed" Margin="630,5,10,10"></TextBlock>
         </Canvas>
- 
+        <Button x:Name="btnPOS" Visibility="Collapsed" Content="BACK" Margin="2,2,2,0" Style="{StaticResource btnOrange}" Grid.Row="0" Grid.Column="0"  Width="70" Height="35" HorizontalAlignment="Right" Click="btnPOS_Click"/>
+
 
         <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="0" Margin="3,1,0,0">
             <WrapPanel x:Name="wpKitchenView"  Orientation="Horizontal"  >

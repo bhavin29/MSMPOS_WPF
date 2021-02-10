@@ -165,9 +165,9 @@
         <Grid Grid.Row="2" Background="AliceBlue">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
                 <Label Content="Receipt Count: " FontSize="16" Width="115" Margin="120,-20,0,0" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
-                <Label Name="lblInvoiceCount" FontSize="16"  Width="100" Margin="-75,-20,0,0" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                <Label Name="lblInvoiceCount" FontSize="16"  Width="100" Margin="-45,-20,0,0" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
 
-                <Label Content="Total: " FontSize="16" Width="100" Margin="421,-20,0,0" VerticalAlignment="Center" HorizontalContentAlignment="Left"/>
+                <Label Content="Total: " FontSize="16" Width="100" Margin="410,-20,0,0" VerticalAlignment="Center" HorizontalContentAlignment="Left"/>
                 <Label Name="lblInvoiceTotal" FontSize="16"  Width="100" Margin="-45,-20,0,0" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
             </StackPanel>
         </Grid>

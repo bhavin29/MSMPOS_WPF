@@ -1729,7 +1729,7 @@ namespace RocketPOS.Helpers
                     splash.Show(true);
 
                     Thread.Sleep(2000);
- 
+
                     GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
                 }
                 else
@@ -2947,10 +2947,8 @@ namespace RocketPOS.Helpers
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
-           // SettingView  settingView= new SettingView();
-          //  settingView.ShowDialog();
-            KitchenView kitchenView = new KitchenView();
-            kitchenView.Show();
+            SettingView settingView = new SettingView();
+            settingView.ShowDialog();
         }
 
         private void btnChangePrice_Click(object sender, RoutedEventArgs e)
@@ -2999,14 +2997,21 @@ namespace RocketPOS.Helpers
 
         private void rdbTakeAwayOrderType_Click(object sender, RoutedEventArgs e)
         {
-          //  txtTableNumber.Text = "";
-           // txtbDineInTableId.Text = "";
+            //  txtTableNumber.Text = "";
+            // txtbDineInTableId.Text = "";
         }
 
         private void rdbDeliveryOrderType_Click(object sender, RoutedEventArgs e)
         {
-           // txtTableNumber.Text = "";
-           // txtbDineInTableId.Text = "";
+            // txtTableNumber.Text = "";
+            // txtbDineInTableId.Text = "";
+        }
+
+        private void btnKitchenView_Click(object sender, RoutedEventArgs e)
+        {
+            KitchenView kitchenView = new KitchenView();
+            kitchenView.Owner = Application.Current.MainWindow;
+            kitchenView.ShowDialog();
         }
     }
 }

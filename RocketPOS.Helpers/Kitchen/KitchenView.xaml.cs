@@ -38,6 +38,13 @@ namespace RocketPOS.Helpers.Kitchen
             CenterWindowOnScreen();
             TimerForKOTStatus(_KotTimerLimit);
             GetKitchenPending(KitchenOrder);
+
+            if (LoginDetail.RoleTypeId == 1 || LoginDetail.RoleTypeId == 2 || LoginDetail.RoleTypeId == 3)
+            {
+                btnPOS.Visibility = Visibility.Visible;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.ResizeMode = ResizeMode.NoResize;
+            }
         }
         private void GetKitchenPending(List<int> KitchenOrder)
         {
@@ -88,7 +95,7 @@ namespace RocketPOS.Helpers.Kitchen
                         if (item.AllocatedPerson > 0)
                             strPerson = " [ " + item.AllocatedPerson + " ]";
 
-                        txtbTableName.Text = "# " + item.TableName + strPerson;
+                        txtbTableName.Text = "Table# " + item.TableName + strPerson;
                         txtbTableName.Name = "txtbTableName_" + item.TableId;
                         txtbTableName.FontSize = 20;
 
@@ -478,6 +485,36 @@ namespace RocketPOS.Helpers.Kitchen
             {
                 SystemError.Register(ex);
             }
+        }
+
+        private void btnPOS_Click(object sender, RoutedEventArgs e)
+        {
+            // MainWindow mainWin = new MainWindow();
+            //  mainWin.Show();
+            this.Hide();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (LoginDetail.RoleTypeId == 1 || LoginDetail.RoleTypeId == 2 || LoginDetail.RoleTypeId == 3)
+            {
+                this.Hide();
+            }
+            else
+            {
+                App.Current.Shutdown();
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (LoginDetail.RoleTypeId == 1 || LoginDetail.RoleTypeId == 2 || LoginDetail.RoleTypeId == 3)
+            {
+                btnPOS.Visibility = Visibility.Visible;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.ResizeMode = ResizeMode.NoResize;
+            }
+
         }
     }
 }
