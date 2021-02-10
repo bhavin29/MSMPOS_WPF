@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RocketPOS.Helpers.Kitchen"
         mc:Ignorable="d"
         	Title="RocketPOS - Kitchen View" 
-        ShowInTaskbar="True" Topmost="true"  ResizeMode="CanResize" WindowStartupLocation="CenterOwner" WindowStyle="ThreeDBorderWindow"  Background="#0033cc" 
+        ShowInTaskbar="True" Topmost="true"  ResizeMode="CanResize" WindowStartupLocation="CenterOwner" WindowStyle="ThreeDBorderWindow"  Background="Gray" 
         Height="830" Width="1540" Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,28 +16,23 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBox  Name="txtTimer" Width="40" Height="35" FontSize="26" Text="5" HorizontalAlignment="Left" Margin="5,0,0,0" HorizontalContentAlignment="Center" ></TextBox>
-        <Button x:Name="btnRefreshAll" Margin="50,2,10,0" Style="{StaticResource btnOrange}" Grid.Row="0" Grid.Column="0"  Width="140" Height="35" HorizontalAlignment="Left" Click="btnRefreshAll_Click">
-            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                <Image Source="../images/Search.png" Height="20"/>
-                <TextBlock Text="Refresh" VerticalAlignment="Center" Margin="15,2,5,5"/>
-            </StackPanel>
-        </Button>     
         <Canvas Width="500" Height="35" HorizontalAlignment="Left" Margin="5,0,0,0">
-            <Rectangle Width="100" Height="35" Fill="#ff726f" Canvas.Left="200" Canvas.Top="2" />
-            <Rectangle Width="100" Height="35" Fill="#fbff99" Canvas.Left="310" Canvas.Top="2" />
-            <Rectangle Width="90" Height="35" Fill="#5cff7e" Canvas.Left="420" Canvas.Top="2" />
-            <Rectangle Width="90" Height="35" Fill="#ccd9ff" Canvas.Left="520" Canvas.Top="2" />
-            <Rectangle Width="130" Height="35" Fill="#ffffff" Canvas.Left="620" Canvas.Top="2" />
-            <TextBlock FontSize="22" Foreground="Black" Text="Pending" Margin="210,5,10,10"></TextBlock>
-            <TextBlock FontSize="22" Foreground="Black" Text="Cooking" Margin="320,5,10,10"></TextBlock>
-            <TextBlock FontSize="22" Foreground="Black" Text="Ready" Margin="430,5,10,10"></TextBlock>
-            <TextBlock FontSize="22" Foreground="Black" Text="Served" Margin="530,5,10,10"></TextBlock>
-            <TextBlock FontSize="22" Foreground="Black" Text="Completed" Margin="630,5,10,10"></TextBlock>
+            <Rectangle Width="102" Height="35" Fill="#ff726f" Canvas.Left="2" Canvas.Top="2" />
+            <Rectangle Width="102" Height="35" Fill="#fbff99" Canvas.Left="108" Canvas.Top="2" />
+            <Rectangle Width="102" Height="35" Fill="#5cff7e" Canvas.Left="214" Canvas.Top="2" />
+            <Rectangle Width="102" Height="35" Fill="#ccd9ff" Canvas.Left="320" Canvas.Top="2" />
+            <Rectangle Width="103" Height="35" Fill="#ffffff" Canvas.Left="426" Canvas.Top="2" />
+            <TextBlock FontSize="18" Foreground="Black" Text="Pending" Margin="20,7,10,10"></TextBlock>
+            <TextBlock FontSize="18" Foreground="Black" Text="Cooking" Margin="126,7,10,10"></TextBlock>
+            <TextBlock FontSize="18" Foreground="Black" Text="Ready" Margin="243,7,10,10"></TextBlock>
+            <TextBlock FontSize="18" Foreground="Black" Text="Served" Margin="344,7,10,10"></TextBlock>
+            <TextBlock FontSize="18" Foreground="Black" Text="Completed" Margin="434,7,10,10"></TextBlock>
         </Canvas>
-        <Button x:Name="btnPOS" Visibility="Collapsed" Content="BACK" Margin="2,2,2,0" Style="{StaticResource btnOrange}" Grid.Row="0" Grid.Column="0"  Width="70" Height="35" HorizontalAlignment="Right" Click="btnPOS_Click"/>
-
-
+        <TextBox  Name="txtTimer" Width="0" Height="35" FontSize="26" Text="5" HorizontalAlignment="Left" Margin="5,7,0,0" HorizontalContentAlignment="Center" ></TextBox>
+        <Button x:Name="btnRefreshAll" Margin="540,5,10,0" Content="Refresh" Style="{StaticResource btnOrange}" Grid.Row="0" Grid.Column="0"  Width="102" Height="34" HorizontalAlignment="Left" Click="btnRefreshAll_Click">
+        </Button>
+        <Button x:Name="btnPOS" Visibility="Collapsed" Content="Back" Margin="2,0,2,0" Style="{StaticResource btnOrange}" Grid.Row="0" Grid.Column="0"  Width="70" Height="35" HorizontalAlignment="Right" Click="btnPOS_Click"/>
+  
         <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="0" Margin="3,1,0,0">
             <WrapPanel x:Name="wpKitchenView"  Orientation="Horizontal"  >
 

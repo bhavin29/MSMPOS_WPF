@@ -69,10 +69,10 @@
                         <Button x:Name="btnReports" Style="{StaticResource btnOrange}" Content="Reports" Width="101" Margin ="1,1,0,0" Click="btnReports_Click"/>
 
                         <Button x:Name="btnSettings" Style="{StaticResource btnOrange}" Content="Settings" Click="btnSettings_Click" Width="101" />
-                        <Button x:Name="btnKitchenView" Style="{StaticResource btnOrange}" Content="Kitechen" Width="75" Margin="1,0,0,0" Click="btnKitchenView_Click"  />
-                        <Button x:Name="btnLogOut" Style="{StaticResource btnOrange}"  Width="35" Margin="1,0,0,0" Background="DarkGray" Click="btnLogOut_Click"  >
+                        <Button x:Name="btnKitchenView" Style="{StaticResource btnOrange}" Content="Kitchen" Width="75" Margin="1,0,0,0" Click="btnKitchenView_Click"  />
+                        <Button x:Name="btnLogOut" Style="{StaticResource btnOrange}"   Width="40" Margin="1,0,0,0" Background="White" Click="btnLogOut_Click"  >
                             <StackPanel HorizontalAlignment="Left">
-                                <Image Source="images/logout-icon.jpg" Height="35" Width="35"/>
+                                <Image Source="images/logout.png"  Height="30" Width="30"/>
                             </StackPanel>
                         </Button>
 

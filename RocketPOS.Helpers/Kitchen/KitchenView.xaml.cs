@@ -95,9 +95,10 @@ namespace RocketPOS.Helpers.Kitchen
                         if (item.AllocatedPerson > 0)
                             strPerson = " [ " + item.AllocatedPerson + " ]";
 
-                        txtbTableName.Text = "Table# " + item.TableName + strPerson;
+                        txtbTableName.Text = "TABLE #" + item.TableName + strPerson;
                         txtbTableName.Name = "txtbTableName_" + item.TableId;
-                        txtbTableName.FontSize = 20;
+                        txtbTableName.FontSize = 18;
+                        txtbTableName.FontWeight = FontWeights.Bold;
 
                         txtbTableName.Width = 166;
                         if (item.CustomerOrderId == 0)
@@ -173,7 +174,7 @@ namespace RocketPOS.Helpers.Kitchen
                                 TextBlock txtbFoodMenuName = new TextBlock();
                                 txtbFoodMenuName.Text = kotItem.FoodMenuName;
                                 txtbFoodMenuName.Name = "txtbFoodMenuName_" + kotItem.KOTItemId;
-                                txtbFoodMenuName.FontSize = 18;
+                                txtbFoodMenuName.FontSize = 16;
                                 txtbFoodMenuName.Width = 225;
                                 txtbFoodMenuName.HorizontalAlignment = HorizontalAlignment.Left;
                                 kotDetailPanel.Children.Add(txtbFoodMenuName);
@@ -182,7 +183,7 @@ namespace RocketPOS.Helpers.Kitchen
                                 TextBlock txtbFoodMenuQty = new TextBlock();
                                 txtbFoodMenuQty.Text = "Qty: " + kotItem.FoodMenuQty.ToString();
                                 txtbFoodMenuQty.Name = "txtbFoodMenuQty_" + kotItem.KOTItemId;
-                                txtbFoodMenuQty.FontSize = 18;
+                                txtbFoodMenuQty.FontSize = 16;
                                 txtbFoodMenuQty.Width = 70;
                                 txtbFoodMenuQty.TextAlignment = TextAlignment.Left;
                                 kotDetailPanel.Children.Add(txtbFoodMenuQty);
@@ -235,7 +236,7 @@ namespace RocketPOS.Helpers.Kitchen
                             btnSelectAll.Width = 90;
                             btnSelectAll.Height = 40;
                             btnSelectAll.BorderThickness = new Thickness(1);
-                            btnSelectAll.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
+                            btnSelectAll.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                             btnSelectAll.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                             btnSelectAll.Margin = new Thickness(0, 0, 0, 0);
                             btnSelectAll.Checked += SelectAllKotItem;
@@ -251,7 +252,7 @@ namespace RocketPOS.Helpers.Kitchen
                             btnCooking.Width = 40;
                             btnCooking.Height = 40;
                             btnCooking.BorderThickness = new Thickness(1);
-                            btnCooking.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
+                            btnCooking.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                             btnCooking.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                             btnCooking.Margin = new Thickness(0, 0, 0, 0);
                             btnCooking.Visibility = Visibility.Hidden;
@@ -267,7 +268,7 @@ namespace RocketPOS.Helpers.Kitchen
                             btnPending.Width = 40;
                             btnPending.Height = 40;
                             btnPending.BorderThickness = new Thickness(1);
-                            btnPending.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
+                            btnPending.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                             btnPending.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                             btnPending.Margin = new Thickness(0, 0, 0, 0);
                             btnPending.Visibility = Visibility.Hidden;
@@ -283,7 +284,7 @@ namespace RocketPOS.Helpers.Kitchen
                             btnCompleted.Width = 40;
                             btnCompleted.Height = 40;
                             btnCompleted.BorderThickness = new Thickness(1);
-                            btnCompleted.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF5733"));
+                            btnCompleted.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#D9BA41"));
                             btnCompleted.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFF"));
                             btnCompleted.Margin = new Thickness(0, 0, 0, 0);
                             btnCompleted.Visibility = Visibility.Hidden;
