@@ -275,12 +275,12 @@ namespace RocketPOS.ViewModels
                 Query = "(select convert(varchar(10), BD.BillDate,103) as BillDate,PaymentMethodName,sum(BillAmount) As BillAmount from Bill B " +
                                     " INNER JOIN BillDetail BD ON B.ID = BD.BillId " +
                                     " Inner join PaymentMethod PM ON BD.PaymentMethodId = PM.ID " +
-                                    " Where B.IsDeleted = 0 AND " +
-                                    " Convert(Date, BD.BillDate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)  And B.BillStatus = 4 AND B.OutletId = " + LoginDetail.OutletId +
+                                //    " Where B.IsDeleted = 0 AND " +
+                                //    " Convert(Date, BD.BillDate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)  And B.BillStatus = 4 AND B.OutletId = " + LoginDetail.OutletId +
                                     " Group by convert(varchar(10), BD.BillDate,103),PaymentMethodName )" +
                                     "  union all" +
                                     " (SELECT convert(varchar(10), B.BillDateTime,103) as BillDate, ' SALES' AS PaymentMethodName, SUM(TotalAmount) as Sales from Bill B " +
-                                    " Where B.IsDeleted = 0  and Convert(Date, B.BillDateTime , 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)  And B.BillStatus = 4 AND B.OutletId = " + LoginDetail.OutletId +
+                               //     " Where B.IsDeleted = 0  and Convert(Date, B.BillDateTime , 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)  And B.BillStatus = 4 AND B.OutletId = " + LoginDetail.OutletId +
                                     " group by convert(varchar(10), B.BillDateTime, 103))" +
                                     " Order by convert(varchar(10), BD.BillDate, 103)";
 

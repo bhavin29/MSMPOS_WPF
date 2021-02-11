@@ -79,7 +79,7 @@
                     </StackPanel>
                     <Popup Name="ppFoodMenuList" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                         <Border BorderBrush="Black" BorderThickness="5,5,5,5">
-                            <Grid Width="667" Height="600" Background="#86A09E">
+                            <Grid Width="577" Height="600" Background="#86A09E">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
@@ -89,8 +89,8 @@
                                     <RowDefinition Height="40"/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="txtSearchFoodMenuList"  Grid.Row="0" Grid.Column="0" VerticalContentAlignment="Center" FontSize="16" Style="{StaticResource TextBoxBaseStyle}" Width="530" Margin="0,5,0,5" TextChanged="txtSearchFoodMenuList_TextChanged"/>
-                                    <Button x:Name="btnPPFoodListCancel" Margin="15,0,0,0" Width="100"  Height="40" FontSize="16" Background="#00265B" Foreground="White" Grid.Row="0" Grid.Column="0" Content="Close" Click="btnPPFoodListCancel_Click"/>
+                                    <TextBox x:Name="txtSearchFoodMenuList"  Grid.Row="0" Grid.Column="0" VerticalContentAlignment="Center" FontSize="22" Style="{StaticResource TextBoxBaseStyle}" Width="477" Margin="5,5,0,5" TextChanged="txtSearchFoodMenuList_TextChanged"/>
+                                    <Button x:Name="btnPPFoodListCancel" Margin="15,0,0,0" Width="70"  Height="40" FontSize="16" Background="#00265B" Foreground="White" Grid.Row="0" Grid.Column="0" Content="Close" Click="btnPPFoodListCancel_Click"/>
                                 </StackPanel>
                                 <DataGrid x:Name="dgFoodMenuList" Grid.Row="1" Grid.Column="0" CanUserAddRows="false" AutoGenerateColumns="False" ItemsSource="{Binding FoodMenu}" MouseDoubleClick="dgFoodMenuList_MouseDoubleClick">
                                     <DataGrid.Columns>
@@ -103,17 +103,22 @@
                                             </DataGridTextColumn.ElementStyle>
                                         </DataGridTextColumn>
                                         <DataGridTextColumn Header="Category" IsReadOnly="True"  Width="150" Binding="{Binding FoodCategory}"></DataGridTextColumn>
-                                        <DataGridTemplateColumn Width="70" IsReadOnly="True" Header="Picture" Visibility="Hidden">
+                                        <DataGridTemplateColumn Width="50" IsReadOnly="True" Header="Picture" Visibility="Hidden">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Button Content="Upload" x:Name="btnUploadFoodImage" Style="{StaticResource btnOrange}" Width="70" Margin="0" VerticalAlignment="Center" Click="btnUploadFoodImage_Click"/>
+                                                    <Button  x:Name="btnUploadFoodImage" Style="{StaticResource btnOrange}" Width="50" Margin="0" Background="Gray" VerticalAlignment="Center" Click="btnUploadFoodImage_Click">
+                                                        <StackPanel HorizontalAlignment="Left">
+                                                            <Image Source="images/Upload.png"  Height="30" Width="50"/>
+                                                        </StackPanel>
+
+                                                    </Button>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
-                                        <DataGridTemplateColumn Width="70" IsReadOnly="True" Header="Price" >
+                                        <DataGridTemplateColumn Width="0" IsReadOnly="True" Header="Price" Visibility="Hidden" >
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Button Content="Change" x:Name="btnChangePrice" Style="{StaticResource btnOrange}" Width="70" Margin="0" VerticalAlignment="Center" Click="btnChangePrice_Click"/>
+                                                    <Button Content="Change" x:Name="btnChangePrice" Visibility="Hidden" Style="{StaticResource btnOrange}" Width="0" Margin="0" VerticalAlignment="Center" Click="btnChangePrice_Click"/>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>

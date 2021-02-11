@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ModeOdPayment" msprop:Generator_TableClassName="ModeOdPaymentDataTable" msprop:Generator_TableVarName="tableModeOdPayment" msprop:Generator_TablePropName="ModeOdPayment" msprop:Generator_RowDeletingName="ModeOdPaymentRowDeleting" msprop:Generator_RowChangingName="ModeOdPaymentRowChanging" msprop:Generator_RowEvHandlerName="ModeOdPaymentRowChangeEventHandler" msprop:Generator_RowDeletedName="ModeOdPaymentRowDeleted" msprop:Generator_UserTableName="ModeOdPayment" msprop:Generator_RowChangedName="ModeOdPaymentRowChanged" msprop:Generator_RowEvArgName="ModeOdPaymentRowChangeEvent" msprop:Generator_RowClassName="ModeOdPaymentRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BillDate" msprop:Generator_ColumnVarNameInTable="columnBillDate" msprop:Generator_ColumnPropNameInRow="BillDate" msprop:Generator_ColumnPropNameInTable="BillDateColumn" msprop:Generator_UserColumnName="BillDate" type="xs:string" minOccurs="0" />
+              <xs:element name="Sales" msprop:Generator_ColumnVarNameInTable="columnSales" msprop:Generator_ColumnPropNameInRow="Sales" msprop:Generator_ColumnPropNameInTable="SalesColumn" msprop:Generator_UserColumnName="Sales" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Cash" msprop:Generator_ColumnVarNameInTable="columnCash" msprop:Generator_ColumnPropNameInRow="Cash" msprop:Generator_ColumnPropNameInTable="CashColumn" msprop:Generator_UserColumnName="Cash" type="xs:decimal" minOccurs="0" />
+              <xs:element name="M-PESA" msprop:Generator_ColumnVarNameInTable="_columnM_PESA" msprop:Generator_ColumnPropNameInRow="_M_PESA" msprop:Generator_ColumnPropNameInTable="_M_PESAColumn" msprop:Generator_UserColumnName="M-PESA" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CreditCard" msprop:Generator_ColumnVarNameInTable="columnCreditCard" msprop:Generator_ColumnPropNameInRow="CreditCard" msprop:Generator_ColumnPropNameInTable="CreditCardColumn" msprop:Generator_UserColumnName="CreditCard" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DebitCard" msprop:Generator_ColumnVarNameInTable="columnDebitCard" msprop:Generator_ColumnPropNameInRow="DebitCard" msprop:Generator_ColumnPropNameInTable="DebitCardColumn" msprop:Generator_UserColumnName="DebitCard" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

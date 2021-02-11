@@ -3,11 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RocketPOS.Helpers.Reports" xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:RocketPOS.Helpers.Reports"
         mc:Ignorable="d"
-           Title="Reports" Height="800" Width="1280" Background="#956eeb"
-    ShowInTaskbar="True"  Topmost="true"  WindowStartupLocation="CenterOwner" ResizeMode="NoResize"  >
-
+        Title="Reports" Height="800" Width="1280" Background="#956eeb"
+    ShowInTaskbar="True"  Topmost="true"  WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -26,7 +26,7 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="500"/>
             </Grid.RowDefinitions>
-            
+
             <Grid Grid.Row="0" Background="AliceBlue">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="25,0,0,0" Height="40">
                     <Label Content="1. Detailed Daily Report"  FontWeight="Bold" VerticalAlignment="Center"/>
@@ -34,7 +34,7 @@
             </Grid>
             <Grid Grid.Row="1" Background="AliceBlue"  >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="25,0,0,0">
-                      <Label Content="Report From Date" Width="130" VerticalAlignment="Center"/>
+                    <Label Content="Report From Date" Width="130" VerticalAlignment="Center"/>
                     <wpfx:DateTimePicker Name="dpDetailedDailyFromDate" Height="30" FormatString="dd/MM/yyyy hh:mm"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0"   />
                     <Label Content="To Date" Width="100" VerticalAlignment="Center" Margin="25,0,0,0"/>
                     <wpfx:DateTimePicker Name="dpDetailedDailyToDate" Height="30" FormatString="dd/MM/yyyy hh:mm"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0"   />

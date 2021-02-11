@@ -1,0 +1,23 @@
+﻿<Window x:Class="RocketPOS.Helpers.Reports.ReportViewer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RocketPOS.Helpers.Reports"
+        mc:Ignorable="d"
+        Title="ReportViewer" Height="800" Width="1280">
+    <Grid>
+        <FlowDocumentReader IsScrollViewEnabled="True">
+
+            <FlowDocument Name = "flowDocument" ColumnWidth= "999999" >
+                <Section LineHeight="0.1">
+                    <Paragraph Name= "headParagraph" FontFamily="Calibri" FontSize= "20" FontWeight= "Bold" >BAPS SHAYONA (NAIROBI) LTD</Paragraph>
+                    <Paragraph Name = "ndHeadParagraph"  FontFamily="Calibri" FontSize= "15" >PARKLANDS, NAIROBI</Paragraph>
+                </Section>
+            </FlowDocument>
+
+        </FlowDocumentReader>
+        <Button Name = "printButton" FontFamily="Calibri" Height="30" Width="40" Content= "Print" HorizontalAlignment="Right" VerticalAlignment="Top"  Click= "printButton_Click" />
+        <Button Name = "excelButton" FontFamily="Calibri" Margin="0,0,50,0" Height="30" Width="40" Content= "Excel" HorizontalAlignment="Right" VerticalAlignment="Top"  Click= "excelButton_Click" />
+    </Grid>
+</Window>
