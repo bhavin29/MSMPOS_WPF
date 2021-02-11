@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using RocketPOS.Core.Constants;
 
 // By @naadydev
 //    naadydev@gmail.com 
@@ -155,6 +156,22 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
         /// <param name="footer"></param>
         public void CreateAndVisualizeDataTable(FlowDocument flowDocument, DataTable datatable, string headerTitle, string footer)
         {
+            var section = new Section();
+            section.LineHeight = Double.NaN;
+
+            var pHeader = new Paragraph();
+            pHeader.Inlines.Add(new Run(LoginDetail.ClientName));
+            pHeader.LineHeight = Double.NaN;
+           flowDocument.Blocks.Add(pHeader);
+         //   section.Blocks.Add(pHeader);
+
+            var pndHeader = new Paragraph();
+            pndHeader.Inlines.Add(new Run(LoginDetail.Address2));
+            pndHeader.LineHeight = Double.NaN;
+            flowDocument.Blocks.Add(pndHeader);
+            //section.Blocks.Add(pndHeader);
+          //  flowDocument.Blocks.Add(section);
+
             HeaderTitleText = headerTitle;
             FooterText = footer;
             Datatable = datatable;
@@ -170,6 +187,8 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
         /// <returns>System.Windows.Documents.Table</returns>
         public Table CreateAndVisualizeDataTable(DataTable datatable, string headerTitle, string footer)
         {
+    
+            
             HeaderTitleText = headerTitle;
             FooterText = footer;
             Datatable = datatable;
@@ -282,6 +301,7 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
             for (int i = 0; i < Datatable.Columns.Count; i++)
             {
                 _winTableRow.Cells.Add(new TableCell(new Paragraph(new Run(Datatable.Columns[i].ColumnName))));
+                _winTableRow.Cells[i].TextAlignment = TextAlignment.Center;
             }
         }
 
@@ -315,7 +335,7 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
                 {
                     _winTableRow.Cells.Add(new TableCell(new Paragraph(new Run(Datatable.Rows[i][x].ToString()))));
 
-                    if (x == 1)
+                    if (x == 1 || x == 2 || x == 3|| x == 4|| x == 5)
                         _winTableRow.Cells[x].TextAlignment = TextAlignment.Right;
                 }
 
@@ -380,9 +400,15 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
             flowDocument.PageHeight = printDialog.PrintableAreaHeight;
             flowDocument.PageWidth = printDialog.PrintableAreaWidth;
 
+            //var elementWithName = (Paragraph)flowDocument.FindResource("headParagraph");
+            //elementWithName.Name = null;
+
             IDocumentPaginatorSource idocument = flowDocument as IDocumentPaginatorSource;
 
             printDialog.PrintDocument(idocument.DocumentPaginator, "Printing ...");
+
+            flowDocument.PageHeight = 800;
+            flowDocument.PageWidth = 816;
         }
     }
 

@@ -5,19 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RocketPOS.Helpers.Reports"
         mc:Ignorable="d"
-        Title="ReportViewer" Height="800" Width="1280">
-    <Grid>
-        <FlowDocumentReader IsScrollViewEnabled="True">
+        Title="Report Viewer" Height="800" Width="816" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+    <Grid >
+                <FlowDocumentReader  Margin="10,10,10,10">
+                    <FlowDocument Name = "flowDocument" ColumnWidth= "999999" >
+                        <!--<Section LineHeight="0.1">
+                            <Paragraph Name= "headParagraph" Margin="0" BorderThickness="0" FontFamily="Calibri" FontSize= "20" FontWeight= "Bold" >BAPS SHAYONA (NAIROBI) LTD</Paragraph>
+                    <Paragraph Name = "ndHeadParagraph" BorderThickness="0" FontFamily="Calibri" FontSize= "15" >PARKLANDS, NAIROBI</Paragraph>
+                        </Section>-->
+                    </FlowDocument>
+                </FlowDocumentReader>
+        <Button Name = "printButton" FontFamily="Calibri" Background="White" Margin="5,0,5,0" Height="35" Width="35" HorizontalAlignment="Right" VerticalAlignment="Top"  Click= "printButton_Click" >
+            <StackPanel HorizontalAlignment="Center">
+                <Image Source="../images/print.png"  Height="20" Width="20"/>
+            </StackPanel>
 
-            <FlowDocument Name = "flowDocument" ColumnWidth= "999999" >
-                <Section LineHeight="0.1">
-                    <Paragraph Name= "headParagraph" FontFamily="Calibri" FontSize= "20" FontWeight= "Bold" >BAPS SHAYONA (NAIROBI) LTD</Paragraph>
-                    <Paragraph Name = "ndHeadParagraph"  FontFamily="Calibri" FontSize= "15" >PARKLANDS, NAIROBI</Paragraph>
-                </Section>
-            </FlowDocument>
-
-        </FlowDocumentReader>
-        <Button Name = "printButton" FontFamily="Calibri" Height="30" Width="40" Content= "Print" HorizontalAlignment="Right" VerticalAlignment="Top"  Click= "printButton_Click" />
-        <Button Name = "excelButton" FontFamily="Calibri" Margin="0,0,50,0" Height="30" Width="40" Content= "Excel" HorizontalAlignment="Right" VerticalAlignment="Top"  Click= "excelButton_Click" />
+        </Button>
+        <Button Name = "excelButton" FontFamily="Calibri" Background="White" Margin="0,0,45,0" Height="35" Width="35"  HorizontalAlignment="Right" VerticalAlignment="Top"  Click= "excelButton_Click" >
+            <StackPanel HorizontalAlignment="Center">
+                <Image Source="../images/excel.png"  Height="35" Width="35"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </Window>

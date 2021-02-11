@@ -17,7 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using RocketPOS.Helpers.Reports;
 namespace RocketPOS.Helpers.Reports
 {
     /// <summary>
@@ -234,6 +234,15 @@ namespace RocketPOS.Helpers.Reports
 
                     return;
                 }
+
+                //LoginDetail.ReportName = "ModeOfPayment";
+   
+                //ReportViewer reportViewer = new ReportViewer();
+                //this.Hide(); 
+                //reportViewer.Show();
+                //reportViewer.Activate();
+  
+                //return;
 
                 CommonMethods commonMethods = new CommonMethods();
                 string path = string.Empty, firstLine = string.Empty;

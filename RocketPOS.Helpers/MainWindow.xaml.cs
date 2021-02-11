@@ -2750,7 +2750,7 @@ namespace RocketPOS.Helpers
             try
             {
                 ReportList reportList = new ReportList();
-                reportList.Owner = Application.Current.MainWindow;
+              //  reportList.Owner = Application.Current.MainWindow;
                 reportList.ShowDialog();
             }
             catch (Exception ex)
