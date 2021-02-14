@@ -143,7 +143,7 @@ namespace RocketPOS.ViewModels
                                       "  WHEN CO.OrderType = 2 THEN 'Take Away' " +
                                       "  WHEN CO.OrderType = 3 THEN 'Delivery' END as OrderType,  " +
                             " CONVERT(VARCHAR(10),CO.OrderDate,105) AS Orderdate,CO.GrossAmount,CO.DiscountAmount,  " +
-                            " CO.DeliveryCharges,CO.TaxAmount,CO.Grossamount as TotalPayable ,  " +
+                            " CO.DeliveryCharges,CO.TaxAmount,CO.TotalPayable as TotalPayable ,  " +
                             " CASE WHEN CO.OrderStatus = 1 THEN 'Pending'  " +
                                       "  WHEN CO.OrderStatus = 2 THEN 'Hold'  " +
                                       "  WHEN CO.OrderStatus = 3 THEN 'Partial Paid'  " +
@@ -158,7 +158,7 @@ namespace RocketPOS.ViewModels
                                        "      Left Join PaymentMethod PM On PM.Id = BD.PaymentMethodId Where B.CustomerOrderId = CO.Id) " +
                                        "     FOR XML PATH('') " +
                                        "  ), 1, 2, '')) AS Payment, " +
-                            " (select Sum(Grossamount) from CustomerOrder where Convert(Date, Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)" +" ) As InvoiceTotal, " +
+                            " (select Sum(TotalPayable) from CustomerOrder where Convert(Date, Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)" +" ) As InvoiceTotal, " +
                               "(select count(*) from CustomerOrder where Convert(Date, Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)"+ " ) As InvoiceCount " +
                             " FROM CustomerOrder CO  " +
                             " INNER JOIN Customer C ON C.ID = CO.CustomerId  " +

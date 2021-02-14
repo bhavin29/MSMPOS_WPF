@@ -248,8 +248,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
-                        <RowDefinition Height="386"/>
-                        <RowDefinition Height="129"/>
+                        <RowDefinition Height="360"/>
+                        <RowDefinition Height="155"/>
                         <RowDefinition Height="65"/>
 
                     </Grid.RowDefinitions>
@@ -535,10 +535,11 @@
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="0"/>
-                            <RowDefinition Height="0"/>
+                            <RowDefinition Height="25"/>
                             <RowDefinition Height="0"/>
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
+  
                         <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock x:Name="txtbTotalItem" Style="{StaticResource txtBlock}"  Text=" No of Items :  "  />
@@ -546,7 +547,6 @@
                                 <TextBlock x:Name="txtbOrderId" Text="0"  Visibility="Hidden"/>
                             </StackPanel>
                         </Grid>
-
 
                         <Grid Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
@@ -605,34 +605,75 @@
                         </Grid>
 
                         <Grid Grid.Row="4"  Grid.Column="0" Grid.ColumnSpan="2">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 0 0 0">
-                                <Button x:Name="btnDicountPopUp" Style="{StaticResource btnOrangeLng}" Content="Dist. %"  Width="70" Height="35" Click="btnDicountPopUp_Click"/>
+                        </Grid>
 
+                        <Grid Grid.Row="4"  Grid.Column="2" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock x:Name="txtbDiscount" Style="{StaticResource txtBlock}" Text="Discount (%) : "  />
                             </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="4"  Grid.Column="3" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
+                                <TextBlock x:Name="txtbtxtDiscount" Style="{StaticResource txtBlock}" HorizontalAlignment="Right" Text="0.00"  />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left">
+                        
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 0">
+                                <Button x:Name="btnDicountPopUp" Style="{StaticResource btnOrangeLng}" Content="Dist." Foreground="#86A09E" Background="#86A09E" Width="15" Height="25" Click="btnDicountPopUp_Click"/>
+                            </StackPanel>
+                            
                             <Popup x:Name="ppPassword" Placement="Center">
                                 <Border BorderBrush="Black" BorderThickness="5,5,5,5">
-                                    <Grid Width="250" Height="200" Background="#86A09E">
+                                    <Grid Width="250" Height="250" Background="#86A09E">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="250"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="50"/>
-                                            <RowDefinition Height="90"/>
-                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="60"/>
+                                            <RowDefinition Height="130"/>
+                                            <RowDefinition Height="60"/>
                                         </Grid.RowDefinitions>
                                         <StackPanel Orientation="Horizontal" Grid.Row="0">
-                                            <TextBlock Text="Discount Password" Foreground="White"  FontSize="20" Margin="2"/>
-                                            <Button x:Name="btnPPPaswordCancel" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White" Margin="15,5,5,5" Content="Cancel" Click="btnPPPaswordCancel_Click"/>
+                                            <TextBlock Text="Password" Foreground="White"  FontSize="20" Margin="5,5,0,0"/>
+                                            <Button x:Name="btnPPPaswordCancel" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White" Margin="95,5,5,5" Content="Cancel" Click="btnPPPaswordCancel_Click"/>
                                         </StackPanel>
-                                        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="2" HorizontalAlignment="Left">
+                                        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="5" HorizontalAlignment="Left">
                                             <TextBlock Text="Enter Admin Password" Foreground="White" FontSize="16" Height="30" />
-                                            <PasswordBox Name="txtDiscountPassword" Height="40" Width="220" VerticalAlignment="Center" />
+                                            <PasswordBox Name="txtDiscountPassword" Height="40" Width="160" FontSize="20" VerticalAlignment="Center" />
                                         </StackPanel>
-                                        <Button x:Name="btnPPPaswordApply"  Grid.Row="2" Content="Save" Height="40" Width="70" FontSize="16" Background="#00265B" Foreground="White" Margin="5,0,-160,5" Click="btnPPPaswordApply_Click"/>
+                                        <Button x:Name="btnPPPaswordApply"  Grid.Row="2" Content="Apply" Height="40" Width="70" FontSize="16" Background="#00265B" Foreground="White" Margin="5,5,-160,5" Click="btnPPPaswordApply_Click"/>
 
                                     </Grid>
                                 </Border>
                             </Popup>
+
+                            <Popup x:Name="ppDiscountAmount" Placement="Center">
+                                <Border BorderBrush="Black" BorderThickness="5,5,5,5">
+                                    <Grid Width="250" Height="240" Background="#86A09E">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="250"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="60"/>
+                                            <RowDefinition Height="120"/>
+                                            <RowDefinition Height="60"/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                                            <TextBlock Text="Apply Discount" Foreground="White"  FontSize="20" Margin="5"/>
+                                            <Button x:Name="btnPPDAmountCancel" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White" Margin="40,5,5,5" Content="Cancel" Click="btnPPDAmountCancel_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="5" HorizontalAlignment="Left">
+                                            <TextBlock Text="Enter Discount Amount " Foreground="White" FontSize="16" Height="30" />
+                                            <TextBox x:Name="txtSubTotalDiscountAmount"  Width="70" Height="30" FontSize="20" HorizontalContentAlignment="Right" LostFocus="txtSubTotalDiscountAmount_LostFocus" Margin="5,0,-85,0" />
+                                        </StackPanel>
+                                        <Button x:Name="btnPPDAmountApply"  Grid.Row="2" Content="Apply" Height="40" Width="70" FontSize="16" Background="#00265B" Foreground="White" Margin="5,0,-160,5" Click="btnPPDAmountApply_Click"/>
+                                    </Grid>
+                                </Border>
+                            </Popup>
+
                             <Popup Name="ppDiscountPopUp" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                                 <Border BorderBrush="Black" BorderThickness="5,5,5,5">
                                     <Grid Width="250" Height="500" Background="#86A09E">
@@ -659,25 +700,9 @@
                             </Popup>
                         </Grid>
 
-                        <Grid Grid.Row="4"  Grid.Column="2" VerticalAlignment="Center">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock x:Name="txtbDiscount" Style="{StaticResource txtBlock}" Text="Discount (%) : "  />
-                            </StackPanel>
-                        </Grid>
-
-                        <Grid Grid.Row="4"  Grid.Column="3" VerticalAlignment="Center">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">
-                                <TextBlock x:Name="txtbtxtDiscount" Style="{StaticResource txtBlock}" HorizontalAlignment="Right" Text="0.00"  />
-                            </StackPanel>
-                        </Grid>
-
-                        <Grid Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left">
-                            <TextBox x:Name="txtSubTotalDiscountAmount"  Width="70" Height="30" LostFocus="txtSubTotalDiscountAmount_LostFocus" Margin="5,0,0,0" />
-                        </Grid>
-
                         <Grid Grid.Row="5"  Grid.Column="2" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
-                                <TextBlock x:Name="txtbTotalDiscount" Style="{StaticResource txtBlock}" Text="Discount Amount : "  />
+                                <TextBlock x:Name="txtbTotalDiscount" Style="{StaticResource txtBlock}" Text="Discount : "  />
                             </StackPanel>
                         </Grid>
 

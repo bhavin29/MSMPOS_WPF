@@ -244,7 +244,8 @@ namespace RocketPOS.Views
             if (printReceiptModel[0].Discount.ToString("F") != "0.00")
             {
                 Offset = Offset + smallinc;
-                InsertItem("DISCOUNT: ", printReceiptModel[0].Discount.ToString("F").PadLeft(intDISCOUNT - printReceiptModel[0].Discount.ToString("F").Length), Offset);
+                InsertItem("DISCOUNT: ", "", Offset);
+                InsertItem(printReceiptModel[0].Discount.ToString("F").PadLeft(intVATABLE - printReceiptModel[0].Discount.ToString("F").Length), "", Offset);
             }
 
             if (printReceiptModel[0].ServiceCharge.ToString("F") != "0.00")

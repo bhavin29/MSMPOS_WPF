@@ -585,7 +585,7 @@ namespace RocketPOS.Helpers
 
                 if (type == "DiscountAmount")
                 {
-                    txtbTotalDiscountAmount.Text = txtSubTotalDiscountAmount.Text;
+                    txtbTotalDiscountAmount.Text = Convert.ToDecimal(txtSubTotalDiscountAmount.Text).ToString("0.00"); 
                 }
 
                 if (type == "DeliveryCharge")
@@ -1685,6 +1685,12 @@ namespace RocketPOS.Helpers
                     }
                 }
 
+                if (totalAmount <=0)
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.BillPaymentTitle, StatusMessages.PaymentNotZero, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    ppDirectInvoice.IsOpen = true;
+                    return;
+                }
                 if (totalAmount < Convert.ToDecimal(lblPPTotalPayableAmount.Content))
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.BillPaymentTitle, StatusMessages.PaymentMustBeHigher, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
@@ -1888,15 +1894,17 @@ namespace RocketPOS.Helpers
                 validId = loginViewModel.ValidateDiscountPassword(txtDiscountPassword.Password);
                 if (validId > 0)
                 {
+                    txtDiscountPassword.Password = "";
                     ppPassword.IsOpen = false;
-                    ppDiscountPopUp.IsOpen = true;
-                    lbPPDiscountPercent.ItemsSource = Discounts;
+                    ppDiscountAmount.IsOpen = true;
                 }
                 else
                 {
                     ppPassword.Focus();
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.ApplyPasswordTitle, StatusMessages.WrongPassword, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+                    txtDiscountPassword.Password = "";
                     txtDiscountPassword.Focus();
+
                     return;
                 }
             }
@@ -2468,6 +2476,7 @@ namespace RocketPOS.Helpers
 
         private void txtSubTotalDiscountAmount_LostFocus(object sender, RoutedEventArgs e)
         {
+            return;
             try
             {
                 CommonOrderCalculation(sender, "DiscountAmount");
@@ -3012,6 +3021,31 @@ namespace RocketPOS.Helpers
             KitchenView kitchenView = new KitchenView();
             kitchenView.Owner = Application.Current.MainWindow;
             kitchenView.ShowDialog();
+        }
+
+        private void btnPPDAmountApply_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                CommonOrderCalculation(sender, "DiscountAmount");
+                if (!string.IsNullOrEmpty(txtSubTotalDiscountAmount.Text))
+                    txtSubTotalDiscountAmount.Text = Convert.ToDecimal(txtSubTotalDiscountAmount.Text).ToString("0.00");
+                else
+                {
+                    txtSubTotalDiscountAmount.Text = "0.00";
+                }
+                ppDiscountAmount.IsOpen = false;
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
+        }
+
+        private void btnPPDAmountCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ppDiscountAmount.IsOpen = false;
+
         }
     }
 }
