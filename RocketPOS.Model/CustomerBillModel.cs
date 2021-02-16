@@ -20,5 +20,8 @@ namespace RocketPOS.Model
         public int UserId { get; set; }
         public int PaymentMethodId { get; set; }
         public string PaymentNumber { get; set; }
+       
+        public bool applyRedeem { get; set; }
+
     }
 }

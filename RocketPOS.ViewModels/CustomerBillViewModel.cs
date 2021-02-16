@@ -32,9 +32,10 @@ namespace RocketPOS.ViewModels
                 dynamicParameters.Add("@UserId", customerBillModel.UserId);
                 dynamicParameters.Add("@ReceiptPrefix", LoginDetail.ReceiptPrefix);
                 dynamicParameters.Add("@TaxAmount", customerBillModel.TaxAmount);
+                dynamicParameters.Add("@ApplyRedeem", customerBillModel.applyRedeem);
                 dynamicParameters.Add("@MultipleBillPayment", multipleBillPayment.AsTableValuedParameter(StoredProcedure.TABLE_TYPE_MULTIPLE_BILL_PAYMENT));
-
-                insertedId = connection.Query<int>
+                
+                                insertedId = connection.Query<int>
                         (StoredProcedure.PX_INSERT_BILL_DETAILS, dynamicParameters, commandType: CommandType.StoredProcedure, commandTimeout: 0).FirstOrDefault();
                 return insertedId;
             }

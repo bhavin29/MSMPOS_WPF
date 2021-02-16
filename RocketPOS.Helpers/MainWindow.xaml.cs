@@ -34,7 +34,9 @@ namespace RocketPOS.Helpers
         DispatcherTimer timer;
         LoginViewModel loginViewModel = new LoginViewModel();
         SaleItemModel saleItemsFoodMenu = new SaleItemModel();
-        int rowId;
+        int rowId, customerAdd = 0, ladCustomer = 0;
+        decimal BalancePoints = 0;
+        bool applyRedeem = false;
         public MainWindow()
         {
             try
@@ -44,7 +46,7 @@ namespace RocketPOS.Helpers
                 HeaderFooter();
                 GenerateDynamicFoodMenu();
                 GetWaiterList();
-                GetCustomerList();
+                GetCustomerList(1);
                 Timer();
 
                 txtbTotalPayableAmount.Text = "0.00";
@@ -85,7 +87,7 @@ namespace RocketPOS.Helpers
 
 
         #region Methods
-        private void GetCustomerList()
+        private void GetCustomerList(int id)
         {
             try
             {
@@ -101,11 +103,15 @@ namespace RocketPOS.Helpers
 
                 if (cmbCustomer.Items.Count >= 1)
                 {
-                    cmbCustomer.SelectedIndex = 1;
+                    cmbCustomer.SelectedValue = id;
+                //    txtRedeemPoints.Text = "Redeem " + customers[id].BalancePoints + " Pt";
+                 //   BalancePoints = customers[id].BalancePoints;
                 }
                 else
                 {
                     cmbCustomer.SelectedIndex = -1;
+              //      txtRedeemPoints.Text = "Redeem";
+               //     BalancePoints = 0;
                 }
             }
             catch (Exception ex)
@@ -391,6 +397,8 @@ namespace RocketPOS.Helpers
         {
             try
             {
+                applyRedeem = false;
+                btnRedeemPoints.IsChecked = false;
                 dgSaleItem.Items.Clear();
                 cmbWaiter.Text = "Select Waiter";
                 cmbWaiter.SelectedIndex = -1;
@@ -424,7 +432,7 @@ namespace RocketPOS.Helpers
                 txtbKitchenStatus.Visibility = Visibility.Hidden;
                 txtDiscountPassword.Password = string.Empty;
                 txtTaxAmount.Text = "0.00";
-                btnEditCustomer.IsEnabled = false;
+                //  btnEditCustomer.IsEnabled = false;
                 txtPPPayAmount.Text = "";
                 lblPPChangeAmountTotal.Content = "";
                 txtTableNumber.Text = "";
@@ -585,7 +593,7 @@ namespace RocketPOS.Helpers
 
                 if (type == "DiscountAmount")
                 {
-                    txtbTotalDiscountAmount.Text = Convert.ToDecimal(txtSubTotalDiscountAmount.Text).ToString("0.00"); 
+                    txtbTotalDiscountAmount.Text = Convert.ToDecimal(txtSubTotalDiscountAmount.Text).ToString("0.00");
                 }
 
                 if (type == "DeliveryCharge")
@@ -883,7 +891,6 @@ namespace RocketPOS.Helpers
                     tableViewModel.UpdateTableStatus(txtbDineInTableId.Text, (int)EnumUtility.TableStatus.Clean);
                 }
 
-                ClearCustomerOrderItemControll();
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
             }
             else
@@ -902,7 +909,11 @@ namespace RocketPOS.Helpers
                 txtPPCPhone.Text = string.Empty;
                 txtPPCEmail.Text = string.Empty;
                 txtPPCAddress.Text = string.Empty;
-                cmbCustomer.SelectedIndex = -1;
+                txtPPCAddress2.Text = string.Empty;
+                dpBirthDate.Text = "";
+                dpAnniversaryDate.Text = "";
+                txtRedeemPoints.Text = "Redeem";
+                //  cmbCustomer.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
@@ -1245,6 +1256,7 @@ namespace RocketPOS.Helpers
                 txtbKitchenStatusTitle.Visibility = Visibility.Hidden;
                 txtbKitchenStatus.Visibility = Visibility.Hidden;
                 PlaceOrder("Pending");
+                ClearCustomerOrderItemControll();
             }
             catch (Exception ex)
             {
@@ -1685,7 +1697,7 @@ namespace RocketPOS.Helpers
                     }
                 }
 
-                if (totalAmount <=0)
+                if (totalAmount <= 0)
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.BillPaymentTitle, StatusMessages.PaymentNotZero, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     ppDirectInvoice.IsOpen = true;
@@ -1726,6 +1738,7 @@ namespace RocketPOS.Helpers
                 customerBillModel.UserId = LoginDetail.UserId;
                 //customerBillModel.PaymentMethodId = Convert.ToInt32(lbPPPaymentMethod.SelectedValue);
                 customerBillModel.PaymentNumber = string.Empty;
+                customerBillModel.applyRedeem = applyRedeem;
 
                 insertedId = customerBillViewModel.InsertBillDetail(customerBillModel, multipleBillPayment);
                 ppDirectInvoice.IsOpen = false;
@@ -1758,6 +1771,8 @@ namespace RocketPOS.Helpers
             {
                 ResetCustomer();
                 ppCustomerAdd.IsOpen = true;
+                customerAdd = 1;
+                txtPPCPhone.Focus();
             }
             catch (Exception ex)
             {
@@ -1769,7 +1784,7 @@ namespace RocketPOS.Helpers
         {
             try
             {
-                if (cmbCustomer.SelectedIndex == -1)
+                if (cmbCustomer.SelectedIndex == -1 || cmbCustomer.SelectedValue == null)
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerTitle, StatusMessages.CustomerSelectRequired, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     Keyboard.Focus(cmbCustomer);
@@ -1777,6 +1792,8 @@ namespace RocketPOS.Helpers
                 }
                 else
                 {
+                    ResetCustomer();
+
                     CustomerViewModel customerViewModel = new CustomerViewModel();
                     CustomerModel customerModel = new CustomerModel();
                     customerModel = customerViewModel.GetCustomerById(Convert.ToInt32(cmbCustomer.SelectedValue));
@@ -1784,6 +1801,16 @@ namespace RocketPOS.Helpers
                     txtPPCPhone.Text = customerModel.CustomerPhone;
                     txtPPCEmail.Text = customerModel.CustomerEmail;
                     txtPPCAddress.Text = customerModel.CustomerAddress1;
+                    txtPPCAddress2.Text = customerModel.CustomerAddress2;
+
+                    if (customerModel.BirthDate != DateTime.MinValue)
+                        dpBirthDate.SelectedDate = customerModel.BirthDate;
+
+                    if (customerModel.AnniversaryDate != DateTime.MinValue)
+                        dpAnniversaryDate.SelectedDate = customerModel.AnniversaryDate;
+
+                    txtPPCPhone.Focus();
+                    customerAdd = 2;
                     ppCustomerAdd.IsOpen = true;
                 }
             }
@@ -1798,7 +1825,7 @@ namespace RocketPOS.Helpers
             try
             {
                 ppCustomerAdd.IsOpen = false;
-                btnEditCustomer.IsEnabled = false;
+                //   btnEditCustomer.IsEnabled = false;
             }
             catch (Exception ex)
             {
@@ -1814,31 +1841,57 @@ namespace RocketPOS.Helpers
                 CustomerViewModel customerViewModel = new CustomerViewModel();
                 Keyboard.Focus(ppCustomerAdd);
                 CustomerModel customerModel = new CustomerModel();
-                if (string.IsNullOrEmpty(txtPPCName.Text))
-                {
-                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerTitle, StatusMessages.CustomerSelectRequired, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
-                    Keyboard.Focus(txtPPCName);
-                    return;
-                }
 
                 if (string.IsNullOrEmpty(txtPPCPhone.Text))
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerTitle, StatusMessages.CustomerPhoneRequired, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
                     Keyboard.Focus(txtPPCPhone);
+                    ppCustomerAdd.IsOpen = true;
+                    return;
+                }
+                else if (txtPPCPhone.Text.Length < 10)
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerTitle, StatusMessages.CustomerPhoneDigitRequired, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    Keyboard.Focus(txtPPCPhone);
+                    ppCustomerAdd.IsOpen = true;
                     return;
                 }
 
-                customerModel.Id = Convert.ToInt32(cmbCustomer.SelectedValue);
+                if (string.IsNullOrEmpty(txtPPCName.Text))
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerTitle, StatusMessages.CustomerSelectRequired, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                    Keyboard.Focus(txtPPCName);
+                    ppCustomerAdd.IsOpen = true;
+                    return;
+                }
+
+                //customerAdd 1 for add and 2 for edit
+                if (customerAdd == 1)
+                {
+                    customerModel.Id = 0;
+                }
+                else
+                {
+                    customerModel.Id = Convert.ToInt32(cmbCustomer.SelectedValue);
+                }
                 customerModel.CustomerName = txtPPCName.Text;
                 customerModel.CustomerPhone = txtPPCPhone.Text;
                 customerModel.CustomerEmail = txtPPCEmail.Text;
                 customerModel.CustomerAddress1 = txtPPCAddress.Text;
+                customerModel.CustomerAddress2 = txtPPCAddress2.Text;
+
+                if (dpBirthDate.SelectedDate != null)
+                    customerModel.BirthDate = dpBirthDate.SelectedDate.Value;
+
+                if (dpAnniversaryDate.SelectedDate != null)
+                    customerModel.AnniversaryDate = dpAnniversaryDate.SelectedDate.Value;
+
                 customerModel.UserId = LoginDetail.UserId;
                 insertedId = customerViewModel.InsertUpdateCustomer(customerModel);
 
                 if (insertedId > 0)
                 {
-                    GetCustomerList();
+                    GetCustomerList(insertedId);
                     txtPPCName.Text = string.Empty;
                     txtPPCPhone.Text = string.Empty;
                     txtPPCEmail.Text = string.Empty;
@@ -1848,21 +1901,9 @@ namespace RocketPOS.Helpers
                 else
                 {
                     ppCustomerAdd.IsOpen = false;
-                    btnEditCustomer.IsEnabled = false;
+                    //   btnEditCustomer.IsEnabled = false;
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerTitle, StatusMessages.CustomerSaveFailed, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
                 }
-            }
-            catch (Exception ex)
-            {
-                SystemError.Register(ex);
-
-            }
-        }
-        private void cmbCustomer_GotFocus(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                btnEditCustomer.IsEnabled = true;
             }
             catch (Exception ex)
             {
@@ -2074,6 +2115,7 @@ namespace RocketPOS.Helpers
                     return;
                 }
                 PlaceOrder("Hold");
+                ClearCustomerOrderItemControll();
             }
             catch (Exception ex)
             {
@@ -2662,6 +2704,7 @@ namespace RocketPOS.Helpers
         private void CommandBinding_Executed_1(object sender, ExecutedRoutedEventArgs e)
         {
             btnPlaceOrder_Click(sender, e);
+            ClearCustomerOrderItemControll();
         }
 
         private void btnWebsite_Click(object sender, RoutedEventArgs e)
@@ -2759,7 +2802,7 @@ namespace RocketPOS.Helpers
             try
             {
                 ReportList reportList = new ReportList();
-              //  reportList.Owner = Application.Current.MainWindow;
+                //  reportList.Owner = Application.Current.MainWindow;
                 reportList.ShowDialog();
             }
             catch (Exception ex)
@@ -3041,6 +3084,47 @@ namespace RocketPOS.Helpers
                 SystemError.Register(ex);
             }
         }
+
+        private void btnRedeemPoints_Click(object sender, RoutedEventArgs e)
+        {
+            if (btnRedeemPoints.IsChecked == true)
+            {
+                //    txtBalancePoints.Text = Convert.ToDecimal(BalancePoints).ToString("0.00");
+                txtbTotalDiscountAmount.Text = Convert.ToDecimal(BalancePoints).ToString("0.00");
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)).ToString("0.00");
+                applyRedeem = true;
+            }
+            else
+            {
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(txtbTotalDiscountAmount.Text)).ToString("0.00");
+                txtSubTotalDiscountAmount.Text = "0.00";
+                //  txtBalancePoints.Text = "0.00";
+                applyRedeem = false;
+            }
+        }
+
+        private void cmbCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CustomerViewModel customerViewModel = new CustomerViewModel();
+            CustomerModel customerModel = new CustomerModel();
+
+            if (cmbCustomer.SelectedIndex > -1)
+            {
+                customerModel = customerViewModel.GetCustomerById(Convert.ToInt32(cmbCustomer.SelectedValue));
+
+                if (customerModel.BalancePoints > 0 & customerModel.CustomerTypeId != -1)
+                {
+                    txtRedeemPoints.Text = "Redeem " + customerModel.BalancePoints + " Pt";
+                    BalancePoints = customerModel.BalancePoints;
+                }
+                else
+                {
+                    txtRedeemPoints.Text = "Redeem";
+                    BalancePoints = 0;
+                }
+            }
+        }
+
 
         private void btnPPDAmountCancel_Click(object sender, RoutedEventArgs e)
         {

@@ -8,9 +8,10 @@
         public const string PlaceOrderFailed = "Order Placed Failed.";
         public const string BillDetailSaveSuccess = "Bill Details Save Successfully.";
         public const string BillDetailSaveFailed = "Bill Details Save Failed.";
-        public const string CustomerSelectRequired = "Please Select Customer Name.";
+        public const string CustomerSelectRequired = "Please Enter Customer Name.";
         public const string CustomerNameRequired = "Please Enter Name.";
-        public const string CustomerPhoneRequired = "Please Phone Name.";
+        public const string CustomerPhoneRequired = "Please Enter Phone Number.";
+        public const string CustomerPhoneDigitRequired = "Please Enter Phone Number with Minimum 10 Digit.";
         public const string CustomerSaveFailed = "Customer Savev Failed.";
         public const string CartEmpty = "Cart is empty! Please Add Food Items.";
         public const string SelectOrderType = "You must select Dine In or Take Away or Delivery!";

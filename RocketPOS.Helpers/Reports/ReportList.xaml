@@ -83,7 +83,7 @@
             <Grid Grid.Row="7" Background="AliceBlue"  >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="25,0,0,0">
                     <Label Content="Report From Date" Width="160" VerticalAlignment="Center"/>
-                    <DatePicker Name="dpFromDatePayment" Width="100" VerticalAlignment="Center" SelectedDateChanged="dpFromDatePayment_SelectedDateChanged"/>
+                    <DatePicker Name="dpFromDatePayment" VerticalAlignment="Center" SelectedDateChanged="dpFromDatePayment_SelectedDateChanged"/>
                     <Label Content="To Date" Width="100" VerticalAlignment="Center" Margin="25,0,0,0"/>
                     <DatePicker Name="dpToDatePayment"  Width="100" VerticalAlignment="Center" />
 
