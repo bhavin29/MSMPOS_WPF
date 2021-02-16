@@ -244,7 +244,7 @@ namespace RocketPOS.Views
             if (printReceiptModel[0].Discount.ToString("F") != "0.00")
             {
                 Offset = Offset + smallinc;
-                InsertItem("DISCOUNT: ", "", Offset);
+                InsertItem("DISCOUNT/REDEEM: ", "", Offset);
                 InsertItem(printReceiptModel[0].Discount.ToString("F").PadLeft(intVATABLE - printReceiptModel[0].Discount.ToString("F").Length), "", Offset);
             }
 
@@ -285,6 +285,18 @@ namespace RocketPOS.Views
                 InsertItem(payment.PaymentMethodName, payment.BillAmount.ToString("F").PadLeft(intPaid - payment.BillAmount.ToString("F").Length), Offset);
                 Offset = Offset + smallinc;
             }
+
+            if (printReceiptModel[0].RewardAmount != 0)
+            {
+                underLine = "---------------------------------";
+                DrawLine(underLine, largefont, Offset, 0);
+
+                Offset = Offset + largeinc;
+
+                InsertItem("YOU EARN " + printReceiptModel[0].RewardAmount  + " POINTS", "", Offset);
+                Offset = Offset + smallinc;
+            }
+
             Offset = Offset + largeinc;
             Offset = Offset + largeinc;
 

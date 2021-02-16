@@ -20,7 +20,7 @@ namespace RocketPOS.ViewModels
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
                 connection.Open();
-                var query = "SELECT b.CustomerOrderId,b.Id As BillId,CO.SalesInvoiceNumber,B.BillDateTime,O.OutletName,U.Username,C.CustomerName,B.GrossAmount,B.TaxAmount,B.VatableAmount,CO.NonVatableAmount, B.Discount,B.ServiceCharge,B.TotalAmount,PM.PaymentMethodName,BD.BillAmount FROM Bill B " +
+                var query = "SELECT b.CustomerOrderId,b.Id As BillId,CO.SalesInvoiceNumber,ISNULL(CO.RewardPoints,0) as RewardAmount,B.BillDateTime,O.OutletName,U.Username,C.CustomerName,B.GrossAmount,B.TaxAmount,B.VatableAmount,CO.NonVatableAmount, B.Discount,B.ServiceCharge,B.TotalAmount,PM.PaymentMethodName,BD.BillAmount FROM Bill B " +
                             "  INNER JOIN CustomerOrder CO ON B.CustomerOrderId = CO.Id " +
                             "  INNER JOIN BillDetail BD ON B.Id = BD.BillId " +
                             "  INNER JOIN Outlet O ON O.Id = B.OutletId " +

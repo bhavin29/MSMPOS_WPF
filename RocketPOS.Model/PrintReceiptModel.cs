@@ -22,6 +22,8 @@ namespace RocketPOS.Model
         public float TotalAmount { get; set; }
         public string PaymentMethodName { get; set; }
         public float BillAmount { get; set; }
+        public float RewardAmount { get; set; }
+
 
     }
 
