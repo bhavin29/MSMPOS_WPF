@@ -402,7 +402,7 @@ namespace RocketPOS.Helpers
                 dgSaleItem.Items.Clear();
                 cmbWaiter.Text = "Select Waiter";
                 cmbWaiter.SelectedIndex = -1;
-                cmbCustomer.Text = "Select Customer";
+              //  cmbCustomer.Text = "Select Customer";
 
                 if (cmbCustomer.Items.Count > 0)
                 {
@@ -3087,6 +3087,8 @@ namespace RocketPOS.Helpers
 
         private void btnRedeemPoints_Click(object sender, RoutedEventArgs e)
         {
+            btnRedeemPoints.IsChecked = false;
+            return;
             if (btnRedeemPoints.IsChecked == true)
             {
                 //    txtBalancePoints.Text = Convert.ToDecimal(BalancePoints).ToString("0.00");
