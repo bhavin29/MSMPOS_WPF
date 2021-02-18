@@ -35,7 +35,7 @@ namespace RocketPOS.Helpers
         LoginViewModel loginViewModel = new LoginViewModel();
         SaleItemModel saleItemsFoodMenu = new SaleItemModel();
         int rowId, customerAdd = 0, ladCustomer = 0;
-        decimal BalancePoints = 0;
+        decimal BalancePoints = 0, ApplyBalancePoints = 0;
         bool applyRedeem = false;
         public MainWindow()
         {
@@ -104,14 +104,14 @@ namespace RocketPOS.Helpers
                 if (cmbCustomer.Items.Count >= 1)
                 {
                     cmbCustomer.SelectedValue = id;
-                //    txtRedeemPoints.Text = "Redeem " + customers[id].BalancePoints + " Pt";
-                 //   BalancePoints = customers[id].BalancePoints;
+                    //    txtRedeemPoints.Text = "Redeem " + customers[id].BalancePoints + " Pt";
+                    //   BalancePoints = customers[id].BalancePoints;
                 }
                 else
                 {
                     cmbCustomer.SelectedIndex = -1;
-              //      txtRedeemPoints.Text = "Redeem";
-               //     BalancePoints = 0;
+                    //      txtRedeemPoints.Text = "Redeem";
+                    //     BalancePoints = 0;
                 }
             }
             catch (Exception ex)
@@ -402,7 +402,7 @@ namespace RocketPOS.Helpers
                 dgSaleItem.Items.Clear();
                 cmbWaiter.Text = "Select Waiter";
                 cmbWaiter.SelectedIndex = -1;
-              //  cmbCustomer.Text = "Select Customer";
+                //  cmbCustomer.Text = "Select Customer";
 
                 if (cmbCustomer.Items.Count > 0)
                 {
@@ -439,6 +439,7 @@ namespace RocketPOS.Helpers
                 txtbDineInTableId.Text = "";
                 txtVatableAmount.Text = "0.00";
                 txtNonVatableAmount.Text = "0.00";
+                txtRedeemAmount.Text = "";
             }
             catch (Exception ex)
             {
@@ -603,8 +604,8 @@ namespace RocketPOS.Helpers
                     txtbTotalDeliveryChargeAmt.Text = (percentage).ToString("0.00");
                 }
 
-                if (string.IsNullOrEmpty(txtSubTotalDiscountAmount.Text))
-                    txtbTotalDiscountAmount.Text = "0.00";
+                //if (string.IsNullOrEmpty(txtSubTotalDiscountAmount.Text))
+                 //   txtbTotalDiscountAmount.Text = "0.00";
 
                 txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
             }
@@ -1127,7 +1128,17 @@ namespace RocketPOS.Helpers
                 CommonOrderCalculation(null, string.Empty);
                 dgSaleItem.Items.Refresh();
 
+                if (dgSaleItem.Items.Count<=0)
+                {
+                    ClearCustomerOrderItemControll();
+                }
 
+                if (Convert.ToDecimal(txtbTotalDiscountAmount.Text) > Convert.ToDecimal(txtbSubTotalAmount.Text))
+                {
+                    txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
+                    txtbTotalDiscountAmount.Text = "0.00";
+                    applyRedeem = false;
+                }
             }
             catch (Exception ex)
             {
@@ -3038,6 +3049,13 @@ namespace RocketPOS.Helpers
                 var newPrice = foodMenuViewModel.ChagePrice(foodMenu.FoodMenuId, changePrice);
                 GenerateDynamicFoodMenu();
 
+                if (Convert.ToDecimal(txtbTotalDiscountAmount.Text) > Convert.ToDecimal(txtbSubTotalAmount.Text))
+                {
+                    txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
+                    txtbTotalDiscountAmount.Text = "0.00";
+                    applyRedeem = false;
+                }
+
                 ppFoodMenuList.IsOpen = false;
                 ppChnagePrice.IsOpen = false;
             }
@@ -3087,22 +3105,86 @@ namespace RocketPOS.Helpers
 
         private void btnRedeemPoints_Click(object sender, RoutedEventArgs e)
         {
-            btnRedeemPoints.IsChecked = false;
-            return;
-            if (btnRedeemPoints.IsChecked == true)
+            if (Convert.ToDecimal(BalancePoints) > 0 && dgSaleItem.Items.Count>0)
             {
-                //    txtBalancePoints.Text = Convert.ToDecimal(BalancePoints).ToString("0.00");
-                txtbTotalDiscountAmount.Text = Convert.ToDecimal(BalancePoints).ToString("0.00");
-                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)).ToString("0.00");
-                applyRedeem = true;
+                ppRedeem.IsOpen = true;
+
+                txtRedeemCustomerName.Text = " Name: " + cmbCustomer.Text;
+                //txtRedeemCustomerPhone
+                lblRedeemTotal.Content = "Available Reward Points : " + Convert.ToDecimal(BalancePoints).ToString("0.00");
+                txtRedeemAmount.Focus();
             }
-            else
+
+            // btnRedeemPoints.IsChecked = false;
+            // return;
+
+            //    if (btnRedeemPoints.IsChecked == true)
+            //    {
+            //        //    txtBalancePoints.Text = Convert.ToDecimal(BalancePoints).ToString("0.00");
+            //        txtbTotalDiscountAmount.Text = Convert.ToDecimal(BalancePoints).ToString("0.00");
+            //        txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)).ToString("0.00");
+            //        applyRedeem = true;
+            //    }
+            //    else
+            //    {
+            //        txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(txtbTotalDiscountAmount.Text)).ToString("0.00");
+            //        txtSubTotalDiscountAmount.Text = "0.00";
+            //        //  txtBalancePoints.Text = "0.00";
+            //        applyRedeem = false;
+            //    }
+        }
+
+        private void btnRedeemPopUpCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ppRedeem.IsOpen = false;
+        }
+
+        private void btnRedeemApply_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtRedeemAmount.Text))
             {
-                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) + Convert.ToDecimal(txtbTotalDiscountAmount.Text)).ToString("0.00");
-                txtSubTotalDiscountAmount.Text = "0.00";
-                //  txtBalancePoints.Text = "0.00";
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Pleae enter reedem points.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                ppRedeem.IsOpen = true;
+                return;
+            }
+            else if (Convert.ToDecimal(txtRedeemAmount.Text.ToString()) < 0)
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Pleae enter valid reedem points.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                ppRedeem.IsOpen = true;
+                return;
+            }
+            else if (Convert.ToDecimal(txtRedeemAmount.Text) > Convert.ToDecimal(BalancePoints))
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Reedem points cannot more then available points.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                ppRedeem.IsOpen = true;
+                return;
+            }
+            else if (Convert.ToDecimal(txtRedeemAmount.Text) > Convert.ToDecimal(txtbSubTotalAmount.Text))
+            {
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Reedem points cannot more then payable/invoice amount.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                ppRedeem.IsOpen = true;
+                return;
+            }
+            else if (Convert.ToDecimal(txtRedeemAmount.Text) == 0)
+            {
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
+
+                ApplyBalancePoints = Convert.ToDecimal(txtRedeemAmount.Text);
+                txtbTotalDiscountAmount.Text = Convert.ToDecimal(ApplyBalancePoints).ToString("0.00");
                 applyRedeem = false;
+                ppRedeem.IsOpen = false;
             }
+            else if (Convert.ToDecimal(txtRedeemAmount.Text) > 0)
+            {
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text)  + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
+
+                ApplyBalancePoints = Convert.ToDecimal(txtRedeemAmount.Text);
+                txtbTotalDiscountAmount.Text = Convert.ToDecimal(ApplyBalancePoints).ToString("0.00");
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbTotalPayableAmount.Text) - Convert.ToDecimal(ApplyBalancePoints)).ToString("0.00");
+                applyRedeem = true;
+                ppRedeem.IsOpen = false;
+            }
+
         }
 
         private void cmbCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -3125,6 +3207,16 @@ namespace RocketPOS.Helpers
                     BalancePoints = 0;
                 }
             }
+
+            if (applyRedeem == true)
+            {
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
+                ApplyBalancePoints = 0;
+                txtRedeemAmount.Text = "";
+                txtbTotalDiscountAmount.Text = "0.00";
+                applyRedeem = false;
+            }
+            ApplyBalancePoints = 0;
         }
 
 

@@ -371,6 +371,37 @@
                                 </Grid>
                             </Border>
                         </Popup>
+
+                        <Popup Name="ppRedeem" Placement="Center" AllowsTransparency="False" StaysOpen="False">
+                            <Border BorderBrush="Black" BorderThickness="5,5,5,5">
+                                <Grid Width="350" Height="300" Background="#86A09E">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="175"/>
+                                        <ColumnDefinition Width="175"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="70"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="60"/>
+                                        <RowDefinition Height="50"/>
+                                    </Grid.RowDefinitions>
+                                    <Button x:Name="btnRedeemPopUpCancel" HorizontalAlignment="Right" Content="Cancel" Margin="5,5,5,5" Grid.Row="0" Grid.Column="1"  Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Click="btnRedeemPopUpCancel_Click"/>
+
+                                    <TextBlock x:Name="txtRedeemCustomerName" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Text="" Margin="15,0,0,0"   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+                                    <Label x:Name="lblRedeemTotal" Content="Available Reward Points : " FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Margin="15,0,0,0" Height="40" Width="300" Grid.Row="2" Grid.ColumnSpan="2" />
+                                    <TextBlock x:Name="txtRedeemCustomerPhone"   FontSize="18" FontWeight="Bold" Foreground="White" Text="" Margin="15,0,0,0" Grid.Row="2" Grid.Column="0"/>
+
+                                    <Label x:Name="lblRedeem" Content="Redeem Points : " FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Margin="15,0,0,0" Height="40" Grid.Row="4" Grid.Column="0" />
+                                    <TextBox x:Name="txtRedeemAmount" HorizontalAlignment="Left" Text="" FontSize="18" FontWeight="Bold"  Height="40" Width="100" Grid.Row="4" Grid.Column="1"/>
+                                    <Button x:Name="btnRedeemApply" HorizontalAlignment="Right" Content="Save" Margin="5,5,5,5" Grid.Row="6" Grid.Column="1" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Click="btnRedeemApply_Click"/>
+                                </Grid>
+                            </Border>
+                        </Popup>
+
                     </Grid>
 
                     <Grid Grid.Row="2">
