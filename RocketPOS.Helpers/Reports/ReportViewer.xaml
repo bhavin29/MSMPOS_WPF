@@ -3,11 +3,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RocketPOS.Helpers.Reports"
+       xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
+         xmlns:local="clr-namespace:RocketPOS.Helpers.Reports"
         mc:Ignorable="d"
         Title="Report Viewer" Height="800" Width="816" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Grid >
-                <FlowDocumentReader  Margin="10,10,10,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--<Grid Grid.Row="0">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,0,0,0" Height="30">
+                    <Label Content="Detailed Daily Report"  FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="5,0,0,0">
+                    <Label Content="From Date" Width="80" VerticalAlignment="Center"/>
+                    <wpfx:DateTimePicker Name="dpDetailedDailyFromDate" Height="30" FormatString="dd/MM/yyyy hh:mm"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"   />
+                    <Label Content="To Date" Width="80" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                    <wpfx:DateTimePicker Name="dpDetailedDailyToDate" Height="30" FormatString="dd/MM/yyyy hh:mm"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"   />
+
+                    <Button x:Name="btnDetailedDailyReport" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Load" Height="40"  />
+                </StackPanel>
+             </StackPanel>
+        </Grid>-->
+        <Grid Grid.Row="0">
+
+        <FlowDocumentReader  Margin="10,10,10,10">
                     <FlowDocument Name = "flowDocument" ColumnWidth= "999999" >
                         <!--<Section LineHeight="0.1">
                             <Paragraph Name= "headParagraph" Margin="0" BorderThickness="0" FontFamily="Calibri" FontSize= "20" FontWeight= "Bold" >BAPS SHAYONA (NAIROBI) LTD</Paragraph>
@@ -26,5 +50,6 @@
                 <Image Source="../images/excel.png"  Height="35" Width="35"/>
             </StackPanel>
         </Button>
+        </Grid>
     </Grid>
 </Window>

@@ -3010,8 +3010,10 @@ namespace RocketPOS.Helpers
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
-            SettingView settingView = new SettingView();
-            settingView.ShowDialog();
+            SettingsList frmSettings = new SettingsList();
+            frmSettings.ShowDialog();
+            //SettingView settingView = new SettingView();
+            //settingView.ShowDialog();
         }
 
         private void btnChangePrice_Click(object sender, RoutedEventArgs e)

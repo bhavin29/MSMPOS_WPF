@@ -1,0 +1,32 @@
+﻿<Page x:Class="RocketPOS.Helpers.Settings.PSystemSetup"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RocketPOS.Helpers.Settings"
+      mc:Ignorable="d" 
+       d:DesignHeight="450" d:DesignWidth="900" Background="Gray"
+     Title="System Setup">
+
+    <Grid >
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="260"/>
+                <RowDefinition Height="260"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Background="#956eeb">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,0,0,0" >
+                    <Label Content="System Setup"  FontSize="20" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1"  >
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Page>

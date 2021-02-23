@@ -87,7 +87,7 @@
                     <Label Content="To Date" Width="100" VerticalAlignment="Center" Margin="25,0,0,0"/>
                     <DatePicker Name="dpToDatePayment"  Width="100" VerticalAlignment="Center" />
 
-                    <Button x:Name="btnModeofPaymentReportExport" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Excel" Height="40" Click="btnModeofPaymentReportExport_Click"/>
+                    <Button x:Name="btnModeofPaymentReportExport" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Load" Height="40" Click="btnModeofPaymentReportExport_Click"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="8" Background="AliceBlue">
@@ -105,8 +105,6 @@
                     <Button x:Name="btnSalesVoucherExport" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="XML" Height="40" Click="btnSalesVoucherExport_Click"/>
                 </StackPanel>
             </Grid>
-
-
         </Grid>
     </Grid>
 </Window>

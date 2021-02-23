@@ -86,7 +86,7 @@ namespace RocketPOS.Helpers.Reports
 
             if (reportName == "ModeOfPayment")
             {
-                 modeofPaymentReportModel = customerOrderViewModel.GetModOfPaymentReport("01/01/2021", "31/01/2021");
+                 modeofPaymentReportModel = customerOrderViewModel.GetModOfPaymentReport(LoginDetail.ReportFromDate, LoginDetail.ReportToDate);
                 dtData = commonMethods.ConvertToDataTable(modeofPaymentReportModel);
                 dtDataResult = commonMethods.GetInversedDataTable(dtData, "PaymentMethodName", "BillDate", "BillAmount", " ", true);
                 reportTitle = "Mode Of Payment Report";

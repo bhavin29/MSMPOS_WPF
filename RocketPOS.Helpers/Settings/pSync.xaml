@@ -1,0 +1,41 @@
+﻿<Page x:Class="RocketPOS.Helpers.Settings.pSync"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RocketPOS.Helpers.Settings"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="900" Background="Gray"
+      Title="pSync">
+
+    <Grid >
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="260"/>
+                <RowDefinition Height="260"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Background="#956eeb">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,0,0,0" >
+                    <Label Content="Sync Process"  FontSize="20" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1"  >
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left"  Margin="5,10,0,0">
+                    <Button x:Name="btnStartSync"  HorizontalAlignment="Left" Margin="5,0,0,0" Style="{StaticResource btnOrange}" Content="Start Sync" Height="40" Click="btnStartSync_Click" />
+                    <TextBox Name="txtOutput" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" 
+                             HorizontalAlignment="Left" TextWrapping="Wrap"  FontSize="14px" Margin="5,10,0,0" 
+                             Height="150" Width="800" 
+                              Text="{Binding  Path=MyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </TextBox>
+
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Page>
