@@ -15,7 +15,7 @@ namespace RocketPOS.Model
         public string BillDate { get; set; }
         public string TallyLedgerName { get; set; }
         public string TallyLedgerNamePark { get; set; }
-        
+
         public string TallyBillPostfix { get; set; }
 
         public decimal Sales { get; set; }
@@ -23,5 +23,12 @@ namespace RocketPOS.Model
         public decimal OutputVAT { get; set; }
         public decimal CashSales { get; set; }
 
+    }
+
+    public class TallySetupSettingModel
+    {
+        public int Id { get; set; }
+        public string KeyName { get; set; }
+        public string LedgerName { get; set; }
     }
 }
