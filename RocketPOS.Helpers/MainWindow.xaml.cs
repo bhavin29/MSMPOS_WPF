@@ -1395,14 +1395,16 @@ namespace RocketPOS.Helpers
         {
             try
             {
-                Calculator winCalCulator = new Calculator();
+                ReportMenu reportMenu = new ReportMenu();
+                reportMenu.ShowDialog();
+                //Calculator winCalCulator = new Calculator();
 
-                winCalCulator.Width = 237;
-                winCalCulator.Height = 310;
-                winCalCulator.Top = 100;
-                winCalCulator.Left = 500;
+                //winCalCulator.Width = 237;
+                //winCalCulator.Height = 310;
+                //winCalCulator.Top = 100;
+                //winCalCulator.Left = 500;
 
-                winCalCulator.ShowDialog();
+                //winCalCulator.ShowDialog();
             }
             catch (Exception ex)
             {

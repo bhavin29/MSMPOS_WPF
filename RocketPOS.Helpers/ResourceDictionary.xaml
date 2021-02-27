@@ -937,6 +937,10 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <Style x:Key="TreeViewItemStyle_ExpandAll" TargetType="{x:Type TreeViewItem}">
+        <Setter Property="IsExpanded" Value="True"/>
+    </Style>
+
 </ResourceDictionary>
   

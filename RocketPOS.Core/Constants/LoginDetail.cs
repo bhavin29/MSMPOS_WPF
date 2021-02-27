@@ -46,9 +46,5 @@ namespace RocketPOS.Core.Constants
         public static int TaxInclusive = 1;
         public static bool IsItemOverright = false;
         public static string ConnectionString = "";
-        public static string ReportName = "";
-        public static string ReportFromDate = "";
-        public static string ReportToDate = "";
-
     }
 }

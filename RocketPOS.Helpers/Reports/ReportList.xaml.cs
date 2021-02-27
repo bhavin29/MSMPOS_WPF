@@ -234,18 +234,7 @@ namespace RocketPOS.Helpers.Reports
 
                     return;
                 }
-
-                //LoginDetail.ReportName = "ModeOfPayment";
-                //LoginDetail.ReportFromDate = dpFromDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat);
-                //LoginDetail.ReportToDate = dpToDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat);
-            
-                //ReportViewer reportViewer = new ReportViewer();
-                //this.Hide();
-                //reportViewer.Show();
-                //reportViewer.Activate();
-
-                //return;
-
+ 
                 CommonMethods commonMethods = new CommonMethods();
                 string path = string.Empty, firstLine = string.Empty;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Windows.Controls;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
@@ -11,9 +12,9 @@ using Microsoft.Win32;
 namespace RocketPOS.Helpers.Reports
 {
     /// <summary>
-    /// Interaction logic for ReportViewer.xaml
+    /// Interaction logic for PReportViewer.xaml
     /// </summary>
-    public partial class ReportViewer : Window
+    public partial class PReportViewer : Page
     {
         CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
         WPFPrintUtility wPFPrintHelper = new WPFPrintUtility();
@@ -24,12 +25,27 @@ namespace RocketPOS.Helpers.Reports
         string reportTitle = "";
         string reportFooter = "";
         string _reportName = "";
-
-        public ReportViewer()
+        public PReportViewer()
         {
             InitializeComponent();
-            CenterWindowOnScreen();
             ReportLoad(ReportDetail.ReportName);
+        }
+        public void ReportLoad(string reportName)
+        {
+
+            _reportName = reportName;
+
+            if (reportName == "ModeOfPayment")
+            {
+                modeofPaymentReportModel = customerOrderViewModel.GetModOfPaymentReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
+                dtData = commonMethods.ConvertToDataTable(modeofPaymentReportModel);
+                dtDataResult = commonMethods.GetInversedDataTable(dtData, "PaymentMethodName", "BillDate", "BillAmount", " ", true);
+                reportTitle = "Mode Of Payment Report";
+            }
+
+            //common call
+            DataTable mockDataTable = wPFPrintHelper.CreateMockDataTableForTest();
+            wPFPrintHelper.CreateAndVisualizeDataTable(flowDocument, dtDataResult, reportTitle, reportFooter);
         }
 
         private void printButton_Click(object sender, RoutedEventArgs e)
@@ -55,7 +71,7 @@ namespace RocketPOS.Helpers.Reports
                 {
                     path = saveFileDialog.FileName;
                     firstLine = LoginDetail.ClientName;
-  
+
                     dtData = commonMethods.ConvertToDataTable(modeofPaymentReportModel);
 
                     //X axis column: PaymentMethodName
@@ -70,46 +86,6 @@ namespace RocketPOS.Helpers.Reports
                 }
 
             }
-        }
-        public void ReportLoad(string reportName)
-        {
-
-            _reportName = reportName;
-
-            if (reportName == "ModeOfPayment")
-            {
-                 modeofPaymentReportModel = customerOrderViewModel.GetModOfPaymentReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
-                dtData = commonMethods.ConvertToDataTable(modeofPaymentReportModel);
-                dtDataResult = commonMethods.GetInversedDataTable(dtData, "PaymentMethodName", "BillDate", "BillAmount", " ", true);
-                reportTitle = "Mode Of Payment Report";
-            }
-
-            //common call
-            DataTable mockDataTable = wPFPrintHelper.CreateMockDataTableForTest();
-            wPFPrintHelper.CreateAndVisualizeDataTable(flowDocument, dtDataResult, reportTitle, reportFooter);
-        }
-        private void CenterWindowOnScreen()
-        {
-            try
-            {
-                double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-                double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
-                double windowWidth = this.Width;
-                double windowHeight = this.Height;
-                this.Left = (screenWidth / 2) - (windowWidth / 2);
-                this.Top = ((screenHeight / 2) - (windowHeight / 2));
-            }
-            catch (Exception ex)
-            {
-                SystemError.Register(ex);
-            }
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            ReportList reportList = new ReportList();
-            //  reportList.Owner = Application.Current.MainWindow;
-            reportList.ShowDialog();
         }
     }
 }
