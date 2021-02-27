@@ -62,7 +62,7 @@ namespace RocketPOS.ViewModels
             {
                 connection.Open();
 
-                var query = " Select ReportName, ReportColumn, ColumnOffset from ReportOffset " +
+                var query = " Select Id,ReportName, ReportColumn, ColumnOffset from ReportOffset " +
                             " WHERE ReportName = '" + reportName.ToString() + "'";
 
                 reportOffsetModels = connection.Query<ReportOffsetModel>(query).ToList();
@@ -70,6 +70,20 @@ namespace RocketPOS.ViewModels
 
             return reportOffsetModels;
 
+        }
+
+        public bool UpdateReportOffsetById(ReportOffsetModel reportOffsetModel)
+        {
+            bool result=false;
+            if (!string.IsNullOrEmpty(reportOffsetModel.Id.ToString()))
+            {
+                using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+                {
+                    var query = "Update [ReportOffset] set Columnoffset=" + reportOffsetModel.ColumnOffset + " Where Id=" + reportOffsetModel.Id;
+                    result = connection.Query<bool>(query).FirstOrDefault();
+                }
+            }
+            return result;
         }
     }
 }
