@@ -22,8 +22,8 @@
             <Grid Grid.Row="0" Background="#956eeb">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,0,0,0" >
                     <Label Content="Receipt Print Offset"  FontSize="20" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
-                    <Button Name="btnCancel" Content="Cancel" Margin="470,0,0,0" Style="{StaticResource btnOrange}" Visibility="Hidden" Click="btnCancel_Click"></Button>
-                    <Button Name="btnSave" Content="Edit" Margin="10,3,0,0" Style="{StaticResource btnOrange}"  Click="btnSave_Click" ></Button>
+                    <Button Name="btnCancel" Content="Cancel" Margin="565,0,0,0" Style="{StaticResource btnOrange}" Visibility="Hidden" Click="btnCancel_Click"></Button>
+                    <Button Name="btnSave" Content="Edit" Margin="3,0,0,0" Style="{StaticResource btnOrange}"  Click="btnSave_Click" ></Button>
                     
                 </StackPanel>
             </Grid>
@@ -31,7 +31,7 @@
 
                 <DataGrid x:Name="dgReportOffset" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="false" ItemsSource="{Binding ReportOffsetModel}" HorizontalScrollBarVisibility="Disabled"  >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Report Column" IsReadOnly="True" FontSize="16" FontWeight="Bold" Width="300" Binding="{Binding ReportColumn}">
+                        <DataGridTextColumn Header="Title" IsReadOnly="True" FontSize="16" FontWeight="Bold" Width="300" Binding="{Binding ReportColumn}">
                         </DataGridTextColumn>
                         <DataGridTemplateColumn Width="100" IsReadOnly="True" Header="Offset">
                             <DataGridTemplateColumn.CellTemplate>
