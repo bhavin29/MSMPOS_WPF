@@ -1397,6 +1397,11 @@ namespace RocketPOS.Helpers
             {
                 ReportMenu reportMenu = new ReportMenu();
                 reportMenu.ShowDialog();
+
+                
+
+              //  ReportViewer reoprt = new ReportViewer();
+             //   reoprt.ShowDialog();
                 //Calculator winCalCulator = new Calculator();
 
                 //winCalCulator.Width = 237;

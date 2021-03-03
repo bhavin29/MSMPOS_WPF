@@ -8,6 +8,8 @@ using RocketPOS.Model;
 using RocketPOS.ViewModels;
 using RocketPOS.Core.Constants;
 using Microsoft.Win32;
+using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace RocketPOS.Helpers.Reports
 {
@@ -23,7 +25,7 @@ namespace RocketPOS.Helpers.Reports
         DataTable dtDataResult = new DataTable();
         CommonMethods commonMethods = new CommonMethods();
         string reportTitle = "";
-        string reportFooter = "";
+        string reportFooter = "------------------------------------------------------------------------END OF REPORT----------------------------------------------------------------------";
         string _reportName = "";
         public PReportViewer()
         {
@@ -50,7 +52,8 @@ namespace RocketPOS.Helpers.Reports
 
         private void printButton_Click(object sender, RoutedEventArgs e)
         {
-            wPFPrintHelper.Print(flowDocument);
+            Print(flowDocument);
+          //  wPFPrintHelper.Print(flowDocument);
         }
 
         private void excelButton_Click(object sender, RoutedEventArgs e)
@@ -87,5 +90,51 @@ namespace RocketPOS.Helpers.Reports
 
             }
         }
+
+        void Print(FlowDocument flowDocument)
+        {
+            PrintDialog printDialog = new PrintDialog();
+            bool? result = printDialog.ShowDialog();
+            if (!result.HasValue)
+                return;
+            if (!result.Value)
+                return;
+
+            double pageWidth = printDialog.PrintableAreaWidth;
+            double pageHeight = printDialog.PrintableAreaHeight;
+            flowDocument = CreateFlowDocument(pageWidth, pageHeight);
+
+            printDialog.PrintDocument(
+             ((IDocumentPaginatorSource)flowDocument).DocumentPaginator,
+             "Test print job");
+        }
+
+        FlowDocument CreateFlowDocument(double pageWidth, double pageHeight)
+        {
+            FlowDocument flowDocument = new FlowDocument();
+            flowDocument.PageWidth = pageWidth;
+            flowDocument.PageHeight = pageHeight;
+            flowDocument.PagePadding = new Thickness(30.0, 50.0, 20.0, 30.0);
+            flowDocument.IsOptimalParagraphEnabled = true;
+            flowDocument.IsHyphenationEnabled = true;
+            flowDocument.IsColumnWidthFlexible = true;
+
+            Paragraph header = new Paragraph();
+            header.FontSize = 18;
+            header.Foreground = new SolidColorBrush(Colors.Black);
+            header.FontWeight = FontWeights.Bold;
+            header.Inlines.Add(new Run("Title of my document (will be cut off in XPS)"));
+            flowDocument.Blocks.Add(header);
+
+            Paragraph test = new Paragraph();
+            test.FontSize = 12;
+            test.Foreground = new SolidColorBrush(Colors.Black);
+            test.FontWeight = FontWeights.Bold;
+            test.Inlines.Add(new Run("This text should stretch across the entire width of the page. Let's see if it really does, though."));
+            flowDocument.Blocks.Add(test);
+
+            return flowDocument;
+        }
+
     }
 }

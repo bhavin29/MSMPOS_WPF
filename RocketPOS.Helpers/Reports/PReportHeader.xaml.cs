@@ -45,6 +45,7 @@ namespace RocketPOS.Helpers.Reports
             ReportDetail.ReportFromDate = dpFromDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat);
             ReportDetail.ReportToDate = dpToDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat);
 
+         //   FrameReportViewer.Navigate(new ReportViewer());
             FrameReportViewer.Navigate(new PReportViewer());
         }
     }

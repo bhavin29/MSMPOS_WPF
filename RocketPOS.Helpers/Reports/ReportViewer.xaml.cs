@@ -29,7 +29,8 @@ namespace RocketPOS.Helpers.Reports
         {
             InitializeComponent();
             CenterWindowOnScreen();
-            ReportLoad(ReportDetail.ReportName);
+      //      ReportLoad(ReportDetail.ReportName);
+            ReportLoad("ModeOfPayment");
         }
 
         private void printButton_Click(object sender, RoutedEventArgs e)

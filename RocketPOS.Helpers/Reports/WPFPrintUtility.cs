@@ -257,8 +257,8 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
             CreateTableDataRows();
             // ===================================================
 
-            // Craete Table Footer Row Text
-            //   if (!string.IsNullOrEmpty(this.FooterText)) CreateFooter(Datatable.Rows.Count);
+           //  Craete Table Footer Row Text
+              if (!string.IsNullOrEmpty(this.FooterText)) CreateFooter(Datatable.Rows.Count);
         }
 
         /// <summary>
