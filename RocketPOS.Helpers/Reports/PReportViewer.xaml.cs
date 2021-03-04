@@ -30,7 +30,7 @@ namespace RocketPOS.Helpers.Reports
         DataTable dtDataResult = new DataTable();
         CommonMethods commonMethods = new CommonMethods();
         string reportTitle = "";
-        string reportFooter = "------------------------------------------------------------------------END OF REPORT----------------------------------------------------------------------";
+        string reportFooter = "*****END OF REPORT*****";
         string _reportName = "";
         public PReportViewer()
         {
@@ -60,21 +60,21 @@ namespace RocketPOS.Helpers.Reports
                 dtData = commonMethods.ConvertToDataTable(modeofPaymentReportModel);
                 dtDataResult = commonMethods.GetInversedDataTable(dtData, "PaymentMethodName", "BillDate", "BillAmount", " ", true);
             }
-            if (_reportName == "CESS")
+            else if (_reportName == "CESS")
             {
-                cessReportModel = customerOrderViewModel.GetCessReport(ReportDetail.ReportFromDate, ReportDetail.ReportFromDate);
+                cessReportModel = customerOrderViewModel.GetCessReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(cessReportModel.CessSummaryList);
             }
-            if (_reportName == "CESS_Detail")
+            else if (_reportName == "CESS_Detail")
             {
-                cessReportModel = customerOrderViewModel.GetCessReport(ReportDetail.ReportFromDate, ReportDetail.ReportFromDate);
+                cessReportModel = customerOrderViewModel.GetCessReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(cessReportModel.CessDetailList);
             }
-            if (_reportName == "CESS_Category")
+            else if (_reportName == "CESS_Category")
             {
-                cessCategoryReportModel = customerOrderViewModel.GetCessCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportFromDate);
+                cessCategoryReportModel = customerOrderViewModel.GetCessCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(cessCategoryReportModel.CessSummaryList);
             }

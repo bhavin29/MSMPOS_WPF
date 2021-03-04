@@ -168,28 +168,15 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
             var pHeader = new Paragraph();
             pHeader.Inlines.Add(new Run(LoginDetail.ClientName + "\n" + LoginDetail.Address1 + "\n" + LoginDetail.Address2));
             pHeader.LineHeight = Double.NaN;
-           flowDocument.Blocks.Add(pHeader);
-            //   section.Blocks.Add(pHeader);
-
-            //var pndHeader1 = new Paragraph();
-            //pndHeader1.Inlines.Add(new Run(LoginDetail.Address1 + "\n" + LoginDetail.Address2));
-            //pndHeader1.LineHeight = Double.NaN;
-            //flowDocument.Blocks.Add(pndHeader1);
- 
-            //var pndHeader2 = new Paragraph();
-            //pndHeader2.Inlines.Add(new Run(LoginDetail.Address2));
-            //pndHeader2.LineHeight = Double.NaN;
-            //flowDocument.Blocks.Add(pndHeader2);
-            ////section.Blocks.Add(pndHeader);
-            /////  flowDocument.Blocks.Add(section);
+            flowDocument.Blocks.Add(pHeader);
 
             flowDocument.Blocks.Add(new BlockUIContainer(new Separator()));
             var pParameter = new Paragraph();
-            pParameter.Inlines.Add(new Run("From Date:                            To Date:" ));
+            pParameter.Inlines.Add(new Run("From Date: " + ReportDetail.ReportFromDate+ "                           To Date:"  + ReportDetail.ReportToDate));
             pParameter.LineHeight = Double.NaN;
             flowDocument.Blocks.Add(pParameter);
 
-            HeaderTitleText = headerTitle;
+            HeaderTitleText = "";// headerTitle;
             FooterText = footer;
             Datatable = datatable;
             flowDocument.Blocks.Add(CreateVisualTableFromDataTable());
