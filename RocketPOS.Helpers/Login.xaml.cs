@@ -121,6 +121,7 @@ namespace RocketPOS.Helpers
             LoginDetail.Username = loginModel[0].Username;
             LoginDetail.OutletName = loginModel[0].OutletName;
             LoginDetail.OutletId = loginModel[0].OutletId;
+            LoginDetail.StoreId = loginModel[0].StoreId;
             LoginDetail.RoleTypeId = loginModel[0].RoleTypeId;
             LoginDetail.OutletRegisterStatus = loginModel[0].OutletRegisterStatus;
             LoginDetail.ClientName = loginModel[0].ClientName;

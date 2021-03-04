@@ -12,6 +12,7 @@ namespace RocketPOS.Model
 
         public string OutletName { get; set; }
         public int OutletId { get; set; }
+        public int StoreId { get; set; }
         public int RoleTypeId { get; set; }
         public int OutletRegisterStatus { get; set; }
         public string ClientName { get; set; }

@@ -7,12 +7,13 @@ namespace RocketPOS.Core.Constants
     public  static class LoginDetail
     {
         //Created application run time
-        public static string AppVersion = "1.2";
+        public static string AppVersion = "1.3";
         //from login database
         public static int UserId = 0;
         public static string Username = "";
         public static string OutletName = "";
         public static int OutletId = 0;
+        public static int StoreId = 0;
         public static int RoleTypeId = 0;
         public static int OutletRegisterStatus = 0;
         public static string ClientName = "";
@@ -46,5 +47,6 @@ namespace RocketPOS.Core.Constants
         public static int TaxInclusive = 1;
         public static bool IsItemOverright = false;
         public static string ConnectionString = "";
+
     }
 }
