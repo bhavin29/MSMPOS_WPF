@@ -159,18 +159,35 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
             var section = new Section();
             section.LineHeight = Double.NaN;
 
+            var pReportTitle = new Paragraph();
+            pReportTitle.Inlines.Add(new Run(ReportDetail.ReportTitle));
+            pReportTitle.LineHeight = Double.NaN;
+            pReportTitle.FontSize = 24;
+            flowDocument.Blocks.Add(pReportTitle);
+ 
             var pHeader = new Paragraph();
-            pHeader.Inlines.Add(new Run(LoginDetail.ClientName));
+            pHeader.Inlines.Add(new Run(LoginDetail.ClientName + "\n" + LoginDetail.Address1 + "\n" + LoginDetail.Address2));
             pHeader.LineHeight = Double.NaN;
            flowDocument.Blocks.Add(pHeader);
-         //   section.Blocks.Add(pHeader);
+            //   section.Blocks.Add(pHeader);
 
-            var pndHeader = new Paragraph();
-            pndHeader.Inlines.Add(new Run(LoginDetail.Address2));
-            pndHeader.LineHeight = Double.NaN;
-            flowDocument.Blocks.Add(pndHeader);
-            //section.Blocks.Add(pndHeader);
-          //  flowDocument.Blocks.Add(section);
+            //var pndHeader1 = new Paragraph();
+            //pndHeader1.Inlines.Add(new Run(LoginDetail.Address1 + "\n" + LoginDetail.Address2));
+            //pndHeader1.LineHeight = Double.NaN;
+            //flowDocument.Blocks.Add(pndHeader1);
+ 
+            //var pndHeader2 = new Paragraph();
+            //pndHeader2.Inlines.Add(new Run(LoginDetail.Address2));
+            //pndHeader2.LineHeight = Double.NaN;
+            //flowDocument.Blocks.Add(pndHeader2);
+            ////section.Blocks.Add(pndHeader);
+            /////  flowDocument.Blocks.Add(section);
+
+            flowDocument.Blocks.Add(new BlockUIContainer(new Separator()));
+            var pParameter = new Paragraph();
+            pParameter.Inlines.Add(new Run("From Date:                            To Date:" ));
+            pParameter.LineHeight = Double.NaN;
+            flowDocument.Blocks.Add(pParameter);
 
             HeaderTitleText = headerTitle;
             FooterText = footer;
@@ -407,8 +424,8 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
 
             printDialog.PrintDocument(idocument.DocumentPaginator, "Printing ...");
 
-            flowDocument.PageHeight = 800;
-            flowDocument.PageWidth = 816;
+            //flowDocument.PageHeight = 800;
+            //flowDocument.PageWidth = 816;
         }
     }
 

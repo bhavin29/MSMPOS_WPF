@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:RocketPOS.Helpers.Reports"
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="500"
-      Title="PReportViewer" Background="LightGray">
+      Title="PReportViewer" Background="White">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -19,7 +19,14 @@
 
             <FlowDocumentPageViewer  Height="650">
                 <FlowDocument Name = "flowDocument" ColumnWidth= "999999"  >
-                    <!--<Section LineHeight="0.1">
+                 
+                        <FlowDocument.Resources>
+                            <!-- This style is used to set the margins for all paragraphs in the FlowDocument to 0. -->
+                            <Style TargetType="{x:Type Paragraph}">
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </FlowDocument.Resources>
+                        <!--<Section LineHeight="0.1">
                             <Paragraph Name= "headParagraph" Margin="0" BorderThickness="0" FontFamily="Calibri" FontSize= "20" FontWeight= "Bold" >BAPS SHAYONA (NAIROBI) LTD</Paragraph>
                     <Paragraph Name = "ndHeadParagraph" BorderThickness="0" FontFamily="Calibri" FontSize= "15" >PARKLANDS, NAIROBI</Paragraph>
                         </Section>-->

@@ -36,7 +36,7 @@ namespace RocketPOS.Helpers.Reports
             dpFromDatePayment.SelectedDate = thisMonthStart;
             dpToDatePayment.SelectedDate = today;
 
-            lblreportTitle.Content = ReportDetail.ReportName;
+            lblreportTitle.Content = ReportDetail.ReportTitle;
         }
 
         private void btnLoad_Click(object sender, RoutedEventArgs e)

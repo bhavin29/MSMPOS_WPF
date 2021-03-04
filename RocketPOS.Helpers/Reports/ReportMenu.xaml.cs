@@ -28,34 +28,32 @@ namespace RocketPOS.Helpers.Reports
             InitializeComponent();
 
             ReportItem root = new ReportItem() { Title = "Reports" };
+
             
-            ReportItem node1 = new ReportItem() { Title = "Sales" };
-            node1.Items.Add(new ReportItem() { Title = " Sales by Category Department Product qty desc" });
-            node1.Items.Add(new ReportItem() { Title = " Sales by Category Department Product qty ASC" });
-            node1.Items.Add(new ReportItem() { Title = " Sales By Catrgory Department Product Amount desc" });
-            node1.Items.Add(new ReportItem() { Title = " Sales by Section Category Department Product Amount asc " });
-            node1.Items.Add(new ReportItem() { Title = " Sales by Section Category Department Product Amount desc" });
-            node1.Items.Add(new ReportItem() { Title = " Sales by Section Category Department Product qty asc" });
-            node1.Items.Add(new ReportItem() { Title = " Sales by Section Category Department Product qty desc" });
-            node1.Items.Add(new ReportItem() { Title = " Sales by Section Catrgory Department " });
-            node1.Items.Add(new ReportItem() { Title = " Sales by Section Product Amount desc" });
-            node1.Items.Add(new ReportItem() { Title = " Sales by Section Product qty desc" });
+            root.Items.Add(new ReportItem() { Title = "Catering Levy Summary" });
+            root.Items.Add(new ReportItem() { Title = "Catering Levy Summary Category Wise" });
+            root.Items.Add(new ReportItem() { Title = "Sales Summary by Payment Method" });
+            root.Items.Add(new ReportItem() { Title = "Invoicewise Tax Summary Report" });
+
+            //root.Items.Add(new ReportItem() { Title = "Sales by Category Department Product qty desc" });
+            //root.Items.Add(new ReportItem() { Title = "Detailed Sales Summary by Product Depertment" });
+            //root.Items.Add(new ReportItem() { Title = "Detailed Sales Summary Report" });
+            //root.Items.Add(new ReportItem() { Title = "Master Sales Report" });
+           
+
+           ReportItem node1 = new ReportItem() { Title = "Sales" };
+           node1.Items.Add(new ReportItem() { Title = "Sales by Category Department Product qty desc" });
+           // node1.Items.Add(new ReportItem() { Title = "Sales by Category Department Product qty ASC" });
+           // node1.Items.Add(new ReportItem() { Title = "Sales By Catrgory Department Product Amount desc" });
+           // node1.Items.Add(new ReportItem() { Title = "Sales by Section Category Department Product Amount asc " });
+           // node1.Items.Add(new ReportItem() { Title = "Sales by Section Category Department Product Amount desc" });
+           // node1.Items.Add(new ReportItem() { Title = "Sales by Section Category Department Product qty asc" });
+           // node1.Items.Add(new ReportItem() { Title = "Sales by Section Category Department Product qty desc" });
+           // node1.Items.Add(new ReportItem() { Title = "Sales by Section Catrgory Department " });
+           // node1.Items.Add(new ReportItem() { Title = "Sales by Section Product Amount desc" });
+           // node1.Items.Add(new ReportItem() { Title = "Sales by Section Product qty desc" });
             root.Items.Add(node1);
-
-            root.Items.Add(new ReportItem() { Title = " Sales by Category Department Product qty desc" });
-            root.Items.Add(new ReportItem() { Title = " Detailed Sales Summary by Product Depertment" });
-            root.Items.Add(new ReportItem() { Title = " Detailed Sales Summary Report" });
-            root.Items.Add(new ReportItem() { Title = " Master Sales Report" });
-            root.Items.Add(new ReportItem() { Title = " Mode of Payment" });
-
-
-            ReportItem childItem1 = new ReportItem() { Title = "Child item #1" };
-            childItem1.Items.Add(new ReportItem() { Title = "Child item #1.1 Child item #1.1 Child item #1.1 Child item #1.1" });
-            childItem1.Items.Add(new ReportItem() { Title = "Child item #1.2" });
-            root.Items.Add(childItem1);
-            
-            root.Items.Add(new ReportItem() { Title = "Child item #2" });
-
+ 
             trvMenu.Items.Add(root);
 
             CenterWindowOnScreen();
@@ -84,17 +82,46 @@ namespace RocketPOS.Helpers.Reports
             }
         }
 
-        private void trvMenu_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            //if (sender is TreeViewItem)
-            //{
-            //    if (((TreeViewItem)sender).IsSelected)
-            //    {
-            //        MessageBox.Show(((TreeViewItem)sender).va ue.ToString()); 
-            //    }
-            //}
 
-           
+        private void trvMenu_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var SelectedItem = e.NewValue as ReportItem;
+            txtReportPreview.Visibility = Visibility.Hidden;
+            txtReportPreview.Height = 0;
+            FrameHeader.Visibility = Visibility.Visible;
+            ShowReport(SelectedItem.Title.ToString());
+        }
+        private void ShowReport(string ReportName)
+        {
+            ReportDetail.ReportTitle = ReportName;
+
+            if (ReportName == "Catering Levy Summary")
+            {
+                ReportDetail.ReportName = "CESS";
+                FrameHeader.Navigate(new PReportHeader());
+            }
+            else if (ReportName == "Catering Levy Summary Category Wise")
+            {
+                ReportDetail.ReportName = "CESS_Category";
+                FrameHeader.Navigate(new PReportHeader());
+            }
+            else if (ReportName == "Sales Summary by Payment Method")
+            {
+                ReportDetail.ReportName = "ModeOfPayment";
+                FrameHeader.Navigate(new PReportHeader());
+            }
+            else if (ReportName == "Invoicewise Tax Summary Report")
+            {
+                ReportDetail.ReportName = "CESS_Detail";
+                FrameHeader.Navigate(new PReportHeader());
+            }
+            else
+            {
+                txtReportPreview.Visibility = Visibility.Visible;
+                txtReportPreview.Height = 40;
+                FrameHeader.Visibility = Visibility.Hidden;
+            }
+
         }
     }
 

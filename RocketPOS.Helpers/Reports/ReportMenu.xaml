@@ -16,18 +16,17 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Column="0"  Orientation="Vertical"  Background="#956eeb">
-                <TextBlock Name="txtModeOdPayment" Text=" Mode of Payment"  FontSize="20" Foreground="White" PreviewMouseDown="txtModeOdPayment_PreviewMouseDown"></TextBlock>
-
-                <TreeView Name="trvMenu" FontSize="14" ItemContainerStyle="{StaticResource TreeViewItemStyle_ExpandAll}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="320" Height="700" MouseDoubleClick="trvMenu_MouseDoubleClick">
+                 <TreeView Name="trvMenu" FontSize="14" Margin="2,2,2,2" SelectedItemChanged="trvMenu_SelectedItemChanged" ItemContainerStyle="{StaticResource TreeViewItemStyle_ExpandAll}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="320" Height="759">
                     <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate DataType="{x:Type local:ReportItem}" ItemsSource="{Binding Items}">
+                        <HierarchicalDataTemplate DataType="{x:Type local:ReportItem}" ItemsSource="{Binding Items}"  >
                             <TextBlock Text="{Binding Title}" />
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
                 </TreeView>
                 
             </StackPanel>
-            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5,0,2,0" >
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5,0,2,0"  Background="Gray">
+                <TextBlock Name="txtReportPreview" Height="40" Text="Report Preview" Foreground="White" FontSize="24" TextAlignment="Center"/>
                 <Frame NavigationUIVisibility="Hidden" Margin="0,0,0,0" Grid.Column="1" x:Name="FrameHeader" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center"  Background="DarkGray" />
             </StackPanel>
         </Grid>
