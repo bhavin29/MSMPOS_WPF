@@ -17,4 +17,14 @@ namespace RocketPOS.Model
         public int BalancePoints { get; set; }
 
     }
+
+    public class CustomerRewardModel
+    {
+        public string CustomerName { get; set; }
+        public string CustomerPhone { get; set; }
+        public string Datetime { get; set; }
+        public string Credit { get; set; }
+        public string Debit { get; set; }
+        public string Balance { get; set; }
+    }
 }
