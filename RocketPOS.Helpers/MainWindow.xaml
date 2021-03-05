@@ -79,7 +79,7 @@
                     </StackPanel>
                     <Popup Name="ppFoodMenuList" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                         <Border BorderBrush="Black" BorderThickness="5,5,5,5">
-                            <Grid Width="577" Height="600" Background="#86A09E">
+                            <Grid Width="677" Height="600" Background="#86A09E">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
@@ -89,7 +89,7 @@
                                     <RowDefinition Height="40"/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="txtSearchFoodMenuList"  Grid.Row="0" Grid.Column="0" VerticalContentAlignment="Center" FontSize="22" Style="{StaticResource TextBoxBaseStyle}" Width="477" Margin="5,5,0,5" TextChanged="txtSearchFoodMenuList_TextChanged"/>
+                                    <TextBox x:Name="txtSearchFoodMenuList"  Grid.Row="0" Grid.Column="0" VerticalContentAlignment="Center" FontSize="22" Style="{StaticResource TextBoxBaseStyle}" Width="577" Margin="5,5,0,5" TextChanged="txtSearchFoodMenuList_TextChanged"/>
                                     <Button x:Name="btnPPFoodListCancel" Margin="15,0,0,0" Width="70"  Height="40" FontSize="16" Background="#00265B" Foreground="White" Grid.Row="0" Grid.Column="0" Content="Close" Click="btnPPFoodListCancel_Click"/>
                                 </StackPanel>
                                 <DataGrid x:Name="dgFoodMenuList" Grid.Row="1" Grid.Column="0" CanUserAddRows="false" AutoGenerateColumns="False" ItemsSource="{Binding FoodMenu}" MouseDoubleClick="dgFoodMenuList_MouseDoubleClick">
@@ -103,6 +103,13 @@
                                             </DataGridTextColumn.ElementStyle>
                                         </DataGridTextColumn>
                                         <DataGridTextColumn Header="Category" IsReadOnly="True"  Width="150" Binding="{Binding FoodCategory}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="Stock Qty" IsReadOnly="True"  Width="100" Binding="{Binding StockQty}" >
+                                            <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="HorizontalAlignment" Value="Right" />
+                                            </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                         </DataGridTextColumn>
                                         <DataGridTemplateColumn Width="50" IsReadOnly="True" Header="Picture" Visibility="Hidden">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
@@ -110,7 +117,6 @@
                                                         <StackPanel HorizontalAlignment="Left">
                                                             <Image Source="images/Upload.png"  Height="30" Width="50"/>
                                                         </StackPanel>
-
                                                     </Button>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>

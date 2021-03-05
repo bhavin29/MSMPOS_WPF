@@ -52,7 +52,7 @@ namespace RocketPOS.Helpers
                 txtbTotalPayableAmount.Text = "0.00";
                 rdbPendingSales.IsChecked = true;
                 rdbAllSales.IsChecked = true;
-                dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
+                dgFoodMenuList.Columns[4].Visibility = Visibility.Visible;
                 dgSaleItem.Columns[0].Visibility = Visibility.Visible;
 
                 //if (LoginDetail.RoleTypeId == (int)EnumUtility.RoleTypeId.Admin)

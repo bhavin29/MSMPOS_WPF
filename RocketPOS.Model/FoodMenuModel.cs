@@ -44,5 +44,7 @@ namespace RocketPOS.Model
         public decimal TaxPercentage { get; set; }
         public int IsVatable { get; set; }
         public bool IsPriceChange { get; set; }
+        public decimal OpeningStock { get; set; }
+        public decimal StockQty { get; set; }
     }
 }
