@@ -15,7 +15,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
-                <RowDefinition Height="260"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="260"/>
             </Grid.RowDefinitions>
 
@@ -25,14 +25,18 @@
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1"  >
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Left"  Margin="5,10,0,0">
-                    <Button x:Name="btnStartSync"  HorizontalAlignment="Left" Margin="5,0,0,0" Style="{StaticResource btnOrange}" Content="Start Sync" Height="40" Click="btnStartSync_Click" />
-                    <TextBox Name="txtOutput" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" 
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Margin="5,10,0,0">
+                    <Button x:Name="btnStartSync"  HorizontalAlignment="Left" Margin="5,0,0,0" Style="{StaticResource btnOrange}" Content="Master Sync" Height="40" Width="150" Click="btnStartSync_Click" />
+                    <Button x:Name="btnTransactionSync"  HorizontalAlignment="Left" Margin="5,0,0,0" Style="{StaticResource btnOrange}" Content="Transaction Sync" Width="150" Height="40" Click="btnTransactionSync_Click" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="2"  >
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left"  Margin="5,0,0,0">
+                        <TextBox Name="txtOutput" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" 
                              HorizontalAlignment="Left" TextWrapping="Wrap"  FontSize="14px" Margin="5,10,0,0" 
-                             Height="150" Width="800" 
+                             Height="250" Width="925" 
                               Text="{Binding  Path=MyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     </TextBox>
-
                 </StackPanel>
             </Grid>
         </Grid>

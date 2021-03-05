@@ -21,6 +21,7 @@ namespace RocketPOS.Helpers.Settings
     /// </summary>
     public partial class pSync : Page
     {
+        int process = -1;
         public pSync()
         {
             InitializeComponent();
@@ -29,6 +30,7 @@ namespace RocketPOS.Helpers.Settings
         {
             try
             {
+                process = 1;
                 txtOutput.Text = "";
                 UpdateStatus(DateTime.Now.ToString() + " Process Started " + "\n");
                 var thread = new Thread(LoadDevices);
@@ -49,9 +51,10 @@ namespace RocketPOS.Helpers.Settings
             List<SyncErrorModel> syncErrorModel = new List<SyncErrorModel>();
             SettingsViewModel settingsViewModel = new SettingsViewModel();
             Dispatcher.BeginInvoke((Action)(() => btnStartSync.Visibility = Visibility.Hidden));
+            Dispatcher.BeginInvoke((Action)(() => btnTransactionSync.Visibility = Visibility.Hidden));
             Dispatcher.BeginInvoke((Action)(() => UpdateStatus("Pleae wait..." + "\n")));
 
-            syncErrorModel = settingsViewModel.SyncData();
+            syncErrorModel = settingsViewModel.SyncData(process);
 
             foreach (var item in syncErrorModel)
             {
@@ -64,6 +67,25 @@ namespace RocketPOS.Helpers.Settings
             }
             Dispatcher.BeginInvoke((Action)(() => UpdateStatus("\n" + DateTime.Now.ToString() + " Process Completed" + "\n")));
             Dispatcher.BeginInvoke((Action)(() => btnStartSync.Visibility = Visibility.Visible));
+            Dispatcher.BeginInvoke((Action)(() => btnTransactionSync.Visibility = Visibility.Visible));
         }
-      }
+
+        private void btnTransactionSync_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                process = 2;
+                txtOutput.Text = "";
+                UpdateStatus(DateTime.Now.ToString() + " Process Started " + "\n");
+                var thread = new Thread(LoadDevices);
+                thread.Start();
+                return;
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
+
+        }
+    }
 }

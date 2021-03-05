@@ -52,7 +52,7 @@ namespace RocketPOS.Helpers.Settings
             Dispatcher.BeginInvoke((Action)(() => btnStartSync.Visibility=Visibility.Hidden));
             Dispatcher.BeginInvoke((Action)(() => UpdateStatus("Pleae wait..." + "\n")));
 
-            syncErrorModel = settingsViewModel.SyncData();
+          //  syncErrorModel = settingsViewModel.SyncData();
 
             foreach (var item in syncErrorModel)
             {

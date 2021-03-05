@@ -13,13 +13,22 @@ namespace RocketPOS.ViewModels
     public class SettingsViewModel
     {
         AppSettings appSettings = new AppSettings();
-        public List<SyncErrorModel> SyncData()
+        public List<SyncErrorModel> SyncData(int process)
         {
             List<SyncErrorModel> syncErrorModel = new List<SyncErrorModel>();
 
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
-                var query = "EXEC [SyncData] ";
+                var query = "";
+                if (process == 1)
+                {
+                    query = "EXEC [SyncData] ";
+                }
+                else if (process == 2)
+                {
+                    query = "EXEC [SyncDataTransaction] ";
+                }
+
                 syncErrorModel = connection.Query<SyncErrorModel>(query, commandTimeout: 300).ToList();
             }
             return syncErrorModel;
@@ -125,7 +134,7 @@ namespace RocketPOS.ViewModels
                                                 "IsItemOverright = " + isItemOverright + "," +
                                                 "LinkedServer = '" + clientSettingModel.LinkedServer + "'," +
                                                 "WebAppUrl = '" + clientSettingModel.WebAppUrl + "'," +
-                                                "CurrentOutletId = " + clientSettingModel.CurrentOutletId; 
+                                                "CurrentOutletId = " + clientSettingModel.CurrentOutletId;
                 result = connection.Query<bool>(query).FirstOrDefault();
             }
             return result;
