@@ -20,9 +20,14 @@ namespace RocketPOS.Helpers.Reports
     public partial class PReportViewer : Page
     {
         CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
+        ReportViewModel reportViewModel = new ReportViewModel();
         WPFPrintUtility wPFPrintHelper = new WPFPrintUtility();
 
         List<ModeofPaymentReportModel> modeofPaymentReportModel = new List<ModeofPaymentReportModel>();
+        List<DetailSaleSummaryModel> detailSaleSummaryModels = new List<DetailSaleSummaryModel>();
+        List<MasterSalesReportModel> masterSalesReportModels = new List<MasterSalesReportModel>();
+        List<SalesByCategoryProductModel> salesByCategoryProductModel = new List<SalesByCategoryProductModel>();
+
         CessReportModel cessReportModel = new CessReportModel();
         CessCategoryReportModel cessCategoryReportModel = new CessCategoryReportModel();
 
@@ -72,13 +77,34 @@ namespace RocketPOS.Helpers.Reports
 
                 dtDataResult = commonMethods.ConvertToDataTable(cessReportModel.CessDetailList);
             }
+
             else if (_reportName == "CESS_Category")
             {
                 cessCategoryReportModel = customerOrderViewModel.GetCessCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(cessCategoryReportModel.CessSummaryList);
             }
+            else if (_reportName == "DetailSaleSummaryReport")
+            {
+                detailSaleSummaryModels = reportViewModel.GetDetailSaleSummaryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
+                dtDataResult = commonMethods.ConvertToDataTable(detailSaleSummaryModels);
+            }
+            else if (_reportName == "MasterSale")
+            {
+                masterSalesReportModels = reportViewModel.GetMasterSaleReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
+
+                dtDataResult = commonMethods.ConvertToDataTable(masterSalesReportModels);
+            }
+            else if (_reportName == "SalesByCategoryProductQtyDesc" || _reportName == "SalesByCategoryProductQtyAsc" || _reportName == "SalesByCategoryProductAmountDesc" || _reportName == "SalesBySectionCategoryProductAmountAsc"
+                        || _reportName == "SalesBySectionCategoryProductAmountDesc" || _reportName == "SalesBySectionCategoryProductQtyAsc" || _reportName == "SalesBySectionCategoryProductQtyDesc"
+                        || _reportName == "SalesBySectionCategory" || _reportName == "SalesBySectionProductAmountDesc" || _reportName == "SalesBySectionProductQtyDesc"
+                        )
+            {
+                salesByCategoryProductModel = reportViewModel.GetSaleByCategorySectionReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, _reportName);
+
+                dtDataResult = commonMethods.ConvertToDataTable(salesByCategoryProductModel);
+            }
             reportTitle = _reportName;
 
             //common call

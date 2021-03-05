@@ -23,9 +23,9 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="5,0,0,0">
                     <Label Content="From Date" Width="80" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
-                    <DatePicker Name="dpFromDatePayment" Height="25"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"   />
+                    <DatePicker Name="dpFromDatePayment" Height="25"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" SelectedDateChanged="dpFromDatePayment_SelectedDateChanged"   />
                     <Label Content="To Date" Width="80" FontSize="14" Foreground="White"  VerticalAlignment="Center" Margin="25,0,0,0"/>
-                    <DatePicker Name="dpToDatePayment" Height="25"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"   />
+                    <DatePicker Name="dpToDatePayment" Height="25"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"  SelectedDateChanged="dpToDatePayment_SelectedDateChanged"  />
 
                     <Button x:Name="btnLoad" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Load Report" Width="110" Height="35" VerticalContentAlignment="Center" Click="btnLoad_Click"  />
                 </StackPanel>

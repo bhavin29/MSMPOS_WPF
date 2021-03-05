@@ -22,31 +22,60 @@ namespace RocketPOS.Helpers.Reports
         public PReportHeader()
         {
             InitializeComponent();
+            ResetControl();
+        }
+
+        private void ResetControl()
+        {
             DateTime dt = new DateTime();
             dt = DateTime.Now;
 
             DateTime dtWithTime = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
             DateTime dtProductWithTime = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
-
             DateTime baseDate = DateTime.Now;
             var today = baseDate;
             var thisMonthStart = baseDate.AddDays(1 - baseDate.Day);
             var thisMonthProductStart = dtProductWithTime.AddDays(1 - dtProductWithTime.Day);
 
-            dpFromDatePayment.SelectedDate = thisMonthStart;
-            dpToDatePayment.SelectedDate = today;
+            if (ReportDetail.ReportFromDate == "")
+            {
+                dpFromDatePayment.SelectedDate = thisMonthStart;
+                dpToDatePayment.SelectedDate = today;
+            }
+            else
+            {
+                dpFromDatePayment.Text = ReportDetail.ReportFromDate;
+                dpToDatePayment.Text = ReportDetail.ReportToDate;
+            }
 
             lblreportTitle.Content = ReportDetail.ReportTitle;
         }
 
+
         private void btnLoad_Click(object sender, RoutedEventArgs e)
         {
-//            ReportDetail.ReportName = "ModeOfPayment";
+            //            ReportDetail.ReportName = "ModeOfPayment";
             ReportDetail.ReportFromDate = dpFromDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat);
             ReportDetail.ReportToDate = dpToDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat);
 
-         //   FrameReportViewer.Navigate(new ReportViewer());
+            //   FrameReportViewer.Navigate(new ReportViewer());
             FrameReportViewer.Navigate(new PReportViewer());
+        }
+
+        private void dpFromDatePayment_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dpFromDatePayment.SelectedDate != null)
+            {
+                ReportDetail.ReportFromDate = dpFromDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat);
+            }
+        }
+
+        private void dpToDatePayment_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dpToDatePayment.SelectedDate != null)
+            {
+                ReportDetail.ReportToDate = dpToDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat);
+            }
         }
     }
 }
