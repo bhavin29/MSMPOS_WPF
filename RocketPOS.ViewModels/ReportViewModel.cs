@@ -52,7 +52,6 @@ namespace RocketPOS.ViewModels
                 return detailSaleSummaryModel;
             }
         }
-
         public List<ProductWiseSalesReportModel> GetProductWiseSales(string Fromdate, string Todate, string ReportType)
         {
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
@@ -230,7 +229,6 @@ namespace RocketPOS.ViewModels
                 return salesByCategoryProductModel;
             }
         }
-
         public List<TableStatisticsModel> GetTableStatisticsReport(string fromDate, string toDate)
         {
             List<TableStatisticsModel> tableStatisticsModel = new List<TableStatisticsModel>();
@@ -249,7 +247,6 @@ namespace RocketPOS.ViewModels
                 return tableStatisticsModel;
             }
         }
-
         public List<SalesSummaryModel> GetSalesSummaryByFoodCategoryReport(string fromDate, string toDate)
         {
             List<SalesSummaryModel> salesSummaryModel = new List<SalesSummaryModel>();
@@ -269,7 +266,6 @@ namespace RocketPOS.ViewModels
                 return salesSummaryModel;
             }
         }
-
         public List<SalesSummaryByFoodCategoryFoodMenuModel> GetSalesSummaryByFoodCategoryFoodMenuReport(string fromDate, string toDate)
         {
             List<SalesSummaryByFoodCategoryFoodMenuModel> salesSummaryByFoodCategoryFoodMenuModel = new List<SalesSummaryByFoodCategoryFoodMenuModel>();
@@ -289,7 +285,6 @@ namespace RocketPOS.ViewModels
                 return salesSummaryByFoodCategoryFoodMenuModel;
             }
         }
-
         public List<SalesSummaryBySectionModel> GetSalesSummaryBySectionReport(string fromDate, string toDate)
         {
             List<SalesSummaryBySectionModel> salesSummaryBySectionModel = new List<SalesSummaryBySectionModel>();
@@ -309,8 +304,6 @@ namespace RocketPOS.ViewModels
                 return salesSummaryBySectionModel;
             }
         }
-
-
         public List<CustomerRewardModel> GetCustomerRewardReport(string fromDate, string toDate,string customerPhone ,string customerName)
         {
             List<CustomerRewardModel> customerRewardModel = new List<CustomerRewardModel>();
@@ -319,7 +312,7 @@ namespace RocketPOS.ViewModels
                 string Query = string.Empty;
 
                 Query = " select CustomerName,CustomerPhone,Datetime,case when Credit = 0.00 then null else Credit end As Credit,case when Debit = 0.00 then null else Debit end As Debit, Balance from CustomerRedeem CR inner join customer C on C.Id = CR.CustomerId    " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+                        " Where CR.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CR.Datetime, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
                 if (!string.IsNullOrEmpty(customerPhone))
                 {
                     Query += " And CustomerPhone like '%" + customerPhone + "%' ";

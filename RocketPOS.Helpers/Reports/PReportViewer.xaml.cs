@@ -27,6 +27,11 @@ namespace RocketPOS.Helpers.Reports
         List<DetailSaleSummaryModel> detailSaleSummaryModels = new List<DetailSaleSummaryModel>();
         List<MasterSalesReportModel> masterSalesReportModels = new List<MasterSalesReportModel>();
         List<SalesByCategoryProductModel> salesByCategoryProductModel = new List<SalesByCategoryProductModel>();
+        List<TableStatisticsModel> tableStatisticsModel = new List<TableStatisticsModel>();
+        List<SalesSummaryModel> salesSummaryModel = new List<SalesSummaryModel>();
+        List<SalesSummaryByFoodCategoryFoodMenuModel> salesSummaryByFoodCategoryFoodMenuModel = new List<SalesSummaryByFoodCategoryFoodMenuModel>();
+        List<SalesSummaryBySectionModel> salesSummaryBySectionModel = new List<SalesSummaryBySectionModel>();
+        List<CustomerRewardModel> customerRewardModel = new List<CustomerRewardModel>();
 
         CessReportModel cessReportModel = new CessReportModel();
         CessCategoryReportModel cessCategoryReportModel = new CessCategoryReportModel();
@@ -105,7 +110,38 @@ namespace RocketPOS.Helpers.Reports
 
                 dtDataResult = commonMethods.ConvertToDataTable(salesByCategoryProductModel);
             }
-            reportTitle = _reportName;
+            else if (_reportName == "TableStatistics")
+            {
+                tableStatisticsModel = reportViewModel.GetTableStatisticsReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
+
+                dtDataResult = commonMethods.ConvertToDataTable(tableStatisticsModel);
+            }
+            else if (_reportName == "SalesSummarybyProductCategory")
+            {
+                salesSummaryModel = reportViewModel.GetSalesSummaryByFoodCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
+
+                dtDataResult = commonMethods.ConvertToDataTable(salesSummaryModel);
+            }
+            else if (_reportName == "SalesSummarybyProduct")
+            {
+                salesSummaryByFoodCategoryFoodMenuModel = reportViewModel.GetSalesSummaryByFoodCategoryFoodMenuReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
+
+                dtDataResult = commonMethods.ConvertToDataTable(salesSummaryByFoodCategoryFoodMenuModel);
+            }
+            else if (_reportName == "SalesSummarybySection")
+            {
+                salesSummaryBySectionModel = reportViewModel.GetSalesSummaryBySectionReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
+
+                dtDataResult = commonMethods.ConvertToDataTable(salesSummaryBySectionModel);
+            }
+            else if (_reportName == "CustomerReward")
+            {
+                customerRewardModel = reportViewModel.GetCustomerRewardReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate,"","");
+
+                dtDataResult = commonMethods.ConvertToDataTable(customerRewardModel);
+            }
+            
+           reportTitle = _reportName;
 
             //common call
             DataTable mockDataTable = wPFPrintHelper.CreateMockDataTableForTest();

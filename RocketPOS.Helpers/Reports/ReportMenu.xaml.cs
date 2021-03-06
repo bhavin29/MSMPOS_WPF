@@ -36,9 +36,16 @@ namespace RocketPOS.Helpers.Reports
             root.Items.Add(new ReportItem() { Title = "Invoicewise Tax Summary Report" });
             root.Items.Add(new ReportItem() { Title = "Detailed Sales Summary by Product" });
             root.Items.Add(new ReportItem() { Title = "Master Sales" });
+            root.Items.Add(new ReportItem() { Title = "Table Statistics" });
+            root.Items.Add(new ReportItem() { Title = "Sales Summary by Product Category" });
+            root.Items.Add(new ReportItem() { Title = "Sales Summary by Product" });
+            root.Items.Add(new ReportItem() { Title = "Sales Summary by Section" });
+            root.Items.Add(new ReportItem() { Title = "Customer Reward" });
 
             //root.Items.Add(new ReportItem() { Title = "Sales by Category Department Product qty desc" });
             //root.Items.Add(new ReportItem() { Title = "Detailed Sales Summary Report" });
+            //root.Items.Add(new ReportItem() { Title = "Sales Summary by Hour" });
+            //root.Items.Add(new ReportItem() { Title = "Sales Summary Five Weeks" });
 
 
             ReportItem node1 = new ReportItem() { Title = "Sales" };
@@ -94,93 +101,121 @@ namespace RocketPOS.Helpers.Reports
         private void ShowReport(string ReportName)
         {
             ReportDetail.ReportTitle = ReportName;
+            int Reports = 1;
 
             if (ReportName == "Catering Levy Summary")
             {
                 ReportDetail.ReportName = "CESS";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Catering Levy Summary Category Wise")
             {
                 ReportDetail.ReportName = "CESS_Category";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Sales Summary by Payment Method")
             {
                 ReportDetail.ReportName = "ModeOfPayment";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Invoicewise Tax Summary Report")
             {
                 ReportDetail.ReportName = "CESS_Detail";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Detailed Sales Summary by Product")
             {
                 ReportDetail.ReportName = "DetailSaleSummaryReport";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Master Sales")
             {
                 ReportDetail.ReportName = "MasterSale";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Sales by Category Product qty desc")
             {
                 ReportDetail.ReportName = "SalesByCategoryProductQtyDesc";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Sales by Category Product qty ASC")
             {
                 ReportDetail.ReportName = "SalesByCategoryProductQtyAsc";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Sales By Catrgory Product Amount desc")
             {
                 ReportDetail.ReportName = "SalesByCategoryProductAmountDesc";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Sales by Section Category Product Amount asc")
             {
                 ReportDetail.ReportName = "SalesBySectionCategoryProductAmountAsc";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Sales by Section Category Product Amount desc")
             {
                 ReportDetail.ReportName = "SalesBySectionCategoryProductAmountDesc";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Sales by Section Category Product qty asc")
             {
                 ReportDetail.ReportName = "SalesBySectionCategoryProductQtyAsc";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Sales by Section Category Product qty desc")
             {
                 ReportDetail.ReportName = "SalesBySectionCategoryProductQtyDesc";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Sales by Section Catrgory")
             {
                 ReportDetail.ReportName = "SalesBySectionCategory";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Sales by Section Product Amount desc")
             {
                 ReportDetail.ReportName = "SalesBySectionProductAmountDesc";
-                FrameHeader.Navigate(new PReportHeader());
             }
             else if (ReportName == "Sales by Section Product qty desc")
             {
                 ReportDetail.ReportName = "SalesBySectionProductQtyDesc";
-                FrameHeader.Navigate(new PReportHeader());
+            }
+            else if (ReportName == "Table Statistics")
+            {
+                ReportDetail.ReportName = "TableStatistics";
+            }
+            else if (ReportName == "Table Statistics")
+            {
+                ReportDetail.ReportName = "TableStatistics";
+            }
+            else if (ReportName == "Table Statistics")
+            {
+                ReportDetail.ReportName = "TableStatistics";
+            }
+            else if (ReportName == "Table Statistics")
+            {
+                ReportDetail.ReportName = "TableStatistics";
+            }
+            else if (ReportName == "Sales Summary by Product Category")
+            {
+                ReportDetail.ReportName = "SalesSummarybyProductCategory";
+            }
+            else if (ReportName == "Sales Summary by Product")
+            {
+                ReportDetail.ReportName = "SalesSummarybyProduct";
+            }
+            else if (ReportName == "Sales Summary by Section")
+            {
+                ReportDetail.ReportName = "SalesSummarybySection";
+            }
+            
+            else if (ReportName == "Customer Reward")
+            {
+                ReportDetail.ReportName = "CustomerReward";
             }
             else
+            {
+                Reports = 0;
+            }
+
+            if (Reports == 0)
             {
                 txtReportPreview.Visibility = Visibility.Visible;
                 txtReportPreview.Height = 40;
                 FrameHeader.Visibility = Visibility.Hidden;
             }
+            else
+            {
+                FrameHeader.Navigate(new PReportHeader());
+            }
+
         }
     }
 
