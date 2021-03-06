@@ -398,21 +398,32 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
         /// <param name="flowDocument"></param>
         public void Print(FlowDocument flowDocument)
         {
+            ////Working source
+            //PrintDialog printDialog = new PrintDialog();
+            //if (printDialog.ShowDialog() != true) return;
+
+            //flowDocument.PageHeight = printDialog.PrintableAreaHeight;
+            //flowDocument.PageWidth = printDialog.PrintableAreaWidth;
+
+            //IDocumentPaginatorSource idocument = flowDocument as IDocumentPaginatorSource;
+
+            //printDialog.PrintDocument(idocument.DocumentPaginator, "Printing ...");
+            ////working source end
+
+            //RND
+        
             PrintDialog printDialog = new PrintDialog();
             if (printDialog.ShowDialog() != true) return;
 
             flowDocument.PageHeight = printDialog.PrintableAreaHeight;
             flowDocument.PageWidth = printDialog.PrintableAreaWidth;
 
-            //var elementWithName = (Paragraph)flowDocument.FindResource("headParagraph");
-            //elementWithName.Name = null;
-
             IDocumentPaginatorSource idocument = flowDocument as IDocumentPaginatorSource;
 
             printDialog.PrintDocument(idocument.DocumentPaginator, "Printing ...");
+            //Rnd end
 
-            //flowDocument.PageHeight = 800;
-            //flowDocument.PageWidth = 816;
+
         }
     }
 

@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="PimpedPaginator.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="images\Error.jpg" />
     <None Remove="images\excel.jpg" />
     <None Remove="images\excel.png" />

@@ -9,7 +9,8 @@ using System.Windows.Media;
 using System.Globalization;
 using System.IO;
 
-namespace Tetra.Framework.WPF {
+namespace RocketPOS.Helpers
+{
 	
 	/// <summary>
 	/// This paginator provides document headers, footers and repeating table headers 
@@ -48,7 +49,7 @@ namespace Tetra.Framework.WPF {
 			Visual originalPage = paginator.GetPage(pageNumber).Visual;
 
 			Console.WriteLine("--- Begin Page {0} -------", pageNumber + 1);
-			originalPage.DumpVisualTree(Console.Out);
+			//originalPage.DumpVisualTree(Console.Out);
 			Console.WriteLine("--- End Page {0} -------", pageNumber + 1);
 			Console.WriteLine();
 
@@ -306,10 +307,17 @@ namespace Tetra.Framework.WPF {
 
 			internal Size ContentSize {
 				get {
-					return PageSize.Subtract(new Size(
+
+					Size a = new Size(
 						Margins.Left + Margins.Right,
 						Margins.Top + Margins.Bottom + HeaderHeight + FooterHeight
-					));
+					);
+
+					return a;
+					//return PageSize.Subtract(new Size(
+					//	Margins.Left + Margins.Right,
+					//	Margins.Top + Margins.Bottom + HeaderHeight + FooterHeight
+					//));
 				}
 			}
 
