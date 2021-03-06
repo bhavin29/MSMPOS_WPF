@@ -327,5 +327,24 @@ namespace RocketPOS.ViewModels
                 return customerRewardModel;
             }
         }
+
+        public List<SalesSummaryByWeek> GetSalesSummaryByWeekReport(string fromDate, string toDate)
+        {
+            List<SalesSummaryByWeek> salesSummaryByWeek = new List<SalesSummaryByWeek>();
+            using (var db = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                string Query = string.Empty;
+
+                Query = " select DATEADD(DAY, -DATEDIFF(DAY, 0, Convert(Date, CO.Orderdate, 103)) % 7, Convert(Date, CO.Orderdate, 103)) AS [WeekStartDate], Count(CO.SalesInvoiceNumber) As TotalInvoice,Sum(COI.VatableAmount) As NetSalesAmount,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount  " +
+                        " from CustomerOrder CO   " +
+                        " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
+                        " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId   Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId   " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
+                        " group by DATEADD(DAY, -DATEDIFF(DAY, 0, Convert(Date, CO.Orderdate, 103)) % 7, Convert(Date, CO.Orderdate, 103)) " +
+                        " Order By DATEADD(DAY, -DATEDIFF(DAY, 0, Convert(Date, CO.Orderdate, 103)) % 7, Convert(Date, CO.Orderdate, 103)) ";
+                salesSummaryByWeek = db.Query<SalesSummaryByWeek>(Query).ToList();
+                return salesSummaryByWeek;
+            }
+        }
     }
 }

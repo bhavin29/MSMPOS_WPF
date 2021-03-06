@@ -37,4 +37,14 @@ namespace RocketPOS.Model
         public decimal TotalTax { get; set; }
         public decimal TotalGrossAmount { get; set; }
     }
+
+    public class SalesSummaryByWeek
+    {
+        public string WeekStartDate { get; set; }
+        public decimal TotalInvoice { get; set; }
+        public decimal NetSalesAmount { get; set; }
+        public decimal TotalDiscount { get; set; }
+        public decimal TotalTax { get; set; }
+        public decimal TotalGrossAmount { get; set; }
+    }
 }
