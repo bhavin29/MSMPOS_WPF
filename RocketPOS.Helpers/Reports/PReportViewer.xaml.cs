@@ -32,6 +32,7 @@ namespace RocketPOS.Helpers.Reports
         List<SalesSummaryByFoodCategoryFoodMenuModel> salesSummaryByFoodCategoryFoodMenuModel = new List<SalesSummaryByFoodCategoryFoodMenuModel>();
         List<SalesSummaryBySectionModel> salesSummaryBySectionModel = new List<SalesSummaryBySectionModel>();
         List<CustomerRewardModel> customerRewardModel = new List<CustomerRewardModel>();
+        List<SalesSummaryByWeek> salesSummaryByWeek = new List<SalesSummaryByWeek>();
 
         CessReportModel cessReportModel = new CessReportModel();
         CessCategoryReportModel cessCategoryReportModel = new CessCategoryReportModel();
@@ -140,8 +141,13 @@ namespace RocketPOS.Helpers.Reports
 
                 dtDataResult = commonMethods.ConvertToDataTable(customerRewardModel);
             }
-            
-           reportTitle = _reportName;
+            else if (_reportName == "SalesSummaryFiveWeeks")
+            {
+                salesSummaryByWeek = reportViewModel.GetSalesSummaryByWeekReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
+
+                dtDataResult = commonMethods.ConvertToDataTable(salesSummaryByWeek);
+            }
+             reportTitle = _reportName;
 
             //common call
             DataTable mockDataTable = wPFPrintHelper.CreateMockDataTableForTest();
