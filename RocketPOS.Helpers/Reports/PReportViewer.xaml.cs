@@ -33,6 +33,7 @@ namespace RocketPOS.Helpers.Reports
         List<SalesSummaryBySectionModel> salesSummaryBySectionModel = new List<SalesSummaryBySectionModel>();
         List<CustomerRewardModel> customerRewardModel = new List<CustomerRewardModel>();
         List<SalesSummaryByWeek> salesSummaryByWeek = new List<SalesSummaryByWeek>();
+        List<DatatableColumnName> datatableColumnNames;
 
         CessReportModel cessReportModel = new CessReportModel();
         CessCategoryReportModel cessCategoryReportModel = new CessCategoryReportModel();
@@ -57,7 +58,7 @@ namespace RocketPOS.Helpers.Reports
 
         private void LoadReport()
         {
-
+          
             if (!DateValidated(ReportDetail.ReportFromDate, ReportDetail.ReportToDate))
             {
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Please select FROM DATE grater than or equal to TO DATE", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
@@ -67,18 +68,54 @@ namespace RocketPOS.Helpers.Reports
 
             if (_reportName == "ModeOfPayment")
             {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Date" , DataType="Date"},
+                    new DatatableColumnName{ id =2, Cname=""},
+                    new DatatableColumnName{ id =3, Cname=""},
+                    new DatatableColumnName{ id =4, Cname=""},
+                    new DatatableColumnName{ id =5, Cname=""},
+                    new DatatableColumnName{ id =6, Cname=""},
+                    new DatatableColumnName{ id =7, Cname=""},
+                    new DatatableColumnName{ id =8, Cname=""}
+                };
+
                 modeofPaymentReportModel = customerOrderViewModel.GetModOfPaymentReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
                 dtData = commonMethods.ConvertToDataTable(modeofPaymentReportModel);
                 dtDataResult = commonMethods.GetInversedDataTable(dtData, "PaymentMethodName", "BillDate", "BillAmount", " ", true);
             }
             else if (_reportName == "CESS")
             {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Date" , DataType="Date"},
+                    new DatatableColumnName{ id =2, Cname="Net Sales"},
+                    new DatatableColumnName{ id =3, Cname="Vatable"},
+                    new DatatableColumnName{ id =4, Cname="Non Vatable"},
+                    new DatatableColumnName{ id =5, Cname="Tax"},
+                    new DatatableColumnName{ id =6, Cname="Total"},
+                    new DatatableColumnName{ id =7, Cname="Catering Levy"},
+                    new DatatableColumnName{ id =8, Cname="8"},
+                    new DatatableColumnName{ id =9, Cname="8"}
+                };
+
                 cessReportModel = customerOrderViewModel.GetCessReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(cessReportModel.CessSummaryList);
             }
             else if (_reportName == "CESS_Detail")
             {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Date", DataType="Date"},
+                    new DatatableColumnName{ id =2, Cname="Invoice#", DataType="String"},
+                    new DatatableColumnName{ id =3, Cname="Net Sales"},
+                    new DatatableColumnName{ id =4, Cname="Vatable"},
+                    new DatatableColumnName{ id =5, Cname="Non Vatable"},
+                    new DatatableColumnName{ id =6, Cname="Tax"},
+                    new DatatableColumnName{ id =7, Cname="Total"},
+                    new DatatableColumnName{ id =8, Cname="Catering Levy"},
+                };
                 cessReportModel = customerOrderViewModel.GetCessReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(cessReportModel.CessDetailList);
@@ -86,18 +123,57 @@ namespace RocketPOS.Helpers.Reports
 
             else if (_reportName == "CESS_Category")
             {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Date", DataType="Date"},
+                    new DatatableColumnName{ id =2, Cname="Category",DataType="String", Width=150},
+                    new DatatableColumnName{ id =3, Cname="Net Sales"},
+                    new DatatableColumnName{ id =4, Cname="Vatable"},
+                    new DatatableColumnName{ id =5, Cname="Non Vatable"},
+                    new DatatableColumnName{ id =6, Cname="Tax"},
+                    new DatatableColumnName{ id =7, Cname="Total"},
+                    new DatatableColumnName{ id =8, Cname="Catering Levy"}
+                };
                 cessCategoryReportModel = customerOrderViewModel.GetCessCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(cessCategoryReportModel.CessSummaryList);
             }
             else if (_reportName == "DetailSaleSummaryReport")
             {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Date", DataType="Date", Width=80},
+                    new DatatableColumnName{ id =2, Cname="Product", DataType="String",Width=120},
+                    new DatatableColumnName{ id =3, Cname="Gross"},
+                    new DatatableColumnName{ id =4, Cname="Qty"},
+                    new DatatableColumnName{ id =5, Cname="Net"},
+                    new DatatableColumnName{ id =6, Cname="Dist."},
+                    new DatatableColumnName{ id =7, Cname="Tax %"},
+                    new DatatableColumnName{ id =8, Cname="Tax"},
+                    new DatatableColumnName{ id =9, Cname="Total"},
+                    new DatatableColumnName{ id =10, Cname="Cash"},
+                    new DatatableColumnName{ id =11, Cname="Card"}
+                };
                 detailSaleSummaryModels = reportViewModel.GetDetailSaleSummaryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(detailSaleSummaryModels);
             }
             else if (_reportName == "MasterSale")
             {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Date",Width=80, DataType="Date"},
+                    new DatatableColumnName{ id =2, Cname="Time", Width=60, DataType="String"},
+                    new DatatableColumnName{ id =3, Cname="Invoice#", DataType="String"},
+                    new DatatableColumnName{ id =4, Cname="Product", DataType="String", Width=120},
+                    new DatatableColumnName{ id =5, Cname="Rate"},
+                    new DatatableColumnName{ id =6, Cname="Qty"},
+                    new DatatableColumnName{ id =7, Cname="Total"},
+                    new DatatableColumnName{ id =8, Cname="Discount"},
+                    new DatatableColumnName{ id =9, Cname="Tax"},
+                    new DatatableColumnName{ id =10, Cname="Gross"},
+                    new DatatableColumnName{ id =11, Cname="Category"}
+                };
                 masterSalesReportModels = reportViewModel.GetMasterSaleReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(masterSalesReportModels);
@@ -107,51 +183,122 @@ namespace RocketPOS.Helpers.Reports
                         || _reportName == "SalesBySectionCategory" || _reportName == "SalesBySectionProductAmountDesc" || _reportName == "SalesBySectionProductQtyDesc"
                         )
             {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =2, Cname="Section", DataType="String"},
+                    new DatatableColumnName{ id =2, Cname="Category", DataType="String",Width=120},
+                    new DatatableColumnName{ id =2, Cname="Product", DataType="String",Width=120},
+                    new DatatableColumnName{ id =4, Cname="Rate"},
+                    new DatatableColumnName{ id =5, Cname="Qty"},
+                    new DatatableColumnName{ id =6, Cname="Amount"},
+                    new DatatableColumnName{ id =7, Cname="Disc."},
+                    new DatatableColumnName{ id =8, Cname="Tax"},
+                    new DatatableColumnName{ id =9, Cname="Total"}
+                };
                 salesByCategoryProductModel = reportViewModel.GetSaleByCategorySectionReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, _reportName);
 
                 dtDataResult = commonMethods.ConvertToDataTable(salesByCategoryProductModel);
             }
             else if (_reportName == "TableStatistics")
             {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Table Name", DataType="String", Width=300},
+                    new DatatableColumnName{ id =2, Cname="Actual Capacity"},
+                    new DatatableColumnName{ id =3, Cname="Expected Occupancy"},
+                    new DatatableColumnName{ id =4, Cname="Occupancy"},
+                    new DatatableColumnName{ id =5, Cname="Occupancy %"}
+                };
                 tableStatisticsModel = reportViewModel.GetTableStatisticsReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(tableStatisticsModel);
             }
             else if (_reportName == "SalesSummarybyProductCategory")
             {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Category", DataType="String", Width=175},
+                    new DatatableColumnName{ id =2, Cname="Qty"},
+                    new DatatableColumnName{ id =3, Cname="Net Sales"},
+                    new DatatableColumnName{ id =4, Cname="Discount"},
+                    new DatatableColumnName{ id =5, Cname="Tax"},
+                    new DatatableColumnName{ id =6, Cname="Total"},
+                    new DatatableColumnName{ id =7, Cname="Value %"},
+                };
                 salesSummaryModel = reportViewModel.GetSalesSummaryByFoodCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(salesSummaryModel);
             }
             else if (_reportName == "SalesSummarybyProduct")
             {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Category", DataType="String", Width=150},
+                    new DatatableColumnName{ id =2, Cname="Product", DataType="String", Width=150},
+                    new DatatableColumnName{ id =3, Cname="Qty"},
+                    new DatatableColumnName{ id =4, Cname="Net Sales"},
+                    new DatatableColumnName{ id =5, Cname="Discount"},
+                    new DatatableColumnName{ id =6, Cname="Tax"},
+                    new DatatableColumnName{ id =7, Cname="Total"},
+                    new DatatableColumnName{ id =8, Cname="Value %"}
+                };
                 salesSummaryByFoodCategoryFoodMenuModel = reportViewModel.GetSalesSummaryByFoodCategoryFoodMenuReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(salesSummaryByFoodCategoryFoodMenuModel);
             }
             else if (_reportName == "SalesSummarybySection")
             {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Section", DataType="String", Width=150},
+                    new DatatableColumnName{ id =2, Cname="Date", DataType="String", Width=80},
+                    new DatatableColumnName{ id =3, Cname="Inv Count"},
+                    new DatatableColumnName{ id =4, Cname="Net Sales"},
+                    new DatatableColumnName{ id =5, Cname="Discount"},
+                    new DatatableColumnName{ id =6, Cname="Tax"},
+                    new DatatableColumnName{ id =7, Cname="Total"}
+                };
                 salesSummaryBySectionModel = reportViewModel.GetSalesSummaryBySectionReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(salesSummaryBySectionModel);
             }
             else if (_reportName == "CustomerReward")
             {
-                customerRewardModel = reportViewModel.GetCustomerRewardReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate,"","");
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =2, Cname="Customer Name",DataType="String", Width=150},
+                    new DatatableColumnName{ id =3, Cname="Phone Number",DataType="String", Width=100},
+                    new DatatableColumnName{ id =4, Cname="Date",DataType="Date", Width=160},
+                    new DatatableColumnName{ id =5, Cname="Credit"},
+                    new DatatableColumnName{ id =6, Cname="Debit"},
+                    new DatatableColumnName{ id =7, Cname="Balance"}
+                };
+                customerRewardModel = reportViewModel.GetCustomerRewardReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, "", "");
 
                 dtDataResult = commonMethods.ConvertToDataTable(customerRewardModel);
             }
             else if (_reportName == "SalesSummaryFiveWeeks")
             {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =2, Cname="Week",DataType="String", Width=150},
+                    new DatatableColumnName{ id =3, Cname="Inv Count"},
+                    new DatatableColumnName{ id =4, Cname="Net Sales"},
+                    new DatatableColumnName{ id =5, Cname="Discount"},
+                    new DatatableColumnName{ id =6, Cname="Tax"},
+                    new DatatableColumnName{ id =7, Cname="Gross"},
+                };
                 salesSummaryByWeek = reportViewModel.GetSalesSummaryByWeekReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 
                 dtDataResult = commonMethods.ConvertToDataTable(salesSummaryByWeek);
             }
-             reportTitle = _reportName;
+            reportTitle = _reportName;
+
+
 
             //common call
             DataTable mockDataTable = wPFPrintHelper.CreateMockDataTableForTest();
-            wPFPrintHelper.CreateAndVisualizeDataTable(flowDocument, dtDataResult, reportTitle, reportFooter);
+            wPFPrintHelper.CreateAndVisualizeDataTable(flowDocument, dtDataResult, reportTitle, reportFooter, datatableColumnNames);
 
         }
         private void printButton_Click(object sender, RoutedEventArgs e)

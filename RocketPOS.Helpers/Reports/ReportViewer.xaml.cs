@@ -87,7 +87,7 @@ namespace RocketPOS.Helpers.Reports
 
             //common call
             DataTable mockDataTable = wPFPrintHelper.CreateMockDataTableForTest();
-            wPFPrintHelper.CreateAndVisualizeDataTable(flowDocument, dtDataResult, reportTitle, reportFooter);
+            wPFPrintHelper.CreateAndVisualizeDataTable(flowDocument, dtDataResult, reportTitle, reportFooter,null);
         }
         private void CenterWindowOnScreen()
         {

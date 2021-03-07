@@ -52,7 +52,7 @@ namespace RocketPOS.Helpers.Reports
 
             ReportItem node1 = new ReportItem() { Title = "Sales" };
             node1.Items.Add(new ReportItem() { Title = "Sales by Category Product qty desc" });
-            node1.Items.Add(new ReportItem() { Title = "Sales by Category Product qty ASC" });
+            node1.Items.Add(new ReportItem() { Title = "Sales by Category Product qty asc" });
             node1.Items.Add(new ReportItem() { Title = "Sales By Catrgory Product Amount desc" });
             node1.Items.Add(new ReportItem() { Title = "Sales by Section Category Product Amount asc" });
             node1.Items.Add(new ReportItem() { Title = "Sales by Section Category Product Amount desc" });
@@ -133,7 +133,7 @@ namespace RocketPOS.Helpers.Reports
             {
                 ReportDetail.ReportName = "SalesByCategoryProductQtyDesc";
             }
-            else if (ReportName == "Sales by Category Product qty ASC")
+            else if (ReportName == "Sales by Category Product qty asc")
             {
                 ReportDetail.ReportName = "SalesByCategoryProductQtyAsc";
             }

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using RocketPOS.Core.Constants;
+using RocketPOS.Model;
 
 // By @naadydev
 //    naadydev@gmail.com 
@@ -73,6 +75,8 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
         //flowDocument.Blocks.Add(table);
         #endregion
 
+
+
         #region Class Fields
         private Table _winTable;
         private TableRow _winTableRow;
@@ -82,6 +86,9 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
         public string HeaderTitleText { get; set; }
         public string FooterText { get; set; }
         public DataTable Datatable { get; set; }
+
+        public List<DatatableColumnName> _DTColumnNane = new List<DatatableColumnName>();
+
         #endregion
 
         #region Generate DataTable Just for Test
@@ -154,8 +161,10 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
         /// <param name="datatable"></param>
         /// <param name="headerTitle"></param>
         /// <param name="footer"></param>
-        public void CreateAndVisualizeDataTable(FlowDocument flowDocument, DataTable datatable, string headerTitle, string footer)
+        public void CreateAndVisualizeDataTable(FlowDocument flowDocument, DataTable datatable, string headerTitle, string footer, List<DatatableColumnName> DTColumnNane)
         {
+            _DTColumnNane = DTColumnNane;
+
             var section = new Section();
             section.LineHeight = Double.NaN;
 
@@ -164,7 +173,7 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
             pReportTitle.LineHeight = Double.NaN;
             pReportTitle.FontSize = 24;
             flowDocument.Blocks.Add(pReportTitle);
- 
+
             var pHeader = new Paragraph();
             pHeader.Inlines.Add(new Run(LoginDetail.ClientName + "\n" + LoginDetail.Address1 + "\n" + LoginDetail.Address2));
             pHeader.LineHeight = Double.NaN;
@@ -172,7 +181,7 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
 
             flowDocument.Blocks.Add(new BlockUIContainer(new Separator()));
             var pParameter = new Paragraph();
-            pParameter.Inlines.Add(new Run("From Date: " + ReportDetail.ReportFromDate+ "                           To Date:"  + ReportDetail.ReportToDate));
+            pParameter.Inlines.Add(new Run("From Date: " + ReportDetail.ReportFromDate + "                           To Date: " + ReportDetail.ReportToDate));
             pParameter.LineHeight = Double.NaN;
             flowDocument.Blocks.Add(pParameter);
 
@@ -191,8 +200,8 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
         /// <returns>System.Windows.Documents.Table</returns>
         public Table CreateAndVisualizeDataTable(DataTable datatable, string headerTitle, string footer)
         {
-    
-            
+
+
             HeaderTitleText = headerTitle;
             FooterText = footer;
             Datatable = datatable;
@@ -234,6 +243,15 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
             {
                 _winTable.Columns.Add(new TableColumn());
 
+                if (_DTColumnNane != null)
+                {
+                    if (_DTColumnNane[x].Cname != "")
+                        Datatable.Columns[x].ColumnName = _DTColumnNane[x].Cname;
+ 
+                    if (_DTColumnNane[x].Width != 0)
+                        _winTable.Columns[x].Width = new GridLength(_DTColumnNane[x].Width);
+                }
+
                 // (odd even) background colors.
                 if (x % 2 == 0)
                     _winTable.Columns[x].Background = GlobalFormating.TableOddColumnBrush;
@@ -261,8 +279,8 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
             CreateTableDataRows();
             // ===================================================
 
-           //  Craete Table Footer Row Text
-              if (!string.IsNullOrEmpty(this.FooterText)) CreateFooter(Datatable.Rows.Count);
+            //  Craete Table Footer Row Text
+            if (!string.IsNullOrEmpty(this.FooterText)) CreateFooter(Datatable.Rows.Count);
         }
 
         /// <summary>
@@ -333,40 +351,20 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
                     _winTableRow.Background = GlobalFormating.DataRowsOddBrush;
                 else
                     _winTableRow.Background = GlobalFormating.DataRowsEvenBrush;
+
                 //-------------------
                 // Add cells with content to the  row
                 for (int x = 0; x < Datatable.Columns.Count; x++)
                 {
                     _winTableRow.Cells.Add(new TableCell(new Paragraph(new Run(Datatable.Rows[i][x].ToString()))));
 
-                    if (x == 1 || x == 2 || x == 3|| x == 4|| x == 5)
+
+                    if (_DTColumnNane[x].DataType == "String" || _DTColumnNane[x].DataType == "Date")
+                        _winTableRow.Cells[x].TextAlignment = TextAlignment.Left;
+                    else
                         _winTableRow.Cells[x].TextAlignment = TextAlignment.Right;
+
                 }
-
-                //    if ( (i%21)==0 && i!=0)
-                //    {
-                //        CreateColumns();
-
-                //        // Add the row.
-                //        _winTable.RowGroups[0].Rows.Add(new TableRow());
-                //        _winTableRow = _winTable.RowGroups[0].Rows[j + 1];
-
-                //        // Global formatting for the row.
-                //        _winTableRow.FontSize = GlobalFormating.ColumnsHeaderRowFontSize;
-                //        _winTableRow.FontWeight = GlobalFormating.ColumnsHeaderRowFontWeight;
-
-                //        // Add cells with content to the  row
-                //        for (int x = 0; x < Datatable.Columns.Count; x++)
-                //        {
-                //            _winTableRow.Cells.Add(new TableCell(new Paragraph(new Run(Datatable.Columns[x].ColumnName))));
-
-                //            if (x % 2 == 0)
-                //                _winTableRow.Cells[x].Background = GlobalFormating.TableOddColumnBrush;
-                //            else
-                //                _winTableRow.Cells[x].Background = GlobalFormating.TableEvenColumnBrush;
-                //        }
-                //        j = j + 1;
-                //    }
             }
         }
 
@@ -411,7 +409,7 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
             ////working source end
 
             //RND
-        
+
             PrintDialog printDialog = new PrintDialog();
             if (printDialog.ShowDialog() != true) return;
 
@@ -460,4 +458,5 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
         public static Brush DataRowsEvenBrush { get; set; } = Brushes.WhiteSmoke;
         public static string Fontname { get; set; } = "Calibri";
     }
+
 }
