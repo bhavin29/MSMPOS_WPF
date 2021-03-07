@@ -11,6 +11,7 @@ using Microsoft.Win32;
 using System.Windows.Documents;
 using System.Windows.Media;
 using RocketPOS.Helpers.RMessageBox;
+using RocketPOS.Views;
 
 namespace RocketPOS.Helpers.Reports
 {
@@ -22,6 +23,7 @@ namespace RocketPOS.Helpers.Reports
         CustomerOrderViewModel customerOrderViewModel = new CustomerOrderViewModel();
         ReportViewModel reportViewModel = new ReportViewModel();
         WPFPrintUtility wPFPrintHelper = new WPFPrintUtility();
+        ExportExcel exportExcel = new ExportExcel();
 
         List<ModeofPaymentReportModel> modeofPaymentReportModel = new List<ModeofPaymentReportModel>();
         List<DetailSaleSummaryModel> detailSaleSummaryModels = new List<DetailSaleSummaryModel>();
@@ -310,89 +312,186 @@ namespace RocketPOS.Helpers.Reports
         private void excelButton_Click(object sender, RoutedEventArgs e)
         {
             string path = string.Empty, firstLine = string.Empty;
-
-            if (_reportName == "ModeOfPayment")
+            string fileName = _reportName + "_"+ DateTime.Now.ToString("MM-dd-yyyy_HHmmss").ToString().Replace("-", "_");
+            
+            var saveFileDialog = new SaveFileDialog
             {
-                string fileName = "ModeOfPaymentReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
-                var saveFileDialog = new SaveFileDialog
-                {
-                    FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
-                    DefaultExt = ".xlsx",
-                    Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
-                };
+                FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
+                DefaultExt = ".xlsx",
+                Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
+            };
 
-                if (saveFileDialog.ShowDialog() == true)
-                {
-                    path = saveFileDialog.FileName;
-                    firstLine = LoginDetail.ClientName;
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                path = saveFileDialog.FileName;
+                firstLine = LoginDetail.ClientName;
 
+                if (_reportName == "ModeOfPayment")
+                {
                     dtData = commonMethods.ConvertToDataTable(modeofPaymentReportModel);
-
-                    //X axis column: PaymentMethodName
-                    //Y axis column: BillDate
-                    //Z axis column: BillAmount
-                    //Null value: "-";
-                    //Sum of values: true
-
                     dtDataResult = commonMethods.GetInversedDataTable(dtData, "PaymentMethodName", "BillDate", "BillAmount", " ", true);
-
                     commonMethods.WriteExcelModeOfPaymentFile(dtDataResult, path, firstLine);
                 }
-
-            }
-            else if (_reportName == "CESS")
-            {
-                string fileName = "CessReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
-                var saveFileDialog = new SaveFileDialog
+                else if (_reportName == "CESS")
                 {
-                    FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
-                    DefaultExt = ".xlsx",
-                    Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
-                };
-
-                if (saveFileDialog.ShowDialog() == true)
-                {
-                    path = saveFileDialog.FileName;
-                    firstLine = LoginDetail.ClientName;
                     commonMethods.WriteCessExcelFile(commonMethods.ConvertToDataTable(cessReportModel.CessSummaryList), commonMethods.ConvertToDataTable(cessReportModel.CessDetailList), path, firstLine);
                 }
-
-            }
-            else if (_reportName == "CESS_Detail")
-            {
-                string fileName = "CessReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
-                var saveFileDialog = new SaveFileDialog
+                else if (_reportName == "CESS_Detail")
                 {
-                    FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
-                    DefaultExt = ".xlsx",
-                    Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
-                };
-
-                if (saveFileDialog.ShowDialog() == true)
-                {
-                    path = saveFileDialog.FileName;
-                    firstLine = LoginDetail.ClientName;
                     commonMethods.WriteCessExcelFile(commonMethods.ConvertToDataTable(cessReportModel.CessDetailList), commonMethods.ConvertToDataTable(cessReportModel.CessDetailList), path, firstLine);
                 }
-
-            }
-            else if (_reportName == "Sales Summary Category Wise by Payment Method")
-            {
-                string fileName = "CategoryWiseCessReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
-                var saveFileDialog = new SaveFileDialog
+                else if (_reportName == "CESS_Category")
                 {
-                    FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
-                    DefaultExt = ".xlsx",
-                    Filter = "Common Seprated Documents (.xlsx)|*.xlsx"
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Date", DataType="Date"},
+                    new DatatableColumnName{ id =2, Cname="Category",DataType="String", Width=150},
+                    new DatatableColumnName{ id =3, Cname="Net Sales"},
+                    new DatatableColumnName{ id =4, Cname="Vatable"},
+                    new DatatableColumnName{ id =5, Cname="Non Vatable"},
+                    new DatatableColumnName{ id =6, Cname="Tax"},
+                    new DatatableColumnName{ id =7, Cname="Total"},
+                    new DatatableColumnName{ id =8, Cname="Catering Levy"}
                 };
 
-                if (saveFileDialog.ShowDialog() == true)
-                {
-                    path = saveFileDialog.FileName;
-                    firstLine = LoginDetail.ClientName;
-                    commonMethods.WriteCessCategoryExcelFile(commonMethods.ConvertToDataTable(cessCategoryReportModel.CessSummaryList), commonMethods.ConvertToDataTable(cessCategoryReportModel.CessDetailList), path, firstLine);
+                    exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(cessCategoryReportModel.CessSummaryList), datatableColumnNames, path, firstLine);
                 }
-
+                else if (_reportName == "DetailSaleSummaryReport")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Date", DataType="Date", Width=80},
+                    new DatatableColumnName{ id =2, Cname="Product", DataType="String",Width=120},
+                    new DatatableColumnName{ id =3, Cname="Gross"},
+                    new DatatableColumnName{ id =4, Cname="Qty"},
+                    new DatatableColumnName{ id =5, Cname="Net"},
+                    new DatatableColumnName{ id =6, Cname="Dist."},
+                    new DatatableColumnName{ id =7, Cname="Tax %"},
+                    new DatatableColumnName{ id =8, Cname="Tax"},
+                    new DatatableColumnName{ id =9, Cname="Total"},
+                    new DatatableColumnName{ id =10, Cname="Cash"},
+                    new DatatableColumnName{ id =11, Cname="Card"}
+                };
+                    exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(detailSaleSummaryModels), datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "MasterSale")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Date",Width=80, DataType="Date"},
+                    new DatatableColumnName{ id =2, Cname="Time", Width=60, DataType="String"},
+                    new DatatableColumnName{ id =3, Cname="Invoice#", DataType="String"},
+                    new DatatableColumnName{ id =4, Cname="Product", DataType="String", Width=120},
+                    new DatatableColumnName{ id =5, Cname="Rate"},
+                    new DatatableColumnName{ id =6, Cname="Qty"},
+                    new DatatableColumnName{ id =7, Cname="Total"},
+                    new DatatableColumnName{ id =8, Cname="Discount"},
+                    new DatatableColumnName{ id =9, Cname="Tax"},
+                    new DatatableColumnName{ id =10, Cname="Gross"},
+                    new DatatableColumnName{ id =11, Cname="Category"}
+                };
+                    exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(masterSalesReportModels), datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "SalesByCategoryProductQtyDesc" || _reportName == "SalesByCategoryProductQtyAsc" || _reportName == "SalesByCategoryProductAmountDesc" || _reportName == "SalesBySectionCategoryProductAmountAsc"
+                            || _reportName == "SalesBySectionCategoryProductAmountDesc" || _reportName == "SalesBySectionCategoryProductQtyAsc" || _reportName == "SalesBySectionCategoryProductQtyDesc"
+                            || _reportName == "SalesBySectionCategory" || _reportName == "SalesBySectionProductAmountDesc" || _reportName == "SalesBySectionProductQtyDesc"
+                            )
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =2, Cname="Section", DataType="String"},
+                    new DatatableColumnName{ id =2, Cname="Category", DataType="String",Width=120},
+                    new DatatableColumnName{ id =2, Cname="Product", DataType="String",Width=120},
+                    new DatatableColumnName{ id =4, Cname="Rate"},
+                    new DatatableColumnName{ id =5, Cname="Qty"},
+                    new DatatableColumnName{ id =6, Cname="Amount"},
+                    new DatatableColumnName{ id =7, Cname="Disc."},
+                    new DatatableColumnName{ id =8, Cname="Tax"},
+                    new DatatableColumnName{ id =9, Cname="Total"}
+                };
+                    exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(salesByCategoryProductModel), datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "TableStatistics")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Table Name", DataType="String", Width=300},
+                    new DatatableColumnName{ id =2, Cname="Actual Capacity"},
+                    new DatatableColumnName{ id =3, Cname="Expected Occupancy"},
+                    new DatatableColumnName{ id =4, Cname="Occupancy"},
+                    new DatatableColumnName{ id =5, Cname="Occupancy %"}
+                };
+                    exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(tableStatisticsModel), datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "SalesSummarybyProductCategory")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Category", DataType="String", Width=175},
+                    new DatatableColumnName{ id =2, Cname="Qty"},
+                    new DatatableColumnName{ id =3, Cname="Net Sales"},
+                    new DatatableColumnName{ id =4, Cname="Discount"},
+                    new DatatableColumnName{ id =5, Cname="Tax"},
+                    new DatatableColumnName{ id =6, Cname="Total"},
+                    new DatatableColumnName{ id =7, Cname="Value %"},
+                };
+                    exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(salesSummaryModel), datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "SalesSummarybyProduct")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Category", DataType="String", Width=150},
+                    new DatatableColumnName{ id =2, Cname="Product", DataType="String", Width=150},
+                    new DatatableColumnName{ id =3, Cname="Qty"},
+                    new DatatableColumnName{ id =4, Cname="Net Sales"},
+                    new DatatableColumnName{ id =5, Cname="Discount"},
+                    new DatatableColumnName{ id =6, Cname="Tax"},
+                    new DatatableColumnName{ id =7, Cname="Total"},
+                    new DatatableColumnName{ id =8, Cname="Value %"}
+                };
+                    exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(salesSummaryByFoodCategoryFoodMenuModel), datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "SalesSummarybySection")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Section", DataType="String", Width=150},
+                    new DatatableColumnName{ id =2, Cname="Date", DataType="String", Width=80},
+                    new DatatableColumnName{ id =3, Cname="Inv Count"},
+                    new DatatableColumnName{ id =4, Cname="Net Sales"},
+                    new DatatableColumnName{ id =5, Cname="Discount"},
+                    new DatatableColumnName{ id =6, Cname="Tax"},
+                    new DatatableColumnName{ id =7, Cname="Total"}
+                };
+                    exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(salesSummaryBySectionModel), datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "CustomerReward")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =2, Cname="Customer Name",DataType="String", Width=150},
+                    new DatatableColumnName{ id =3, Cname="Phone Number",DataType="String", Width=100},
+                    new DatatableColumnName{ id =4, Cname="Date",DataType="Date", Width=160},
+                    new DatatableColumnName{ id =5, Cname="Credit"},
+                    new DatatableColumnName{ id =6, Cname="Debit"},
+                    new DatatableColumnName{ id =7, Cname="Balance"}
+                };
+                    exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(customerRewardModel), datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "SalesSummaryFiveWeeks")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =2, Cname="Week",DataType="String", Width=150},
+                    new DatatableColumnName{ id =3, Cname="Inv Count"},
+                    new DatatableColumnName{ id =4, Cname="Net Sales"},
+                    new DatatableColumnName{ id =5, Cname="Discount"},
+                    new DatatableColumnName{ id =6, Cname="Tax"},
+                    new DatatableColumnName{ id =7, Cname="Gross"},
+                };
+                    exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(salesSummaryByWeek), datatableColumnNames, path, firstLine);
+                }
             }
         }
         void Print(FlowDocument flowDocument)
