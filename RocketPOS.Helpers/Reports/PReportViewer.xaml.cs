@@ -12,6 +12,11 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using RocketPOS.Helpers.RMessageBox;
 using RocketPOS.Views;
+using LiveCharts.Wpf;
+using LiveCharts;
+using System.Windows.Data;
+using Separator = LiveCharts.Wpf.Separator;
+using System.Runtime.Serialization;
 
 namespace RocketPOS.Helpers.Reports
 {
@@ -60,7 +65,8 @@ namespace RocketPOS.Helpers.Reports
 
         private void LoadReport()
         {
-          
+            int isChart = 0;
+
             if (!DateValidated(ReportDetail.ReportFromDate, ReportDetail.ReportToDate))
             {
                 var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Please select FROM DATE grater than or equal to TO DATE", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
@@ -217,6 +223,8 @@ namespace RocketPOS.Helpers.Reports
             }
             else if (_reportName == "SalesSummarybyProductCategory")
             {
+                isChart = 1;
+
                 datatableColumnNames = new List<DatatableColumnName>
                 {
                     new DatatableColumnName{ id =1, Cname="Category", DataType="String", Width=175},
@@ -302,6 +310,51 @@ namespace RocketPOS.Helpers.Reports
             DataTable mockDataTable = wPFPrintHelper.CreateMockDataTableForTest();
             wPFPrintHelper.CreateAndVisualizeDataTable(flowDocument, dtDataResult, reportTitle, reportFooter, datatableColumnNames);
 
+            //create chart
+            if (isChart == 1)
+            {
+                string[] labels = new string[dtDataResult.Rows.Count];
+                ChartValues<double> chartValues = new ChartValues<double>();
+
+                CartesianChart chart = new CartesianChart { Margin = new Thickness(10, 10, 10, 10), LegendLocation = LegendLocation.None, DataTooltip = new DefaultTooltip { SelectionMode = TooltipSelectionMode.SharedYValues } };
+
+                for (int index = 0; index < dtDataResult.Rows.Count; index++)
+                {
+                    labels[index] = dtDataResult.Rows[index][0].ToString();
+                    chartValues.Add(Convert.ToDouble(dtDataResult.Rows[index][2].ToString()));
+                }
+
+                RowSeries rowSeries = new RowSeries();
+                rowSeries.Values = chartValues;
+                rowSeries.DataLabels = true;
+                rowSeries.FontSize = 16;
+                rowSeries.FontWeight = FontWeights.Bold;
+                rowSeries.MaxRowHeigth = 150;
+                rowSeries.Fill = (SolidColorBrush)(new BrushConverter().ConvertFrom("#5928b1"));
+
+                SeriesCollection SeriesCollection = new SeriesCollection();
+                SeriesCollection.Add(rowSeries);
+
+                Separator separator = new Separator();
+                separator.Step = double.NaN;
+
+                Axis xAxis = new Axis { Foreground = Brushes.Black, FontSize = 16d, FontWeight = FontWeights.Bold, Title = "" };
+                Axis yAxis = new Axis { Foreground = Brushes.Black, FontSize = 16d, FontWeight = FontWeights.Bold, Title = "", Separator = separator };
+
+               // Formatter = value => value.ToString("N");
+               // xAxis.LabelFormatter = Formatter;
+                yAxis.Labels = labels;
+
+                chart.Series = SeriesCollection;
+                chart.AxisX.Add(xAxis);
+                chart.AxisY.Add(yAxis);
+
+                chart.Height = 500;
+                chart.Width = 750;
+
+                BlockUIContainer c = new BlockUIContainer(chart);
+                flowDocument.Blocks.Add(c);
+            }
         }
         private void printButton_Click(object sender, RoutedEventArgs e)
         {
