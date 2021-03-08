@@ -106,5 +106,50 @@ namespace RocketPOS.ViewModels
                 }
             }
         }
+
+        public KOTCustomerOrderDetail GetCustomerOrderKOT(string orderId)
+        {
+            KOTCustomerOrderDetail kOTCustomerOrderDetail = new KOTCustomerOrderDetail();
+            using (var db = new SqlConnection(LoginDetail.ConnectionString))
+            {
+                var query = "Select CO.Id, CO.CustomerOrderNo,CO.OrderDate,C.CustomerName,(E.FirstName+' '+E.LastName) As WaiterName,T.TableName, " +
+                          " Case When CO.OrderType = 1 Then 'DineIN' When  CO.OrderType = 2 Then 'TakeAway' When  CO.OrderType = 3 Then 'Delivery' Else 'All' End As OrderType " +
+                          " from CustomerOrder CO " +
+                          " Inner Join Customer C ON C.Id = CO.CustomerId " +
+                          " left Join Employee E On E.Id = CO.WaiterEmployeeId " +
+                          " Left Join [Tables] T On T.Id = CO.TableId  " +
+                          " Where CO.Id=" + orderId;
+                kOTCustomerOrderDetail = db.Query<KOTCustomerOrderDetail>(query).FirstOrDefault();
+            }
+            return kOTCustomerOrderDetail;
+        }
+
+        public List<KOTHeaderDetail> GetKOTHeaderDetail(string orderId)
+        {
+            List<KOTHeaderDetail> kotHeaderDetail = new List<KOTHeaderDetail>();
+            using (var db = new SqlConnection(LoginDetail.ConnectionString))
+            {
+                var query = "Select Id,KOTNumber,KOTDateTime, " +
+                          " Case When KOTStatus = 1 Then 'Pending' When  KOTStatus = 2 Then 'Cooking' When  KOTStatus = 3 Then 'Ready' When  KOTStatus = 4 Then 'Served' Else 'Completed' End As KOTStatus " +
+                          " from CustomerOrderKOT where CustomerOrderId= " + orderId;
+                kotHeaderDetail = db.Query<KOTHeaderDetail>(query).ToList();
+            }
+            return kotHeaderDetail;
+        }
+
+        public List<KOTItemDetail> GetKOTItemDetail(string kotId)
+        {
+            List<KOTItemDetail> kotItemDetail = new List<KOTItemDetail>();
+            using (var db = new SqlConnection(LoginDetail.ConnectionString))
+            {
+                var query = "Select COKOTItem.Id AS KOTItemId,COKOT.KOTNumber,COKOTItem.KOTDateTime,Case When COKOTItem.KOTStatus = 1 Then 'Pending' When  COKOTItem.KOTStatus = 2 Then 'Cooking' When  COKOTItem.KOTStatus = 3 Then 'Ready' When  COKOTItem.KOTStatus = 4 Then 'Served' Else 'Completed' End As KOTItemStatus, " +
+                          " FM.FoodMenuName,COKOTItem.FoodMenuQty from CustomerOrderKOT COKOT " +
+                          " Inner Join CustomerOrderKOTItem COKOTItem ON COKOT.Id = COKOTItem.CustomerOrderKOTId "  +
+                          " Inner Join FoodMenu FM On FM.Id = COKOTItem.FoodMenuId " +
+                          " where COKOTItem.CustomerOrderKOTId= " + kotId;
+                kotItemDetail = db.Query<KOTItemDetail>(query).ToList();
+            }
+            return kotItemDetail;
+        }
     }
 }

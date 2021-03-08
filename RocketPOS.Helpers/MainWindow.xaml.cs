@@ -605,7 +605,7 @@ namespace RocketPOS.Helpers
                 }
 
                 //if (string.IsNullOrEmpty(txtSubTotalDiscountAmount.Text))
-                 //   txtbTotalDiscountAmount.Text = "0.00";
+                //   txtbTotalDiscountAmount.Text = "0.00";
 
                 txtbTotalPayableAmount.Text = ((Convert.ToDecimal(txtbSubTotalAmount.Text) - Convert.ToDecimal(txtbTotalDiscountAmount.Text)) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
             }
@@ -1128,7 +1128,7 @@ namespace RocketPOS.Helpers
                 CommonOrderCalculation(null, string.Empty);
                 dgSaleItem.Items.Refresh();
 
-                if (dgSaleItem.Items.Count<=0)
+                if (dgSaleItem.Items.Count <= 0)
                 {
                     ClearCustomerOrderItemControll();
                 }
@@ -1398,10 +1398,10 @@ namespace RocketPOS.Helpers
                 ReportMenu reportMenu = new ReportMenu();
                 reportMenu.ShowDialog();
 
-                
 
-              //  ReportViewer reoprt = new ReportViewer();
-             //   reoprt.ShowDialog();
+
+                //  ReportViewer reoprt = new ReportViewer();
+                //   reoprt.ShowDialog();
                 //Calculator winCalCulator = new Calculator();
 
                 //winCalCulator.Width = 237;
@@ -3114,7 +3114,7 @@ namespace RocketPOS.Helpers
 
         private void btnRedeemPoints_Click(object sender, RoutedEventArgs e)
         {
-            if (Convert.ToDecimal(BalancePoints) > 0 && dgSaleItem.Items.Count>0)
+            if (Convert.ToDecimal(BalancePoints) > 0 && dgSaleItem.Items.Count > 0)
             {
                 ppRedeem.IsOpen = true;
 
@@ -3146,6 +3146,83 @@ namespace RocketPOS.Helpers
         private void btnRedeemPopUpCancel_Click(object sender, RoutedEventArgs e)
         {
             ppRedeem.IsOpen = false;
+        }
+
+        private void btnKot_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                dgKOTItem.ItemsSource = null;
+                ppKOT.IsOpen = true;
+                KitchenViewModel kitchenViewModel = new KitchenViewModel();
+                KOTCustomerOrderDetail kOTCustomerOrderDetail = new KOTCustomerOrderDetail();
+                List<KOTHeaderDetail> kOTHeaderDetails = new List<KOTHeaderDetail>();
+
+
+                var saleOrder = (CustomerOrderModel)lbCustomerOrderList.SelectedItem;
+
+                if (saleOrder == null)
+                {
+                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.SelectOrder, "Pleae Select Sale Order", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                    return;
+                }
+                else
+                {
+                    int orderId = saleOrder.Id;
+
+                    kOTCustomerOrderDetail = kitchenViewModel.GetCustomerOrderKOT(orderId.ToString());
+                    txtbCustomerOrderNo.Content = kOTCustomerOrderDetail.CustomerOrderNo;
+                    txtbOrderDate.Content = kOTCustomerOrderDetail.OrderDate;
+                    txtbCustomerName.Content = kOTCustomerOrderDetail.CustomerName;
+                    txtbWaiterName.Content = kOTCustomerOrderDetail.WaiterName;
+                    txtbTableName.Content = kOTCustomerOrderDetail.TableName;
+                    txtbOrderType.Content = kOTCustomerOrderDetail.OrderType;
+
+                    kOTHeaderDetails = kitchenViewModel.GetKOTHeaderDetail(orderId.ToString());
+                    lbKOTOrderList.ItemsSource = kOTHeaderDetails;
+                }
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
+        }
+
+        private void btnPPKOTCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ppKOT.IsOpen = false;
+        }
+
+        private void lbKOTOrderList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            try
+            {
+                List<KOTItemDetail> kOTItemDetails = new List<KOTItemDetail>();
+                KitchenViewModel kitchenViewModel = new KitchenViewModel();
+                var kotId = (KOTHeaderDetail)lbKOTOrderList.SelectedItem;
+                if (kotId != null)
+                {
+                    int kotItemId = kotId.Id;
+                    kOTItemDetails = kitchenViewModel.GetKOTItemDetail(kotItemId.ToString());
+                    dgKOTItem.ItemsSource = kOTItemDetails;
+                }
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+            }
+        }
+
+        private void btnPrintKOT_Click(object sender, RoutedEventArgs e)
+        {
+            var kotId = (KOTHeaderDetail)lbKOTOrderList.SelectedItem;
+            if (kotId != null)
+            {
+                int kotItemId = kotId.Id;
+                PrintKOTView printKOTView = new PrintKOTView();
+                printKOTView.PrintKOT(kotItemId);//Coding Pending 
+            }
         }
 
         private void btnRedeemApply_Click(object sender, RoutedEventArgs e)
@@ -3185,7 +3262,7 @@ namespace RocketPOS.Helpers
             }
             else if (Convert.ToDecimal(txtRedeemAmount.Text) > 0)
             {
-                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text)  + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
+                txtbTotalPayableAmount.Text = (Convert.ToDecimal(txtbSubTotalAmount.Text) + Convert.ToDecimal(txtbServiceDeliveryChargeLabel.Text)).ToString();
 
                 ApplyBalancePoints = Convert.ToDecimal(txtRedeemAmount.Text);
                 txtbTotalDiscountAmount.Text = Convert.ToDecimal(ApplyBalancePoints).ToString("0.00");
