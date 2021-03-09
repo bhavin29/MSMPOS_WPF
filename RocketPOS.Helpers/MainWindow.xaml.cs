@@ -3179,6 +3179,7 @@ namespace RocketPOS.Helpers
                     txtbOrderType.Content = kOTCustomerOrderDetail.OrderType;
 
                     kOTHeaderDetails = kitchenViewModel.GetKOTHeaderDetail(orderId.ToString());
+
                     lbKOTOrderList.ItemsSource = kOTHeaderDetails;
                 }
             }
@@ -3223,6 +3224,11 @@ namespace RocketPOS.Helpers
                 PrintKOTView printKOTView = new PrintKOTView();
                 printKOTView.PrintKOT(kotItemId);//Coding Pending 
             }
+        }
+
+        private void btnKOTCancel_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void btnRedeemApply_Click(object sender, RoutedEventArgs e)

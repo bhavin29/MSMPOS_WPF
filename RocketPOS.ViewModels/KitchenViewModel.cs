@@ -129,7 +129,7 @@ namespace RocketPOS.ViewModels
             List<KOTHeaderDetail> kotHeaderDetail = new List<KOTHeaderDetail>();
             using (var db = new SqlConnection(LoginDetail.ConnectionString))
             {
-                var query = "Select Id,KOTNumber,KOTDateTime, " +
+                var query = "Select Id,KOTNumber,convert(char(5), KOTDateTime, 108) as KOTDateTime, " +
                           " Case When KOTStatus = 1 Then 'Pending' When  KOTStatus = 2 Then 'Cooking' When  KOTStatus = 3 Then 'Ready' When  KOTStatus = 4 Then 'Served' Else 'Completed' End As KOTStatus " +
                           " from CustomerOrderKOT where CustomerOrderId= " + orderId;
                 kotHeaderDetail = db.Query<KOTHeaderDetail>(query).ToList();

@@ -212,7 +212,7 @@
                             <RadioButton x:Name="rdbDeliverySales" Background="#D9BA41" Foreground="White"  FontWeight="Bold" FontSize="15"  Style="{StaticResource {x:Type ToggleButton}}" Height="50" Width="62" Margin="0" Grid.Column="0" Checked="searchSalesOrder" >Delivery</RadioButton>
                         </StackPanel>
                     </Grid>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Width="250" Height="413" Background="White" >
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Width="250" Height="365" Background="White" >
                         <ListBox x:Name="lbCustomerOrderList" HorizontalAlignment="Left" Width="250"  >
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -238,8 +238,8 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </ScrollViewer>
-                    <Button x:Name="btnModifyOrder"  Style="{StaticResource btnOrangeLng}"  Content="Alter Order" Click="btnModifyOrder_Click" />
-                    <Button x:Name="btnKot" Style="{StaticResource btnOrangeLng}" Content="KOT"  Click="btnKot_Click" />
+                    <Button x:Name="btnModifyOrder"  Style="{StaticResource btnOrangeLng}" Margin="1,1,0,0"  Content="Alter Order" Click="btnModifyOrder_Click" />
+                    <Button x:Name="btnKot" Style="{StaticResource btnOrangeLng}" Margin="1,1,0,0"  Content="KOT"  Click="btnKot_Click" />
                     <Image Source="images/Mainwindow_Logo.bmp" Margin="1" Width="250" Height="61"  Stretch="UniformToFill" VerticalAlignment="Top" HorizontalAlignment="Left"></Image>
 
                 </StackPanel>
@@ -249,58 +249,55 @@
                 <Border BorderBrush="Black" BorderThickness="5,5,5,5">
                     <Grid Width="800" Height="500" Background="#86A09E">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="600"/>
+                            <ColumnDefinition Width="225"/>
+                            <ColumnDefinition Width="575"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="150"/>
-                            <RowDefinition Height="350"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition Height="325"/>
                         </Grid.RowDefinitions>
 
-
-
-                        <Grid x:Name="topSection" Grid.Row="0" Grid.ColumnSpan="2">
+                        <TextBlock x:Name="txtKOTTile"  FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Text="KOT Detail" Margin="15,10,0,0"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                        <Button x:Name="btnKOTCancel" HorizontalAlignment="Right" Content="Cancel" Margin="5,5,5,5" Grid.Row="0" Grid.Column="1"  Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Click="btnKOTCancel_Click"/>
+                        
+                        <Grid x:Name="topSection" Grid.Row="1" Grid.ColumnSpan="2">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="400"/>
+                                <ColumnDefinition Width="75"/>
                                 <ColumnDefinition Width="150"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
                             </Grid.RowDefinitions>
 
-                            <!--<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">
-                                <Button x:Name="btnPPKOTCancel" Margin="15,0,0,0" Width="70"  Height="40" FontSize="16" Background="#00265B" Foreground="White" Grid.Row="0" Grid.Column="0" Content="Close" Click="btnPPKOTCancel_Click"/>
-                            </StackPanel>-->
+                            <Label x:Name="lblCustomerOrderNo"  Margin="15,0,0,0" FontSize="18"  Foreground="White" Grid.Row="0" Grid.Column="0" Content="Order# :"/>
+                            <Label x:Name="txtbCustomerOrderNo" FontSize="18"  Foreground="White" Grid.Row="0" Grid.Column="1"></Label>
 
-                            <Label x:Name="lblCustomerOrderNo" Grid.Row="0" Grid.Column="0" Content="Customer Order# :"/>
-                            <Label x:Name="txtbCustomerOrderNo" Grid.Row="0" Grid.Column="1"></Label>
+                            <Label x:Name="lblOrderDate"  FontSize="18"  Foreground="White" Grid.Row="0" Grid.Column="2" Content="Date :"/>
+                            <Label x:Name="txtbOrderDate" FontSize="18"  Foreground="White" Grid.Row="0" Grid.Column="3"></Label>
 
-                            <Label x:Name="lblOrderDate" Grid.Row="0" Grid.Column="2" Content="Order Date :"/>
-                            <Label x:Name="txtbOrderDate" Grid.Row="0" Grid.Column="3"></Label>
-
-                            <Label x:Name="lblCustomerName" Grid.Row="1" Grid.Column="0" Content="CustomerName :"/>
-                            <Label x:Name="txtbCustomerName" Grid.Row="1" Grid.Column="1">
+                            <Label x:Name="lblCustomerName" Margin="15,0,0,0" FontSize="18"  Foreground="White" Grid.Row="1" Grid.Column="0" Content="Customer :"/>
+                            <Label x:Name="txtbCustomerName" FontSize="18"  Foreground="White" Grid.Row="1" Grid.Column="1">
                             </Label>
 
-                            <Label x:Name="lblWaiterName" Grid.Row="1" Grid.Column="2" Content="Waiter Name :"/>
-                            <Label x:Name="txtbWaiterName" Grid.Row="1" Grid.Column="3"></Label>
+                            <Label x:Name="lblWaiterName" FontSize="18"  Foreground="White" Grid.Row="1" Grid.Column="2" Content=""/>
+                            <Label x:Name="txtbWaiterName" FontSize="18"  Foreground="White" Grid.Row="1" Grid.Column="3"></Label>
 
-                            <Label x:Name="lblTableName" Grid.Row="2" Grid.Column="0" Content="Table Name :"/>
-                            <Label x:Name="txtbTableName" Grid.Row="2" Grid.Column="1"></Label>
-
-                            <Label x:Name="lblOrderType" Grid.Row="2" Grid.Column="2" Content="Order Type :"/>
-                            <Label x:Name="txtbOrderType" Grid.Row="2" Grid.Column="3"></Label>
-
+                            <Label x:Name="lblOrderType" Margin="15,0,0,0" FontSize="18"  Foreground="White" Grid.Row="2" Grid.Column="0" Content="Type :"/>
+                            <Label x:Name="txtbOrderType" FontSize="18"  Foreground="White" Grid.Row="2" Grid.Column="3"></Label>
+                            
+                            <Label x:Name="lblTableName" FontSize="18"  Foreground="White" Grid.Row="2" Grid.Column="2" Content="Table# :"/>
+                            <Label x:Name="txtbTableName" FontSize="18"  Foreground="White" Grid.Row="2" Grid.Column="3"></Label>
                         </Grid>
 
-                        <Grid x:Name="leftSection" Grid.Row="1" Grid.Column="0">
-                           
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Width="450" Height="413" Background="White" >
-                                <ListBox x:Name="lbKOTOrderList" HorizontalAlignment="Left" Width="250" SelectionChanged="lbKOTOrderList_SelectionChanged"  >
+                        <Grid x:Name="leftSection" Grid.Row="2" Grid.Column="0">
+
+                            <ScrollViewer Margin="15,5,5,5" HorizontalAlignment="Left" Width="225" Height="330" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"  >
+                                <ListBox x:Name="lbKOTOrderList"  HorizontalAlignment="Left" Width="225" Height="330" SelectionChanged="lbKOTOrderList_SelectionChanged"  >
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="0,5,0,5" >
@@ -311,6 +308,7 @@
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
                                                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" >
+                                                    <TextBlock Text=" #" FontSize="16"   Foreground="Black"/>
                                                     <TextBlock Text="{Binding KOTNumber}" FontSize="16"   Foreground="Black"/>
                                                     <TextBlock Text=" - " FontSize="16"   Foreground="Black"/>
                                                     <TextBlock Text="{Binding KOTDateTime}" FontSize="16"  Foreground="Black"/>
@@ -325,7 +323,7 @@
                             </ScrollViewer>
                         </Grid>
 
-                        <Grid x:Name="rightSection" Grid.Row="1" Grid.Column="1">
+                        <Grid x:Name="rightSection" Grid.Row="2" Grid.Column="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
