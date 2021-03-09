@@ -15,5 +15,6 @@ namespace RocketPOS.Model
         public decimal TotalDiscount { get; set; }
         public decimal TotalTax { get; set; }
         public decimal TotalGrossAmount { get; set; }
+        public decimal ValuePercentage { get; set; }
     }
 }

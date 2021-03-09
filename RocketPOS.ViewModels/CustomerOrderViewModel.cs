@@ -106,7 +106,7 @@ namespace RocketPOS.ViewModels
                 var query = "SELECT CO.Id,CO.CustomerOrderNo,CO.OutletId,CO.SalesInvoiceNumber,CO.CustomerId,CO.WaiterEmployeeId,CO.OrderType,CO.TableId,CO.AllocatedPerson,CO.GrossAmount,CO.DiscountPercentage,CO.DiscountAmount,CO.DeliveryCharges,CO.VatableAmount,CO.NonVatableAmount,CO.TaxAmount,CO.TotalPayable,CO.CustomerNote,CO.OrderStatus, " +
                           " COI.Id AS CustomerOrderItemId,COI.FoodMenuId,COI.FoodMenuRate,COI.FoodMenuQty,COI.AddonsId,COI.AddonsQty,COI.VarientId,COI.Discount,COI.Price,FM.FoodCategoryId,FM.FoodMenuName,FM.FoodMenuCode,FM.ColourCode,FM.SmallThumb,FMR.SalesPrice,ISNULL(FMR.FoodVat,0) AS FoodVat,ISNULL(FMR.Foodcess,0) AS Foodcess,FM.Notes,1 as KOTStatus,T.TableName,ISNULL(Ta.TaxPercentage,0) As TaxPercentage,Case When ISNULL(Ta.TaxPercentage,0)>0 Then 1 Else 0 End AS IsVatable " +
                           " FROM dbo.CustomerOrder CO  INNER JOIN dbo.CustomerOrderItem COI  ON CO.Id = COI.CustomerOrderId " +
-                         // " INNER JOIN dbo.CustomerOrderKOT COKOT  ON CO.Id = COKOT.CustomerOrderId " +
+                          // " INNER JOIN dbo.CustomerOrderKOT COKOT  ON CO.Id = COKOT.CustomerOrderId " +
                           " INNER JOIN dbo.FoodMenu FM  ON FM.Id = COI.FoodMenuId " +
                           " INNER JOIN  FoodMenuRate FMR ON FM.Id = FMR.FoodMenuId " +
                           " LEFT JOIN dbo.[Tables] T On T.Id=CO.TableId LEFT JOIN Tax Ta On Ta.Id=FMR.FoodVatTaxId WHERE FMR.OutletId = CO.OutletId and CO.Id = " + id;
@@ -158,12 +158,12 @@ namespace RocketPOS.ViewModels
                                        "      Left Join PaymentMethod PM On PM.Id = BD.PaymentMethodId Where B.CustomerOrderId = CO.Id) " +
                                        "     FOR XML PATH('') " +
                                        "  ), 1, 2, '')) AS Payment, " +
-                            " (select Sum(TotalPayable) from CustomerOrder where Convert(Date, Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)" +" ) As InvoiceTotal, " +
-                              "(select count(*) from CustomerOrder where Convert(Date, Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)"+ " ) As InvoiceCount " +
+                            " (select Sum(TotalPayable) from CustomerOrder where Convert(Date, Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)" + " ) As InvoiceTotal, " +
+                              "(select count(*) from CustomerOrder where Convert(Date, Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)" + " ) As InvoiceCount " +
                             " FROM CustomerOrder CO  " +
                             " INNER JOIN Customer C ON C.ID = CO.CustomerId  " +
                             " WHERE OutletId =" + LoginDetail.OutletId +
-                             " AND Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) "+
+                             " AND Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
                             " ORDER BY CO.Orderdate desc;";
 
                 customerOrderHistoryModels = db.Query<CustomerOrderHistoryModel>(query).ToList();
@@ -187,20 +187,20 @@ namespace RocketPOS.ViewModels
             return insertedId;
         }
 
-        public void UpdateBillDetailPaymentMethod(string orderId,int paymentMethodId)
+        public void UpdateBillDetailPaymentMethod(string orderId, int paymentMethodId)
         {
             int billId = 0;
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))
             {
-                var query = "select Id from Bill where CustomerOrderId="+ orderId;
+                var query = "select Id from Bill where CustomerOrderId=" + orderId;
                 billId = connection.Query<int>(query).FirstOrDefault();
 
-                var updaeQuery = "Update BillDetail Set PaymentMethodId="+ paymentMethodId + " Where BillId=" + billId;
+                var updaeQuery = "Update BillDetail Set PaymentMethodId=" + paymentMethodId + " Where BillId=" + billId;
                 connection.Query<bool>(updaeQuery).FirstOrDefault();
             }
         }
 
-        public CessReportModel GetCessReport(string fromDate,string toDate)
+        public CessReportModel GetCessReport(string fromDate, string toDate)
         {
             CessReportModel cessReport = new CessReportModel();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
@@ -208,13 +208,13 @@ namespace RocketPOS.ViewModels
                 string cessSummaryQuery = string.Empty;
                 string cessDetailQuery = string.Empty;
 
-                cessSummaryQuery = " SELECT convert(datetime, convert(int, CO.Orderdate)) AS BillDate,SUM(isnull(CO.VatableAmount,0.00)+isnull(CO.NonVatableAmount,0.00)) AS NetSales, SUM(isnull(CO.VatableAmount,0.00)) AS Vatable,SUM(isnull(CO.NonVatableAmount,0.00)) AS NonVatable, SUM(isnull(CO.TaxAmount,0.00)) AS TotalTax, SUM(ISNULL(CO.GrossAmount,0.00)) AS GrandTotal " +
+                cessSummaryQuery = " SELECT convert(varchar(10), CO.Orderdate,103) AS BillDate,SUM(isnull(CO.VatableAmount,0.00)+isnull(CO.NonVatableAmount,0.00)) AS NetSales, SUM(isnull(CO.VatableAmount,0.00)) AS Vatable,SUM(isnull(CO.NonVatableAmount,0.00)) AS NonVatable, SUM(isnull(CO.TaxAmount,0.00)) AS TotalTax, SUM(ISNULL(CO.GrossAmount,0.00)) AS GrandTotal " +
                                    " , convert(numeric(18,2),round(((SUM(isnull(CO.VatableAmount,0)+isnull(CO.NonVatableAmount,0)))*2)/100,2)) As CateringLevy " +
                                    " FROM BILL B " +
                                    " INNER JOIN CustomerOrder CO ON CO.ID = B.CustomerOrderId " +
                                    " Where Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)  And CO.OrderStatus = 4 AND CO.OutletId = " + LoginDetail.OutletId +
-                                   " GROUP BY convert(datetime, convert(int, CO.Orderdate)) " +
-                                   " ORDER BY convert(datetime, convert(int, CO.Orderdate))";
+                                   " GROUP BY convert(varchar(10), CO.Orderdate,103) " +
+                                   " ORDER BY convert(varchar(10), CO.Orderdate,103)";
 
                 cessDetailQuery = " SELECT convert(varchar(10), CO.Orderdate, 103) AS BillDate, CO.SalesInvoiceNumber AS InvoiceNumber,(ISNULL(CO.VatableAmount, 0.00) + ISNULL(CO.NonVatableAmount, 0.00)) AS NetSales, ISNULL(CO.VatableAmount, 0.00) AS Vatable, ISNULL(CO.NonVatableAmount, 0.00) AS NonVatable, ISNULL(CO.TaxAmount, 0.00) AS TotalTax, ISNULL(CO.GrossAmount, 0.00) AS GrandTotal " +
                                    ", convert(numeric(18, 2), round(((isnull(CO.VatableAmount, 0.00) + isnull(CO.NonVatableAmount, 0.00)) * 2) / 100, 2)) As  CateringLevy" +
@@ -231,7 +231,7 @@ namespace RocketPOS.ViewModels
             }
         }
 
-        public CessCategoryReportModel GetCessCategoryReport(string fromDate, string toDate)
+        public CessCategoryReportModel GetCessCategoryReport(string fromDate, string toDate, int categoryId, int foodMenuId)
         {
             CessCategoryReportModel cessReport = new CessCategoryReportModel();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
@@ -239,7 +239,7 @@ namespace RocketPOS.ViewModels
                 string cessSummaryQuery = string.Empty;
                 string cessDetailQuery = string.Empty;
 
-                cessSummaryQuery =" SELECT convert(varchar(10), CO.Orderdate, 103) as BillDate, FoodmenucategoryName," +
+                cessSummaryQuery = " SELECT FoodmenucategoryName," +
                                     " SUM(isnull(COI.VatableAmount, 0.00) + isnull(COI.NonVatableAmount, 0.00)) AS NetSales, SUM(isnull(COI.VatableAmount, 0)) as Vatable, SUM(isnull(COI.NonVatableAmount, 0.00)) AS NonVatable," +
                                     " SUM(isnull(COI.FoodMenuVat, 0.00)) AS TotalTax, SUM(ISNULL(COI.Grossamount, 0.00)) AS GrandTotal," +
                                     " convert(numeric(18, 2), round(((SUM(isnull(COI.VatableAmount, 0) + isnull(COI.NonVatableAmount, 0))) * 2) / 100, 2)) As CateringLevy" +
@@ -247,9 +247,19 @@ namespace RocketPOS.ViewModels
                                     " INNER join CustomerOrderItem coi on CO.Id = COI.CustomerOrderId" +
                                     " inner join Foodmenu FM on FM.Id = COI.Foodmenuid" +
                                     " inner join Foodmenucategory FMC on FMC.ID = FM.FoodCAtegoryId" +
-                                    " where CO.Orderstatus = 4" +
-                                    " AND Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)  and CO.Isdeleted = 0 AND CO.OutletId = " + LoginDetail.OutletId + 
-                                    " group by convert(varchar(10), CO.Orderdate, 103) ,FoodmenucategoryName ORDER BY BillDate";
+                                    " where CO.Orderstatus = 4 ";
+                if (categoryId != -1)
+                {
+                    cessSummaryQuery += " And FMC.Id = " + categoryId;
+                }
+                if (foodMenuId != -1)
+                {
+                    cessSummaryQuery += " And FM.Id = " + foodMenuId;
+                }
+
+                cessSummaryQuery += " AND Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)  and CO.Isdeleted = 0 AND CO.OutletId = " + LoginDetail.OutletId +
+                                    " group by FoodmenucategoryName ORDER BY FoodmenucategoryName";
+
 
                 cessDetailQuery = " SELECT convert(varchar(10), CO.Orderdate, 103) AS BillDate, CO.SalesInvoiceNumber AS InvoiceNumber,(ISNULL(CO.VatableAmount, 0.00) + ISNULL(CO.NonVatableAmount, 0.00)) AS NetSales, ISNULL(CO.VatableAmount, 0.00) AS Vatable, ISNULL(CO.NonVatableAmount, 0.00) AS NonVatable, ISNULL(CO.TaxAmount, 0.00) AS TotalTax, ISNULL(CO.GrossAmount, 0.00) AS GrandTotal " +
                                    ", convert(numeric(18, 2), round(((isnull(CO.VatableAmount, 0.00) + isnull(CO.NonVatableAmount, 0.00)) * 2) / 100, 2)) As  CateringLevy" +
