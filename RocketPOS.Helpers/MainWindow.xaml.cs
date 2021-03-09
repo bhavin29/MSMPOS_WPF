@@ -3218,17 +3218,19 @@ namespace RocketPOS.Helpers
         private void btnPrintKOT_Click(object sender, RoutedEventArgs e)
         {
             var kotId = (KOTHeaderDetail)lbKOTOrderList.SelectedItem;
+            AppSettings appSettings = new AppSettings();
+
             if (kotId != null)
             {
                 int kotItemId = kotId.Id;
                 PrintKOTView printKOTView = new PrintKOTView();
-                printKOTView.PrintKOT(kotItemId);//Coding Pending 
+                printKOTView.Print(appSettings.GetPrinterName(), kotItemId); 
             }
         }
 
         private void btnKOTCancel_Click(object sender, RoutedEventArgs e)
         {
-
+            ppKOT.IsOpen = false;
         }
 
         private void btnRedeemApply_Click(object sender, RoutedEventArgs e)

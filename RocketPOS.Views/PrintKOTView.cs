@@ -4,156 +4,238 @@ using System.Text;
 using System.IO;
 using System.Drawing.Printing;
 using System.Drawing;
+using RocketPOS.Model;
+using RocketPOS.ViewModels;
+using RocketPOS.Core.Constants;
+using System.Windows;
 
 namespace RocketPOS.Views
 {
+    //https://stackoverflow.com/questions/28096578/writing-nice-receipt-in-c-sharp-wpf-for-printing-on-thermal-printer-pos
+
     public class PrintKOTView
     {
-        //https://www.c-sharpcorner.com/UploadFile/mahesh/create-a-text-file-in-C-Sharp/
-        //https://www.c-sharpcorner.com/article/printing-text-file-in-C-Sharp/
 
-        private Font verdana10Font;
-        private StreamReader reader;
-        public void PrintKOT(int kotId)
+        private PrintDocument PrintDocument;
+        private Graphics graphics;
+        private int InitialHeight = 360;
+        private int billId = 0;
+        int pageWidthHeader = 50;
+
+        public PrintKOTView()
         {
-            int result=0;
-
-            string fileName = @"C:\Temp\KOTTX.dat";
-            result=CreateKOTTextFile(fileName, kotId);
-
-            if (result == 1)
-            {
-                PrintTextFile(fileName);
-            }
-            else
-            {
-                Console.WriteLine("Opps sothings went worng.");
-            }
+            //  this.order = order;
+            //  this.shop = shop;
+            AdjustHeight();
         }
-
-        private int CreateKOTTextFile(string fileName,int kotId)
+        private void AdjustHeight()
         {
-            int result= 0;
-          //  FormattedText ft = new FormattedText();
-            try
-            {
-                // Check if file already exists. If yes, delete it.     
-                if (File.Exists(fileName))
-                {
-                    File.Delete(fileName);
-                }
+            var capacity = 5 * 1;// order.ItemTransactions.Capacity;
+            InitialHeight += capacity;
 
-                // Create a new file     
-                using (StreamWriter sw = File.CreateText(fileName))
-                {
-                    sw.WriteLine("New file created: {0}", DateTime.Now.ToString());
-                    sw.WriteLine("Author: Mahesh Chand");
-                    sw.WriteLine("Add one more line ");
-                    sw.WriteLine("Add one more line ");
-                    sw.WriteLine("Done! ");
-                    result = 1;
-                }
-
-                return result;
-            }
-            catch (Exception Ex)
-            {
-                Console.WriteLine(Ex.ToString());
-                return result;
-
-            }
+            capacity = 5 * 1;// order.DealTransactions.Capacity;
+            InitialHeight += capacity;
         }
-
-        private void CreateText(object sender, PrintPageEventArgs e) 
+        public void Print(string printername, int id)
         {
-            Graphics graphics = e.Graphics;
+            billId = id;
+            PrintDocument = new PrintDocument();
 
-            Font regular = new Font(FontFamily.GenericSansSerif, 10.0f, FontStyle.Regular);
-            Font bold = new Font(FontFamily.GenericSansSerif, 10.0f, FontStyle.Bold);
+            PrintDocument.PrinterSettings.PrinterName = printername;
 
-            //print header
-            graphics.DrawString("FERREIRA MATERIALS PARA CONSTRUCAO LTDA", bold, Brushes.Black, 20, 10);
-            graphics.DrawString("EST ENGENHEIRO MARCILAC, 116, SAO PAOLO - SP", regular, Brushes.Black, 30, 30);
-            graphics.DrawString("Telefone: (11)5921-3826", regular, Brushes.Black, 110, 50);
-            graphics.DrawLine(Pens.Black, 80, 70, 320, 70);
-            graphics.DrawString("CUPOM NAO FISCAL", bold, Brushes.Black, 110, 80);
-            graphics.DrawLine(Pens.Black, 80, 100, 320, 100);
-
-            //print items
-            graphics.DrawString("COD | DESCRICAO                      | QTY | X | Vir Unit | Vir Total |", bold, Brushes.Black, 10, 120);
-            graphics.DrawLine(Pens.Black, 10, 140, 430, 140);
-
-            //for (int i = 0; i < itemList.Count; i++)
-            //{
-            //    graphics.DrawString(itemList[i].ToString(), regular, Brushes.Black, 20, 150 + i * 20);
-            //}
-
-            //print footer
-            //...
-
-            regular.Dispose();
-            bold.Dispose();
-
-            // Check to see if more pages are to be printed.
-           // e.HasMorePages = (itemList.Count > 20);
-
+            PrintDocument.PrintPage += new PrintPageEventHandler(FormatPage);
+            PrintDocument.Print();
         }
-
-
-        private void PrintTextFile(string fileName)
-        {                // Write file contents on console.     
-            using (StreamReader sr = File.OpenText(fileName))
-            {
-                string s = "";
-                while ((s = sr.ReadLine()) != null)
-                {
-                    Console.WriteLine(s);
-                }
-            }
-            reader = new StreamReader(fileName);
-
-            verdana10Font = new Font("Verdana", 10);
-            PrintDocument pd = new PrintDocument();
-
-            pd.PrintPage += new PrintPageEventHandler(this.PrintTextFileHandler);
-
-            pd.Print();
-
-            if (reader != null)
-                reader.Close();
-        }
-        private void PrintTextFileHandler(object sender, PrintPageEventArgs ppeArgs)
+        void DrawAtStart(string text, int Offset)
         {
-            //Get the Graphics object  
-            Graphics g = ppeArgs.Graphics;
-            float linesPerPage = 0;
-            float yPos = 0;
-            int count = 0;
-            //Read margins from PrintPageEventArgs  
-            float leftMargin = ppeArgs.MarginBounds.Left;
-            float topMargin = ppeArgs.MarginBounds.Top;
-            string line = null;
-            //Calculate the lines per page on the basis of the height of the page and the height of the font  
-            linesPerPage = ppeArgs.MarginBounds.Height / verdana10Font.GetHeight(g);
-            //Now read lines one by one, using StreamReader  
-            while (count < linesPerPage && ((line = reader.ReadLine()) != null))
-            {
-                //Calculate the starting position  
-                yPos = topMargin + (count * verdana10Font.GetHeight(g));
-                //Draw text  
-                g.DrawString(line, verdana10Font, Brushes.Black, leftMargin, yPos, new StringFormat());
-                //Move to next line  
-                count++;
-            }
-            //If PrintPageEventArgs has more pages to print  
-            if (line != null)
-            {
-                ppeArgs.HasMorePages = true;
-            }
-            else
-            {
-                ppeArgs.HasMorePages = false;
-            }
+            int startX = 10;
+            int startY = 5;
+            Font minifont = new Font("Arial", 7);
+
+            graphics.DrawString(text, minifont,
+                     new SolidBrush(Color.Black), startX + 5, startY + Offset);
         }
+        //NEW
+        void DrawAtStartCenter(string text, int Offset, int OffsetX)
+        {
+            //  int intPadding = 
+            int startX = OffsetX + ((pageWidthHeader - text.Length) / 2) * 4;
+            int startY = 5;
+            Font minifont = new Font("Arial", 7);
+
+            graphics.DrawString(text, minifont,
+                     new SolidBrush(Color.Black), startX + 5, startY + Offset);
+        }
+        void InsertItem(string key, string value, int Offset)
+        {
+            Font minifont = new Font("Arial", 7);
+            int startX = 10;
+            int startY = 5;
+
+            graphics.DrawString(key, minifont,
+                         new SolidBrush(Color.Black), startX + 5, startY + Offset);
+
+            graphics.DrawString(value, minifont,
+                     new SolidBrush(Color.Black), startX + 130, startY + Offset);
+        }
+
+        void InsertItemList(string key, string value, int OffsetY, int OffsetX)
+        {
+            Font minifont = new Font("Arial", 7);
+            int startX = 10;
+            int startY = 5;
+
+            graphics.DrawString(key, minifont,
+                         new SolidBrush(Color.Black), startX + OffsetX, startY + OffsetY);
+
+        }
+
+        void InsertHeaderStyleItem(string key, string value, int Offset)
+        {
+            int startX = 10;
+            int startY = 5;
+            Font itemfont = new Font("Arial", 7, FontStyle.Bold);
+
+            graphics.DrawString(key, itemfont,
+                         new SolidBrush(Color.Black), startX + 5, startY + Offset);
+
+            graphics.DrawString(value, itemfont,
+                     new SolidBrush(Color.Black), startX + 130, startY + Offset);
+        }
+        void DrawLine(string text, Font font, int Offset, int xOffset)
+        {
+            int startX = 10;
+            int startY = 5;
+            graphics.DrawString(text, font,
+                     new SolidBrush(Color.Black), startX + xOffset, startY + Offset);
+        }
+        void DrawSimpleString(string text, Font font, int Offset, int xOffset)
+        {
+            int startX = 10;
+            int startY = 5;
+            graphics.DrawString(text, font,
+                     new SolidBrush(Color.Black), startX + xOffset, startY + Offset);
+        }
+        private void FormatPage(object sender, PrintPageEventArgs e)
+        {
+            graphics = e.Graphics;
+            Font minifont = new Font("Arial", 5);
+            Font itemfont = new Font("Arial", 6);
+            Font smallfont = new Font("Arial", 12);
+            Font mediumfont = new Font("Arial", 14);
+            Font largefont = new Font("Arial", 16);
+
+            int Offset = 10;
+            int smallinc = 10, mediuminc = 12, largeinc = 17;
+
+            //Getting Receipt data 
+            List<PrintKOTItemModel> printKOTItemModels = new List<PrintKOTItemModel>();
+
+            //Parameter pass global Customer Order Id
+            PrintReceiptViewModel printReceiptViewModel = new PrintReceiptViewModel();
+
+            List<ReportOffsetModel> reportOffsetModels = new List<ReportOffsetModel>();
+
+            printKOTItemModels = printReceiptViewModel.GetPrintKOTItemByBillId(billId);
+            reportOffsetModels = printReceiptViewModel.GetReportOffsetByReportName("R1");
+
+            int intClientName = reportOffsetModels.Find(x => x.ReportColumn.Contains("ClientName")).ColumnOffset;
+            int intHeader = reportOffsetModels.Find(x => x.ReportColumn.Contains("Header")).ColumnOffset;
+            int intAddress1 = reportOffsetModels.Find(x => x.ReportColumn.Contains("Address1")).ColumnOffset;
+            int intAddress2 = reportOffsetModels.Find(x => x.ReportColumn.Contains("Address2")).ColumnOffset;
+            int intEmail = reportOffsetModels.Find(x => x.ReportColumn.Contains("Email")).ColumnOffset;
+            int intPhone = reportOffsetModels.Find(x => x.ReportColumn.Contains("Phone")).ColumnOffset;
+            int intDate = reportOffsetModels.Find(x => x.ReportColumn.Contains("Date")).ColumnOffset;
+            int intItemHeader = reportOffsetModels.Find(x => x.ReportColumn.Contains("Item-header")).ColumnOffset;
+            int intItemFoodMenuName = reportOffsetModels.Find(x => x.ReportColumn.Contains("Item-FoodMenuName")).ColumnOffset;
+            int intItemFoodMenuRate = reportOffsetModels.Find(x => x.ReportColumn.Contains("Item-FoodMenuRate")).ColumnOffset;
+            int intItemFoodMenuQty = reportOffsetModels.Find(x => x.ReportColumn.Contains("Item-FoodMenuQty")).ColumnOffset;
+            int intItemPrice = reportOffsetModels.Find(x => x.ReportColumn.Contains("Item-Price")).ColumnOffset;
+            int intGROSSTotal = reportOffsetModels.Find(x => x.ReportColumn.Contains("GROSSTotal")).ColumnOffset;
+            int intVATABLE = reportOffsetModels.Find(x => x.ReportColumn.Contains("VATABLE")).ColumnOffset;
+            int intDISCOUNT = reportOffsetModels.Find(x => x.ReportColumn.Contains("DISCOUNT")).ColumnOffset;
+            int intDELIVERYCharge = reportOffsetModels.Find(x => x.ReportColumn.Contains("DELIVERYCharge")).ColumnOffset;
+            int intTOTAL = reportOffsetModels.Find(x => x.ReportColumn.Contains("TOTAL")).ColumnOffset;
+            int intPaid = reportOffsetModels.Find(x => x.ReportColumn.Contains("Paid")).ColumnOffset;
+            int intFooter = reportOffsetModels.Find(x => x.ReportColumn.Contains("Footer")).ColumnOffset;
+            int intFooter1 = reportOffsetModels.Find(x => x.ReportColumn.Contains("Footer1")).ColumnOffset;
+            int intFooter2 = reportOffsetModels.Find(x => x.ReportColumn.Contains("Footer2")).ColumnOffset;
+            int intFooter3 = reportOffsetModels.Find(x => x.ReportColumn.Contains("Footer3")).ColumnOffset;
+            int intFooter4 = reportOffsetModels.Find(x => x.ReportColumn.Contains("Footer4")).ColumnOffset;
+            int intPowerBy = reportOffsetModels.Find(x => x.ReportColumn.Contains("PowerBy")).ColumnOffset;
+
+
+
+            //Image image = Image.FromFile("d:\\2.jpg");
+
+            //e.Graphics.DrawImage(image, startX + 50, startY + Offset, 100, 30);
+            // e.Graphics.DrawImage(image, 50, 10 + Offset, 100, 30);
+
+            Offset = Offset + Offset;
+
+            graphics.DrawString(LoginDetail.ClientName, smallfont, new SolidBrush(Color.Black), intClientName, Offset);//50 + 22
+            //graphics.DrawString(LoginDetail.ClientName, smallfont, new SolidBrush(Color.Black), ((LoginDetail.ClientName.Length)*2), Offset);//50 + 22
+            Offset = Offset + mediuminc;
+            DrawAtStartCenter("KOT", Offset, intHeader);
+
+            Offset = Offset + mediuminc;
+
+            //Offset = Offset + mediuminc;
+            //DrawAtStartCenter(LoginDetail.Header, Offset, intHeader);
+
+            //Offset = Offset + mediuminc;
+            //DrawAtStartCenter(LoginDetail.Address1, Offset, intAddress1);
+
+            //Offset = Offset + mediuminc;
+            //DrawAtStartCenter(LoginDetail.Address2, Offset, intAddress2);
+
+            //Offset = Offset + mediuminc;
+            //DrawAtStartCenter("EMAIL: " + LoginDetail.Email, Offset, intEmail);
+
+            //Offset = Offset + mediuminc;
+            //DrawAtStartCenter("PHONE : " + LoginDetail.Phone, Offset, intPhone);
+
+            String underLine = "---------------------------------";
+            DrawLine(underLine, largefont, Offset, 0);
+
+            Offset = Offset + mediuminc + 6;
+            DrawAtStart("KOT NO: " + printKOTItemModels[0].KOTNumber.ToString().PadRight((intDate - printKOTItemModels[0].KOTNumber.ToString().Length) + 23) + "DATE: " + printKOTItemModels[0].KOTDateTime.ToString("dd/MM/yyyy HH:mm"), Offset); ;
+
+            //Offset = Offset + mediuminc;
+            //DrawAtStart("CUSTOMER: " + printReceiptModel[0].CustomerName, Offset);
+
+            Offset = Offset + mediuminc;
+            DrawAtStart("TYPE#: " + printKOTItemModels[0].OrderType, Offset);
+
+            if (printKOTItemModels[0].TableName != "")
+                DrawAtStart( "".ToString().PadRight(43) +  "TABLE#: " + printKOTItemModels[0].TableName, Offset);
+
+            underLine = "---------------------------------";
+            DrawLine(underLine, largefont, Offset, 0);
+
+            Offset = Offset + largeinc;
+
+            InsertHeaderStyleItem("ITEM".PadRight(intItemHeader) + "              QTY", "", Offset);
+
+            Offset = Offset + mediuminc;
+
+            foreach (var item in printKOTItemModels)
+            {
+                InsertItemList(item.FoodMenuName.ToString().PadRight(50) + item.FoodMenuQty.ToString("F"), "", Offset, intItemFoodMenuName);
+                Offset = Offset + smallinc;
+            }
+            Offset = Offset - smallinc;
+
+            underLine = "---------------------------------";
+            DrawLine(underLine, largefont, Offset, 0);
+            Offset = Offset + largeinc;
+
+            InsertItem(LoginDetail.Lastname + " " + LoginDetail.Firstname, "", Offset);
+            Offset = Offset + smallinc;
+
+            if (LoginDetail.Powerby.Length > 0)
+                DrawAtStartCenter(LoginDetail.Powerby, Offset, intPowerBy);
+        }
+
     }
 }

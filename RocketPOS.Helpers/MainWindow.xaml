@@ -266,7 +266,7 @@
                                 <ColumnDefinition Width="100"/>
                                 <ColumnDefinition Width="400"/>
                                 <ColumnDefinition Width="75"/>
-                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="200"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="35"/>
@@ -274,24 +274,27 @@
                                 <RowDefinition Height="35"/>
                             </Grid.RowDefinitions>
 
-                            <Label x:Name="lblCustomerOrderNo"  Margin="15,0,0,0" FontSize="18"  Foreground="White" Grid.Row="0" Grid.Column="0" Content="Order# :"/>
+                            <Label x:Name="lblCustomerOrderNo"  Margin="15,0,0,0" FontSize="18"  Foreground="White" Grid.Row="0" Grid.Column="0" Content="Order#:"/>
                             <Label x:Name="txtbCustomerOrderNo" FontSize="18"  Foreground="White" Grid.Row="0" Grid.Column="1"></Label>
 
                             <Label x:Name="lblOrderDate"  FontSize="18"  Foreground="White" Grid.Row="0" Grid.Column="2" Content="Date :"/>
                             <Label x:Name="txtbOrderDate" FontSize="18"  Foreground="White" Grid.Row="0" Grid.Column="3"></Label>
 
-                            <Label x:Name="lblCustomerName" Margin="15,0,0,0" FontSize="18"  Foreground="White" Grid.Row="1" Grid.Column="0" Content="Customer :"/>
+                            <Label x:Name="lblCustomerName" Margin="15,0,0,0" FontSize="18"  Foreground="White" Grid.Row="1" Grid.Column="0" Content="Customer:"/>
                             <Label x:Name="txtbCustomerName" FontSize="18"  Foreground="White" Grid.Row="1" Grid.Column="1">
                             </Label>
 
                             <Label x:Name="lblWaiterName" FontSize="18"  Foreground="White" Grid.Row="1" Grid.Column="2" Content=""/>
                             <Label x:Name="txtbWaiterName" FontSize="18"  Foreground="White" Grid.Row="1" Grid.Column="3"></Label>
 
-                            <Label x:Name="lblOrderType" Margin="15,0,0,0" FontSize="18"  Foreground="White" Grid.Row="2" Grid.Column="0" Content="Type :"/>
-                            <Label x:Name="txtbOrderType" FontSize="18"  Foreground="White" Grid.Row="2" Grid.Column="3"></Label>
+                            <Label x:Name="lblOrderType" Margin="15,0,0,0" FontSize="18"  Foreground="White" Grid.Row="2" Grid.Column="0" Content="Type:"/>
+                            <Label x:Name="txtbOrderType" FontSize="18"  Foreground="White" Grid.Row="2" Grid.Column="1"></Label>
                             
-                            <Label x:Name="lblTableName" FontSize="18"  Foreground="White" Grid.Row="2" Grid.Column="2" Content="Table# :"/>
+                            <Label x:Name="lblTableName" FontSize="18"  Foreground="White" Grid.Row="2" Grid.Column="2" Content="Table#:"/>
                             <Label x:Name="txtbTableName" FontSize="18"  Foreground="White" Grid.Row="2" Grid.Column="3"></Label>
+
+                            <Button x:Name="btnPrintKOT" Margin="68,0,0,0" Style="{StaticResource btnOrange}" Width="100" Height="30" Content="Print KOT" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Left" Click="btnPrintKOT_Click"/>
+
                         </Grid>
 
                         <Grid x:Name="leftSection" Grid.Row="2" Grid.Column="0">
@@ -328,17 +331,15 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Button x:Name="btnPrintKOT" Margin="45,0,0,0" Style="{StaticResource btnOrange}" Width="150" Height="30" Content="Print KOT" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Click="btnPrintKOT_Click"/>
-                            <DataGrid x:Name="dgKOTItem" RowHeight="30" Width="500" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="0">
+                            <DataGrid x:Name="dgKOTItem" RowHeight="30" Width="500" FontSize="14" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="0">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="KOTNumber" IsReadOnly="True"  Binding="{Binding KOTNumber}" Width="50"/>
-                                    <DataGridTextColumn Header="KOTDateTime" IsReadOnly="True"  Binding="{Binding KOTDateTime}" Width="50"/>
-                                    <DataGridTextColumn Header="KOTItemStatus" IsReadOnly="True"  Binding="{Binding KOTItemStatus}" Width="50"/>
-                                    <DataGridTextColumn Header="FoodMenuName" IsReadOnly="True"  Binding="{Binding FoodMenuName}" Width="50"/>
-                                    <DataGridTextColumn Header="FoodMenuQty" IsReadOnly="True"  Binding="{Binding FoodMenuQty}" Width="50"/>
+                                    <!--<DataGridTextColumn Header="KOTNumber" IsReadOnly="True"  Binding="{Binding KOTNumber}" Width="50"/>
+                                    <DataGridTextColumn Header="KOTDateTime" IsReadOnly="True"  Binding="{Binding KOTDateTime}" Width="50"/>-->
+                                    <DataGridTextColumn Header="Product" IsReadOnly="True"  Binding="{Binding FoodMenuName}" Width="330"/>
+                                    <DataGridTextColumn Header="Qty" IsReadOnly="True"  Binding="{Binding FoodMenuQty}" Width="50"/>
+                                    <DataGridTextColumn Header="Status" IsReadOnly="True"  Binding="{Binding KOTItemStatus}" Width="100"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>

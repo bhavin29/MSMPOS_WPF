@@ -54,6 +54,30 @@ namespace RocketPOS.ViewModels
             return printReceiptItemModel;
         }
 
+        public List<PrintKOTItemModel> GetPrintKOTItemByBillId(int billId)
+        {
+            List<PrintKOTItemModel> printKOTItemModels = new List<PrintKOTItemModel>();
+
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                connection.Open();
+
+                var query = "SELECT CO.CustomerOrderNo +' / '+ COK.KOTNumber as KOTNumber, T.TableName, " +
+                            " Case When CO.OrderType = 1 then 'DineIN' when OrderType = 2 then 'TakeAway' else 'Delivery' end as OrderType, " +
+                            " COK.KOTDateTime,  U.Username, CustomerOrderId,FM.FoodMenuName,COKI.FoodMenuQty" +
+                            " From CustomerOrder CO" +
+                            " inner join CustomerOrderKOT COK on CO.Id = COK.CustomerOrderId " +
+                            " Inner join CustomerOrderKOTItem COKI on COK.Id = COKI.CustomerOrderKOTId " +
+                            " INNER JOIN FoodMenu FM ON FM.ID = COKI.FoodMenuId" +
+                            " INNER JOIN[User] U ON U.ID = COK.UserIdInserted" +
+                            " left join Tables T On T.Id = CO.TableId" +
+                            " WHERE COK.ID = " + billId.ToString();
+
+                printKOTItemModels = connection.Query<PrintKOTItemModel>(query).ToList();
+            }
+
+            return printKOTItemModels;
+        }
         public List<ReportOffsetModel> GetReportOffsetByReportName(string reportName)
         {
             List<ReportOffsetModel> reportOffsetModels = new List<ReportOffsetModel>();
