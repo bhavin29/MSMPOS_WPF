@@ -47,4 +47,17 @@ namespace RocketPOS.Model
         public decimal TotalTax { get; set; }
         public decimal TotalGrossAmount { get; set; }
     }
+
+
+    public class SalesSummaryByHours
+    {
+        public string OrderDate { get; set; }
+        public TimeSpan StartHour { get; set; }
+        public TimeSpan EndHour { get; set; }
+        public decimal TotalInvoice { get; set; }
+        public decimal NetSalesAmount { get; set; }
+        public decimal TotalDiscount { get; set; }
+        public decimal TotalTax { get; set; }
+        public decimal TotalGrossAmount { get; set; }
+    }
 }

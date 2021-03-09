@@ -121,6 +121,7 @@ namespace RocketPOS.Helpers.Reports
 
         private void btnCessReportExport_Click(object sender, RoutedEventArgs e)
         {
+            int categoryId = -1, foodMenuId = -1;
             try
             {
                 if (!DateValidated(dpFromDate, dpToDate))
@@ -156,7 +157,7 @@ namespace RocketPOS.Helpers.Reports
                 }
                 else
                 {
-                    cessCategoryReportModel = customerOrderViewModel.GetCessCategoryReport(dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat));
+                    cessCategoryReportModel = customerOrderViewModel.GetCessCategoryReport(dpFromDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), dpToDate.SelectedDate.Value.ToString(CommonMethods.DateFormat), categoryId,foodMenuId);
 
                     string fileName = "CategoryWiseCessReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
                     var saveFileDialog = new SaveFileDialog

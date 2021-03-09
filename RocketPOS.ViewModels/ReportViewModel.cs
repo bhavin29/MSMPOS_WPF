@@ -28,7 +28,7 @@ namespace RocketPOS.ViewModels
 
             return detailedDailyReportModels;
         }
-        public List<DetailSaleSummaryModel> GetDetailSaleSummaryReport(string fromDate, string toDate)
+        public List<DetailSaleSummaryModel> GetDetailSaleSummaryReport(string fromDate, string toDate,int categoryId,int foodMenuId)
         {
             List<DetailSaleSummaryModel> detailSaleSummaryModel = new List<DetailSaleSummaryModel>();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
@@ -44,8 +44,18 @@ namespace RocketPOS.ViewModels
                         " inner join BillDetail BD ON BD.BillId=B.Id " +
                         " Inner join PaymentMethod PM On PM.Id=BD.PaymentMethodId " +
                         " Left Join Tax T On T.Id = COI.foodmenuvattaxid " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by CONVERT(VARCHAR(10),CO.OrderDate,103),FM.FoodMenuName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                if (categoryId != -1)
+                {
+                    Query += " And FM.FoodCategoryId = " + categoryId;
+                }
+                if (foodMenuId != -1)
+                {
+                    Query += " And FM.Id = " + foodMenuId;
+                }
+
+                Query += " group by CONVERT(VARCHAR(10),CO.OrderDate,103),FM.FoodMenuName " +
                         " WITH ROLLUP  " +
                         " order by CONVERT(VARCHAR(10),CO.OrderDate,103)  ";
                 detailSaleSummaryModel = db.Query<DetailSaleSummaryModel>(Query).ToList();
@@ -63,7 +73,7 @@ namespace RocketPOS.ViewModels
 
             return productWiseSalesReportModels;
         }
-        public List<MasterSalesReportModel> GetMasterSaleReport(string fromDate, string toDate)
+        public List<MasterSalesReportModel> GetMasterSaleReport(string fromDate, string toDate, int categoryId, int foodMenuId)
         {
             List<MasterSalesReportModel> masterSalesReportModel = new List<MasterSalesReportModel>();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
@@ -76,12 +86,21 @@ namespace RocketPOS.ViewModels
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId " +
                         " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103)";
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+                if (categoryId != -1)
+                {
+                    Query += " And FMC.Id = " + categoryId;
+                }
+                if (foodMenuId != -1)
+                {
+                    Query += " And FM.Id = " + foodMenuId;
+                }
+
                 masterSalesReportModel = db.Query<MasterSalesReportModel>(Query).ToList();
                 return masterSalesReportModel;
             }
         }
-        public List<SalesByCategoryProductModel> GetSaleByCategorySectionReport(string fromDate, string toDate,string reportName)
+        public List<SalesByCategoryProductModel> GetSaleByCategorySectionReport(string fromDate, string toDate,string reportName,int categoryId, int foodMenuId)
         {
             List<SalesByCategoryProductModel> salesByCategoryProductModel = new List<SalesByCategoryProductModel>();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
@@ -90,39 +109,72 @@ namespace RocketPOS.ViewModels
 
                 if (reportName == "SalesByCategoryProductQtyDesc")
                 {
-                    Query = " select FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount " +
+                    Query = " select FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount, " +
+                        "  cast(SUM(COI.GrossAmount) * 100.0 / SUM(SUM(COI.GrossAmount)) OVER ()  as numeric(18,2)) AS ValuePercentage  " +
                         " from CustomerOrder CO " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId " +
                         " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by FMC.FoodMenuCategoryName,FM.FoodMenuName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+                    
+                    if (categoryId != -1)
+                    {
+                        Query += " And FMC.Id = " + categoryId;
+                    }
+                    if (foodMenuId != -1)
+                    {
+                        Query += " And FM.Id = " + foodMenuId;
+                    }
+
+                    Query += " group by FMC.FoodMenuCategoryName,FM.FoodMenuName " +
                         " WITH ROLLUP  " +  // Returns Sub Totals For Group By
                         " Order By Sum(COI.FoodMenuQty) desc ";
                 }
 
                 if (reportName == "SalesByCategoryProductQtyAsc")
                 {
-                    Query = " select FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount " +
+                    Query = " select FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount, " +
+                        "  cast(SUM(COI.GrossAmount) * 100.0 / SUM(SUM(COI.GrossAmount)) OVER ()  as numeric(18,2)) AS ValuePercentage " +
                         " from CustomerOrder CO " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId " +
                         " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by FMC.FoodMenuCategoryName,FM.FoodMenuName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+                    
+                    if (categoryId != -1)
+                    {
+                        Query += " And FMC.Id = " + categoryId;
+                    }
+                    if (foodMenuId != -1)
+                    {
+                        Query += " And FM.Id = " + foodMenuId;
+                    }
+
+                    Query += " group by FMC.FoodMenuCategoryName,FM.FoodMenuName " +
                         " WITH ROLLUP  " +
                         " Order By Sum(COI.FoodMenuQty) asc ";
                 }
 
                 if (reportName == "SalesByCategoryProductAmountDesc")
                 {
-                    Query = " select FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount " +
+                    Query = " select FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount, " +
+                        "  cast(SUM(COI.GrossAmount) * 100.0 / SUM(SUM(COI.GrossAmount)) OVER ()  as numeric(18,2)) AS ValuePercentage " +
                         " from CustomerOrder CO " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId " +
                         " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by FMC.FoodMenuCategoryName,FM.FoodMenuName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                    if (categoryId != -1)
+                    {
+                        Query += " And FMC.Id = " + categoryId;
+                    }
+                    if (foodMenuId != -1)
+                    {
+                        Query += " And FM.Id = " + foodMenuId;
+                    }
+
+                    Query +=" group by FMC.FoodMenuCategoryName,FM.FoodMenuName " +
                         " WITH ROLLUP  " +
                         " Order By Sum(COI.Price) desc ";
                 }
@@ -130,69 +182,124 @@ namespace RocketPOS.ViewModels
                 if (reportName == "SalesBySectionCategoryProductAmountAsc")
                 {
                     Query = " select case when CO.OrderType = 1 then 'DineIN' When CO.OrderType = 2 then 'TakeAway' When CO.OrderType = 2 then 'Delivery' else 'ALL' End As SectionName, " +
-                        " FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount " +
+                        " FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount, " +
+                        "  cast(SUM(COI.GrossAmount) * 100.0 / SUM(SUM(COI.GrossAmount)) OVER ()  as numeric(18,2)) AS ValuePercentage " +
                         " from CustomerOrder CO " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId " +
                         " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                    if (categoryId != -1)
+                    {
+                        Query += " And FMC.Id = " + categoryId;
+                    }
+                    if (foodMenuId != -1)
+                    {
+                        Query += " And FM.Id = " + foodMenuId;
+                    }
+
+                    Query += " group by CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName " +
                         " WITH ROLLUP  " +
-                        " Order By Sum(COI.Price) asc ";
+                        " Order By CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.Price) asc ";
                 }
 
                 if (reportName == "SalesBySectionCategoryProductAmountDesc")
                 {
                     Query = " select case when CO.OrderType = 1 then 'DineIN' When CO.OrderType = 2 then 'TakeAway' When CO.OrderType = 2 then 'Delivery' else 'ALL' End As SectionName, " +
-                        " FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount " +
+                        " FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount, " +
+                        "  cast(SUM(COI.GrossAmount) * 100.0 / SUM(SUM(COI.GrossAmount)) OVER ()  as numeric(18,2)) AS ValuePercentage " +
                         " from CustomerOrder CO " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId " +
                         " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                    if (categoryId != -1)
+                    {
+                        Query += " And FMC.Id = " + categoryId;
+                    }
+                    if (foodMenuId != -1)
+                    {
+                        Query += " And FM.Id = " + foodMenuId;
+                    }
+
+                    Query += " group by CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName " +
                         " WITH ROLLUP  " +
-                        " Order By Sum(COI.Price) desc ";
+                        " Order By CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.Price) desc ";
                 }
 
                 if (reportName == "SalesBySectionCategoryProductQtyAsc")
                 {
                     Query = " select case when CO.OrderType = 1 then 'DineIN' When CO.OrderType = 2 then 'TakeAway' When CO.OrderType = 2 then 'Delivery' else 'ALL' End As SectionName, " +
-                        " FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount " +
+                        " FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount, " +
+                        "  cast(SUM(COI.GrossAmount) * 100.0 / SUM(SUM(COI.GrossAmount)) OVER ()  as numeric(18,2)) AS ValuePercentage " +
                         " from CustomerOrder CO " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId " +
                         " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                    if (categoryId != -1)
+                    {
+                        Query += " And FMC.Id = " + categoryId;
+                    }
+                    if (foodMenuId != -1)
+                    {
+                        Query += " And FM.Id = " + foodMenuId;
+                    }
+
+                    Query += " group by CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName " +
                         " WITH ROLLUP  " +
-                        " Order By Sum(COI.FoodMenuQty) asc ";
+                        " Order By CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuQty) asc ";
                 }
 
                 if (reportName == "SalesBySectionCategoryProductQtyDesc")
                 {
                     Query = " select case when CO.OrderType = 1 then 'DineIN' When CO.OrderType = 2 then 'TakeAway' When CO.OrderType = 2 then 'Delivery' else 'ALL' End As SectionName, " +
-                        " FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount " +
+                        " FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount, " +
+                        "  cast(SUM(COI.GrossAmount) * 100.0 / SUM(SUM(COI.GrossAmount)) OVER ()  as numeric(18,2)) AS ValuePercentage " +
                         " from CustomerOrder CO " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId " +
                         " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                    if (categoryId != -1)
+                    {
+                        Query += " And FMC.Id = " + categoryId;
+                    }
+                    if (foodMenuId != -1)
+                    {
+                        Query += " And FM.Id = " + foodMenuId;
+                    }
+
+                    Query += " group by CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName " +
                         " WITH ROLLUP  " +
-                        " Order By Sum(COI.FoodMenuQty) desc ";
+                        " Order By CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuQty) desc ";
                 }
 
                 if (reportName == "SalesBySectionCategory")
                 {
                     Query = " select case when CO.OrderType = 1 then 'DineIN' When CO.OrderType = 2 then 'TakeAway' When CO.OrderType = 2 then 'Delivery' else 'ALL' End As SectionName, " +
-                        " FMC.FoodMenuCategoryName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount " +
+                        " FMC.FoodMenuCategoryName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount, " +
+                        "  cast(SUM(COI.GrossAmount) * 100.0 / SUM(SUM(COI.GrossAmount)) OVER ()  as numeric(18,2)) AS ValuePercentage " +
                         " from CustomerOrder CO " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId " +
                         " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by CO.OrderType,FMC.FoodMenuCategoryName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                    if (categoryId != -1)
+                    {
+                        Query += " And FMC.Id = " + categoryId;
+                    }
+                    if (foodMenuId != -1)
+                    {
+                        Query += " And FM.Id = " + foodMenuId;
+                    }
+
+                    Query += " group by CO.OrderType,FMC.FoodMenuCategoryName " +
                         " WITH ROLLUP  " +
                         " Order By CO.OrderType,FMC.FoodMenuCategoryName asc ";
                 }
@@ -200,29 +307,51 @@ namespace RocketPOS.ViewModels
                 if (reportName == "SalesBySectionProductAmountDesc")
                 {
                     Query = " select case when CO.OrderType = 1 then 'DineIN' When CO.OrderType = 2 then 'TakeAway' When CO.OrderType = 2 then 'Delivery' else 'ALL' End As SectionName, " +
-                        " FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount " +
+                        " FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount, " +
+                        "  cast(SUM(COI.GrossAmount) * 100.0 / SUM(SUM(COI.GrossAmount)) OVER ()  as numeric(18,2)) AS ValuePercentage " +
                         " from CustomerOrder CO " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId " +
                         " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by CO.OrderType,FM.FoodMenuName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                    if (categoryId != -1)
+                    {
+                        Query += " And FMC.Id = " + categoryId;
+                    }
+                    if (foodMenuId != -1)
+                    {
+                        Query += " And FM.Id = " + foodMenuId;
+                    }
+
+                    Query += " group by CO.OrderType,FM.FoodMenuName " +
                         " WITH ROLLUP  " +
-                        " Order By Sum(COI.Price) desc ";
+                        " Order By CO.OrderType,FM.FoodMenuName,Sum(COI.Price) desc ";
                 }
 
                 if (reportName == "SalesBySectionProductQtyDesc")
                 {
                     Query = " select case when CO.OrderType = 1 then 'DineIN' When CO.OrderType = 2 then 'TakeAway' When CO.OrderType = 2 then 'Delivery' else 'ALL' End As SectionName, " +
-                        " FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount " +
+                        " FM.FoodMenuName,Sum(COI.FoodMenuRate) As TotalUnitPrice,Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.Price) As TotalPrice,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount, " +
+                        "  cast(SUM(COI.GrossAmount) * 100.0 / SUM(SUM(COI.GrossAmount)) OVER ()  as numeric(18,2)) AS ValuePercentage " +
                         " from CustomerOrder CO " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId " +
                         " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by CO.OrderType,FM.FoodMenuName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                    if (categoryId != -1)
+                    {
+                        Query += " And FMC.Id = " + categoryId;
+                    }
+                    if (foodMenuId != -1)
+                    {
+                        Query += " And FM.Id = " + foodMenuId;
+                    }
+
+                    Query += " group by CO.OrderType,FM.FoodMenuName " +
                         " WITH ROLLUP  " +
-                        " Order By Sum(COI.FoodMenuQty) desc ";
+                        " Order By CO.OrderType,FM.FoodMenuName,Sum(COI.FoodMenuQty) desc ";
                 }
 
                 salesByCategoryProductModel = db.Query<SalesByCategoryProductModel>(Query).ToList();
@@ -247,7 +376,7 @@ namespace RocketPOS.ViewModels
                 return tableStatisticsModel;
             }
         }
-        public List<SalesSummaryModel> GetSalesSummaryByFoodCategoryReport(string fromDate, string toDate)
+        public List<SalesSummaryModel> GetSalesSummaryByFoodCategoryReport(string fromDate, string toDate,int categoryId, int foodMenuId)
         {
             List<SalesSummaryModel> salesSummaryModel = new List<SalesSummaryModel>();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
@@ -255,18 +384,28 @@ namespace RocketPOS.ViewModels
                 string Query = string.Empty;
 
                 Query = " select FMC.FoodMenuCategoryName, Sum(COI.FoodMenuQty) As TotalQty,Sum(COI.VatableAmount) As NetSalesAmount,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount, " +
-                        " SUM(COI.GrossAmount) * 100.0 / SUM(SUM(COI.GrossAmount)) OVER () AS ValuePercentage   " +
+                        "  cast(SUM(COI.GrossAmount) * 100.0 / SUM(SUM(COI.GrossAmount)) OVER ()  as numeric(18,2)) AS ValuePercentage   " +
                         " from CustomerOrder CO   " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId   Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId   " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by FMC.FoodMenuCategoryName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                if (categoryId != -1)
+                {
+                    Query += " And FMC.Id = " + categoryId;
+                }
+                if (foodMenuId != -1)
+                {
+                    Query += " And FM.Id = " + foodMenuId;
+                }
+
+                Query += " group by FMC.FoodMenuCategoryName " +
                         " Order By FMC.FoodMenuCategoryName asc ";
                 salesSummaryModel = db.Query<SalesSummaryModel>(Query).ToList();
                 return salesSummaryModel;
             }
         }
-        public List<SalesSummaryByFoodCategoryFoodMenuModel> GetSalesSummaryByFoodCategoryFoodMenuReport(string fromDate, string toDate)
+        public List<SalesSummaryByFoodCategoryFoodMenuModel> GetSalesSummaryByFoodCategoryFoodMenuReport(string fromDate, string toDate, int categoryId, int foodMenuId)
         {
             List<SalesSummaryByFoodCategoryFoodMenuModel> salesSummaryByFoodCategoryFoodMenuModel = new List<SalesSummaryByFoodCategoryFoodMenuModel>();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
@@ -278,14 +417,24 @@ namespace RocketPOS.ViewModels
                         " from CustomerOrder CO   " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId   Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId   " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by FMC.FoodMenuCategoryName,Fm.FoodMenuName " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                if (categoryId != -1)
+                {
+                    Query += " And FMC.Id = " + categoryId;
+                }
+                if (foodMenuId != -1)
+                {
+                    Query += " And FM.Id = " + foodMenuId;
+                }
+
+                Query += " group by FMC.FoodMenuCategoryName,Fm.FoodMenuName " +
                         " Order By FMC.FoodMenuCategoryName,Fm.FoodMenuName asc ";
                 salesSummaryByFoodCategoryFoodMenuModel = db.Query<SalesSummaryByFoodCategoryFoodMenuModel>(Query).ToList();
                 return salesSummaryByFoodCategoryFoodMenuModel;
             }
         }
-        public List<SalesSummaryBySectionModel> GetSalesSummaryBySectionReport(string fromDate, string toDate)
+        public List<SalesSummaryBySectionModel> GetSalesSummaryBySectionReport(string fromDate, string toDate, int categoryId, int foodMenuId)
         {
             List<SalesSummaryBySectionModel> salesSummaryBySectionModel = new List<SalesSummaryBySectionModel>();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
@@ -297,8 +446,18 @@ namespace RocketPOS.ViewModels
                         " from CustomerOrder CO   " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId   Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId   " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by CO.OrderType,convert(varchar, CO.Orderdate, 103) " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                if (categoryId != -1)
+                {
+                    Query += " And FMC.Id = " + categoryId;
+                }
+                if (foodMenuId != -1)
+                {
+                    Query += " And FM.Id = " + foodMenuId;
+                }
+
+                Query += " group by CO.OrderType,convert(varchar, CO.Orderdate, 103) " +
                         " Order By CO.OrderType,convert(varchar, CO.Orderdate, 103) ";
                 salesSummaryBySectionModel = db.Query<SalesSummaryBySectionModel>(Query).ToList();
                 return salesSummaryBySectionModel;
@@ -313,6 +472,7 @@ namespace RocketPOS.ViewModels
 
                 Query = " select CustomerName,CustomerPhone,Datetime,case when Credit = 0.00 then null else Credit end As Credit,case when Debit = 0.00 then null else Debit end As Debit, Balance from CustomerRedeem CR inner join customer C on C.Id = CR.CustomerId    " +
                         " Where CR.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CR.Datetime, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
                 if (!string.IsNullOrEmpty(customerPhone))
                 {
                     Query += " And CustomerPhone like '%" + customerPhone + "%' ";
@@ -328,22 +488,69 @@ namespace RocketPOS.ViewModels
             }
         }
 
-        public List<SalesSummaryByWeek> GetSalesSummaryByWeekReport(string fromDate, string toDate)
+        public List<SalesSummaryByWeek> GetSalesSummaryByWeekReport(string fromDate, string toDate, int categoryId, int foodMenuId)
         {
             List<SalesSummaryByWeek> salesSummaryByWeek = new List<SalesSummaryByWeek>();
             using (var db = new SqlConnection(appSettings.GetConnectionString()))
             {
                 string Query = string.Empty;
 
-                Query = " select DATEADD(DAY, -DATEDIFF(DAY, 0, Convert(Date, CO.Orderdate, 103)) % 7, Convert(Date, CO.Orderdate, 103)) AS [WeekStartDate], Count(CO.SalesInvoiceNumber) As TotalInvoice,Sum(COI.VatableAmount) As NetSalesAmount,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount  " +
+                Query = " select  convert(varchar(10),DATEADD(DAY, -DATEDIFF(DAY, 0, Convert(Date, CO.Orderdate, 103)) % 7, Convert(Date, CO.Orderdate, 103)),103) AS [WeekStartDate], Count(CO.SalesInvoiceNumber) As TotalInvoice,Sum(COI.VatableAmount) As NetSalesAmount,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount  " +
                         " from CustomerOrder CO   " +
                         " Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId " +
                         " Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId   Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId   " +
-                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) " +
-                        " group by DATEADD(DAY, -DATEDIFF(DAY, 0, Convert(Date, CO.Orderdate, 103)) % 7, Convert(Date, CO.Orderdate, 103)) " +
+                        " Where CO.OutletId = " + LoginDetail.OutletId + " And  Convert(Date, CO.Orderdate, 103)  between Convert(Date, '" + fromDate + "', 103)  and Convert(Date, '" + toDate + "' , 103) ";
+
+                if (categoryId != -1)
+                {
+                    Query += " And FMC.Id = " + categoryId;
+                }
+                if (foodMenuId != -1)
+                {
+                    Query += " And FM.Id = " + foodMenuId;
+                }
+
+                Query +=" group by DATEADD(DAY, -DATEDIFF(DAY, 0, Convert(Date, CO.Orderdate, 103)) % 7, Convert(Date, CO.Orderdate, 103)) " +
                         " Order By DATEADD(DAY, -DATEDIFF(DAY, 0, Convert(Date, CO.Orderdate, 103)) % 7, Convert(Date, CO.Orderdate, 103)) ";
                 salesSummaryByWeek = db.Query<SalesSummaryByWeek>(Query).ToList();
                 return salesSummaryByWeek;
+            }
+        }
+
+        public List<SalesSummaryByHours> GetSalesSummaryByHoursReport(string fromDate, string toDate)
+        {
+            List<SalesSummaryByHours> salesSummaryByHours = new List<SalesSummaryByHours>();
+            using (var db = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                string Query = string.Empty;
+
+                Query = " DECLARE @count INT " +
+                        " DECLARE @NumDays INT " +
+                        " DECLARE @StartDate DATETIME " +
+                        " DECLARE @EndDate DATETIME " +
+                        " DECLARE @CurrentDay DATE " +
+                        " DECLARE @tmp_Transactions TABLE  " +
+                        " ( OrderDate varchar(15),StartHour time,EndHour time,TotalInvoice INT,NetSalesAmount decimal,TotalDiscount decimal,TotalTax decimal,TotalGrossAmount decimal )   " +
+                        " SET @StartDate =  '" + fromDate + "'"+
+                        " SET @EndDate =  '" + toDate + "'" +
+                " SET @count = 0 " +
+                " SET @NumDays = DateDiff(Day, @StartDate, @EndDate) " +
+                " WHILE @count < @NumDays " +
+                " BEGIN " +
+                " SET @CurrentDay = DateAdd(Day, @count, @StartDate) " +
+                " INSERT INTO @tmp_Transactions (OrderDate,StartHour,EndHour, TotalInvoice,NetSalesAmount,TotalDiscount,TotalTax,TotalGrossAmount) " +
+                " SELECT  convert(varchar,@CurrentDay, 103),h.StartHour,h.EndHour,t.TotalInvoice,t.NetSalesAmount,t.TotalDiscount,t.TotalTax,t.TotalGrossAmount " +
+                " FROM    tvfGetDay24Hours(@CurrentDay) AS h " +
+                " OUTER APPLY ( SELECT Count(CO.SalesInvoiceNumber) As TotalInvoice,Sum(COI.VatableAmount) As NetSalesAmount,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount " +
+                " from CustomerOrder CO  Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId  Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId    " +
+                " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId WHERE CO.OutletId = 2 And CO.OrderDate BETWEEN h.StartHour AND h.EndHour " +
+                " ) AS t " +
+                " ORDER BY h.StartHour " +
+                " SET @count = @Count + 1 " +
+                " END " +
+                " SELECT * FROM @tmp_Transactions ";
+                salesSummaryByHours = db.Query<SalesSummaryByHours>(Query).ToList();
+                return salesSummaryByHours;
             }
         }
     }
