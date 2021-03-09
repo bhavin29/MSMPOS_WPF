@@ -105,11 +105,11 @@
                                         <DataGridTextColumn Header="Category" IsReadOnly="True"  Width="150" Binding="{Binding FoodCategory}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="Stock Qty" IsReadOnly="True"  Width="100" Binding="{Binding StockQty}" >
                                             <DataGridTextColumn.ElementStyle>
-                                            <Style TargetType="{x:Type TextBlock}">
-                                                <Setter Property="HorizontalAlignment" Value="Right" />
-                                            </Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="HorizontalAlignment" Value="Right" />
+                                                </Style>
                                             </DataGridTextColumn.ElementStyle>
-                                         </DataGridTextColumn>
+                                        </DataGridTextColumn>
                                         <DataGridTemplateColumn Width="50" IsReadOnly="True" Header="Picture" Visibility="Hidden">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
@@ -239,11 +239,115 @@
                         </ListBox>
                     </ScrollViewer>
                     <Button x:Name="btnModifyOrder"  Style="{StaticResource btnOrangeLng}"  Content="Alter Order" Click="btnModifyOrder_Click" />
-                    <!--<Button x:Name="btnPrintKot" Style="{StaticResource btnOrangeLng}" Content="Print KOT"  />-->
+                    <Button x:Name="btnKot" Style="{StaticResource btnOrangeLng}" Content="KOT"  Click="btnKot_Click" />
                     <Image Source="images/Mainwindow_Logo.bmp" Margin="1" Width="250" Height="61"  Stretch="UniformToFill" VerticalAlignment="Top" HorizontalAlignment="Left"></Image>
 
                 </StackPanel>
             </Grid>
+
+            <Popup Name="ppKOT" Placement="Center" AllowsTransparency="False" StaysOpen="False">
+                <Border BorderBrush="Black" BorderThickness="5,5,5,5">
+                    <Grid Width="800" Height="500" Background="#86A09E">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="600"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="150"/>
+                            <RowDefinition Height="350"/>
+                        </Grid.RowDefinitions>
+
+
+
+                        <Grid x:Name="topSection" Grid.Row="0" Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="150"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+
+                            <!--<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">
+                                <Button x:Name="btnPPKOTCancel" Margin="15,0,0,0" Width="70"  Height="40" FontSize="16" Background="#00265B" Foreground="White" Grid.Row="0" Grid.Column="0" Content="Close" Click="btnPPKOTCancel_Click"/>
+                            </StackPanel>-->
+
+                            <Label x:Name="lblCustomerOrderNo" Grid.Row="0" Grid.Column="0" Content="Customer Order# :"/>
+                            <Label x:Name="txtbCustomerOrderNo" Grid.Row="0" Grid.Column="1"></Label>
+
+                            <Label x:Name="lblOrderDate" Grid.Row="0" Grid.Column="2" Content="Order Date :"/>
+                            <Label x:Name="txtbOrderDate" Grid.Row="0" Grid.Column="3"></Label>
+
+                            <Label x:Name="lblCustomerName" Grid.Row="1" Grid.Column="0" Content="CustomerName :"/>
+                            <Label x:Name="txtbCustomerName" Grid.Row="1" Grid.Column="1">
+                            </Label>
+
+                            <Label x:Name="lblWaiterName" Grid.Row="1" Grid.Column="2" Content="Waiter Name :"/>
+                            <Label x:Name="txtbWaiterName" Grid.Row="1" Grid.Column="3"></Label>
+
+                            <Label x:Name="lblTableName" Grid.Row="2" Grid.Column="0" Content="Table Name :"/>
+                            <Label x:Name="txtbTableName" Grid.Row="2" Grid.Column="1"></Label>
+
+                            <Label x:Name="lblOrderType" Grid.Row="2" Grid.Column="2" Content="Order Type :"/>
+                            <Label x:Name="txtbOrderType" Grid.Row="2" Grid.Column="3"></Label>
+
+                        </Grid>
+
+                        <Grid x:Name="leftSection" Grid.Row="1" Grid.Column="0">
+                           
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Width="450" Height="413" Background="White" >
+                                <ListBox x:Name="lbKOTOrderList" HorizontalAlignment="Left" Width="250" SelectionChanged="lbKOTOrderList_SelectionChanged"  >
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,5,0,5" >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" >
+                                                    <TextBlock Text="{Binding KOTNumber}" FontSize="16"   Foreground="Black"/>
+                                                    <TextBlock Text=" - " FontSize="16"   Foreground="Black"/>
+                                                    <TextBlock Text="{Binding KOTDateTime}" FontSize="16"  Foreground="Black"/>
+                                                    <TextBlock Text=" : " FontSize="16"  Foreground="Black"/>
+                                                    <TextBlock Text="{Binding KOTStatus}" FontSize="16"   Foreground="Black"/>
+                                                    <TextBlock Text=" " FontSize="16"   Foreground="Black"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </ScrollViewer>
+                        </Grid>
+
+                        <Grid x:Name="rightSection" Grid.Row="1" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Button x:Name="btnPrintKOT" Margin="45,0,0,0" Style="{StaticResource btnOrange}" Width="150" Height="30" Content="Print KOT" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Click="btnPrintKOT_Click"/>
+                            <DataGrid x:Name="dgKOTItem" RowHeight="30" Width="500" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="0">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="KOTNumber" IsReadOnly="True"  Binding="{Binding KOTNumber}" Width="50"/>
+                                    <DataGridTextColumn Header="KOTDateTime" IsReadOnly="True"  Binding="{Binding KOTDateTime}" Width="50"/>
+                                    <DataGridTextColumn Header="KOTItemStatus" IsReadOnly="True"  Binding="{Binding KOTItemStatus}" Width="50"/>
+                                    <DataGridTextColumn Header="FoodMenuName" IsReadOnly="True"  Binding="{Binding FoodMenuName}" Width="50"/>
+                                    <DataGridTextColumn Header="FoodMenuQty" IsReadOnly="True"  Binding="{Binding FoodMenuQty}" Width="50"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+
+                    </Grid>
+                </Border>
+            </Popup>
 
             <!--center section-->
             <Grid Grid.Column="1" >
@@ -596,7 +700,7 @@
                             <RowDefinition Height="0"/>
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
-  
+
                         <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock x:Name="txtbTotalItem" Style="{StaticResource txtBlock}"  Text=" No of Items :  "  />
@@ -635,7 +739,7 @@
 
                             </StackPanel>
                         </Grid>
-                        
+
                         <Grid Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
                                 <TextBlock x:Name="txtVAT" Style="{StaticResource txtBlock}" Text="VAT : "   />
@@ -676,11 +780,11 @@
                         </Grid>
 
                         <Grid Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left">
-                        
+
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 0">
                                 <Button x:Name="btnDicountPopUp" Style="{StaticResource btnOrangeLng}"  Content="Dist."  Foreground="#86A09E" Background="#86A09E" Width="25" Height="25" Click="btnDicountPopUp_Click"/>
                             </StackPanel>
-                            
+
                             <Popup x:Name="ppPassword" Placement="Center">
                                 <Border BorderBrush="Black" BorderThickness="5,5,5,5">
                                     <Grid Width="250" Height="250" Background="#86A09E">
@@ -772,7 +876,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="btnServiceDeliveryPopUp" Content="Charges"  Style="{StaticResource btnOrangeLng}" Width="70" Height="30" Click="btnServiceDeliveryPopUp_Click"/>
                             </StackPanel>
-                            
+
                             <Popup Name="ppDeliveryServicePopUp" Placement="Center" AllowsTransparency="False" StaysOpen="False">
                                 <Border BorderBrush="Black" BorderThickness="5,5,5,5">
                                     <Grid Width="300" Height="500" Background="#86A09E">
@@ -823,7 +927,7 @@
                                 <TextBlock x:Name="txtBalancePoints" Style="{StaticResource txtBlock}"  Text="0.00" HorizontalAlignment="Right" />
                             </StackPanel>
                         </Grid>
-                        
+
                         <Grid Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Grid.ColumnSpan="2">
 
                             <!--<Button x:Name="btnKitchenStatus" Visibility="Hidden"  Style="{StaticResource btnOrangeLng}" Content="Kitchen Status" Width="150" Height="25"  />-->
