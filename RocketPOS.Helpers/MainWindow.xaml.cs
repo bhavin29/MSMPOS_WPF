@@ -1395,21 +1395,16 @@ namespace RocketPOS.Helpers
         {
             try
             {
-                ReportMenu reportMenu = new ReportMenu();
-                reportMenu.ShowDialog();
+                //ReportViewer reoprt = new ReportViewer();
+                //reoprt.ShowDialog();
+                Calculator winCalCulator = new Calculator();
 
+                winCalCulator.Width = 237;
+                winCalCulator.Height = 310;
+                winCalCulator.Top = 100;
+                winCalCulator.Left = 500;
 
-
-                //  ReportViewer reoprt = new ReportViewer();
-                //   reoprt.ShowDialog();
-                //Calculator winCalCulator = new Calculator();
-
-                //winCalCulator.Width = 237;
-                //winCalCulator.Height = 310;
-                //winCalCulator.Top = 100;
-                //winCalCulator.Left = 500;
-
-                //winCalCulator.ShowDialog();
+                winCalCulator.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -1421,8 +1416,11 @@ namespace RocketPOS.Helpers
         {
             try
             {
-                OutletRegisterViewModel outletRegisterViewModel = new OutletRegisterViewModel();
-                OutletRegisterModel outletRegisterModel = new OutletRegisterModel();
+                ReportMenu reportMenu = new ReportMenu();
+                reportMenu.ShowDialog();
+
+                //OutletRegisterViewModel outletRegisterViewModel = new OutletRegisterViewModel();
+                //OutletRegisterModel outletRegisterModel = new OutletRegisterModel();
 
                 //Open regiter
                 //outletRegisterModel.USerID = LoginDetail.UserId;
@@ -1431,29 +1429,29 @@ namespace RocketPOS.Helpers
 
                 // outletRegisterViewModel.InsertOutletRegister(outletRegisterModel);
 
-                if (lbCustomerOrderList.Items.Count > 0)
-                {
-                    var messageBoxResultCount = WpfMessageBox.Show(StatusMessages.AppTitle, "Clear the open order before closing register.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
-                    return;
-                }
+                //if (lbCustomerOrderList.Items.Count > 0)
+                //{
+                //    var messageBoxResultCount = WpfMessageBox.Show(StatusMessages.AppTitle, "Clear the open order before closing register.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
+                //    return;
+                //}
 
-                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Are you sure to close register? ", MessageBoxButton.YesNo, EnumUtility.MessageBoxImage.Warning);
+                //var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Are you sure to close register? ", MessageBoxButton.YesNo, EnumUtility.MessageBoxImage.Warning);
 
-                if (messageBoxResult == MessageBoxResult.Yes)
-                {
-                    outletRegisterViewModel.UpdateOutletRegister(outletRegisterModel);
-                    WpfMessageBox.Show(StatusMessages.AppTitle, "Register closed successfully");
+                //if (messageBoxResult == MessageBoxResult.Yes)
+                //{
+                //    outletRegisterViewModel.UpdateOutletRegister(outletRegisterModel);
+                //    WpfMessageBox.Show(StatusMessages.AppTitle, "Register closed successfully");
 
-                    OutletRegisterReport outletRegisterReport = new OutletRegisterReport();
+                //    OutletRegisterReport outletRegisterReport = new OutletRegisterReport();
 
-                    Login frmlogin = new Login();
+                //    Login frmlogin = new Login();
 
-                    frmlogin.Show();
+                //    frmlogin.Show();
 
-                    outletRegisterReport.Show();
+                //    outletRegisterReport.Show();
 
-                    this.Close();
-                }
+                //    this.Close();
+                //}
             }
             catch (Exception ex)
             {

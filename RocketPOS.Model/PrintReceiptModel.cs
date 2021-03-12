@@ -35,6 +35,8 @@ namespace RocketPOS.Model
         public float FoodMenuRate { get; set; }
         public float Price { get; set; }
         public string FoodVat { get; set; }
+
+        public string Unitname { get; set; }
     }
     public class PrintKOTModel
     {
@@ -76,4 +78,35 @@ namespace RocketPOS.Model
         public float Price { get; set; }
         public string FoodVat { get; set; }
     }
+
+    public class PrintReceiptA4Model
+    {
+        public int CustomerOrderId { get; set; }
+        public int BillId { get; set; }
+        public DateTime BillDateTime { get; set; }
+        public string OutletName { get; set; }
+        public string SalesInvoiceNumber { get; set; }
+        public string Username { get; set; }
+        public string CustomerName { get; set; }
+        public float GrossAmount { get; set; }
+        public float TaxAmount { get; set; }
+        public float VatableAmount { get; set; }
+        public float NonVatableAmount { get; set; }
+        public float Discount { get; set; }
+        public float ServiceCharge { get; set; }
+        public float TotalAmount { get; set; }
+        public string PaymentMethodName { get; set; }
+        public float BillAmount { get; set; }
+        public float RewardAmount { get; set; }
+        public string ClientName { get; set; }
+        public string ClientAddress1 { get; set; }
+        public string ClientAddress2 { get; set; }
+        public string ClientEmail { get; set; }
+        public string ClientPhone { get; set; }
+        public string CustomerEmail { get; set; }
+        public string CustomerAddress1 { get; set; }
+        public string CustomerAddress2 { get; set; }
+        public string CustomerPhone { get; set; }
+    }
+
 }

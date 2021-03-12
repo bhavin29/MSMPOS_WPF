@@ -10,5 +10,6 @@ namespace RocketPOS.Core.Constants
         public static string ReportTitle = "";
         public static string ReportFromDate = "";
         public static string ReportToDate = "";
+        public static int BillId = 0;
     }
 }

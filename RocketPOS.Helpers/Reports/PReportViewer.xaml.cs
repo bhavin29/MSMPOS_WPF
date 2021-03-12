@@ -141,7 +141,8 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =5, Cname="Non Vatable"},
                     new DatatableColumnName{ id =6, Cname="Tax"},
                     new DatatableColumnName{ id =7, Cname="Total"},
-                    new DatatableColumnName{ id =8, Cname="Catering Levy"}
+                    new DatatableColumnName{ id =8, Cname="Catering Levy"},
+                    new DatatableColumnName{ id =9, Cname="Value %"}
                 };
                 cessCategoryReportModel = customerOrderViewModel.GetCessCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate,categoryId,foodMenuId);
 
@@ -441,6 +442,7 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =7, Cname="Tax %"},
                     new DatatableColumnName{ id =8, Cname="Tax"},
                     new DatatableColumnName{ id =9, Cname="Total"},
+
                     new DatatableColumnName{ id =10, Cname="Cash"},
                     new DatatableColumnName{ id =11, Cname="Card"}
                 };

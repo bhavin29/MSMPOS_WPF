@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Interop;
+using System.Windows.Media;
 using Microsoft.Win32;
 using RocketPOS.Core.Configuration;
 using RocketPOS.Core.Constants;
@@ -109,7 +113,7 @@ namespace RocketPOS.Helpers.Reports
 
                 customerOrderHistoryModel = (List<CustomerOrderHistoryModel>)dgOrderList.ItemsSource;
 
-  
+
                 string fileName = "SalesReport_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss");
                 var saveFileDialog = new SaveFileDialog
                 {
@@ -215,16 +219,177 @@ namespace RocketPOS.Helpers.Reports
             try
             {
                 var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
-                if (string.IsNullOrEmpty(order.SalesInvoiceNumber))
+                ReportDetail.BillId = order.Id;
+                this.Height = 2;
+                ReceiptA4Print form = new ReceiptA4Print();
+             //   form.Owner = this;
+           //     form.ShowDialog();
+               this.Height = 800;
+               return;
+  
+               // var order = (CustomerOrderHistoryModel)dgOrderList.SelectedItem;
+                //if (string.IsNullOrEmpty(order.SalesInvoiceNumber))
+                //{
+                //    var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerOrderHistory, StatusMessages.ReceiptNotReady, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
+                //    return;
+                //}
+
+                FlowDocument flowDocument;
+               // flowDocument = PrintA4(order.Id);
+
+                this.Height = 200;
+                PrintDialog printDialog = new PrintDialog();
+                if (printDialog.ShowDialog() == true)
                 {
-                    var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerOrderHistory, StatusMessages.ReceiptNotReady, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Warning);
-                    return;
+
+                    flowDocument.PageHeight = 1200;// printDialog.PrintableAreaHeight;
+                    flowDocument.PageWidth = 800;// printDialog.PrintableAreaWidth;
+
+                    IDocumentPaginatorSource idocument = flowDocument as IDocumentPaginatorSource;
+
+                    printDialog.PrintDocument(idocument.DocumentPaginator, "Printing ...");
                 }
+                this.Height = 800;
+
             }
             catch (Exception ex)
             {
                 SystemError.Register(ex);
             }
+        }
+
+
+        private FlowDocument PrintA4(int billId)
+        {
+            //Getting Receipt data 
+            List<PrintReceiptA4Model> printReceiptModel = new List<PrintReceiptA4Model>();
+            List<PrintReceiptItemModel> printReceiptItemModel = new List<PrintReceiptItemModel>();
+
+            //Parameter pass global Customer Order Id
+            PrintReceiptViewModel printReceiptViewModel = new PrintReceiptViewModel();
+
+            printReceiptModel = printReceiptViewModel.GetPrintReceiptA4ByBillId(billId);
+            printReceiptItemModel = printReceiptViewModel.GetPrintReceiptItemA4ByBillId(billId);
+
+            var document = new FlowDocument();
+            document.PagePadding = new Thickness(20, 20, 20, 20);
+            document.PageWidth = 210;
+            document.PageHeight = 297;
+            document.ColumnWidth = 999999;
+            var section = new Section();
+            section.LineHeight = Double.NaN;
+
+            var pReportTitle = new Paragraph();
+            pReportTitle.Inlines.Add(new Run(ReportDetail.ReportTitle));
+            pReportTitle.LineHeight = Double.NaN;
+            pReportTitle.FontSize = 24;
+            document.Blocks.Add(pReportTitle);
+
+            var pHeader = new Paragraph();
+            pHeader.Inlines.Add(new Run(LoginDetail.ClientName + "\n" + LoginDetail.Address1 + "\n" + LoginDetail.Address2));
+            pHeader.LineHeight = Double.NaN;
+            document.Blocks.Add(pHeader);
+
+            document.Blocks.Add(new BlockUIContainer(new Separator()));
+            var pParameter = new Paragraph();
+            pParameter.Inlines.Add(new Run("From Date: " + ReportDetail.ReportFromDate + "         fsdfsfsfsfsfsdfsdfsdsdf sfsd sdf sdfsdfsdfs 111sdfs fdsdfsdfsdf222s3d sdf sdfsdfsd       33           To Date: " + ReportDetail.ReportToDate));
+            pParameter.LineHeight = Double.NaN;
+            document.Blocks.Add(pParameter);
+
+            document.ColumnGap = 0;
+
+            //Table A
+            var tableA = new Table();
+            tableA.CellSpacing = 0;
+            tableA.BorderThickness = new Thickness(1);
+            tableA.BorderBrush = Brushes.Black;
+                       var supplierColumn = new TableColumn();
+            supplierColumn.Width = new GridLength(375);
+            var invoiceNoColumn = new TableColumn();
+            invoiceNoColumn.Width = new GridLength(188);
+            var invoiceDate = new TableColumn();
+            invoiceDate.Width = new GridLength(188);
+
+  
+            tableA.Columns.Add(supplierColumn);
+            tableA.Columns.Add(invoiceNoColumn);
+            tableA.Columns.Add(invoiceDate);
+
+            var rowGroupA = new TableRowGroup();
+            var itemRowA = new TableRow();
+            var tcell = new TableCell();
+            var para = new Paragraph();
+            tcell.BorderThickness = new Thickness(2);
+
+             para = new Paragraph();
+            para.Inlines.Add(new Run(""));
+            tcell.Blocks.Add(para);
+
+
+            //Assuming your data item has Quantity, Price and Text
+            itemRowA.Cells.Add(new TableCell(new Paragraph(new Run("FoodMenuQty"))));
+            itemRowA.Cells.Add(new TableCell(new Paragraph(new Run("Rate"))));
+            itemRowA.Cells.Add(new TableCell(new Paragraph(new Run("Total"))));
+
+           // TableCell a =new
+
+            //rowGroupA.Rows.Add(itemRowA);
+          //  tableA.RowGroups.Add(rowGroupA);
+          //  document.Blocks.Add(tableA);
+            //End Table A
+
+            //            var table = new Table();
+            //            table.CellSpacing = 0;
+
+            //            var quantityColumn = new TableColumn();
+            //            quantityColumn.Width = new GridLength(80);
+            //            var priceColumn = new TableColumn();
+            //            priceColumn.Width = new GridLength(80);
+            //            var textColumn = new TableColumn();
+            //            textColumn.Width = new GridLength(597);
+
+            //            table.Columns.Add(quantityColumn);
+            //            table.Columns.Add(priceColumn);
+            //            table.Columns.Add(textColumn);
+
+            //             var rowGroup = new TableRowGroup();
+            //            var itemRow1 = new TableRow();
+
+            //            //Assuming your data item has Quantity, Price and Text
+            //            itemRow1.Cells.Add(new TableCell(new Paragraph(new Run("FoodMenuQty"))));
+            //            itemRow1.Cells.Add(new TableCell(new Paragraph(new Run("Rate"))));
+            //            itemRow1.Cells.Add(new TableCell(new Paragraph(new Run("Total"))));
+
+            //            rowGroup.Rows.Add(itemRow1);
+            ////            document.Blocks.Add(table);
+
+            //            foreach (var item in printReceiptItemModel)
+            //            {
+            //                //Add your data
+            //                var itemRow = new TableRow();
+
+            //                //Assuming your data item has Quantity, Price and Text
+            //                itemRow.Cells.Add(new TableCell(new Paragraph(new Run(item.FoodMenuQty.ToString()))));
+            //                itemRow.Cells.Add(new TableCell(new Paragraph(new Run(item.FoodMenuRate.ToString()))));
+            //                itemRow.Cells.Add(new TableCell(new Paragraph(new Run(item.Price.ToString()))));
+
+            //                rowGroup.Rows.Add(itemRow);
+            //                //Etc.
+            //            }
+
+            //            table.RowGroups.Add(rowGroup);
+
+            //            table.BorderThickness = new Thickness(1);
+            //            table.BorderBrush = Brushes.Black;
+
+
+            //            document.Blocks.Add(table);
+
+
+            //FlowDocument flowDocument = new FlowDocument();
+
+
+            return document;
         }
     }
 }

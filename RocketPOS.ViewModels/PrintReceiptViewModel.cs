@@ -109,5 +109,48 @@ namespace RocketPOS.ViewModels
             }
             return result;
         }
+        public List<PrintReceiptA4Model> GetPrintReceiptA4ByBillId(int billId)
+        {
+            List<PrintReceiptA4Model> printReceiptA4Models = new List<PrintReceiptA4Model>();
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                connection.Open();
+                var query = "SELECT CL.ClientName,CL.Address1 as ClientAddress1,CL.Address2 as ClientAddress2,CL.Email as ClientEmail,CL.Phone as ClientPhone, " + 
+                            " CustomerName,CustomerEmail,CustomerAddress1,CustomerAddress2,CustomerPhone, C.Id as CustomerOrderId,CO.SalesInvoiceNumber," +
+                            " ISNULL(CO.RewardPoints,0) as RewardAmount,CO.Orderdate as BillDateTime,O.OutletName,U.Username,CO.GrossAmount, " +
+                            " CO.TaxAmount,CO.VatableAmount," +
+                            " CO.NonVatableAmount, CO.DiscountAmount,CO.TotalPayable as TotalAmount " +
+                            " FROM CustomerOrder CO " +
+                            " INNER JOIN Outlet O ON O.Id = CO.OutletId " +
+                            " INNER JOIN[User] U ON U.ID = CO.UserIdInserted " +
+                            " INNER JOIN Customer C ON C.Id = CO.CustomerId " +
+                            " cross join Client CL " +
+                            "   WHERE CO.Id =  " + billId.ToString();
+
+                printReceiptA4Models = connection.Query<PrintReceiptA4Model>(query).ToList();
+
+            }
+
+            return printReceiptA4Models;
+        }
+
+        public List<PrintReceiptItemModel> GetPrintReceiptItemA4ByBillId(int billId)
+        {
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                connection.Open();
+
+                var query = " SELECT FM.FoodMenuName,COI.FoodMenuQty,COI.FoodMenuRate,COI.Price,  U.UnitShortname as Unitname, " +
+                            " (select case when foodmenutaxtype = 1 then 'V' when foodmenutaxtype = 2 then 'E' when foodmenutaxtype = 3 then 'Z' ELSE '' end) AS FOODVAT " +
+                            " FROM CustomerOrderItem  COI " +
+                            " INNER JOIN FoodMenu FM ON FM.ID = COI.FoodMenuId " +
+                            "  left join Units U on U.Id = FM.Unitsid " +
+                            " WHERE CustomerOrderId = " + billId.ToString();
+
+                printReceiptItemModel = connection.Query<PrintReceiptItemModel>(query).ToList();
+            }
+
+            return printReceiptItemModel;
+        }
     }
 }
