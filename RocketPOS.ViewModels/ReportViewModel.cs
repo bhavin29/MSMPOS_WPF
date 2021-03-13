@@ -17,6 +17,27 @@ namespace RocketPOS.ViewModels
 
         List<DetailedDailyReportModel> detailedDailyReportModels = new List<DetailedDailyReportModel>();
         List<ProductWiseSalesReportModel> productWiseSalesReportModels = new List<ProductWiseSalesReportModel>();
+
+        public List<ReportDropDownModel> GetDropdown(string type)
+        {
+            List<ReportDropDownModel> reportDropDownModels = new List<ReportDropDownModel>();
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "";
+                if (type == "FoodmenuCategory")
+                {
+                    query = " Select -1 as Id,' All' As Name union  SELECT Id,foodmenucategoryName as Name FROM foodmenucategory Where IsActive=1 and ISDeleted=0 Order By Name asc";
+                }
+                else if (type == "Foodmenu")
+                {
+                    query = "Select -1 as Id,' All' As Name union  SELECT Id,foodmenuName as Name FROM foodmenu Where IsActive=1 and ISDeleted=0 Order By Name asc";
+                }
+
+                reportDropDownModels = connection.Query<ReportDropDownModel>(query).ToList();
+            }
+            return reportDropDownModels;
+        }
+
         public List<DetailedDailyReportModel> GetDetailedDailyByDate(string Fromdate, string Todate)
         {
             using (var connection = new SqlConnection(appSettings.GetConnectionString()))

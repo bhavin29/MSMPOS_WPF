@@ -41,7 +41,7 @@ namespace RocketPOS.Model
     }
     public class CessCategorySummaryModel
     {
-        public string BillDate { get; set; }
+     //   public string BillDate { get; set; }
         public string FoodmenucategoryName { get; set; }
         public decimal NetSales { get; set; }
         public decimal Vatable { get; set; }

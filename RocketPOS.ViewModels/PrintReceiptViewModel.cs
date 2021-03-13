@@ -140,7 +140,7 @@ namespace RocketPOS.ViewModels
             {
                 connection.Open();
 
-                var query = " SELECT FM.FoodMenuName,COI.FoodMenuQty,COI.FoodMenuRate,COI.Price,  U.UnitShortname as Unitname, " +
+                var query = " SELECT ROW_NUMBER() over ( Order by COI.Id) as SrNumber, FM.FoodMenuName,COI.FoodMenuQty,COI.FoodMenuRate,COI.Price,  U.UnitShortname as Unitname, " +
                             " (select case when foodmenutaxtype = 1 then 'V' when foodmenutaxtype = 2 then 'E' when foodmenutaxtype = 3 then 'Z' ELSE '' end) AS FOODVAT " +
                             " FROM CustomerOrderItem  COI " +
                             " INNER JOIN FoodMenu FM ON FM.ID = COI.FoodMenuId " +

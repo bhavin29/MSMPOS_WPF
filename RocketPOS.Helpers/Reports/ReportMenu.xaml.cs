@@ -42,7 +42,7 @@ namespace RocketPOS.Helpers.Reports
             root.Items.Add(new ReportItem() { Title = "Sales Summary by Section" });
             root.Items.Add(new ReportItem() { Title = "Customer Reward" });
             root.Items.Add(new ReportItem() { Title = "Sales Summary by Hour" });
-            root.Items.Add(new ReportItem() { Title = "Sales Summary Five Weeks" });
+            root.Items.Add(new ReportItem() { Title = "Sales Summary by Weeks" });
 
             //root.Items.Add(new ReportItem() { Title = "Sales by Category Department Product qty desc" });
             //root.Items.Add(new ReportItem() { Title = "Detailed Sales Summary Report" });
@@ -205,7 +205,7 @@ namespace RocketPOS.Helpers.Reports
             {
                 ReportDetail.ReportName = "SalesSummarybyHour";
             }
-            else if (ReportName == "Sales Summary Five Weeks")
+            else if (ReportName == "Sales Summary by Weeks")
             {
                 ReportDetail.ReportName = "SalesSummaryFiveWeeks";
             }

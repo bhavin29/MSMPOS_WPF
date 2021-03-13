@@ -17,6 +17,7 @@ using LiveCharts;
 using System.Windows.Data;
 using Separator = LiveCharts.Wpf.Separator;
 using System.Runtime.Serialization;
+using System.Windows.Media.Imaging;
 
 namespace RocketPOS.Helpers.Reports
 {
@@ -52,7 +53,6 @@ namespace RocketPOS.Helpers.Reports
         string reportTitle = "";
         string reportFooter = "*****END OF REPORT*****";
         string _reportName = "";
-        int categoryId = -1, foodMenuId = -1;
         public PReportViewer()
         {
             InitializeComponent();
@@ -144,7 +144,7 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =8, Cname="Catering Levy"},
                     new DatatableColumnName{ id =9, Cname="Value %"}
                 };
-                cessCategoryReportModel = customerOrderViewModel.GetCessCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate,categoryId,foodMenuId);
+                cessCategoryReportModel = customerOrderViewModel.GetCessCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate,ReportDetail.CategoryId,ReportDetail.ProductId);
 
                 dtDataResult = commonMethods.ConvertToDataTable(cessCategoryReportModel.CessSummaryList);
             }
@@ -164,7 +164,7 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =10, Cname="Cash"},
                     new DatatableColumnName{ id =11, Cname="Card"}
                 };
-                detailSaleSummaryModels = reportViewModel.GetDetailSaleSummaryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, categoryId, foodMenuId);
+                detailSaleSummaryModels = reportViewModel.GetDetailSaleSummaryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, ReportDetail.CategoryId, ReportDetail.ProductId);
 
                 dtDataResult = commonMethods.ConvertToDataTable(detailSaleSummaryModels);
             }
@@ -184,14 +184,31 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =10, Cname="Gross"},
                     new DatatableColumnName{ id =11, Cname="Category"}
                 };
-                masterSalesReportModels = reportViewModel.GetMasterSaleReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, categoryId, foodMenuId);
+                masterSalesReportModels = reportViewModel.GetMasterSaleReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, ReportDetail.CategoryId, ReportDetail.ProductId);
 
                 dtDataResult = commonMethods.ConvertToDataTable(masterSalesReportModels);
             }
-            else if (_reportName == "SalesByCategoryProductQtyDesc" || _reportName == "SalesByCategoryProductQtyAsc" || _reportName == "SalesByCategoryProductAmountDesc" || _reportName == "SalesBySectionCategoryProductAmountAsc"
-                        || _reportName == "SalesBySectionCategoryProductAmountDesc" || _reportName == "SalesBySectionCategoryProductQtyAsc" || _reportName == "SalesBySectionCategoryProductQtyDesc"
-                        || _reportName == "SalesBySectionCategory" || _reportName == "SalesBySectionProductAmountDesc" || _reportName == "SalesBySectionProductQtyDesc"
-                        )
+            else if (_reportName == "SalesByCategoryProductQtyDesc" || _reportName == "SalesByCategoryProductQtyAsc" || _reportName == "SalesByCategoryProductAmountDesc" )
+            {  
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                  //  new DatatableColumnName{ id =2, Cname="Section", DataType="String"},
+                    new DatatableColumnName{ id =2, Cname="Category", DataType="String",Width=120},
+                    new DatatableColumnName{ id =2, Cname="Product", DataType="String",Width=120},
+                    new DatatableColumnName{ id =4, Cname="Rate"},
+                    new DatatableColumnName{ id =5, Cname="Qty"},
+                    new DatatableColumnName{ id =6, Cname="Amount"},
+                    new DatatableColumnName{ id =7, Cname="Disc."},
+                    new DatatableColumnName{ id =8, Cname="Tax"},
+                    new DatatableColumnName{ id =9, Cname="Total"},
+                    new DatatableColumnName{ id =9, Cname="Value%"}
+                };
+                salesByCategoryProductModel = reportViewModel.GetSaleByCategorySectionReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, _reportName, ReportDetail.CategoryId, ReportDetail.ProductId);
+
+                dtDataResult = commonMethods.ConvertToDataTable(salesByCategoryProductModel);
+                dtDataResult.Columns.RemoveAt(0);
+            }
+            else if (_reportName == "SalesBySectionCategoryProductAmountAsc" || _reportName == "SalesBySectionCategoryProductAmountDesc" || _reportName == "SalesBySectionCategoryProductQtyAsc" || _reportName == "SalesBySectionCategoryProductQtyDesc"   )
             {
                 datatableColumnNames = new List<DatatableColumnName>
                 {
@@ -206,9 +223,49 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =9, Cname="Total"},
                     new DatatableColumnName{ id =9, Cname="Value%"}
                 };
-                salesByCategoryProductModel = reportViewModel.GetSaleByCategorySectionReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, _reportName, categoryId, foodMenuId);
+                salesByCategoryProductModel = reportViewModel.GetSaleByCategorySectionReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, _reportName, ReportDetail.CategoryId, ReportDetail.ProductId);
 
                 dtDataResult = commonMethods.ConvertToDataTable(salesByCategoryProductModel);
+            }
+            else if (_reportName == "SalesBySectionProductAmountDesc" || _reportName == "SalesBySectionProductQtyDesc")
+            {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =2, Cname="Section", DataType="String"},
+                  //  new DatatableColumnName{ id =2, Cname="Category", DataType="String",Width=120},
+                    new DatatableColumnName{ id =2, Cname="Product", DataType="String",Width=120},
+                    new DatatableColumnName{ id =4, Cname="Rate"},
+                    new DatatableColumnName{ id =5, Cname="Qty"},
+                    new DatatableColumnName{ id =6, Cname="Amount"},
+                    new DatatableColumnName{ id =7, Cname="Disc."},
+                    new DatatableColumnName{ id =8, Cname="Tax"},
+                    new DatatableColumnName{ id =9, Cname="Total"},
+                    new DatatableColumnName{ id =9, Cname="Value%"}
+                };
+                salesByCategoryProductModel = reportViewModel.GetSaleByCategorySectionReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, _reportName, ReportDetail.CategoryId, ReportDetail.ProductId);
+
+                dtDataResult = commonMethods.ConvertToDataTable(salesByCategoryProductModel);
+                dtDataResult.Columns.RemoveAt(1);
+            }
+            else if (   _reportName == "SalesBySectionCategory" )
+            {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =2, Cname="Section", DataType="String"},
+                    new DatatableColumnName{ id =2, Cname="Category", DataType="String",Width=120},
+                  //  new DatatableColumnName{ id =2, Cname="Product", DataType="String",Width=120},
+                    new DatatableColumnName{ id =4, Cname="Rate"},
+                    new DatatableColumnName{ id =5, Cname="Qty"},
+                    new DatatableColumnName{ id =6, Cname="Amount"},
+                    new DatatableColumnName{ id =7, Cname="Disc."},
+                    new DatatableColumnName{ id =8, Cname="Tax"},
+                    new DatatableColumnName{ id =9, Cname="Total"},
+                    new DatatableColumnName{ id =9, Cname="Value%"}
+                };
+                salesByCategoryProductModel = reportViewModel.GetSaleByCategorySectionReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, _reportName, ReportDetail.CategoryId, ReportDetail.ProductId);
+
+                dtDataResult = commonMethods.ConvertToDataTable(salesByCategoryProductModel);
+                dtDataResult.Columns.RemoveAt(2);
             }
             else if (_reportName == "TableStatistics")
             {
@@ -238,7 +295,7 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =6, Cname="Total"},
                     new DatatableColumnName{ id =7, Cname="Value %"},
                 };
-                salesSummaryModel = reportViewModel.GetSalesSummaryByFoodCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, categoryId, foodMenuId);
+                salesSummaryModel = reportViewModel.GetSalesSummaryByFoodCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, ReportDetail.CategoryId, ReportDetail.ProductId);
 
                 dtDataResult = commonMethods.ConvertToDataTable(salesSummaryModel);
             }
@@ -255,7 +312,7 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =7, Cname="Total"},
                     new DatatableColumnName{ id =8, Cname="Value %"}
                 };
-                salesSummaryByFoodCategoryFoodMenuModel = reportViewModel.GetSalesSummaryByFoodCategoryFoodMenuReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, categoryId, foodMenuId);
+                salesSummaryByFoodCategoryFoodMenuModel = reportViewModel.GetSalesSummaryByFoodCategoryFoodMenuReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, ReportDetail.CategoryId, ReportDetail.ProductId);
 
                 dtDataResult = commonMethods.ConvertToDataTable(salesSummaryByFoodCategoryFoodMenuModel);
             }
@@ -271,7 +328,7 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =6, Cname="Tax"},
                     new DatatableColumnName{ id =7, Cname="Total"}
                 };
-                salesSummaryBySectionModel = reportViewModel.GetSalesSummaryBySectionReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, categoryId, foodMenuId);
+                salesSummaryBySectionModel = reportViewModel.GetSalesSummaryBySectionReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, ReportDetail.CategoryId, ReportDetail.ProductId);
 
                 dtDataResult = commonMethods.ConvertToDataTable(salesSummaryBySectionModel);
             }
@@ -292,6 +349,7 @@ namespace RocketPOS.Helpers.Reports
             }
             else if (_reportName == "SalesSummaryFiveWeeks")
             {
+                isChart = 1;
                 datatableColumnNames = new List<DatatableColumnName>
                 {
                     new DatatableColumnName{ id =2, Cname="Week",DataType="String", Width=150},
@@ -301,7 +359,7 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =6, Cname="Tax"},
                     new DatatableColumnName{ id =7, Cname="Gross"},
                 };
-                salesSummaryByWeek = reportViewModel.GetSalesSummaryByWeekReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, categoryId, foodMenuId);
+                salesSummaryByWeek = reportViewModel.GetSalesSummaryByWeekReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, ReportDetail.CategoryId, ReportDetail.ProductId);
 
                 dtDataResult = commonMethods.ConvertToDataTable(salesSummaryByWeek);
             }
@@ -324,8 +382,6 @@ namespace RocketPOS.Helpers.Reports
             }
             reportTitle = _reportName;
 
-
-
             //common call
             DataTable mockDataTable = wPFPrintHelper.CreateMockDataTableForTest();
             wPFPrintHelper.CreateAndVisualizeDataTable(flowDocument, dtDataResult, reportTitle, reportFooter, datatableColumnNames);
@@ -333,6 +389,9 @@ namespace RocketPOS.Helpers.Reports
             //create chart
             if (isChart == 1)
             {
+
+                //SalesSummaryFiveWeeks
+
                 string[] labels = new string[dtDataResult.Rows.Count];
                 ChartValues<double> chartValues = new ChartValues<double>();
 
@@ -641,6 +700,5 @@ namespace RocketPOS.Helpers.Reports
                 return true;
             }
         }
-
     }
 }

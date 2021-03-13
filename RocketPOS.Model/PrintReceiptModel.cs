@@ -29,6 +29,7 @@ namespace RocketPOS.Model
 
     public class PrintReceiptItemModel
     {
+        public int SrNumber { get; set; }
         public string FoodMenuName { get; set; }
 
         public float FoodMenuQty { get; set; }

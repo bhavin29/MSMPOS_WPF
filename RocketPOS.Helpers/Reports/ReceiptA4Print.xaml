@@ -13,9 +13,9 @@
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="200"/>
-                <RowDefinition Height="602"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="550"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Row="0" Background="White">
                 <TextBlock Name="txtHeader" Text="" TextAlignment="Center" FontSize="16" FontWeight="Bold" ></TextBlock>
@@ -164,7 +164,7 @@
                                 
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Sr."  IsReadOnly="True"  Width="25" Binding="{Binding SalesInvoiceNumber}" >
+                                <DataGridTextColumn Header="Sr."  IsReadOnly="True"  Width="25" Binding="{Binding SrNumber}" >
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
@@ -215,24 +215,53 @@
                 <StackPanel Margin="5,0,0,0" Orientation="Vertical"  Grid.Row="4" >
                 <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="800"  />
+                            <ColumnDefinition Width="700"  />
+                            <ColumnDefinition Width="100"  />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="15"/>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Margin="5,0,0,0" Text="Amount Chargeable (in words)" Grid.Row="0" TextAlignment="Left" FontSize="10"  ></TextBlock>
-                        <TextBlock Text="TOTAL: " Margin="5,0,90,0"  Grid.Row="0" TextAlignment="Right" FontWeight="Bold" FontSize="14"  ></TextBlock>
-                        <TextBlock Name="txtTotalAmount" Margin="0,0,5,0" Text="" Grid.Row="0" TextAlignment="Right" FontWeight="Bold" FontSize="14"  ></TextBlock>
-                        <TextBlock Margin="5,0,0,0" Name="txtAmountinWords" Grid.Row="1"  Text="" TextAlignment="Left" FontSize="14"  ></TextBlock>
-                        <Border BorderThickness="1,0,1,0" Grid.Row="0" BorderBrush="Black"/>
-                        <Border BorderThickness="1,0,1,1" Grid.Row="1" BorderBrush="Black"/>
+                        <!--<TextBlock Margin="5,0,0,0" Text="Amount Chargeable (in words)" Grid.Row="0" TextAlignment="Left" FontSize="10"  ></TextBlock>-->
+                        <TextBlock Text="Vatable: " Margin="5,0,5,0"  Grid.Column="0" Grid.Row="0"  TextAlignment="Right" FontWeight="Bold" FontSize="14"  ></TextBlock>
+                        <TextBlock Name="txtVatable" Margin="0,0,5,0" Text="" Grid.Column="1" Grid.Row="0" TextAlignment="Right" FontWeight="Bold" FontSize="14"  ></TextBlock>
+
+                        <TextBlock Text="NON-VAT: " Margin="5,0,5,0"  Grid.Column="0" Grid.Row="1"  TextAlignment="Right" FontWeight="Bold" FontSize="14"  ></TextBlock>
+                        <TextBlock Name="txtNonVatable" Margin="0,0,5,0" Text="" Grid.Column="1" Grid.Row="1" TextAlignment="Right" FontWeight="Bold" FontSize="14"  ></TextBlock>
+
+                        <TextBlock Text="VAT Total: " Margin="5,0,5,0"  Grid.Column="0" Grid.Row="2"  TextAlignment="Right" FontWeight="Bold" FontSize="14"  ></TextBlock>
+                        <TextBlock Name="txtVat" Margin="0,0,5,0" Text="" Grid.Column="1" Grid.Row="2" TextAlignment="Right" FontWeight="Bold" FontSize="14"  ></TextBlock>
+
+                        <TextBlock Text="Total: " Margin="5,0,5,0"  Grid.Column="0" Grid.Row="3"  TextAlignment="Right" FontWeight="Bold" FontSize="14"  ></TextBlock>
+                        <TextBlock Name="txtTotalAmount" Margin="0,0,5,0" Text="" Grid.Column="1" Grid.Row="3" TextAlignment="Right" FontWeight="Bold" FontSize="14"  ></TextBlock>
+                        
+                        <!--<TextBlock Margin="5,0,0,0" Name="txtAmountinWords" Grid.Row="1"  Text="" TextAlignment="Left" FontSize="14"  ></TextBlock>-->
+                        <Border BorderThickness="1,0,0,0" Grid.Column="0" Grid.Row="0" BorderBrush="Black"/>
+                        <Border BorderThickness="1,0,1,0" Grid.Column="1" Grid.Row="0" BorderBrush="Black"/>
+                        <Border BorderThickness="1,1,0,0" Grid.Column="0" Grid.Row="1" BorderBrush="Black"/>
+                        <Border BorderThickness="1,1,1,0" Grid.Column="1" Grid.Row="1" BorderBrush="Black"/>
+                        <Border BorderThickness="1,1,0,0" Grid.Column="0" Grid.Row="2" BorderBrush="Black"/>
+                        <Border BorderThickness="1,1,1,0" Grid.Column="1" Grid.Row="2" BorderBrush="Black"/>
+                        <Border BorderThickness="1,1,0,1" Grid.Column="0" Grid.Row="3" BorderBrush="Black"/>
+                        <Border BorderThickness="1,1,1,1" Grid.Column="1" Grid.Row="3" BorderBrush="Black"/>
                     </Grid>
                 </StackPanel>
              
             <StackPanel Margin="5,0,0,0" Orientation="Horizontal" Grid.Row="5" >
-                <TextBlock Text="" TextAlignment="Center" FontSize="16" FontWeight="Bold" ></TextBlock>
-            </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="800"  />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Margin="5,0,0,0" Orientation="Horizontal" >
+                            <TextBlock Text="User: " Margin="5,0,0,0" TextAlignment="Left" FontSize="16" FontWeight="Bold" ></TextBlock>
+                            <TextBlock Name="txtUserName" Text="" TextAlignment="Left" FontSize="16"  ></TextBlock>
+                            <TextBlock Text="Printed On: " Margin="10,0,0,0"  TextAlignment="Right" FontSize="16" FontWeight="Bold" ></TextBlock>
+                            <TextBlock Name="txtPrintedDate" Text="" TextAlignment="Right" FontSize="16"  ></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
 
         </Grid>
      </Grid>

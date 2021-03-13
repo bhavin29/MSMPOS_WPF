@@ -63,9 +63,13 @@ namespace RocketPOS.Helpers.Reports
                     //= printReceiptA4Models.CustomerPhone;
                     txtInvoiceDate.Text = printReceiptA4Models[0].BillDateTime.ToString("dd/MM/yyyy");
                     txtInvoiceNo.Text = printReceiptA4Models[0].SalesInvoiceNumber;
-                    txtAmountinWords.Text = commonMethods.ConvertNumbertoWords((long) printReceiptA4Models[0].TotalAmount) + " ONLY";
+                    txtVatable.Text = printReceiptA4Models[0].VatableAmount.ToString("0.00");
+                    txtNonVatable.Text = printReceiptA4Models[0].NonVatableAmount.ToString("0.00");
+                    txtVat.Text = printReceiptA4Models[0].TaxAmount.ToString("0.00"); ;
+                    //  txtAmountinWords.Text = commonMethods.ConvertNumbertoWords((long) printReceiptA4Models[0].TotalAmount) + " ONLY";
                     txtTotalAmount.Text = printReceiptA4Models[0].TotalAmount.ToString("0.00");
-
+                    txtUserName.Text = LoginDetail.Firstname + ' ' + LoginDetail.Lastname;
+                    txtPrintedDate.Text = DateTime.Now.ToString("dd-MMMM-yyyy HH:mm");
                     txtHeader.Text = "INVOICE";
                     if (printReceiptA4Models[0].SalesInvoiceNumber =="" || printReceiptA4Models[0].SalesInvoiceNumber == null)
                     txtHeader.Text = "PROFORMA INVOICE";

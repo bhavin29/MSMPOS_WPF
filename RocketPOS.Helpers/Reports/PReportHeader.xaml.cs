@@ -1,4 +1,6 @@
 ﻿using RocketPOS.Core.Constants;
+using RocketPOS.Model;
+using RocketPOS.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -49,6 +51,41 @@ namespace RocketPOS.Helpers.Reports
             }
 
             lblreportTitle.Content = ReportDetail.ReportTitle;
+            FillDropdown();
+        }
+
+        private void FillDropdown()
+        {
+            try
+            {
+                ReportViewModel reportViewModel = new ReportViewModel();
+                List<ReportDropDownModel> reportDropDownModels = new List<ReportDropDownModel>();
+
+                reportDropDownModels = reportViewModel.GetDropdown("FoodmenuCategory");
+                cmbCategory.ItemsSource = reportDropDownModels;
+//                cmbCategory.Text = " All";
+                cmbCategory.IsEditable = true;
+                cmbCategory.IsReadOnly = true;
+                cmbCategory.SelectedValuePath = "Id";
+                cmbCategory.DisplayMemberPath = "Name";
+
+                reportDropDownModels = reportViewModel.GetDropdown("Foodmenu");
+                cmbProduct.ItemsSource = reportDropDownModels;
+  //              cmbProduct.Text = " All";
+                cmbProduct.IsEditable = true;
+                cmbProduct.IsReadOnly = true;
+                cmbProduct.SelectedValuePath = "Id";
+                cmbProduct.DisplayMemberPath = "Name";
+
+               cmbCategory.SelectedValue = ReportDetail.CategoryId;
+               cmbProduct.SelectedValue= ReportDetail.ProductId ;
+
+            }
+            catch (Exception ex)
+            {
+                SystemError.Register(ex);
+
+            }
         }
 
 
@@ -58,7 +95,12 @@ namespace RocketPOS.Helpers.Reports
             ReportDetail.ReportFromDate = dpFromDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat);
             ReportDetail.ReportToDate = dpToDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat);
 
-            //   FrameReportViewer.Navigate(new ReportViewer());
+            if (cmbCategory.SelectedValue !=null)
+            ReportDetail.CategoryId =(int) cmbCategory.SelectedValue;
+
+            if (cmbProduct.SelectedValue != null)
+                ReportDetail.ProductId =(int) cmbProduct.SelectedValue;
+
             FrameReportViewer.Navigate(new PReportViewer());
         }
 
@@ -76,6 +118,19 @@ namespace RocketPOS.Helpers.Reports
             {
                 ReportDetail.ReportToDate = dpToDatePayment.SelectedDate.Value.ToString(CommonMethods.DateFormat);
             }
+        }
+
+        private void cmbCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbCategory.SelectedValue != null)
+                ReportDetail.CategoryId = (int)cmbCategory.SelectedValue;
+        }
+
+        private void cmbProduct_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbProduct.SelectedValue != null)
+                ReportDetail.ProductId = (int)cmbProduct.SelectedValue;
+
         }
     }
 }

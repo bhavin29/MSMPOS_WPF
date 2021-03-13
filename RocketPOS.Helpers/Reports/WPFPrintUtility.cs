@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using RocketPOS.Core.Configuration;
 using RocketPOS.Core.Constants;
 using RocketPOS.Model;
 
@@ -154,6 +157,51 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
             flowDocument.Blocks.Add(CreateVisualTableFromDataTable());
         }
 
+        private BlockUIContainer CompanyLogo()
+        {
+            BlockUIContainer bc = new BlockUIContainer();
+
+            AppSettings appSettings = new AppSettings();
+
+            string rootPath = appSettings.GetAppPath();
+
+            string directory = Path.GetDirectoryName(rootPath + @"\Images\");
+            string filePath = Path.Combine(directory, "CompanyLogo.jpg");
+
+
+            bc.TextAlignment = TextAlignment.Left;
+
+            TextBlock tb = new TextBlock();
+            tb.Text = LoginDetail.ClientName + "\n" + LoginDetail.Address1 + "\n" + LoginDetail.Address2;
+            tb.FontSize = 18;
+            tb.Margin = new Thickness(0, 0, 0, 0);
+
+            StackPanel sp = new StackPanel();
+            sp.Width = 940;
+            sp.Height = 80;
+            sp.Orientation = Orientation.Horizontal;
+            //    sp.HorizontalAlignment = HorizontalAlignment.Left;
+            //    sp.Background = new SolidColorBrush(Colors.Red);
+            sp.Children.Add(tb);
+
+            if (File.Exists(filePath))
+            {
+                Image myImg = new Image();
+                myImg.Source = new BitmapImage(new Uri(filePath, UriKind.Absolute));//"D:\\RocketPOS.Startup\\images\\CompanyLogo.jpg"
+                myImg.Width = 120;
+                myImg.Height = 70;
+                myImg.Stretch = Stretch.Fill;
+                //    myImg.Margin = new Thickness(540, 0, 0, 0); // for dispaly onyl
+                myImg.Margin = new Thickness(430, 0, 0, 0);// for printing
+                myImg.HorizontalAlignment = HorizontalAlignment.Right;
+                sp.Children.Add(myImg);
+            }
+
+            bc.Child = sp;
+
+            return bc;
+        }
+
         /// <summary>
         /// Create And Visualize The DataTable
         /// </summary>
@@ -165,18 +213,31 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
         {
             _DTColumnNane = DTColumnNane;
 
-            var section = new Section();
-            section.LineHeight = Double.NaN;
-
             var pReportTitle = new Paragraph();
             pReportTitle.Inlines.Add(new Run(ReportDetail.ReportTitle));
             pReportTitle.LineHeight = Double.NaN;
             pReportTitle.FontSize = 24;
             flowDocument.Blocks.Add(pReportTitle);
 
+            var section = new Section();
+            section.LineHeight = Double.NaN;
+            BlockUIContainer bc = new BlockUIContainer();
+            bc = CompanyLogo();
+
+            Figure fig = new Figure(bc);
+            fig.Padding = new Thickness(0);
+            fig.Margin = new Thickness(0);
+            fig.Height = new FigureLength(0, FigureUnitType.Auto);
+            fig.WrapDirection = WrapDirection.Right;
+            fig.TextAlignment = TextAlignment.Right;
+
             var pHeader = new Paragraph();
-            pHeader.Inlines.Add(new Run(LoginDetail.ClientName + "\n" + LoginDetail.Address1 + "\n" + LoginDetail.Address2));
+            pHeader.Inlines.Add(fig);
             pHeader.LineHeight = Double.NaN;
+            pHeader.FontSize = 1;
+            pHeader.TextAlignment = TextAlignment.Right;
+
+
             flowDocument.Blocks.Add(pHeader);
 
             flowDocument.Blocks.Add(new BlockUIContainer(new Separator()));
@@ -184,6 +245,7 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
             pParameter.Inlines.Add(new Run("From Date: " + ReportDetail.ReportFromDate + "                           To Date: " + ReportDetail.ReportToDate));
             pParameter.LineHeight = Double.NaN;
             flowDocument.Blocks.Add(pParameter);
+
 
             HeaderTitleText = "";// headerTitle;
             FooterText = footer;
@@ -247,7 +309,7 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
                 {
                     if (_DTColumnNane[x].Cname != "")
                         Datatable.Columns[x].ColumnName = _DTColumnNane[x].Cname;
- 
+
                     if (_DTColumnNane[x].Width != 0)
                         _winTable.Columns[x].Width = new GridLength(_DTColumnNane[x].Width);
                 }

@@ -14,24 +14,34 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,0,0,0" Height="30">
                     <Label Name="lblreportTitle" Content=""  Foreground="White" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="5,0,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0">
                     <Label Content="From Date" Width="80" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
-                    <DatePicker Name="dpFromDatePayment" Height="25"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" SelectedDateChanged="dpFromDatePayment_SelectedDateChanged"   />
+                    <DatePicker Name="dpFromDatePayment" Height="25"  Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" SelectedDateChanged="dpFromDatePayment_SelectedDateChanged"   />
                     <Label Content="To Date" Width="80" FontSize="14" Foreground="White"  VerticalAlignment="Center" Margin="25,0,0,0"/>
                     <DatePicker Name="dpToDatePayment" Height="25"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"  SelectedDateChanged="dpToDatePayment_SelectedDateChanged"  />
-
-                    <Button x:Name="btnLoad" Margin="40,0,0,0" Style="{StaticResource btnOrange}" Content="Load Report" Width="110" Height="35" VerticalContentAlignment="Center" Click="btnLoad_Click"  />
                 </StackPanel>
             </StackPanel>
-            
-            <StackPanel Grid.Row="1"  Orientation="Vertical" Margin="5,0,2,0" >
+            <StackPanel Grid.Row="1" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="5,0,0,0">
+                    <Label Content="Category  " Width="80" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="cmbCategory"  FontSize="15" Margin="10,1,0,0" Width="200" Height="25" SelectionChanged="cmbCategory_SelectionChanged" />
+
+                    <Label Content="Product" Width="80" FontSize="14" Foreground="White"  VerticalAlignment="Center" Margin="25,0,0,0"/>
+                    <ComboBox x:Name="cmbProduct"  FontSize="15" Margin="1,1,0,0" Width="210" Height="25" SelectionChanged="cmbProduct_SelectionChanged"  />
+
+                    <Button x:Name="btnLoad" Margin="140,0,0,0" Style="{StaticResource btnOrange}" Content="Load Report" Width="110" Height="35" VerticalContentAlignment="Center" Click="btnLoad_Click"  />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2"  Orientation="Vertical" Margin="5,0,2,0" >
                 <Frame NavigationUIVisibility="Hidden" Margin="0,0,0,0"  x:Name="FrameReportViewer" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center"  Background="Gray" />
             </StackPanel>
             
