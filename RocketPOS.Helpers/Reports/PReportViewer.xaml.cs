@@ -43,6 +43,10 @@ namespace RocketPOS.Helpers.Reports
         List<SalesSummaryByWeek> salesSummaryByWeek = new List<SalesSummaryByWeek>();
         List<SalesSummaryByHours> salesSummaryByHours = new List<SalesSummaryByHours>();
         List<DatatableColumnName> datatableColumnNames;
+        List<DetailedDailyReportModel> detailedDailyReportModels = new List<DetailedDailyReportModel>();
+        List<ProductWiseSalesReportModel> productWiseSalesReportModels = new List<ProductWiseSalesReportModel>();
+        List<TallySalesVoucherModel> tallySalesVoucherModels = new List<TallySalesVoucherModel>();
+        TallyViewModel tallyViewModel = new TallyViewModel();
 
         CessReportModel cessReportModel = new CessReportModel();
         CessCategoryReportModel cessCategoryReportModel = new CessCategoryReportModel();
@@ -76,7 +80,103 @@ namespace RocketPOS.Helpers.Reports
                 return;
             }
 
-            if (_reportName == "ModeOfPayment")
+            if (_reportName == "TallySalesVoucher")
+            {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Date" , DataType="Date", Width=80},
+                    new DatatableColumnName{ id =2, Cname="Ledger", DataType="String", Width=175},
+                    new DatatableColumnName{ id =3, Cname="Sales Ledger", DataType="String", Width=175},
+                    new DatatableColumnName{ id =4, Cname="Postfix", DataType="String", Width=50},
+                    new DatatableColumnName{ id =5, Cname="Sales"},
+                    new DatatableColumnName{ id =6, Cname="Exampted Sales"},
+                    new DatatableColumnName{ id =7, Cname="Output VAT"},
+                    new DatatableColumnName{ id =8, Cname="Cash Sales"}
+                };
+
+                tallySalesVoucherModels = tallyViewModel.GetSalesVoucherData(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
+                dtDataResult = commonMethods.ConvertToDataTable(tallySalesVoucherModels);
+            }
+            else if (_reportName == "DetailedDaily")
+            {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Description", DataType="String",Width=270 },
+                    new DatatableColumnName{ id =2, Cname="Value",Width=100},
+                    new DatatableColumnName{ id =3, Cname=""},
+                    new DatatableColumnName{ id =4, Cname=""},
+                    new DatatableColumnName{ id =5, Cname=""},
+                    new DatatableColumnName{ id =6, Cname=""},
+                    new DatatableColumnName{ id =7, Cname=""},
+                    new DatatableColumnName{ id =8, Cname=""}
+                };
+
+                DateTime dtFrom = new DateTime();
+                DateTime dtTo = new DateTime();
+
+                dtFrom = Convert.ToDateTime(ReportDetail.ReportFromDate);
+                dtTo = Convert.ToDateTime(ReportDetail.ReportToDate);
+
+                detailedDailyReportModels = reportViewModel.GetDetailedDailyByDate(dtFrom.ToString("yyyy-MM-dd") + " 00:00:00", dtTo.ToString("yyyy-MM-dd") + " 23:59i:59");
+                dtDataResult = commonMethods.ConvertToDataTable(detailedDailyReportModels);
+
+                for (int i = 0; i < dtDataResult.Rows.Count; i++)
+                {
+                    if (dtDataResult.Rows[i][0].ToString() == "")
+                        dtDataResult.Rows.RemoveAt(i);
+
+                    if (dtDataResult.Rows[i][0].ToString().Contains("="))
+                    {
+                        dtDataResult.Rows[i][0] = "";
+                        dtDataResult.Rows[i][1] = "";
+                    }
+                }
+            }
+            else if (_reportName == "ProductwiseSales")
+            {
+                datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Sr.", Width=20},
+                    new DatatableColumnName{ id =2, Cname="Description", Width=350, DataType="String"},
+                    new DatatableColumnName{ id =3, Cname="Price"},
+                    new DatatableColumnName{ id =5, Cname="Qty"},
+                    new DatatableColumnName{ id =6, Cname="Total"},
+                    new DatatableColumnName{ id =7, Cname="2"},
+                    new DatatableColumnName{ id =8, Cname="3"},
+                    new DatatableColumnName{ id =9, Cname="4"},
+                    new DatatableColumnName{ id =10, Cname="5"},
+                    new DatatableColumnName{ id =11, Cname="6"}
+                };
+
+                DateTime dtFrom = new DateTime();
+                DateTime dtTo = new DateTime();
+
+                dtFrom = Convert.ToDateTime(ReportDetail.ReportFromDate);
+                dtTo = Convert.ToDateTime(ReportDetail.ReportToDate);
+
+                productWiseSalesReportModels = reportViewModel.GetProductWiseSales(dtFrom.ToString("yyyy-MM-dd") + " 00:00:00", dtTo.ToString("yyyy-MM-dd") + " 23:59i:59", "Excel");
+                dtDataResult = commonMethods.ConvertToDataTable(productWiseSalesReportModels);
+
+                dtDataResult.Columns.RemoveAt(0);
+                dtDataResult.Columns.RemoveAt(1);
+                //     dtDataResult.Columns.RemoveAt(2);
+
+                for (int i = 0; i < dtDataResult.Rows.Count; i++)
+                {
+                    if (dtDataResult.Rows[i][4].ToString().Length == 0)
+                        dtDataResult.Rows.RemoveAt(i);
+
+                    if (dtDataResult.Rows[i][4].ToString().Contains("Total"))
+                        dtDataResult.Rows.RemoveAt(i);
+
+                    //if (dtDataResult.Rows[i][0].ToString().Contains("="))
+                    //{
+                    //    dtDataResult.Rows[i][0] = "";
+                    //    dtDataResult.Rows[i][1] = "";
+                    //}
+                }
+            }
+            else if (_reportName == "ModeOfPayment")
             {
                 datatableColumnNames = new List<DatatableColumnName>
                 {
@@ -144,7 +244,7 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =8, Cname="Catering Levy"},
                     new DatatableColumnName{ id =9, Cname="Value %"}
                 };
-                cessCategoryReportModel = customerOrderViewModel.GetCessCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate,ReportDetail.CategoryId,ReportDetail.ProductId);
+                cessCategoryReportModel = customerOrderViewModel.GetCessCategoryReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate, ReportDetail.CategoryId, ReportDetail.ProductId);
 
                 dtDataResult = commonMethods.ConvertToDataTable(cessCategoryReportModel.CessSummaryList);
             }
@@ -188,8 +288,8 @@ namespace RocketPOS.Helpers.Reports
 
                 dtDataResult = commonMethods.ConvertToDataTable(masterSalesReportModels);
             }
-            else if (_reportName == "SalesByCategoryProductQtyDesc" || _reportName == "SalesByCategoryProductQtyAsc" || _reportName == "SalesByCategoryProductAmountDesc" )
-            {  
+            else if (_reportName == "SalesByCategoryProductQtyDesc" || _reportName == "SalesByCategoryProductQtyAsc" || _reportName == "SalesByCategoryProductAmountDesc")
+            {
                 datatableColumnNames = new List<DatatableColumnName>
                 {
                   //  new DatatableColumnName{ id =2, Cname="Section", DataType="String"},
@@ -208,7 +308,7 @@ namespace RocketPOS.Helpers.Reports
                 dtDataResult = commonMethods.ConvertToDataTable(salesByCategoryProductModel);
                 dtDataResult.Columns.RemoveAt(0);
             }
-            else if (_reportName == "SalesBySectionCategoryProductAmountAsc" || _reportName == "SalesBySectionCategoryProductAmountDesc" || _reportName == "SalesBySectionCategoryProductQtyAsc" || _reportName == "SalesBySectionCategoryProductQtyDesc"   )
+            else if (_reportName == "SalesBySectionCategoryProductAmountAsc" || _reportName == "SalesBySectionCategoryProductAmountDesc" || _reportName == "SalesBySectionCategoryProductQtyAsc" || _reportName == "SalesBySectionCategoryProductQtyDesc")
             {
                 datatableColumnNames = new List<DatatableColumnName>
                 {
@@ -232,7 +332,6 @@ namespace RocketPOS.Helpers.Reports
                 datatableColumnNames = new List<DatatableColumnName>
                 {
                     new DatatableColumnName{ id =2, Cname="Section", DataType="String"},
-                  //  new DatatableColumnName{ id =2, Cname="Category", DataType="String",Width=120},
                     new DatatableColumnName{ id =2, Cname="Product", DataType="String",Width=120},
                     new DatatableColumnName{ id =4, Cname="Rate"},
                     new DatatableColumnName{ id =5, Cname="Qty"},
@@ -247,13 +346,12 @@ namespace RocketPOS.Helpers.Reports
                 dtDataResult = commonMethods.ConvertToDataTable(salesByCategoryProductModel);
                 dtDataResult.Columns.RemoveAt(1);
             }
-            else if (   _reportName == "SalesBySectionCategory" )
+            else if (_reportName == "SalesBySectionCategory")
             {
                 datatableColumnNames = new List<DatatableColumnName>
                 {
                     new DatatableColumnName{ id =2, Cname="Section", DataType="String"},
                     new DatatableColumnName{ id =2, Cname="Category", DataType="String",Width=120},
-                  //  new DatatableColumnName{ id =2, Cname="Product", DataType="String",Width=120},
                     new DatatableColumnName{ id =4, Cname="Rate"},
                     new DatatableColumnName{ id =5, Cname="Qty"},
                     new DatatableColumnName{ id =6, Cname="Amount"},
@@ -420,8 +518,8 @@ namespace RocketPOS.Helpers.Reports
                 Axis xAxis = new Axis { Foreground = Brushes.Black, FontSize = 16d, FontWeight = FontWeights.Bold, Title = "" };
                 Axis yAxis = new Axis { Foreground = Brushes.Black, FontSize = 16d, FontWeight = FontWeights.Bold, Title = "", Separator = separator };
 
-               // Formatter = value => value.ToString("N");
-               // xAxis.LabelFormatter = Formatter;
+                // Formatter = value => value.ToString("N");
+                // xAxis.LabelFormatter = Formatter;
                 yAxis.Labels = labels;
 
                 chart.Series = SeriesCollection;
@@ -444,8 +542,8 @@ namespace RocketPOS.Helpers.Reports
         private void excelButton_Click(object sender, RoutedEventArgs e)
         {
             string path = string.Empty, firstLine = string.Empty;
-            string fileName = _reportName + "_"+ DateTime.Now.ToString("MM-dd-yyyy_HHmmss").ToString().Replace("-", "_");
-            
+            string fileName = _reportName + "_" + DateTime.Now.ToString("MM-dd-yyyy_HHmmss").ToString().Replace("-", "_");
+
             var saveFileDialog = new SaveFileDialog
             {
                 FileName = fileName != "" ? fileName : "gpmfca-exportedDocument",
@@ -525,10 +623,24 @@ namespace RocketPOS.Helpers.Reports
                 };
                     exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(masterSalesReportModels), datatableColumnNames, path, firstLine);
                 }
-                else if (_reportName == "SalesByCategoryProductQtyDesc" || _reportName == "SalesByCategoryProductQtyAsc" || _reportName == "SalesByCategoryProductAmountDesc" || _reportName == "SalesBySectionCategoryProductAmountAsc"
-                            || _reportName == "SalesBySectionCategoryProductAmountDesc" || _reportName == "SalesBySectionCategoryProductQtyAsc" || _reportName == "SalesBySectionCategoryProductQtyDesc"
-                            || _reportName == "SalesBySectionCategory" || _reportName == "SalesBySectionProductAmountDesc" || _reportName == "SalesBySectionProductQtyDesc"
-                            )
+                else if (_reportName == "SalesByCategoryProductQtyDesc" || _reportName == "SalesByCategoryProductQtyAsc" || _reportName == "SalesByCategoryProductAmountDesc")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                  //  new DatatableColumnName{ id =2, Cname="Section", DataType="String"},
+                    new DatatableColumnName{ id =2, Cname="Category", DataType="String",Width=120},
+                    new DatatableColumnName{ id =2, Cname="Product", DataType="String",Width=120},
+                    new DatatableColumnName{ id =4, Cname="Rate"},
+                    new DatatableColumnName{ id =5, Cname="Qty"},
+                    new DatatableColumnName{ id =6, Cname="Amount"},
+                    new DatatableColumnName{ id =7, Cname="Disc."},
+                    new DatatableColumnName{ id =8, Cname="Tax"},
+                    new DatatableColumnName{ id =9, Cname="Total"},
+                    new DatatableColumnName{ id =9, Cname="Value%"}
+                };
+                    exportExcel.ExportExcelFile(dtDataResult, datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "SalesBySectionCategoryProductAmountAsc" || _reportName == "SalesBySectionCategoryProductAmountDesc" || _reportName == "SalesBySectionCategoryProductQtyAsc" || _reportName == "SalesBySectionCategoryProductQtyDesc")
                 {
                     datatableColumnNames = new List<DatatableColumnName>
                 {
@@ -540,9 +652,42 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =6, Cname="Amount"},
                     new DatatableColumnName{ id =7, Cname="Disc."},
                     new DatatableColumnName{ id =8, Cname="Tax"},
-                    new DatatableColumnName{ id =9, Cname="Total"}
+                    new DatatableColumnName{ id =9, Cname="Total"},
+                    new DatatableColumnName{ id =9, Cname="Value%"}
                 };
-                    exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(salesByCategoryProductModel), datatableColumnNames, path, firstLine);
+                    exportExcel.ExportExcelFile(dtDataResult, datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "SalesBySectionProductAmountDesc" || _reportName == "SalesBySectionProductQtyDesc")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =2, Cname="Section", DataType="String"},
+                    new DatatableColumnName{ id =2, Cname="Product", DataType="String",Width=120},
+                    new DatatableColumnName{ id =4, Cname="Rate"},
+                    new DatatableColumnName{ id =5, Cname="Qty"},
+                    new DatatableColumnName{ id =6, Cname="Amount"},
+                    new DatatableColumnName{ id =7, Cname="Disc."},
+                    new DatatableColumnName{ id =8, Cname="Tax"},
+                    new DatatableColumnName{ id =9, Cname="Total"},
+                    new DatatableColumnName{ id =9, Cname="Value%"}
+                };
+                    exportExcel.ExportExcelFile(dtDataResult, datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "SalesBySectionCategory")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =2, Cname="Section", DataType="String"},
+                    new DatatableColumnName{ id =2, Cname="Category", DataType="String",Width=120},
+                    new DatatableColumnName{ id =4, Cname="Rate"},
+                    new DatatableColumnName{ id =5, Cname="Qty"},
+                    new DatatableColumnName{ id =6, Cname="Amount"},
+                    new DatatableColumnName{ id =7, Cname="Disc."},
+                    new DatatableColumnName{ id =8, Cname="Tax"},
+                    new DatatableColumnName{ id =9, Cname="Total"},
+                    new DatatableColumnName{ id =9, Cname="Value%"}
+                };
+                    exportExcel.ExportExcelFile(dtDataResult, datatableColumnNames, path, firstLine);
                 }
                 else if (_reportName == "TableStatistics")
                 {
@@ -624,6 +769,32 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =7, Cname="Gross"},
                 };
                     exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(salesSummaryByWeek), datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "DetailedDaily")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Description", DataType="String",Width=270 },
+                    new DatatableColumnName{ id =2, Cname="Value",Width=100},
+                };
+                    exportExcel.ExportExcelFile(dtDataResult, datatableColumnNames, path, firstLine);
+                }
+                else if (_reportName == "ProductwiseSales")
+                {
+                    datatableColumnNames = new List<DatatableColumnName>
+                {
+                    new DatatableColumnName{ id =1, Cname="Sr.", Width=20},
+                    new DatatableColumnName{ id =2, Cname="Description", Width=350, DataType="String"},
+                    new DatatableColumnName{ id =3, Cname="Price"},
+                    new DatatableColumnName{ id =5, Cname="Qty"},
+                    new DatatableColumnName{ id =6, Cname="Total"},
+                    new DatatableColumnName{ id =7, Cname="2"},
+                    new DatatableColumnName{ id =8, Cname="3"},
+                    new DatatableColumnName{ id =9, Cname="4"},
+                    new DatatableColumnName{ id =10, Cname="5"},
+                    new DatatableColumnName{ id =11, Cname="6"}
+                };
+                    exportExcel.ExportExcelFile(dtDataResult, datatableColumnNames, path, firstLine);
                 }
             }
         }

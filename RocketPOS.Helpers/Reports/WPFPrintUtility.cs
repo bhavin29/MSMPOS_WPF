@@ -188,11 +188,11 @@ namespace RocketPOS.Helpers.Reports.WPFPrintHelper
             {
                 Image myImg = new Image();
                 myImg.Source = new BitmapImage(new Uri(filePath, UriKind.Absolute));//"D:\\RocketPOS.Startup\\images\\CompanyLogo.jpg"
-                myImg.Width = 120;
+                myImg.Width = 194;
                 myImg.Height = 70;
                 myImg.Stretch = Stretch.Fill;
-                //    myImg.Margin = new Thickness(540, 0, 0, 0); // for dispaly onyl
-                myImg.Margin = new Thickness(430, 0, 0, 0);// for printing
+                //    myImg.Margin = new Thickness(470, 0, 0, 0); // for dispaly onyl
+                myImg.Margin = new Thickness(360, 0, 0, 0);// for printing
                 myImg.HorizontalAlignment = HorizontalAlignment.Right;
                 sp.Children.Add(myImg);
             }

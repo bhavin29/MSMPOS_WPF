@@ -29,7 +29,6 @@ namespace RocketPOS.Helpers.Reports
 
             ReportItem root = new ReportItem() { Title = "Reports" };
 
-
             root.Items.Add(new ReportItem() { Title = "Catering Levy Summary" });
             root.Items.Add(new ReportItem() { Title = "Catering Levy Summary Category Wise" });
             root.Items.Add(new ReportItem() { Title = "Sales Summary by Payment Method" });
@@ -62,6 +61,18 @@ namespace RocketPOS.Helpers.Reports
             node1.Items.Add(new ReportItem() { Title = "Sales by Section Product Amount desc" });
             node1.Items.Add(new ReportItem() { Title = "Sales by Section Product qty desc" });
             root.Items.Add(node1);
+
+            ReportItem node2 = new ReportItem() { Title = "Report List" };
+            node2.Items.Add(new ReportItem() { Title = "Detailed Daily Report" });
+            node2.Items.Add(new ReportItem() { Title = "Productwise Sales Report" });
+            node2.Items.Add(new ReportItem() { Title = "Catering Levy Report" });
+            node2.Items.Add(new ReportItem() { Title = "Catering Levy Category Wise Report" });
+            node2.Items.Add(new ReportItem() { Title = "Mode of Payment Report" });
+            root.Items.Add(node2);
+
+            ReportItem node3 = new ReportItem() { Title = "Tally" };
+            node3.Items.Add(new ReportItem() { Title = "Sales Voucher" });
+            root.Items.Add(node3);
 
             trvMenu.Items.Add(root);
 
@@ -105,7 +116,32 @@ namespace RocketPOS.Helpers.Reports
             ReportDetail.ReportTitle = ReportName;
             int Reports = 1;
 
-            if (ReportName == "Catering Levy Summary")
+ 
+            if (ReportName == "Sales Voucher")
+            {
+                ReportDetail.ReportName = "TallySalesVoucher";
+            }
+            else if (ReportName == "Detailed Daily Report")
+            {
+                ReportDetail.ReportName = "DetailedDaily";
+            }
+            else if (ReportName == "Productwise Sales Report")
+            {
+                ReportDetail.ReportName = "ProductwiseSales";
+            }
+            else if (ReportName == "Catering Levy Report")
+            {
+                ReportDetail.ReportName = "CESS";
+            }
+            else if (ReportName == "Catering Levy Category Wise Report")
+            {
+                ReportDetail.ReportName = "CESS_Category";
+            }
+            else if (ReportName == "Mode of Payment Report")
+            {
+                ReportDetail.ReportName = "ModeOfPayment";
+            }
+            else if (ReportName == "Catering Levy Summary")
             {
                 ReportDetail.ReportName = "CESS";
             }

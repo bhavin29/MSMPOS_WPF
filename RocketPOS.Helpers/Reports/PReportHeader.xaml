@@ -37,7 +37,8 @@
                     <Label Content="Product" Width="80" FontSize="14" Foreground="White"  VerticalAlignment="Center" Margin="25,0,0,0"/>
                     <ComboBox x:Name="cmbProduct"  FontSize="15" Margin="1,1,0,0" Width="210" Height="25" SelectionChanged="cmbProduct_SelectionChanged"  />
 
-                    <Button x:Name="btnLoad" Margin="140,0,0,0" Style="{StaticResource btnOrange}" Content="Load Report" Width="110" Height="35" VerticalContentAlignment="Center" Click="btnLoad_Click"  />
+                    <Button x:Name="btnLoad" Margin="80,0,0,0" Style="{StaticResource btnOrange}" Content="Preview" Width="80" Height="35" VerticalContentAlignment="Center" Click="btnLoad_Click"  />
+                    <Button x:Name="btnGeneric" Margin="20,0,0,0" Style="{StaticResource btnOrange}" Content="Print" Width="80" Height="35" VerticalContentAlignment="Center" Click="btnGeneric_Click"  />
                 </StackPanel>
             </StackPanel>
 
