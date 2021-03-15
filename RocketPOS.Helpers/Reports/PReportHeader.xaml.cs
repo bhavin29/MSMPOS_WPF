@@ -87,7 +87,7 @@ namespace RocketPOS.Helpers.Reports
                 cmbCategory.ItemsSource = reportDropDownModels;
                 //                cmbCategory.Text = " All";
                 cmbCategory.IsEditable = true;
-                cmbCategory.IsReadOnly = true;
+                //cmbCategory.IsReadOnly = true;
                 cmbCategory.SelectedValuePath = "Id";
                 cmbCategory.DisplayMemberPath = "Name";
 
@@ -95,7 +95,7 @@ namespace RocketPOS.Helpers.Reports
                 cmbProduct.ItemsSource = reportDropDownModels;
                 //              cmbProduct.Text = " All";
                 cmbProduct.IsEditable = true;
-                cmbProduct.IsReadOnly = true;
+                //cmbProduct.IsReadOnly = true;
                 cmbProduct.SelectedValuePath = "Id";
                 cmbProduct.DisplayMemberPath = "Name";
 
@@ -203,5 +203,6 @@ namespace RocketPOS.Helpers.Reports
             }
 
         }
+
     }
 }

@@ -1840,6 +1840,8 @@ namespace RocketPOS.Helpers
             try
             {
                 ppCustomerAdd.IsOpen = false;
+                dgSearchCustomer.ItemsSource = null;
+                dgSearchCustomer.Items.Refresh();
                 //   btnEditCustomer.IsEnabled = false;
             }
             catch (Exception ex)
@@ -1919,6 +1921,8 @@ namespace RocketPOS.Helpers
                     //   btnEditCustomer.IsEnabled = false;
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.CustomerTitle, StatusMessages.CustomerSaveFailed, MessageBoxButton.OK, EnumUtility.MessageBoxImage.Error);
                 }
+                dgSearchCustomer.ItemsSource = null;
+                dgSearchCustomer.Items.Refresh();
             }
             catch (Exception ex)
             {
@@ -3227,6 +3231,44 @@ namespace RocketPOS.Helpers
         private void btnKOTCancel_Click(object sender, RoutedEventArgs e)
         {
             ppKOT.IsOpen = false;
+        }
+
+        private void btnPPCSearchCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            CustomerViewModel customerViewModel = new CustomerViewModel();
+            List<CustomerSearchModel> customerSearchModels = new List<CustomerSearchModel>();
+            customerSearchModels = customerViewModel.GetSearchCustomers(txtPPSearchCName.Text, txtPPSearchCPhone.Text);
+
+            if (customerSearchModels.Count > 0)
+            {
+                dgSearchCustomer.ItemsSource = customerSearchModels;
+            }
+        }
+
+        private void btnPPCSelectCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            ResetCustomer();
+            CustomerSearchModel customerSearchModel = ((FrameworkElement)sender).DataContext as CustomerSearchModel;
+
+            CustomerViewModel customerViewModel = new CustomerViewModel();
+            CustomerModel customerModel = new CustomerModel();
+            customerModel = customerViewModel.GetCustomerById(Convert.ToInt32(customerSearchModel.Id));
+            txtPPCName.Text = customerModel.CustomerName;
+            txtPPCPhone.Text = customerModel.CustomerPhone;
+            txtPPCEmail.Text = customerModel.CustomerEmail;
+            txtPPCAddress.Text = customerModel.CustomerAddress1;
+            txtPPCAddress2.Text = customerModel.CustomerAddress2;
+
+            if (customerModel.BirthDate != DateTime.MinValue)
+                dpBirthDate.SelectedDate = customerModel.BirthDate;
+
+            if (customerModel.AnniversaryDate != DateTime.MinValue)
+                dpAnniversaryDate.SelectedDate = customerModel.AnniversaryDate;
+
+            txtPPCPhone.Focus();
+            cmbCustomer.SelectedValue = customerSearchModel.Id;
+            customerAdd = 2;
+            ppCustomerAdd.IsOpen = true;
         }
 
         private void btnRedeemApply_Click(object sender, RoutedEventArgs e)
