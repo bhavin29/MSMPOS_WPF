@@ -70,5 +70,25 @@ namespace RocketPOS.ViewModels
             }
             return insertedId;
         }
+
+        public List<CustomerSearchModel> GetSearchCustomers(string customerName,string customerPhone)
+        {
+            List<CustomerSearchModel> customers = new List<CustomerSearchModel>();
+            using (var connection = new SqlConnection(appSettings.GetConnectionString()))
+            {
+                var query = "SELECT Id,CustomerName,CustomerEmail,CustomerAddress1,CustomerAddress2,BirthDate,AnniversaryDate,CustomerPhone FROM Customer Where IsActive=1 ";
+                if (!string.IsNullOrEmpty(customerName))
+                {
+                    query += " And CustomerName Like '%" + customerName + "%' ";
+                }
+                if (!string.IsNullOrEmpty(customerPhone))
+                {
+                    query += " And CustomerPhone Like '%" + customerPhone + "%' ";
+                }
+                query += " Order By Id Desc ";
+                customers = connection.Query<CustomerSearchModel>(query).ToList();
+                return customers;
+            }
+        }
     }
 }

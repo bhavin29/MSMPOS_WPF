@@ -429,10 +429,10 @@
 
                         <Popup Name="ppCustomerAdd" Placement="Center" AllowsTransparency="False" Grid.ColumnSpan="2" StaysOpen="False">
                             <Border BorderBrush="Black" BorderThickness="5,5,5,5">
-                                <Grid Width="500" Height="375" Background="#86A09E">
+                                <Grid Width="700" Height="675" Background="#86A09E">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="250"/>
-                                        <ColumnDefinition Width="250"/>
+                                        <ColumnDefinition Width="350"/>
+                                        <ColumnDefinition Width="350"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="50"/>
@@ -445,38 +445,82 @@
                                         <RowDefinition Height="28"/>
                                         <RowDefinition Height="50"/>
                                         <RowDefinition Height="70"/>
+                                        <RowDefinition Height="300"/>
                                     </Grid.RowDefinitions>
                                     <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
                                         <TextBlock Text="Customer Information" FontSize="20" Margin="5,5,5,5" Foreground="White" Grid.Row="0" />
-                                        <Button x:Name="btnPPCCancel" Content="Close" Height="40" Width="50" FontSize="16" Background="#00265B" Foreground="White" Margin="240,5,5,5" Click="btnPPCCancel_Click"/>
+                                        <Button x:Name="btnPPCCancel" Content="Close" Height="40" Width="50" FontSize="16" Background="#00265B" Foreground="White" Margin="440,5,5,5" Click="btnPPCCancel_Click"/>
                                     </StackPanel>
 
-                                    <Label Content="Phone *" Height="40" Width="290" FontSize="16" Margin="7,0,0,0" Foreground="White" Grid.Row="1"  Grid.Column="0"/>
-                                    <TextBox x:Name="txtPPCPhone"   Text=""  Height="40" Width="200" Margin="-25,0,0,0" FontSize="20"  Grid.Row="2"  Grid.Column="0" HorizontalContentAlignment="Right"/>
+                                    <Label Content="Phone *" Height="40" Width="390" FontSize="16" Margin="7,0,0,0" Foreground="White" Grid.Row="1"  Grid.Column="0"/>
+                                    <TextBox x:Name="txtPPCPhone"   Text=""  Height="40" Width="300" Margin="-25,0,0,0" FontSize="20"  Grid.Row="2"  Grid.Column="0" HorizontalContentAlignment="Right"/>
 
-                                    <Label x:Name="lblPPCName" Content="Name *" Foreground="White" FontSize="16" Margin="7,0,0,0" Height="40" Width="290" Grid.Row="1"  Grid.Column="1"/>
-                                    <TextBox x:Name="txtPPCName"  Text="{Binding CustomerName}"  Height="40" Width="200" Margin="-25,0,0,0" FontSize="20" Grid.Row="2"  Grid.Column="1"/>
-
-
-                                    <Label Content="Email " Height="40" Width="290" FontSize="16" Margin="7,0,0,0" Grid.Row="3" Grid.Column="0" Foreground="White"/>
-                                    <TextBox x:Name="txtPPCEmail"  Text=""  Height="40" Width="400" Margin="-75,0,0,0" FontSize="20" Grid.Row="4" Grid.ColumnSpan="2"/>
-
-                                    <Label Content="Address " Height="40" Width="290" FontSize="16" Margin="7,0,0,0" Grid.Row="5" Grid.Column="0" Foreground="White"/>
-                                    <TextBox x:Name="txtPPCAddress"  Text=""  Height="40" Width="200" Margin="-25,0,0,0" FontSize="20" Grid.Row="6" Grid.Column="0"  />
-
-                                    <Label Content="City " Height="40" Width="290" FontSize="16" Margin="7,0,0,0" Grid.Row="5" Grid.Column="1" Foreground="White"/>
-                                    <TextBox x:Name="txtPPCAddress2"  Text=""  Height="40" Width="200" Margin="-25,0,0,0" FontSize="20" Grid.Row="6" Grid.Column="1"  />
-
-                                    <Label Content="Birth Date " Height="40" Width="290" FontSize="16" Margin="7,0,0,0" Grid.Row="7" Grid.Column="0" Foreground="White"/>
-                                    <DatePicker Name="dpBirthDate" Style="{StaticResource DatePickerStyle}" Width="135"  Margin="-95,0,0,20" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
-
-                                    <Label Content="Anniversary Date " Height="40" Width="290" FontSize="16" Margin="7,0,0,0" Grid.Row="7" Grid.Column="1" Foreground="White"/>
-                                    <DatePicker Name="dpAnniversaryDate" Style="{StaticResource DatePickerStyle}" Width="135" Margin="-95,0,0,20" VerticalAlignment="Center" Grid.Row="8" Grid.Column="1"/>
+                                    <Label x:Name="lblPPCName" Content="Name *" Foreground="White" FontSize="16" Margin="7,0,0,0" Height="40" Width="390" Grid.Row="1"  Grid.Column="1"/>
+                                    <TextBox x:Name="txtPPCName"  Text="{Binding CustomerName}"  Height="40" Width="300" Margin="-25,0,0,0" FontSize="20" Grid.Row="2"  Grid.Column="1"/>
 
 
+                                    <Label Content="Email " Height="40" Width="350" FontSize="16" Margin="7,0,0,0" Grid.Row="3" Grid.Column="0" Foreground="White"/>
+                                    <TextBox x:Name="txtPPCEmail"  Text=""  Height="40" Width="670" Margin="7,0,0,0" FontSize="20" Grid.Row="4" Grid.ColumnSpan="2"/>
+
+                                    <Label Content="Address " Height="40" Width="390" FontSize="16" Margin="7,0,0,0" Grid.Row="5" Grid.Column="0" Foreground="White"/>
+                                    <TextBox x:Name="txtPPCAddress"  Text=""  Height="40" Width="300" Margin="-25,0,0,0" FontSize="20" Grid.Row="6" Grid.Column="0"  />
+
+                                    <Label Content="City " Height="40" Width="390" FontSize="16" Margin="7,0,0,0" Grid.Row="5" Grid.Column="1" Foreground="White"/>
+                                    <TextBox x:Name="txtPPCAddress2"  Text=""  Height="40" Width="300" Margin="-25,0,0,0" FontSize="20" Grid.Row="6" Grid.Column="1"  />
+
+                                    <Label Content="Birth Date " Height="40" Width="390" FontSize="16" Margin="7,0,0,0" Grid.Row="7" Grid.Column="0" Foreground="White"/>
+                                    <DatePicker Name="dpBirthDate" Style="{StaticResource DatePickerStyle}" Width="235"  Margin="-95,0,0,20" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
+
+                                    <Label Content="Anniversary Date " Height="40" Width="390" FontSize="16" Margin="7,0,0,0" Grid.Row="7" Grid.Column="1" Foreground="White"/>
+                                    <DatePicker Name="dpAnniversaryDate" Style="{StaticResource DatePickerStyle}" Width="235" Margin="-95,0,0,20" VerticalAlignment="Center" Grid.Row="8" Grid.Column="1"/>
 
 
-                                    <Button x:Name="btnPPCAddCustomer" Content="Save" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White" Margin="5,5,-170,5" Grid.Row="9" Grid.Column="1" Click="btnPPCAddCustomer_Click" />
+
+
+                                    <Button x:Name="btnPPCAddCustomer" Content="Save" Height="40" Width="160" FontSize="16" Background="#00265B" Foreground="White" Margin="5,5,-170,5" Grid.Row="9" Grid.Column="1" Click="btnPPCAddCustomer_Click" />
+
+                                    <Grid x:Name="searchCustomer" Width="700" Height="300" Grid.ColumnSpan="2" Grid.Row="10" Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="300"/>
+                                            <ColumnDefinition Width="300"/>
+                                            <ColumnDefinition Width="100"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+
+                                            <RowDefinition Height="28"/>
+                                            <RowDefinition Height="35"/>
+                                            <RowDefinition Height="260"/>
+                                            <RowDefinition Height="35"/>
+                                            <RowDefinition Height="50"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Label Content="Phone" Height="40" Width="390" FontSize="16" Margin="7,0,0,0" Foreground="White" Grid.Row="0"  Grid.Column="0"/>
+                                        <TextBox x:Name="txtPPSearchCPhone"   Text=""  Height="40" Width="275" Margin="0,0,0,0" FontSize="20"  Grid.Row="1"  Grid.Column="0" HorizontalContentAlignment="Right"/>
+
+                                        <Label Content="Name " Foreground="White" FontSize="16" Margin="7,0,0,0" Height="40" Width="390" Grid.Row="0"  Grid.Column="1"/>
+                                        <TextBox x:Name="txtPPSearchCName" Text=""   Height="40" Width="275" Margin="0,0,0,0" FontSize="20" Grid.Row="1"  Grid.Column="1"/>
+
+                                        <Button x:Name="btnPPCSearchCustomer" Content="Search" Height="40" Width="100" FontSize="16" Background="#00265B" Foreground="White" Margin="0,0,0,0" Grid.Row="1" Grid.Column="2" Click="btnPPCSearchCustomer_Click" />
+
+                                        <DataGrid x:Name="dgSearchCustomer" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" AutoGenerateColumns="False" CanUserAddRows="false" ItemsSource="{Binding CustomerSearchModel}" HorizontalScrollBarVisibility="Disabled"  >
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="Name" IsReadOnly="True" FontSize="16" FontWeight="Bold" Width="70" Binding="{Binding CustomerName}"></DataGridTextColumn>
+                                                <DataGridTextColumn Header="Email" IsReadOnly="True" FontSize="16" FontWeight="Bold" Width="70" Binding="{Binding CustomerEmail}"></DataGridTextColumn>
+                                                <DataGridTextColumn Header="Phone" IsReadOnly="True" FontSize="16" FontWeight="Bold" Width="70" Binding="{Binding CustomerPhone}"></DataGridTextColumn>
+                                                <DataGridTextColumn Header="Address" IsReadOnly="True" FontSize="16" FontWeight="Bold" Width="70" Binding="{Binding CustomerAddress1}"></DataGridTextColumn>
+                                                <DataGridTextColumn Header="City" IsReadOnly="True" FontSize="16" FontWeight="Bold" Width="70" Binding="{Binding CustomerAddress2}"></DataGridTextColumn>
+                                                <DataGridTextColumn Header="DOB" IsReadOnly="True" FontSize="16" FontWeight="Bold" Width="70" Binding="{Binding BirthDate}"></DataGridTextColumn>
+                                                <DataGridTextColumn Header="Anniversary Date" IsReadOnly="True" FontSize="16" FontWeight="Bold" Width="70" Binding="{Binding AnniversaryDate}"></DataGridTextColumn>
+                                                <DataGridTemplateColumn Width="50" IsReadOnly="True" Header="Value">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button x:Name="btnPPCSelectCustomer" Command="{Binding Id}" Content="Select" Height="30" Width="50" FontSize="16" Background="#00265B" Foreground="White" Margin="0,0,0,0" Click="btnPPCSelectCustomer_Click"/> 
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Grid>
                                 </Grid>
                             </Border>
                         </Popup>
