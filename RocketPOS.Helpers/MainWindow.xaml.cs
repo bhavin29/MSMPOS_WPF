@@ -1395,8 +1395,6 @@ namespace RocketPOS.Helpers
         {
             try
             {
-                //ReportViewer reoprt = new ReportViewer();
-                //reoprt.ShowDialog();
                 Calculator winCalCulator = new Calculator();
 
                 winCalCulator.Width = 237;
@@ -1409,15 +1407,16 @@ namespace RocketPOS.Helpers
             catch (Exception ex)
             {
                 SystemError.Register(ex);
-
             }
         }
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                ReportMenu reportMenu = new ReportMenu();
-                reportMenu.ShowDialog();
+                ReportList reportList = new ReportList();
+                //  reportList.Owner = Application.Current.MainWindow;
+                reportList.ShowDialog();
+
 
                 //OutletRegisterViewModel outletRegisterViewModel = new OutletRegisterViewModel();
                 //OutletRegisterModel outletRegisterModel = new OutletRegisterModel();
@@ -2817,9 +2816,8 @@ namespace RocketPOS.Helpers
         {
             try
             {
-                ReportList reportList = new ReportList();
-                //  reportList.Owner = Application.Current.MainWindow;
-                reportList.ShowDialog();
+                ReportMenu reportMenu = new ReportMenu();
+                reportMenu.ShowDialog();
             }
             catch (Exception ex)
             {

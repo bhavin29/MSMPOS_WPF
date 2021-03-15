@@ -465,14 +465,14 @@ namespace RocketPOS.Helpers.Reports
             {
                 datatableColumnNames = new List<DatatableColumnName>
                 {
-                    new DatatableColumnName{ id =2, Cname="OrderDate",DataType="String", Width=150},
-                    new DatatableColumnName{ id =3, Cname="StartHour"},
-                    new DatatableColumnName{ id =4, Cname="EndHour"},
-                    new DatatableColumnName{ id =5, Cname="TotalInvoice"},
-                    new DatatableColumnName{ id =6, Cname="NetSalesAmount"},
-                    new DatatableColumnName{ id =7, Cname="TotalDiscount"},
-                    new DatatableColumnName{ id =8, Cname="TotalTax"},
-                    new DatatableColumnName{ id =9, Cname="TotalGrossAmount"},
+                    new DatatableColumnName{ id =2, Cname="Date",DataType="String"},
+                    new DatatableColumnName{ id =3, Cname="Start"},
+                    new DatatableColumnName{ id =4, Cname="End"},
+                    new DatatableColumnName{ id =5, Cname="Count"},
+                    new DatatableColumnName{ id =6, Cname="Net Sales"},
+                    new DatatableColumnName{ id =7, Cname="Discount"},
+                    new DatatableColumnName{ id =8, Cname="Tax"},
+                    new DatatableColumnName{ id =9, Cname="Gross"},
                 };
                 salesSummaryByHours = reportViewModel.GetSalesSummaryByHoursReport(ReportDetail.ReportFromDate, ReportDetail.ReportToDate);
 

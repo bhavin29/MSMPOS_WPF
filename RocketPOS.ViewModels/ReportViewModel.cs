@@ -551,12 +551,12 @@ namespace RocketPOS.ViewModels
                         " DECLARE @EndDate DATETIME " +
                         " DECLARE @CurrentDay DATE " +
                         " DECLARE @tmp_Transactions TABLE  " +
-                        " ( OrderDate varchar(15),StartHour time,EndHour time,TotalInvoice INT,NetSalesAmount decimal,TotalDiscount decimal,TotalTax decimal,TotalGrossAmount decimal )   " +
-                        " SET @StartDate =  '" + fromDate + "'"+
-                        " SET @EndDate =  '" + toDate + "'" +
+                        " ( OrderDate varchar(15),StartHour time,EndHour time,TotalInvoice INT,NetSalesAmount numeric(18,2),TotalDiscount numeric(18,2),TotalTax numeric(18,2),TotalGrossAmount numeric(18,2) )   " +
+                        " SET @StartDate =  convert(date,'" + fromDate + "',103)"+
+                        " SET @EndDate =  convert(date,'" + toDate + "',103)" +
                 " SET @count = 0 " +
                 " SET @NumDays = DateDiff(Day, @StartDate, @EndDate) " +
-                " WHILE @count < @NumDays " +
+                " WHILE @count <= @NumDays " +
                 " BEGIN " +
                 " SET @CurrentDay = DateAdd(Day, @count, @StartDate) " +
                 " INSERT INTO @tmp_Transactions (OrderDate,StartHour,EndHour, TotalInvoice,NetSalesAmount,TotalDiscount,TotalTax,TotalGrossAmount) " +
@@ -564,12 +564,12 @@ namespace RocketPOS.ViewModels
                 " FROM    tvfGetDay24Hours(@CurrentDay) AS h " +
                 " OUTER APPLY ( SELECT Count(CO.SalesInvoiceNumber) As TotalInvoice,Sum(COI.VatableAmount) As NetSalesAmount,Sum(COI.Discount)  As TotalDiscount,Sum(COI.FoodMenuVat) As TotalTax,Sum(COI.GrossAmount) As TotalGrossAmount " +
                 " from CustomerOrder CO  Inner Join CustomerOrderItem COI ON CO.Id =COI.CustomerOrderId  Inner Join FoodMenu FM On FM.Id = COI.FoodMenuId    " +
-                " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId WHERE CO.OutletId = 2 And CO.OrderDate BETWEEN h.StartHour AND h.EndHour " +
+                " Inner Join FoodMenuCategory FMC ON FMC.Id=FM.FoodCategoryId WHERE CO.OutletId = " + LoginDetail.OutletId + " And CO.OrderDate BETWEEN h.StartHour AND h.EndHour " +
                 " ) AS t " +
                 " ORDER BY h.StartHour " +
                 " SET @count = @Count + 1 " +
                 " END " +
-                " SELECT * FROM @tmp_Transactions ";
+                " SELECT * FROM @tmp_Transactions where TotalInvoice<>0";
                 salesSummaryByHours = db.Query<SalesSummaryByHours>(Query).ToList();
                 return salesSummaryByHours;
             }

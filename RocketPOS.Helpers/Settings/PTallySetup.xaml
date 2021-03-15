@@ -42,7 +42,7 @@
                         <DataGridTemplateColumn Width="350" IsReadOnly="True" Header="Value">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox x:Name="txtLedgerName"  Height="35" FontSize="16" Width="350" HorizontalContentAlignment="Left" Text="{Binding LedgerName}" IsEnabled="False"  />
+                                    <TextBox x:Name="txtLedgerName"  Height="35" FontSize="16" Width="500" HorizontalContentAlignment="Left" Text="{Binding LedgerName}" IsEnabled="False"  />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -66,26 +66,26 @@
             <Grid Grid.Row="3"  Grid.ColumnSpan="2">
                 <DataGrid x:Name="dgPaymentMethod" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="false" ItemsSource="{Binding PaymentMethodSettingModel}" HorizontalScrollBarVisibility="Disabled"  >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Title" IsReadOnly="True" FontSize="16" FontWeight="Bold" Width="250" Binding="{Binding PaymentMethodName}">
+                        <DataGridTextColumn Header="Title" IsReadOnly="True" FontSize="16" FontWeight="Bold" Width="150" Binding="{Binding PaymentMethodName}">
                         </DataGridTextColumn>
-                        <DataGridTemplateColumn Width="200" IsReadOnly="True" Header="Tally Ledger">
+                        <DataGridTemplateColumn Width="350" IsReadOnly="True" Header="Tally Ledger">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox x:Name="txtTallyLedgerName"  Height="35" FontSize="16" Width="200" HorizontalContentAlignment="Right" Text="{Binding TallyLedgerName}" IsEnabled="False"  />
+                                    <TextBox x:Name="txtTallyLedgerName"  Height="35" FontSize="16" Width="350" HorizontalContentAlignment="Left" Text="{Binding TallyLedgerName}" IsEnabled="False"  />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="200" IsReadOnly="True" Header="Tally Ledger">
+                        <DataGridTemplateColumn Width="350" IsReadOnly="True" Header="Tally Ledger">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox x:Name="txtTallyLedgerNamePark"  Height="35" FontSize="16" Width="200" HorizontalContentAlignment="Right" Text="{Binding TallyLedgerNamePark}" IsEnabled="False"  />
+                                    <TextBox x:Name="txtTallyLedgerNamePark"  Height="35" FontSize="16" Width="350" HorizontalContentAlignment="Left" Text="{Binding TallyLedgerNamePark}" IsEnabled="False"  />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="100" IsReadOnly="True" Header="Bill Postfix">
+                        <DataGridTemplateColumn Width="50" IsReadOnly="True" Header="Bill Postfix">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox x:Name="txtTallyBillPostfix"  Height="35" FontSize="16" Width="100" HorizontalContentAlignment="Right" Text="{Binding TallyBillPostfix}" IsEnabled="False"  />
+                                    <TextBox x:Name="txtTallyBillPostfix"  Height="35" FontSize="16" Width="50" HorizontalContentAlignment="Left" Text="{Binding TallyBillPostfix}" IsEnabled="False"  />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
