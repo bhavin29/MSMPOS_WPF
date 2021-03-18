@@ -65,8 +65,8 @@
                         </StackPanel>
                         <Border BorderThickness="1,1,0,0" Grid.Column="0"  Grid.Row="0" BorderBrush="Black"/>
                         
-                        <StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="1" Grid.Row="0"   >
-                            <Image></Image>
+                        <StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center"  >
+                            <Image Name="imgLogo" Height="150" Width="200"   ></Image>
                         </StackPanel>
                         <Border BorderThickness="1,1,0,0" Grid.Column="1" Grid.Row="0" BorderBrush="Black"/>
 

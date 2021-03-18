@@ -1,4 +1,5 @@
-﻿using RocketPOS.Core.Constants;
+﻿using RocketPOS.Core.Configuration;
+using RocketPOS.Core.Constants;
 using RocketPOS.Model;
 using RocketPOS.ViewModels;
 using System;
@@ -87,6 +88,20 @@ namespace RocketPOS.Helpers.Reports
                         strInvoiceTerms = strInvoiceTerms + strSplit[i] + Environment.NewLine;
                     }
                     txtTerms.Text = strInvoiceTerms;
+
+                    AppSettings appSettings = new AppSettings();
+
+                    string rootPath = appSettings.GetAppPath();
+
+                    string directory = System.IO.Path.GetDirectoryName(rootPath + @"\Images\");
+                    string filePath = System.IO.Path.Combine(directory, "CompanyLogo.jpg");
+
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri(filePath);
+                    bitmap.EndInit();
+
+                    imgLogo.Source = bitmap;
                 }
             }
         }
