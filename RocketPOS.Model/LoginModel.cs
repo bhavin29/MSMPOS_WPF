@@ -51,7 +51,8 @@ namespace RocketPOS.Model
         public string Powerby { get; set; }
         public int TaxInclusive { get; set; }
         public bool IsItemOverright { get; set; }
-
+        public string InvoiceTerms { get; set; }
+        
 
     }
 }

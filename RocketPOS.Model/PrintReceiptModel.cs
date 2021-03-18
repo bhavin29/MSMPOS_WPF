@@ -38,6 +38,7 @@ namespace RocketPOS.Model
         public string FoodVat { get; set; }
 
         public string Unitname { get; set; }
+        public float TaxPercentage { get; set; }
     }
     public class PrintKOTModel
     {

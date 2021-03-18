@@ -209,18 +209,6 @@ namespace RocketPOS.Helpers.Reports
             {
                 ReportDetail.ReportName = "TableStatistics";
             }
-            else if (ReportName == "Table Statistics")
-            {
-                ReportDetail.ReportName = "TableStatistics";
-            }
-            else if (ReportName == "Table Statistics")
-            {
-                ReportDetail.ReportName = "TableStatistics";
-            }
-            else if (ReportName == "Table Statistics")
-            {
-                ReportDetail.ReportName = "TableStatistics";
-            }
             else if (ReportName == "Sales Summary by Product Category")
             {
                 ReportDetail.ReportName = "SalesSummarybyProductCategory";

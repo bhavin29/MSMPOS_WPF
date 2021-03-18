@@ -93,7 +93,7 @@ namespace RocketPOS.ViewModels
             {
                 connection.Open();
                 var query = " select ClientName,Address1,Address2,Email,Phone,Header,Footer,Footer1,Footer2,Footer3,Footer4,website,OrderPrefix,ReceiptPrefix, " +
-                            " HeaderMarqueeText,DeliveryList,Powerby,IsItemOverright,LinkedServer,WebAppUrl,CurrentOutletId from Client ";
+                            " HeaderMarqueeText,DeliveryList,Powerby,IsItemOverright,LinkedServer,WebAppUrl,CurrentOutletId,InvoiceTerms from Client ";
                 clientSettingModel = connection.Query<ClientSettingModel>(query).FirstOrDefault();
             }
             return clientSettingModel;
@@ -134,6 +134,7 @@ namespace RocketPOS.ViewModels
                                                 "IsItemOverright = " + isItemOverright + "," +
                                                 "LinkedServer = '" + clientSettingModel.LinkedServer + "'," +
                                                 "WebAppUrl = '" + clientSettingModel.WebAppUrl + "'," +
+                                                "InvoiceTerms='" + clientSettingModel.InvoiceTerms + "',"+
                                                 "CurrentOutletId = " + clientSettingModel.CurrentOutletId;
                 result = connection.Query<bool>(query).FirstOrDefault();
             }

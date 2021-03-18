@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RocketPOS.Helpers.Settings"
       mc:Ignorable="d" 
-       d:DesignHeight="450" d:DesignWidth="900" Background="Gray"
+       d:DesignHeight="550" d:DesignWidth="900" Background="Gray"
      Title="System Setup">
 
     <Grid >
@@ -42,6 +42,7 @@
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
+                <RowDefinition Height="150"/>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" Background="#956eeb"  Grid.ColumnSpan="7">
@@ -128,6 +129,14 @@
                 <TextBox IsEnabled="False" x:Name="txtFooter4"></TextBox>
             </Grid>
 
+            <Grid  Grid.Row="13" Grid.Column="1"   >
+                <Label FontSize="14" Foreground="White">Invoice Terms</Label>
+            </Grid>
+            <Grid Grid.Row="13"  Grid.Column="2" Grid.RowSpan="4" Grid.ColumnSpan="4">
+                <TextBox IsEnabled="False" x:Name="txtInvoiceTerms" AcceptsReturn="True" ></TextBox>
+            </Grid>
+
+            
             <Grid  Grid.Row="2" Grid.Column="4"  >
                 <Label FontSize="14" Foreground="White">Website</Label>
             </Grid>

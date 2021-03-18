@@ -152,6 +152,7 @@ namespace RocketPOS.Helpers
             LoginDetail.TaxInclusive = loginModel[0].TaxInclusive;
             LoginDetail.IsItemOverright = loginModel[0].IsItemOverright;
             LoginDetail.ConnectionString = appSettings.GetConnectionString();
+            LoginDetail.InvoiceTerms = loginModel[0].InvoiceTerms;
         }
 
         private void CenterWindowOnScreen()

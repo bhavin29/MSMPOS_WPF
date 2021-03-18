@@ -23,18 +23,18 @@
                     <Label Name="lblreportTitle" Content=""  Foreground="White" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0">
-                    <Label Content="From Date" Width="80" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
+                    <Label Name="lblFromDate" Content="From Date" Width="80" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
                     <DatePicker Name="dpFromDatePayment" Height="25"  Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" SelectedDateChanged="dpFromDatePayment_SelectedDateChanged"   />
-                    <Label Content="To Date" Width="80" FontSize="14" Foreground="White"  VerticalAlignment="Center" Margin="25,0,0,0"/>
+                    <Label Name="lblToDate" Content="To Date" Width="80" FontSize="14" Foreground="White"  VerticalAlignment="Center" Margin="25,0,0,0"/>
                     <DatePicker Name="dpToDatePayment" Height="25"  Width="175" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"  SelectedDateChanged="dpToDatePayment_SelectedDateChanged"  />
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Row="1" Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="40" Margin="5,0,0,0">
-                    <Label Content="Category  " Width="80" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
+                    <Label Name="lblCategory" Content="Category  " Width="80" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
                     <ComboBox x:Name="cmbCategory"  IsEditable="True" FontSize="15" Margin="10,1,0,0" Width="200" Height="25"  SelectionChanged="cmbCategory_SelectionChanged" />
 
-                    <Label Content="Product" Width="80" FontSize="14" Foreground="White"  VerticalAlignment="Center" Margin="25,0,0,0"/>
+                    <Label Name="lblProduct" Content="Product" Width="80" FontSize="14" Foreground="White"  VerticalAlignment="Center" Margin="25,0,0,0"/>
                     <ComboBox x:Name="cmbProduct" IsEditable="True" FontSize="15" Margin="1,1,0,0" Width="210" Height="25" SelectionChanged="cmbProduct_SelectionChanged"  />
 
                     <Button x:Name="btnLoad" Margin="80,0,0,0" Style="{StaticResource btnOrange}" Content="Preview" Width="80" Height="35" VerticalContentAlignment="Center" Click="btnLoad_Click"  />

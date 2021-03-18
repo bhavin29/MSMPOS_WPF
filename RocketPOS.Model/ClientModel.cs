@@ -47,5 +47,7 @@ namespace RocketPOS.Model
         public string LinkedServer { get; set; }
         public string WebAppUrl { get; set; }
         public string CurrentOutletId { get; set; }
+        public string InvoiceTerms { get; set; }
+
     }
 }

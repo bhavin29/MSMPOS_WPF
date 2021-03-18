@@ -56,6 +56,9 @@ namespace RocketPOS.Helpers.Reports
                     // = printReceiptA4Models[0].ClientAddress2;
                     txtClientEmail.Text = printReceiptA4Models[0].ClientEmail;
                     txtClientPIN.Text = printReceiptA4Models[0].ClientPhone;
+                    txtAddress1.Text = printReceiptA4Models[0].ClientAddress1;
+                    TxtAddress2.Text = printReceiptA4Models[0].ClientAddress2;
+
                     txtSupplierName.Text = printReceiptA4Models[0].CustomerName;
                     txtSupplierEmail.Text= printReceiptA4Models[0].CustomerEmail;
                     txtSupplierAddress1.Text= printReceiptA4Models[0].CustomerAddress1;
@@ -73,6 +76,17 @@ namespace RocketPOS.Helpers.Reports
                     txtHeader.Text = "INVOICE";
                     if (printReceiptA4Models[0].SalesInvoiceNumber =="" || printReceiptA4Models[0].SalesInvoiceNumber == null)
                     txtHeader.Text = "PROFORMA INVOICE";
+
+                    string strInvoiceTerms = LoginDetail.InvoiceTerms;
+
+                    string[] strSplit = strInvoiceTerms.Split("\r\n");
+                    strInvoiceTerms = "";
+
+                    for(int i=0; i< strSplit.Length;i++)
+                    {
+                        strInvoiceTerms = strInvoiceTerms + strSplit[i] + Environment.NewLine;
+                    }
+                    txtTerms.Text = strInvoiceTerms;
                 }
             }
         }

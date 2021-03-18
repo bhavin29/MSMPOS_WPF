@@ -48,6 +48,7 @@ namespace RocketPOS.Helpers.Reports
             var thisMonthStart = baseDate.AddDays(1 - baseDate.Day);
             var thisMonthProductStart = dtProductWithTime.AddDays(1 - dtProductWithTime.Day);
 
+            //Date
             if (ReportDetail.ReportFromDate == "")
             {
                 dpFromDatePayment.SelectedDate = thisMonthStart;
@@ -60,8 +61,35 @@ namespace RocketPOS.Helpers.Reports
             }
 
             lblreportTitle.Content = ReportDetail.ReportTitle;
-            FillDropdown();
 
+            //Dropdown
+            if (ReportDetail.ReportName == "TallySalesVoucher" || ReportDetail.ReportName == "DetailedDaily" || ReportDetail.ReportName == "ProductwiseSales" || ReportDetail.ReportName == "CESS" ||
+                ReportDetail.ReportName == "ModeOfPayment" || ReportDetail.ReportName == "CESS_Detail" || ReportDetail.ReportName == "TableStatistics" ||
+                ReportDetail.ReportName == "SalesSummarybySection" || ReportDetail.ReportName == "CustomerReward" || ReportDetail.ReportName == "SalesSummarybyHour" )
+            {
+                lblCategory.Visibility = Visibility.Hidden;
+                lblProduct.Visibility = Visibility.Hidden;
+                cmbCategory.Visibility = Visibility.Hidden;
+                cmbProduct.Visibility = Visibility.Hidden;
+            }
+            else if ( ReportDetail.ReportName == "CESS_Category")
+            {
+                cmbCategory.Visibility = Visibility.Visible;
+                cmbProduct.Visibility = Visibility.Hidden;
+                lblCategory.Visibility = Visibility.Visible;
+                lblProduct.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                lblCategory.Visibility = Visibility.Visible;
+                lblProduct.Visibility = Visibility.Visible;
+                cmbCategory.Visibility = Visibility.Visible;
+                cmbProduct.Visibility = Visibility.Visible;
+                FillDropdown();
+            }
+
+
+            //XML & Print Button
             btnGeneric.Visibility = Visibility.Hidden;
             if (ReportDetail.ReportName == "TallySalesVoucher" || ReportDetail.ReportName == "DetailedDaily" || ReportDetail.ReportName == "ProductwiseSales")
             {

@@ -47,6 +47,7 @@ namespace RocketPOS.Helpers.Settings
             txtLinkedServer.Text = clientSettingModel.LinkedServer;
             txtWebAppUrl.Text = clientSettingModel.WebAppUrl;
             txtCurrentOutletId.Text = clientSettingModel.CurrentOutletId;
+            txtInvoiceTerms.Text = clientSettingModel.InvoiceTerms;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -77,6 +78,7 @@ namespace RocketPOS.Helpers.Settings
                 txtLinkedServer.IsEnabled = true;
                 txtWebAppUrl.IsEnabled = true;
                 txtCurrentOutletId.IsEnabled = true;
+                txtInvoiceTerms.IsEnabled = true;
             }
             else
             {
@@ -102,6 +104,7 @@ namespace RocketPOS.Helpers.Settings
                 clientSettingModel.LinkedServer = txtLinkedServer.Text;
                 clientSettingModel.WebAppUrl = txtWebAppUrl.Text;
                 clientSettingModel.CurrentOutletId = txtCurrentOutletId.Text;
+                clientSettingModel.InvoiceTerms = txtInvoiceTerms.Text;
                 var result = settingsViewModel.UpdateClientSetting(clientSettingModel);
                 btnCancel_Click(null, null);
             }
@@ -132,6 +135,7 @@ namespace RocketPOS.Helpers.Settings
             txtLinkedServer.IsEnabled = false;
             txtWebAppUrl.IsEnabled = false;
             txtCurrentOutletId.IsEnabled = false;
+            txtInvoiceTerms.IsEnabled = false;
         }
     }
 }
