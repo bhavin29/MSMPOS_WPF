@@ -97,7 +97,7 @@ namespace RocketPOS.Helpers
                 cmbCustomer.ItemsSource = customers;
                 cmbCustomer.Text = "Select Customer";
                 cmbCustomer.IsEditable = true;
-                cmbCustomer.IsReadOnly = true;
+               // cmbCustomer.IsReadOnly = true;
                 cmbCustomer.SelectedValuePath = "Id";
                 cmbCustomer.DisplayMemberPath = "CustomerName";
 
@@ -664,7 +664,7 @@ namespace RocketPOS.Helpers
                 cmbWaiter.ItemsSource = waiters;
                 cmbWaiter.Text = "Select Waiter";
                 cmbWaiter.IsEditable = true;
-                cmbCustomer.IsReadOnly = true;
+               // cmbCustomer.IsReadOnly = true;
                 cmbWaiter.SelectedValuePath = "Id";
                 cmbWaiter.DisplayMemberPath = "FullName";
                 cmbWaiter.SelectedIndex = -1;
@@ -984,10 +984,17 @@ namespace RocketPOS.Helpers
                 txtQtyPopUpProductName.Text = saleItemsFoodMenu.Product;
                 txtChnageQty.Text = saleItemsFoodMenu.Qty.ToString();
 
-                ppEditQty.IsOpen = true;
-                return;
-                // }
 
+                ppEditQty.IsOpen = true;
+
+                txtEditQty.Text = "1";
+                txtEditQty.Focus();
+                txtEditQty.SelectionStart = 0;
+                txtEditQty.SelectionLength = (txtEditQty.Text.Length+2);
+
+                e.Handled = true;
+                return;
+ 
                 CommonOrderCalculation(sender, "FoodMenu");
 
                 List<SaleItemModel> saleItems = new List<SaleItemModel>();
@@ -1036,10 +1043,7 @@ namespace RocketPOS.Helpers
                 SystemError.Register(ex);
             }
         }
-        //private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    GetSearchFoodItems(txtSearch.Text.ToLower());
-        //}
+
         private void btnPlusQty_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -2348,8 +2352,6 @@ namespace RocketPOS.Helpers
                 if (foodItem == null) return;
                 foodMenuItem = (FoodMenu)foodItem.Item;
 
-                //if (foodMenuItem.IsPriceChange == true)
-                //{
                 rowId = dgSaleItem.Items.Count + 1;
                 saleItemsFoodMenu.RowId = rowId;
                 saleItemsFoodMenu.FoodMenuId = foodMenuItem.FoodMenuId.ToString();
@@ -2370,9 +2372,11 @@ namespace RocketPOS.Helpers
                 ppFoodMenuList.IsOpen = false;
 
                 ppEditQty.IsOpen = true;
-
+                txtEditQty.Text = "1";
+                txtEditQty.Focus();
+                txtEditQty.SelectionStart = 0;
+                txtEditQty.SelectionLength = (txtEditQty.Text.Length+2);
                 return;
-                // }
 
                 CommonOrderCalculation(foodMenuItem, "FoodMenuGridList");
 
@@ -2838,6 +2842,7 @@ namespace RocketPOS.Helpers
                 if (String.IsNullOrEmpty(txtEditQty.Text) || Convert.ToDecimal(txtEditQty.Text.ToString()) <= 0)
                 {
                     var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Pleae enter change qty.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                    txtEditQty.Focus();
                     return;
                 }
                 saleItemsFoodMenu.Qty = Convert.ToDecimal(txtEditQty.Text.ToString());
@@ -2899,7 +2904,6 @@ namespace RocketPOS.Helpers
 
                 ppEditQty.IsOpen = false;
                 txtSearchFoodMenuList.Text = "";
-                txtEditQty.Text = "1";
                 //saleItemsFoodMenu = null;
 
             }
@@ -3271,17 +3275,40 @@ namespace RocketPOS.Helpers
             ppCustomerAdd.IsOpen = true;
         }
 
+        private void txtEditQty_GotFocus(object sender, RoutedEventArgs e)
+        {
+            txtEditQty.SelectionStart = 0;
+            txtEditQty.SelectionLength = (txtEditQty.Text.Length+2);
+        }
+
+        private void txtEditQty_KeyDown(object sender, KeyEventArgs e)
+        {
+            var uiElement = e.OriginalSource as UIElement;
+            if (e.Key == Key.Enter && uiElement != null)
+            {
+                e.Handled = true;
+                btnQtyPricePopUpAddToCart_Click(sender, e);
+            }
+
+        }
+
+        private void lbCustomerOrderList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+           // lbCustomerOrderList.SelectedItem = e.s
+            btnModifyOrder_Click(sender, e);
+        }
+
         private void btnRedeemApply_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(txtRedeemAmount.Text))
             {
-                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Pleae enter reedem points.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Please enter reedem points.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
                 ppRedeem.IsOpen = true;
                 return;
             }
             else if (Convert.ToDecimal(txtRedeemAmount.Text.ToString()) < 0)
             {
-                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Pleae enter valid reedem points.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
+                var messageBoxResult = WpfMessageBox.Show(StatusMessages.AppTitle, "Please enter valid reedem points.", MessageBoxButton.OK, EnumUtility.MessageBoxImage.Information);
                 ppRedeem.IsOpen = true;
                 return;
             }

@@ -27,16 +27,17 @@ namespace RocketPOS.Helpers.Kitchen
         DispatcherTimer timer;
         int _KotTimerLimit;
         List<int> KitchenOrder = new List<int>();
+        KitchenViewModel kitchenViewModelButton = new KitchenViewModel();
         public KitchenView()
         {
             InitializeComponent();
 
             AppSettings appSettings = new AppSettings();
-            _KotTimerLimit = Convert.ToInt32(appSettings.GetKotTimerLimit());
-            txtTimer.Text = _KotTimerLimit.ToString();
+        //    _KotTimerLimit = Convert.ToInt32(appSettings.GetKotTimerLimit());
+         //   txtTimer.Text = _KotTimerLimit.ToString();
 
             CenterWindowOnScreen();
-            TimerForKOTStatus(_KotTimerLimit);
+          //  TimerForKOTStatus(_KotTimerLimit);
             GetKitchenPending(KitchenOrder);
 
             if (LoginDetail.RoleTypeId == 1 || LoginDetail.RoleTypeId == 2 || LoginDetail.RoleTypeId == 3)
@@ -213,6 +214,19 @@ namespace RocketPOS.Helpers.Kitchen
                                 txtbKOTStatus.TextAlignment = TextAlignment.Right;
                                 kotDetailPanel.Children.Add(txtbKOTStatus);
 
+                                //Table Name as hidden attribute
+                                TextBlock txtbTableNameHidden = new TextBlock();
+
+                                strPerson = "";
+                                if (item.AllocatedPerson > 0)
+                                    strPerson = " [ " + item.AllocatedPerson + " ]";
+
+                                txtbTableNameHidden.Text = "TABLE #" + item.TableName + strPerson;
+                                txtbTableNameHidden.Name = "txtbTableName_" + item.TableId;
+                                txtbTableNameHidden.FontSize = 1;
+                                txtbTableNameHidden.Width = 1;
+                                kotDetailPanel.Children.Add(txtbTableNameHidden);
+
                                 kotHeaderPanel.Children.Add(kotDetailPanel);
                             }
                         }
@@ -367,13 +381,54 @@ namespace RocketPOS.Helpers.Kitchen
         {
             try
             {
+                SolidColorBrush solidColorBrush = new SolidColorBrush();
+
                 KitchenViewModel kitchenViewModel = new KitchenViewModel();
                 var kotDetailPanel = sender as WrapPanel;
+                var txtfoodmenuName = kotDetailPanel.Children[0] as TextBlock;
+                var txtQty = kotDetailPanel.Children[1] as TextBlock;
                 var txtbKOTItemId = kotDetailPanel.Children[2] as TextBlock;
                 var txtbKOTId = kotDetailPanel.Children[3] as TextBlock;
                 var txtbKOTStatus = kotDetailPanel.Children[4] as TextBlock;
+                var txtOrderTable = kotDetailPanel.Children[5] as TextBlock;
                 int status = 0;
+                
+                ppStatus.StaysOpen = true;
+                ppStatus.IsOpen = true;
 
+                txtppTableNumber.Text = txtOrderTable.Text;
+                txtppFoodmenuName.Text = txtfoodmenuName.Text;
+                txtppQty.Text = txtQty.Text;
+                txtbKOTItemIdHidden.Text = txtbKOTItemId.Text;
+                txtbKOTIdHidden.Text = txtbKOTId.Text;
+
+                if (txtbKOTStatus.Text == EnumUtility.KOTStatus.Completed.ToString())
+                {
+                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#ffffff"));
+                }
+                else if (txtbKOTStatus.Text == EnumUtility.KOTStatus.Pending.ToString())
+                {
+                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#ff726f"));
+                }
+                else if (txtbKOTStatus.Text == EnumUtility.KOTStatus.Cooking.ToString())
+                {
+                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#fbff99"));
+                }
+                else if (txtbKOTStatus.Text == EnumUtility.KOTStatus.Ready.ToString())
+                {
+                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#5cff7e"));
+                }
+                else if (txtbKOTStatus.Text == EnumUtility.KOTStatus.Served.ToString())
+                {
+                    solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#ccd9ff"));
+                }
+                
+                grItem.Background = solidColorBrush;
+
+                e.Handled = true;
+                return;
+
+ 
                 if (txtbKOTStatus.Text == EnumUtility.KOTStatus.Pending.ToString())
                 {
                     status = (int)EnumUtility.KOTStatus.Cooking;
@@ -497,6 +552,8 @@ namespace RocketPOS.Helpers.Kitchen
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            ppStatus.StaysOpen = false;
+            ppStatus.IsOpen = false;
             if (LoginDetail.RoleTypeId == 1 || LoginDetail.RoleTypeId == 2 || LoginDetail.RoleTypeId == 3)
             {
                 this.Hide();
@@ -516,6 +573,51 @@ namespace RocketPOS.Helpers.Kitchen
                 this.ResizeMode = ResizeMode.NoResize;
             }
 
+        }
+
+        private void btnppStatusCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ppStatus.IsOpen = false;
+        }
+
+        private void btnppPending_Click(object sender, RoutedEventArgs e)
+        {
+            kitchenViewModelButton.ChangeKOTStatus(txtbKOTItemIdHidden.Text, txtbKOTIdHidden.Text, 1);
+            GetKitchenPending(KitchenOrder);
+            ppStatus.StaysOpen = false;
+            ppStatus.IsOpen = false;
+        }
+
+        private void btnppCooking_Click(object sender, RoutedEventArgs e)
+        {
+            kitchenViewModelButton.ChangeKOTStatus(txtbKOTItemIdHidden.Text, txtbKOTIdHidden.Text, 2);
+            GetKitchenPending(KitchenOrder);
+            ppStatus.StaysOpen = false;
+            ppStatus.IsOpen = false;
+        }
+
+        private void btnppReady_Click(object sender, RoutedEventArgs e)
+        {
+            kitchenViewModelButton.ChangeKOTStatus(txtbKOTItemIdHidden.Text, txtbKOTIdHidden.Text, 3);
+            GetKitchenPending(KitchenOrder);
+            ppStatus.StaysOpen = false;
+            ppStatus.IsOpen = false;
+        }
+
+        private void btnppServed_Click(object sender, RoutedEventArgs e)
+        {
+            kitchenViewModelButton.ChangeKOTStatus(txtbKOTItemIdHidden.Text, txtbKOTIdHidden.Text, 4);
+            GetKitchenPending(KitchenOrder);
+            ppStatus.StaysOpen = false;
+            ppStatus.IsOpen = false;
+        }
+
+        private void btnppCompleted_Click(object sender, RoutedEventArgs e)
+        {
+            kitchenViewModelButton.ChangeKOTStatus(txtbKOTItemIdHidden.Text, txtbKOTIdHidden.Text, 5);
+            GetKitchenPending(KitchenOrder);
+            ppStatus.StaysOpen = false;
+            ppStatus.IsOpen = false;
         }
     }
 }

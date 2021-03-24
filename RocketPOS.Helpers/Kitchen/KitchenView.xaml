@@ -32,11 +32,55 @@
         <Button x:Name="btnRefreshAll" Margin="540,5,10,0" Content="Refresh" Style="{StaticResource btnOrange}" Grid.Row="0" Grid.Column="0"  Width="102" Height="34" HorizontalAlignment="Left" Click="btnRefreshAll_Click">
         </Button>
         <Button x:Name="btnPOS" Visibility="Collapsed" Content="Back" Margin="2,0,2,0" Style="{StaticResource btnOrange}" Grid.Row="0" Grid.Column="0"  Width="70" Height="35" HorizontalAlignment="Right" Click="btnPOS_Click"/>
-  
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="0" Margin="3,1,0,0">
+
+        <Popup Name="ppStatus" Placement="Center" AllowsTransparency="False" StaysOpen="False">
+            <Border BorderBrush="Black" BorderThickness="5,5,5,5">
+                <Grid Width="510" Height="230" Background="#86A09E">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="510"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="btnppStatusCancel" HorizontalAlignment="Right" Content="Cancel" Margin="5,5,5,5" Grid.Row="0" Height="40" Width="60" FontSize="16" Background="#00265B" Foreground="White"  Click="btnppStatusCancel_Click"/>
+
+                    <Grid Grid.Row="1" Background="Black" Margin="5">
+                        <TextBlock x:Name="txtppTableNumber" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Text="" Margin="15,0,0,0"  />
+                    </Grid>
+
+                    <Grid Name="grItem" Grid.Row="3" Background="Yellow"  Margin="5" >
+                        <TextBlock x:Name="txtppFoodmenuName"   FontSize="18" FontWeight="Bold" Foreground="Black" Text="" Margin="15,0,0,0" />
+                        <TextBlock x:Name="txtppQty"   FontSize="18" FontWeight="Bold" Foreground="Black" Text="" Margin="15,20,0,0"/>
+                    </Grid>
+                    <Grid  Grid.Row="5" Margin="5" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnppPending" Content="Pending" Margin="0,5,0,5"  Height="40" Width="100" FontSize="16" Background="#ff726f" Foreground="Black" Click="btnppPending_Click" />
+                        <Button x:Name="btnppCooking" Content="Cooking" Margin="1,5,0,5"  Height="40" Width="100" FontSize="16" Background="#fbff99" Foreground="Black" Click="btnppCooking_Click"/>
+                        <Button x:Name="btnppReady" Content="Ready" Margin="1,5,0,5"  Height="40" Width="100" FontSize="16" Background="#5cff7e" Foreground="Black" Click="btnppReady_Click"/>
+                        <Button x:Name="btnppServed" Content="Served" Margin="1,5,0,5"  Height="40" Width="100" FontSize="16" Background="#ccd9ff" Foreground="Black" Click="btnppServed_Click"/>
+                        <Button x:Name="btnppCompleted" Content="Completed" Margin="1,5,5,5"  Height="40" Width="100" FontSize="16" Background="#ffffff" Foreground="Black" Click="btnppCompleted_Click"/>
+                        </StackPanel>
+                    </Grid>
+                    <TextBox Name="txtbKOTItemIdHidden" Visibility="Hidden" />
+                    <TextBox Name="txtbKOTIdHidden" Visibility="Hidden"/>
+                </Grid>
+            </Border>
+        </Popup>
+
+        
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="0" Margin="3,1,0,0" AllowDrop="True">
             <WrapPanel x:Name="wpKitchenView"  Orientation="Horizontal"  >
 
             </WrapPanel>
         </ScrollViewer>
+
+ 
     </Grid>
 </Window>

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RocketPOS.Helpers": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

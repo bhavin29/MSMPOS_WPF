@@ -61,9 +61,11 @@ namespace RocketPOS.Helpers.Reports
                     TxtAddress2.Text = printReceiptA4Models[0].ClientAddress2;
 
                     txtSupplierName.Text = printReceiptA4Models[0].CustomerName;
-                    txtSupplierEmail.Text= printReceiptA4Models[0].CustomerEmail;
                     txtSupplierAddress1.Text= printReceiptA4Models[0].CustomerAddress1;
                     txtSupplierAddres2.Text= printReceiptA4Models[0].CustomerAddress2;
+                    txtSupplierEmail.Text = printReceiptA4Models[0].CustomerEmail;
+                    txtSupplierPhone.Text = printReceiptA4Models[0].CustomerPhone;
+
                     //= printReceiptA4Models.CustomerPhone;
                     txtInvoiceDate.Text = printReceiptA4Models[0].BillDateTime.ToString("dd/MM/yyyy");
                     txtInvoiceNo.Text = printReceiptA4Models[0].SalesInvoiceNumber;
