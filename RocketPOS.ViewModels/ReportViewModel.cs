@@ -508,7 +508,6 @@ namespace RocketPOS.ViewModels
                 return customerRewardModel;
             }
         }
-
         public List<SalesSummaryByWeek> GetSalesSummaryByWeekReport(string fromDate, string toDate, int categoryId, int foodMenuId)
         {
             List<SalesSummaryByWeek> salesSummaryByWeek = new List<SalesSummaryByWeek>();
@@ -537,7 +536,6 @@ namespace RocketPOS.ViewModels
                 return salesSummaryByWeek;
             }
         }
-
         public List<SalesSummaryByHours> GetSalesSummaryByHoursReport(string fromDate, string toDate)
         {
             List<SalesSummaryByHours> salesSummaryByHours = new List<SalesSummaryByHours>();

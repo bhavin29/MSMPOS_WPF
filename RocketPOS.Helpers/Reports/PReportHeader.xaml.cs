@@ -88,7 +88,6 @@ namespace RocketPOS.Helpers.Reports
                 FillDropdown();
             }
 
-
             //XML & Print Button
             btnGeneric.Visibility = Visibility.Hidden;
             if (ReportDetail.ReportName == "TallySalesVoucher" || ReportDetail.ReportName == "DetailedDaily" || ReportDetail.ReportName == "ProductwiseSales")
