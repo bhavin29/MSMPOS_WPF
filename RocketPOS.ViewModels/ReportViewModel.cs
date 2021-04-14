@@ -148,8 +148,8 @@ namespace RocketPOS.ViewModels
                     }
 
                     Query += " group by FMC.FoodMenuCategoryName,FM.FoodMenuName " +
-                        " WITH ROLLUP  " +  // Returns Sub Totals For Group By
-                        " Order By Sum(COI.FoodMenuQty) desc ";
+                        //  " WITH ROLLUP  " +  // Returns Sub Totals For Group By
+                        " Order By FMC.FoodMenuCategoryName,Sum(COI.FoodMenuQty) desc,FM.FoodMenuName ";
                 }
 
                 if (reportName == "SalesByCategoryProductQtyAsc")
@@ -172,8 +172,8 @@ namespace RocketPOS.ViewModels
                     }
 
                     Query += " group by FMC.FoodMenuCategoryName,FM.FoodMenuName " +
-                        " WITH ROLLUP  " +
-                        " Order By Sum(COI.FoodMenuQty) asc ";
+                        //  " WITH ROLLUP  " +
+                        " Order By FMC.FoodMenuCategoryName,Sum(COI.FoodMenuQty) asc,FM.FoodMenuName ";
                 }
 
                 if (reportName == "SalesByCategoryProductAmountDesc")
@@ -196,8 +196,8 @@ namespace RocketPOS.ViewModels
                     }
 
                     Query +=" group by FMC.FoodMenuCategoryName,FM.FoodMenuName " +
-                        " WITH ROLLUP  " +
-                        " Order By Sum(COI.Price) desc ";
+                        //  " WITH ROLLUP  " +
+                        " Order By FMC.FoodMenuCategoryName,Sum(COI.Price) desc,FM.FoodMenuName ";
                 }
 
                 if (reportName == "SalesBySectionCategoryProductAmountAsc")
@@ -221,8 +221,8 @@ namespace RocketPOS.ViewModels
                     }
 
                     Query += " group by CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName " +
-                        " WITH ROLLUP  " +
-                        " Order By CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.Price) asc ";
+                        //  " WITH ROLLUP  " +
+                        " Order By CO.OrderType,FMC.FoodMenuCategoryName,Sum(COI.Price) asc,FM.FoodMenuName ";
                 }
 
                 if (reportName == "SalesBySectionCategoryProductAmountDesc")
@@ -246,8 +246,8 @@ namespace RocketPOS.ViewModels
                     }
 
                     Query += " group by CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName " +
-                        " WITH ROLLUP  " +
-                        " Order By CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.Price) desc ";
+                        //   " WITH ROLLUP  " +
+                        " Order By CO.OrderType,FMC.FoodMenuCategoryName,Sum(COI.Price) desc,FM.FoodMenuName ";
                 }
 
                 if (reportName == "SalesBySectionCategoryProductQtyAsc")
@@ -271,8 +271,8 @@ namespace RocketPOS.ViewModels
                     }
 
                     Query += " group by CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName " +
-                        " WITH ROLLUP  " +
-                        " Order By CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuQty) asc ";
+                        //   " WITH ROLLUP  " +
+                        " Order By CO.OrderType,FMC.FoodMenuCategoryName,Sum(COI.FoodMenuQty) asc,FM.FoodMenuName ";
                 }
 
                 if (reportName == "SalesBySectionCategoryProductQtyDesc")
@@ -296,8 +296,8 @@ namespace RocketPOS.ViewModels
                     }
 
                     Query += " group by CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName " +
-                        " WITH ROLLUP  " +
-                        " Order By CO.OrderType,FMC.FoodMenuCategoryName,FM.FoodMenuName,Sum(COI.FoodMenuQty) desc ";
+                        //   " WITH ROLLUP  " +
+                        " Order By CO.OrderType,FMC.FoodMenuCategoryName,Sum(COI.FoodMenuQty) desc ";
                 }
 
                 if (reportName == "SalesBySectionCategory")
@@ -321,7 +321,7 @@ namespace RocketPOS.ViewModels
                     }
 
                     Query += " group by CO.OrderType,FMC.FoodMenuCategoryName " +
-                        " WITH ROLLUP  " +
+                     //   " WITH ROLLUP  " +
                         " Order By CO.OrderType,FMC.FoodMenuCategoryName asc ";
                 }
 
@@ -346,8 +346,8 @@ namespace RocketPOS.ViewModels
                     }
 
                     Query += " group by CO.OrderType,FM.FoodMenuName " +
-                        " WITH ROLLUP  " +
-                        " Order By CO.OrderType,FM.FoodMenuName,Sum(COI.Price) desc ";
+                        //  " WITH ROLLUP  " +
+                        " Order By CO.OrderType,Sum(COI.Price) desc,FM.FoodMenuName ";
                 }
 
                 if (reportName == "SalesBySectionProductQtyDesc")
@@ -371,8 +371,8 @@ namespace RocketPOS.ViewModels
                     }
 
                     Query += " group by CO.OrderType,FM.FoodMenuName " +
-                        " WITH ROLLUP  " +
-                        " Order By CO.OrderType,FM.FoodMenuName,Sum(COI.FoodMenuQty) desc ";
+                        //   " WITH ROLLUP  " +
+                        " Order By CO.OrderType,Sum(COI.FoodMenuQty) desc,FM.FoodMenuName ";
                 }
 
                 salesByCategoryProductModel = db.Query<SalesByCategoryProductModel>(Query).ToList();
