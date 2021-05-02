@@ -33,11 +33,11 @@ namespace RocketPOS.Helpers.Kitchen
             InitializeComponent();
 
             AppSettings appSettings = new AppSettings();
-        //    _KotTimerLimit = Convert.ToInt32(appSettings.GetKotTimerLimit());
-         //   txtTimer.Text = _KotTimerLimit.ToString();
+            _KotTimerLimit = Convert.ToInt32(appSettings.GetKotTimerLimit());
+            txtTimer.Text = _KotTimerLimit.ToString();
 
             CenterWindowOnScreen();
-          //  TimerForKOTStatus(_KotTimerLimit);
+            TimerForKOTStatus(_KotTimerLimit);
             GetKitchenPending(KitchenOrder);
 
             if (LoginDetail.RoleTypeId == 1 || LoginDetail.RoleTypeId == 2 || LoginDetail.RoleTypeId == 3)
@@ -392,7 +392,7 @@ namespace RocketPOS.Helpers.Kitchen
                 var txtbKOTStatus = kotDetailPanel.Children[4] as TextBlock;
                 var txtOrderTable = kotDetailPanel.Children[5] as TextBlock;
                 int status = 0;
-                
+
                 ppStatus.StaysOpen = true;
                 ppStatus.IsOpen = true;
 
@@ -422,13 +422,13 @@ namespace RocketPOS.Helpers.Kitchen
                 {
                     solidColorBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#ccd9ff"));
                 }
-                
+
                 grItem.Background = solidColorBrush;
 
                 e.Handled = true;
                 return;
 
- 
+
                 if (txtbKOTStatus.Text == EnumUtility.KOTStatus.Pending.ToString())
                 {
                     status = (int)EnumUtility.KOTStatus.Cooking;
@@ -506,7 +506,7 @@ namespace RocketPOS.Helpers.Kitchen
             try
             {
                 timer = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromMinutes(kotTimerLimit);
+                timer.Interval = TimeSpan.FromSeconds(kotTimerLimit);
                 timer.Tick += TimerForKOTStatus_Tick;
                 timer.Start();
             }

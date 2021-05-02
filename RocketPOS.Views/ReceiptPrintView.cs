@@ -215,8 +215,8 @@ namespace RocketPOS.Views
             {
                 InsertItemList(item.FoodMenuName.ToString(), "", Offset, intItemFoodMenuName);
                 Offset = Offset + smallinc;
-                InsertItemList(item.FoodMenuQty.ToString("F"), "", Offset, intItemFoodMenuQty + (50 - (item.FoodMenuQty.ToString().Length * 4)));
-                InsertItemList(item.FoodMenuRate.ToString("F"), "", Offset, intItemFoodMenuRate + (50 - (item.FoodMenuRate.ToString().Length * 4)));
+                InsertItemList(item.FoodMenuQty.ToString("F") + " " + item.Unitname, "", Offset, intItemFoodMenuQty + (50 - (item.FoodMenuQty.ToString().Length * 4)));
+                InsertItemList(item.FoodMenuRate.ToString("F") , "", Offset, intItemFoodMenuRate + (50 - (item.FoodMenuRate.ToString().Length * 4)));
                 InsertItemList(item.Price.ToString("F") + " " + item.FoodVat.ToString(), "", Offset, intItemPrice + (50 - (item.Price.ToString().Length * 4)));
                 Offset = Offset + smallinc;
             }

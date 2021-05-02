@@ -47,7 +47,8 @@ namespace RocketPOS.ViewModels
                               " Inner Join CustomerOrderKOTItem COKotItem On COKotItem.CustomerOrderKOTId = COKot.Id " +
                               " Inner Join FoodMenu FM On FM.Id = COKotItem.FoodMenuId " +
                               " Where " + //COKotItem.KOTStatus <> 5 AND " +
-                              " CO.OrderStatus=1 And CO.OutletId = " + LoginDetail.OutletId + " And CO.Id =" + item.CustomerOrderId;
+                              " CO.OrderStatus=1 And CO.OutletId = " + LoginDetail.OutletId + " And CO.Id =" + item.CustomerOrderId +
+                              " And isnull(FM.foodmenutype,0) <> 1 ";
 
                     if (KitchenOrderAll == 0)
                     {
