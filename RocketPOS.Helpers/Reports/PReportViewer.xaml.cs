@@ -619,7 +619,7 @@ namespace RocketPOS.Helpers.Reports
                     new DatatableColumnName{ id =8, Cname="Discount"},
                     new DatatableColumnName{ id =9, Cname="Tax"},
                     new DatatableColumnName{ id =10, Cname="Gross"},
-                    new DatatableColumnName{ id =11, Cname="Category"}
+                    new DatatableColumnName{ id =11, Cname="Category",DataType="String"}
                 };
                     exportExcel.ExportExcelFile(commonMethods.ConvertToDataTable(masterSalesReportModels), datatableColumnNames, path, firstLine);
                 }

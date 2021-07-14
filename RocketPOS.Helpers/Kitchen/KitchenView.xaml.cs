@@ -65,7 +65,7 @@ namespace RocketPOS.Helpers.Kitchen
                         wpKOT.Orientation = Orientation.Vertical;
                         wpKOT.VerticalAlignment = VerticalAlignment.Top;
                         wpKOT.Width = 212;
-                        wpKOT.Height = 375;
+                        wpKOT.Height = 325;
                         wpKOT.Margin = new Thickness(1);
 
                         SolidColorBrush solidColorBrush = new SolidColorBrush();
@@ -134,7 +134,6 @@ namespace RocketPOS.Helpers.Kitchen
                                     btnAllKOT.IsChecked = true;
                                 }
                             }
-
 
                             kotHeaderPanel.Children.Add(btnAllKOT);
                         }
@@ -229,10 +228,31 @@ namespace RocketPOS.Helpers.Kitchen
 
                                 kotHeaderPanel.Children.Add(kotDetailPanel);
                             }
-                        }
 
-                        wpKOT.Children.Clear();
-                        wpKOT.Children.Add(kotHeaderPanel);
+                            //scrollbar 
+                            if (item.kotStatusList.Count <= 6)
+                            {
+                                kotHeaderPanel.Height = 325;
+                                wpKOT.Children.Clear();
+                                wpKOT.Children.Add(kotHeaderPanel);
+                            }
+                            else
+                            {
+                                kotHeaderPanel.Height = 50 * item.kotStatusList.Count;
+                                ScrollViewer sv = new ScrollViewer();
+                                sv.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                                sv.Height = 325;
+
+                                sv.Content = kotHeaderPanel;
+                                wpKOT.Children.Clear();
+                                wpKOT.Children.Add(sv);
+                            }
+                        }
+                        else
+                        {
+                            wpKOT.Children.Clear();
+                            wpKOT.Children.Add(kotHeaderPanel);
+                        }
 
                         if (item.kotStatusList.Count > 0)
                         {
