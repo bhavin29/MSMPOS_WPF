@@ -23,6 +23,7 @@ namespace RocketPOS.ViewModels
             {
                 var query = " Select Id as TableId,TableName,PersonCapacity,Status,Position," +
                             " (select customerorder.id from customerorder where  tableid = t.id and orderstatus=1) as CustomerOrderId, " +
+                            " (select Firstname from employee E inner join [User] U on U.Employeeid = E.Id   where U.Id = ( select customerorder.UserIdInserted from customerorder where  tableid = t.id and orderstatus=1)) as WaiterName, " + 
                             " (select customerorder.AllocatedPerson from customerorder where  tableid = t.id and orderstatus=1) as AllocatedPerson " +
                             " from tables t where t.outletid=" + LoginDetail.OutletId +
                             " Order by T.Position asc";

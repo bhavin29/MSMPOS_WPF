@@ -10,7 +10,7 @@ namespace RocketPOS.Model
         public string TableName { get; set; }
         public int PersonCapacity { get; set; }
         public int AllocatedPerson { get; set; }
-      
+        public string WaiterName { get; set; }
         public string Position { get; set; }
         public int CustomerOrderId { get; set; }
         public List<KOTStatusList> kotStatusList { get; set; }

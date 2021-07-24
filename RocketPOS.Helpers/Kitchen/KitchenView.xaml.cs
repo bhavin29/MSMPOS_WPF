@@ -94,22 +94,24 @@ namespace RocketPOS.Helpers.Kitchen
 
                         string strPerson = "";
                         if (item.AllocatedPerson > 0)
-                            strPerson = " [ " + item.AllocatedPerson + " ]";
+                            strPerson = " [" + item.AllocatedPerson + "] " + item.WaiterName;
 
-                        txtbTableName.Text = "TABLE #" + item.TableName + strPerson;
+                        txtbTableName.Text = "TABLE #" + item.TableName + strPerson ;
                         txtbTableName.Name = "txtbTableName_" + item.TableId;
                         txtbTableName.FontSize = 18;
                         txtbTableName.FontWeight = FontWeights.Bold;
 
-                        txtbTableName.Width = 166;
-                        if (item.CustomerOrderId == 0)
-                        {
+                        //txtbTableName.Width = 146;
+                        //if (item.CustomerOrderId == 0)
+                        //{
                             txtbTableName.Width = 211;
-                        }
+                       //}
                         txtbTableName.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#000000"));
                         txtbTableName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFFFFF"));
                         txtbTableName.TextAlignment = TextAlignment.Left;
+
                         kotHeaderPanel.Children.Add(txtbTableName);
+
 
                         if (item.CustomerOrderId != 0)
                         {
@@ -135,8 +137,24 @@ namespace RocketPOS.Helpers.Kitchen
                                 }
                             }
 
-                            kotHeaderPanel.Children.Add(btnAllKOT);
+                           // kotHeaderPanel.Children.Add(btnAllKOT);
                         }
+
+                        //Waiter Name
+                        //TextBlock txtWaiterName = new TextBlock();
+
+                        //txtWaiterName.Text = "Richard ";// + item.TableName + strPerson;
+                        //txtWaiterName.Name = "txtbTableName_" + item.AllocatedPerson;
+                        //txtWaiterName.FontSize = 18;
+                        //txtWaiterName.FontWeight = FontWeights.Bold;
+                        //txtbTableName.Width = 211;
+                        //txtWaiterName.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#000000"));
+                        //txtWaiterName.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFFFFF"));
+                        //txtWaiterName.TextAlignment = TextAlignment.Left;
+
+                        //kotHeaderPanel.Children.Add(txtWaiterName);
+
+
                         if (item.kotStatusList.Count > 0)
                         {
                             foreach (var kotItem in item.kotStatusList)
