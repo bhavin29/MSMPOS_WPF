@@ -55,15 +55,16 @@ namespace RocketPOS.Helpers
                 dgFoodMenuList.Columns[4].Visibility = Visibility.Visible;
                 dgSaleItem.Columns[0].Visibility = Visibility.Visible;
 
-                //if (LoginDetail.RoleTypeId == (int)EnumUtility.RoleTypeId.Admin)
-                //{
-                //    dgFoodMenuList.Columns[3].Visibility = Visibility.Visible;
-                //    dgSaleItem.Columns[0].Visibility = Visibility.Visible;
-                //}
-                //else
-                //{
-                //    dgSaleItem.Columns[2].Width = 165;
-                //}
+                if (LoginDetail.RoleTypeId == (int)EnumUtility.RoleTypeId.Admin)
+                {
+                //    dgFoodMenuList.Columns[5].Visibility = Visibility.Visible;
+                    dgSaleItem.Columns[0].Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    dgSaleItem.Columns[0].Visibility = Visibility.Hidden;
+                    dgSaleItem.Columns[3].Width = 185;
+                }
 
                 GetOrderList((int)EnumUtility.OrderPaidStatus.Pending, (int)EnumUtility.OrderType.All, string.Empty);
             }
