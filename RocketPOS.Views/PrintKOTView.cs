@@ -215,13 +215,14 @@ namespace RocketPOS.Views
 
             Offset = Offset + largeinc;
 
-            InsertHeaderStyleItem("ITEM".PadRight(intItemHeader) + "              QTY", "", Offset);
+//            InsertHeaderStyleItem("ITEM".PadRight(intItemHeader) + "              QTY", "", Offset);
+            InsertHeaderStyleItem("QTY" + "           ITEM", "", Offset);
 
             Offset = Offset + mediuminc;
 
             foreach (var item in printKOTItemModels)
             {
-                InsertItemList(item.FoodMenuName.ToString().PadRight(50) + item.FoodMenuQty.ToString("F"), "", Offset, intItemFoodMenuName);
+                InsertItemList(item.FoodMenuQty.ToString("F").PadRight(15) + item.FoodMenuName.ToString(), "", Offset, intItemFoodMenuName);
                 Offset = Offset + smallinc;
             }
             Offset = Offset - smallinc;
